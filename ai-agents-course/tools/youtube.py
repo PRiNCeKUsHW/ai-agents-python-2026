@@ -115,7 +115,7 @@ MODULES = {
                 "docs.python.org/3/library/sqlite3.html",
         "parts": [
             {"lessons": [1, 2, 3, 4],
-             "title": "Stateless APIs, Context Windows, Summaries, Long-Term Memory",
+             "title": "Chat History, Context Windows, Summaries, Memory",
              "blurb": "why model APIs forget (stateless), conversation history and a chat loop, tokens and "
                       "the context window, sliding windows that keep tool calls valid, running summaries, "
                       "and long-term facts saved with memory tools and recalled into the system prompt.",
