@@ -69,7 +69,22 @@ Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, a
   Question bank: `modules/module-05-tool-calling/QUESTIONS.md`. Local video files deleted after upload
   (rebuild with `python tools/module.py render 5`).
 
-## Next: Module 6: Agent Memory and Conversation State (project: Persistent AI Study Companion)
+## Module 6: Agent Memory and Conversation State: COMPLETED (2026-11-01)
+
+- English narration (am_michael, 0.92), light theme, the learner's teaching style.
+- 7 lessons, full video 54:40, 75 chapters, 841 captions. Validation 71/71.
+- Project: Persistent AI Study Companion: long-term facts saved with memory tools (secrets refused in
+  code), relevant facts in the system prompt, running summary above a token limit, sessions in SQLite
+  with user isolation, retention (`purge`) and deletion (`delete-me`). 41 tests, mypy --strict clean.
+- First module with **recorded sound effects** (user request): `tools/sfx.py` sets up `shared/sfx/`
+  from the media-use skill's bundled set (Pixabay licence); Openverse and Earshot were blocked by the
+  session's network policy (the tool can fetch Openverse CC0/CC BY effects once allowed, and import
+  Earshot files downloaded by hand). Keyboard sounds play under typed commands. Modules 1-5 unchanged.
+- Ready for a two-part upload: Part 1 lessons 1-4 (28:53), Part 2 lessons 5-7 (25:46); packaging in
+  `modules/module-06-agent-memory/youtube.md`.
+- Lesson 7's terminal demo continues lesson 6's data: build lesson 6 before lesson 7.
+
+## Next: Module 7: Reliable and Efficient Agents (project: Resilient API Agent)
 
 All scripts follow `TEACHING_STYLE.md` (the learner's brief): What → Why → How → Where → Practice,
 real-life analogies, line-by-line code with dry runs, an interview section, and practice at the end.

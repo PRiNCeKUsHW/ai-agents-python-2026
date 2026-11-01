@@ -16,7 +16,7 @@ a quiz and an extension challenge.
 | 3 | [Prompt Engineering and Structured Outputs](ai-agents-course/modules/module-03-prompt-engineering) | [AI Resume Analyzer](ai-agents-course/modules/module-03-prompt-engineering/project/ai-resume-analyzer) | Published |
 | 4 | [AI Agent Architecture](ai-agents-course/modules/module-04-agent-architecture) | [Smart Calculator Agent](ai-agents-course/modules/module-04-agent-architecture/project/smart-calculator-agent) | Published |
 | 5 | [Tool Calling and Function Execution](ai-agents-course/modules/module-05-tool-calling) | [Personal Productivity Agent](ai-agents-course/modules/module-05-tool-calling/project/productivity-agent) | Published |
-| 6 | Agent Memory and Conversation State | Persistent AI Study Companion | Coming soon |
+| 6 | [Agent Memory and Conversation State](ai-agents-course/modules/module-06-agent-memory) | [Persistent AI Study Companion](ai-agents-course/modules/module-06-agent-memory/project/study-companion) | Ready (video rendered) |
 | 7 | Reliable and Efficient Agents | Resilient API Agent | Coming soon |
 | 8 | Model Context Protocol (MCP) | Restricted File Assistant MCP Server | Coming soon |
 | 9 | Embeddings and Vector Search | Semantic Search Engine | Coming soon |

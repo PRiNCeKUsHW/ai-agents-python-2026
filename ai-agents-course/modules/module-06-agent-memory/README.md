@@ -62,7 +62,7 @@ from SQLite, a running summary above a token limit, user isolation, retention (`
 | Narration scripts / audio | `scripts/*.yaml` / `audio/` (audio not committed) |
 | Captions | `captions/module-06-full.srt` (and per part: `captions/lesson-NN.srt`) |
 | Quiz, practice answers, challenge | [quiz.md](quiz.md) |
-| Question bank: every question from the videos, answers hidden | [QUESTIONS.md](QUESTIONS.md) |
+| Question bank: every question from the videos, answers hidden (35) | [QUESTIONS.md](QUESTIONS.md) |
 | Thumbnail | `assets/thumbnail-module-06.png` |
 | YouTube packaging | [youtube.md](youtube.md) |
 | Validation report | [validation-report.md](validation-report.md) |
