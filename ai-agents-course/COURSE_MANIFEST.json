@@ -226,7 +226,16 @@
         ],
         "sound_effects": "recorded (shared/sfx, tools/sfx.py)"
       },
-      "blockers": []
+      "blockers": [],
+      "delivered": {
+        "date": "2026-11-01",
+        "parts": [
+          "Part 1: lessons 1-4 (28:53)",
+          "Part 2: lessons 5-7 (25:46)"
+        ],
+        "packaging": "modules/module-06-agent-memory/youtube.md",
+        "local_videos": "deleted after download (rebuild: python tools/build_lesson.py 6 all, then python tools/module.py render 6)"
+      }
     },
     {
       "number": 7,

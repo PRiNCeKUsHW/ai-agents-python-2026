@@ -83,6 +83,9 @@ Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, a
 - Ready for a two-part upload: Part 1 lessons 1-4 (28:53), Part 2 lessons 5-7 (25:46); packaging in
   `modules/module-06-agent-memory/youtube.md`.
 - Lesson 7's terminal demo continues lesson 6's data: build lesson 6 before lesson 7.
+- 2026-11-01: videos downloaded by the learner for the two-part upload; local video files and studio
+  audio deleted to free space (rebuild with `python tools/build_lesson.py 6 all` and
+  `python tools/module.py render 6`; the voice cache is kept, so rebuilding needs no new narration).
 
 ## Next: Module 7: Reliable and Efficient Agents (project: Resilient API Agent)
 
