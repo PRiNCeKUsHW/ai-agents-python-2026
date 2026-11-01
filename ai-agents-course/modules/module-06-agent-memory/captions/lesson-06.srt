@@ -1,0 +1,448 @@
+1
+00:00:00,900 --> 00:00:02,303
+It's project time.
+
+2
+00:00:02,653 --> 00:00:06,706
+You've learned four kinds of
+memory, and how to store them safely.
+
+3
+00:00:07,056 --> 00:00:08,739
+Now we put them together.
+
+4
+00:00:09,089 --> 00:00:14,711
+Over two lessons, you'll build a study
+companion that remembers you across days,
+
+5
+00:00:14,711 --> 00:00:20,263
+keeps its conversations small, and
+lets you see and delete everything it knows.
+
+6
+00:00:22,063 --> 00:00:23,476
+Here's what we're building.
+
+7
+00:00:23,826 --> 00:00:29,756
+A study companion you talk to at the
+command line: one message with ask, or a whole
+
+8
+00:00:29,756 --> 00:00:30,471
+chat loop.
+
+9
+00:00:31,071 --> 00:00:36,476
+It saves lasting facts with tools:
+your name, your goals, what you find hard.
+
+10
+00:00:37,076 --> 00:00:42,659
+Conversations are saved and resume
+where you left off, and old turns fold into a
+
+11
+00:00:42,659 --> 00:00:43,775
+running summary.
+
+12
+00:00:44,375 --> 00:00:49,067
+Everything lives in SQLite,
+with each user's data kept apart.
+
+13
+00:00:49,667 --> 00:00:55,156
+You can see everything it knows, forget
+a fact, purge old chats, or delete it all.
+
+14
+00:00:55,506 --> 00:00:58,848
+And there are forty-one
+tests, with an offline mode.
+
+15
+00:01:00,648 --> 00:01:01,778
+Here's the plan.
+
+16
+00:01:02,128 --> 00:01:07,861
+The command line opens the companion for
+one user and one session, and passes each
+
+17
+00:01:07,861 --> 00:01:09,329
+message to the agent.
+
+18
+00:01:09,929 --> 00:01:14,623
+The agent keeps the conversation:
+recent turns, and the running summary.
+
+19
+00:01:14,973 --> 00:01:18,120
+That's short-term memory,
+from lessons two and three.
+
+20
+00:01:18,720 --> 00:01:22,776
+The model reaches long-term
+memory only through three tools.
+
+21
+00:01:23,126 --> 00:01:29,758
+Memory dot py holds the facts, and
+everything is stored by db dot py, in SQLite.
+
+22
+00:01:30,358 --> 00:01:35,981
+And the client talks to the real Claude
+API when there's a key, or to the scripted
+
+23
+00:01:35,981 --> 00:01:36,941
+fake, offline.
+
+24
+00:01:38,741 --> 00:01:42,931
+Settings come from
+environment variables, as in every module.
+
+25
+00:01:43,281 --> 00:01:48,222
+No API key means offline mode,
+and keys are never written in code.
+
+26
+00:01:48,822 --> 00:01:52,004
+COMP home is the
+folder for the database file.
+
+27
+00:01:52,604 --> 00:01:56,116
+Keep turns: how many
+recent turns stay word for word.
+
+28
+00:01:56,466 --> 00:02:00,649
+And summarize at: the
+estimated size that triggers a summary.
+
+29
+00:02:00,998 --> 00:02:03,476
+You can tune both without touching code.
+
+30
+00:02:04,076 --> 00:02:08,612
+And COMP today fixes the date,
+so tests and demos are repeatable.
+
+31
+00:02:10,412 --> 00:02:14,159
+The offline fake is
+built to teach memory honestly.
+
+32
+00:02:14,509 --> 00:02:19,903
+Like a real model, it only knows what's
+in the request: the system prompt, with the
+
+33
+00:02:19,903 --> 00:02:22,243
+summary and facts, and the messages.
+
+34
+00:02:22,593 --> 00:02:25,241
+Drop the history, and
+it can't know your name.
+
+35
+00:02:25,841 --> 00:02:27,501
+It follows a fixed script.
+
+36
+00:02:27,850 --> 00:02:33,644
+Phrases like my name is, or I find
+something hard, become remember fact calls.
+
+37
+00:02:33,994 --> 00:02:36,364
+Forget becomes recall, then forget.
+
+38
+00:02:36,964 --> 00:02:42,386
+And every reply is labelled offline
+demo, and every summary offline summary.
+
+39
+00:02:42,736 --> 00:02:45,306
+It's never presented as model output.
+
+40
+00:02:47,106 --> 00:02:49,171
+The command line opens a session.
+
+41
+00:02:49,521 --> 00:02:55,223
+By default, the session is today's
+date, so each day starts a fresh conversation,
+
+42
+00:02:55,223 --> 00:02:57,546
+while long-term facts carry over.
+
+43
+00:02:58,146 --> 00:03:01,835
+Creating the companion loads
+the session from the database.
+
+44
+00:03:02,185 --> 00:03:06,536
+If it has turns already, it's
+resumed, and the first line says so.
+
+45
+00:03:07,136 --> 00:03:12,531
+And chat is a read eval print loop:
+read a line, answer, until you type bye.
+
+46
+00:03:12,881 --> 00:03:16,381
+Piped input works too,
+which makes demos repeatable.
+
+47
+00:03:18,181 --> 00:03:19,119
+Let's run it.
+
+48
+00:03:19,469 --> 00:03:24,278
+Every command is a separate
+process, like closing and reopening the app.
+
+49
+00:03:24,878 --> 00:03:30,620
+First, a clean start: remove the data
+folder, so the database is created fresh.
+
+50
+00:03:31,220 --> 00:03:34,310
+Now a first message,
+in a session called mon.
+
+51
+00:03:34,660 --> 00:03:35,735
+A new session.
+
+52
+00:03:36,085 --> 00:03:41,654
+The model calls remember fact twice, in
+one turn: a profile fact, and a struggle.
+
+53
+00:03:42,004 --> 00:03:46,211
+Then a short reply, and the
+footer shows the conversation size.
+
+54
+00:03:46,811 --> 00:03:49,058
+A second message, in the same session.
+
+55
+00:03:49,408 --> 00:03:52,587
+It's resumed with one
+turn, and a goal is saved.
+
+56
+00:03:53,187 --> 00:03:58,672
+The memory command shows everything
+remembered about you: three facts, with topics
+
+57
+00:03:58,672 --> 00:03:59,340
+and dates.
+
+58
+00:03:59,690 --> 00:04:01,255
+Visible, as promised.
+
+59
+00:04:01,855 --> 00:04:04,811
+And the chat loop,
+continuing the same session.
+
+60
+00:04:05,161 --> 00:04:06,596
+What did we talk about?
+
+61
+00:04:06,946 --> 00:04:12,261
+It can see both earlier turns, because
+the session was loaded from the database.
+
+62
+00:04:14,061 --> 00:04:15,218
+Pause and try.
+
+63
+00:04:15,568 --> 00:04:19,731
+Tomorrow, you run ask, what's
+my name, without a session option.
+
+64
+00:04:20,331 --> 00:04:21,827
+Which session is used?
+
+65
+00:04:22,177 --> 00:04:23,471
+What's in the request?
+
+66
+00:04:23,821 --> 00:04:25,124
+And can it answer?
+
+67
+00:04:31,724 --> 00:04:35,177
+The session is tomorrow's
+date, so it's new and empty.
+
+68
+00:04:35,527 --> 00:04:40,853
+But the system prompt still carries the
+long-term facts, including: the learner's
+
+69
+00:04:40,853 --> 00:04:41,707
+name is Anuj.
+
+70
+00:04:42,057 --> 00:04:44,030
+So yes, it answers Anuj.
+
+71
+00:04:44,380 --> 00:04:48,866
+That's the difference between
+conversation memory and long-term memory.
+
+72
+00:04:50,666 --> 00:04:51,807
+Interview corner.
+
+73
+00:04:52,157 --> 00:04:55,797
+What's the difference between
+a session, and long-term memory?
+
+74
+00:04:58,397 --> 00:05:04,520
+A good answer: a session is one
+conversation, its turns and its summary, which you
+
+75
+00:05:04,520 --> 00:05:06,089
+can resume by its ID.
+
+76
+00:05:06,439 --> 00:05:10,908
+Long-term memory is facts about
+the user, shared by all sessions.
+
+77
+00:05:11,258 --> 00:05:15,242
+A new session starts with an
+empty history, but the same facts.
+
+78
+00:05:15,592 --> 00:05:19,990
+The trap is keeping everything in
+one conversation that grows forever.
+
+79
+00:05:20,590 --> 00:05:21,527
+Follow-up.
+
+80
+00:05:21,877 --> 00:05:26,485
+How do you test an agent's
+memory without paying for API calls?
+
+81
+00:05:29,085 --> 00:05:35,253
+Run the real agent, the real tools and
+a real database against a fake API that
+
+82
+00:05:35,253 --> 00:05:40,473
+speaks the same protocol, with a
+temporary database for each test.
+
+83
+00:05:40,823 --> 00:05:45,433
+Then check the facts saved, the
+requests sent, and the sessions reloaded.
+
+84
+00:05:45,783 --> 00:05:51,015
+The trap is mocking the agent's own
+methods, so the real loop is never tested.
+
+85
+00:05:52,815 --> 00:05:53,673
+Quick check.
+
+86
+00:05:54,023 --> 00:05:59,211
+In the companion, which part decides
+that, I find recursion hard, is worth
+
+87
+00:05:59,211 --> 00:06:00,052
+remembering?
+
+88
+00:06:06,252 --> 00:06:08,605
+The model, by calling remember fact.
+
+89
+00:06:08,955 --> 00:06:11,098
+Your code then checks it, and stores it.
+
+90
+00:06:12,898 --> 00:06:13,987
+Let's recap.
+
+91
+00:06:14,337 --> 00:06:20,194
+The layers: the command line, the
+agent, the conversation, and tools, memory and
+
+92
+00:06:20,194 --> 00:06:20,707
+SQLite.
+
+93
+00:06:21,307 --> 00:06:25,677
+Settings come from the
+environment, and it runs offline without a key.
+
+94
+00:06:26,277 --> 00:06:29,988
+The fake is honest: it only
+knows what's in the request.
+
+95
+00:06:30,588 --> 00:06:35,601
+Sessions resume from the database,
+and facts are shared by all sessions.
+
+96
+00:06:36,201 --> 00:06:39,472
+Next lesson: the
+agent's turn, line by line.
+
+97
+00:06:39,822 --> 00:06:45,802
+Then a two-day demo, privacy features on
+purpose, the tests, and the module wrap-up.
