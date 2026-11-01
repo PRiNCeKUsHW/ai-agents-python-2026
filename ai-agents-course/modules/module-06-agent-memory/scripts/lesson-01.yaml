@@ -1,0 +1,213 @@
+module_title: Agent Memory and Conversation State
+title: "Why Agents Forget: Stateless APIs and Conversation History"
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 6 · Lesson 1
+    title: Why agents forget
+    subtitle: The API remembers nothing between calls. Conversation history is something you send, every time.
+    say: >
+      Welcome to Module 6. Your agents can now think in a loop and use tools safely. But close the program, and they forget everything. Even inside one chat, they only remember what you send them.
+      By the end of this module, you'll build a persistent study companion: it remembers your name, your goals and what you find hard, across days, in a real database, with privacy controls.
+
+  - type: objectives
+    items:
+      - {text: "Explain what \"stateless\" means for a model API", say: "In this lesson, you'll learn what stateless means for a model API."}
+      - {text: "Prove it: the same question, with and without history", say: "You'll prove it, by asking the same question with and without history."}
+      - {text: "Build a chat loop that keeps the conversation", say: "You'll build a chat loop that keeps the conversation."}
+      - {text: "Name the four kinds of agent memory", say: "And you'll meet the four kinds of memory an agent can have."}
+
+  - type: callout
+    chapter: What is stateless?
+    kind: analogy
+    title: "The model is a brilliant tutor with no memory of yesterday"
+    body: "Picture a tutor who forgets every student the moment they leave the room. To get good help, you bring **your notebook** each time: what you covered, what you got wrong. The notebook is the conversation history, and **you** carry it, not the tutor."
+    say: >
+      Let's start with an everyday picture. Imagine a brilliant tutor, with one strange problem. The moment you leave the room, they forget you completely. Your name, your last lesson, everything.
+      You can still get great help. You just have to bring your notebook every time, and show them what you covered before.
+    items:
+      - {text: "The tutor = the model: smart, but remembers nothing", say: "The tutor is the model. Very smart, but it remembers nothing between visits."}
+      - {text: "Your notebook = the messages list you send", say: "The notebook is the list of messages you send with every request."}
+      - {text: "Carrying it = your code's job, on every single call", say: "And carrying the notebook is your code's job, on every single call."}
+    outro: >
+      That's what stateless means. Each request to the API stands alone. The server doesn't keep your conversation between calls. If the model seems to remember, it's because your code sent the history again.
+
+  - type: run
+    chapter: Proving it
+    heading: "stateless.py: three calls, one question"
+    title: stateless.py
+    file: source/lesson-01/stateless.py
+    cwd: source/lesson-01
+    cmd: python stateless.py
+    say: >
+      Let's prove it with code. The code is on the left, and what it printed is on the right.
+    steps:
+      - lines: "6-7"
+        out: "1"
+        note: "Offline mode: a scripted fake plays the model. It only sees what's **in** the request, like a real model."
+        say: >
+          As in every module, no API key is needed. A scripted fake plays the model, and the first output line says so. The important thing: like a real model, the fake only knows what is inside the request.
+      - lines: "10-13"
+        note: "`ask()` sends a list of messages and returns the reply's text."
+        say: >
+          This small function sends a list of messages, and returns the text of the reply.
+      - lines: "16-17"
+        out: "2"
+        note: "Call 1: we say our name."
+        say: >
+          Call one. We say: hi, my name is Anuj.
+      - lines: "19-20"
+        out: "3"
+        tone: coral
+        note: "Call 2: a **new** request without call 1. The name isn't in it, so it can't be known."
+        say: >
+          Call two is a brand new request, with only the question: what's my name? And the answer is: I don't know. Nothing in this request says it. Call one is gone.
+      - lines: "22-28"
+        out: "4"
+        tone: teal
+        note: "Call 3: the earlier messages are sent again. Now the name is known."
+        say: >
+          Call three sends the earlier messages again: our introduction, the reply, and then the question. Now the answer is: your name is Anuj. Same model, same question. The only difference is what we sent.
+
+  - type: diagram
+    chapter: How conversation history works
+    heading: Every request carries the whole conversation
+    nodes:
+      - {id: r1, label: "Request 1", sub: "user", x: 330, y: 120, w: 380, h: 110, tone: teal}
+      - {id: r2, label: "Request 2", sub: "user · assistant · user", x: 330, y: 330, w: 380, h: 110, tone: teal}
+      - {id: r3, label: "Request 3", sub: "5 messages", x: 330, y: 540, w: 380, h: 110, tone: amber}
+      - {id: api, label: Claude API, sub: keeps nothing between calls, x: 1300, y: 330, w: 460, h: 110, tone: violet}
+    edges:
+      - {from: r1, to: api}
+      - {from: r2, to: api}
+      - {from: r3, to: api}
+    say: >
+      Now, how does a normal chat work, then?
+    steps:
+      - show: [r1, api, "r1->api"]
+        flow: ["r1->api"]
+        say: >
+          The first request has one message: the user's. The API answers and forgets.
+      - show: [r2, "r2->api"]
+        flow: ["r2->api"]
+        say: >
+          For the second request, your code sends three messages: the first user message, the assistant's reply, and the new user message.
+      - show: [r3, "r3->api"]
+        flow: ["r3->api"]
+        focus: [r3]
+        say: >
+          The third request sends five. The conversation grows by two messages every turn, and the whole thing travels with every request. Keep this picture in mind: it's the reason for everything in the next two lessons.
+
+  - type: run
+    chapter: A chat loop
+    heading: "chat_loop.py: the history list is the memory"
+    title: chat_loop.py
+    file: source/lesson-01/chat_loop.py
+    cwd: source/lesson-01
+    cmd: python chat_loop.py < inputs.txt
+    steps:
+      - lines: "9"
+        note: "One list holds the whole conversation."
+        say: >
+          Here's a real chat loop. One list, history, holds the whole conversation.
+      - lines: "11-14"
+        note: "Each line you type becomes a user message, added to the list."
+        say: >
+          Each line of input becomes a user message, appended to the list. For a repeatable demo, the three lines come from a small text file.
+      - lines: "15-16"
+        note: "Send the **whole** list, every time."
+        say: >
+          Then we send the whole list, every time.
+      - lines: "17-18"
+        note: "Save the reply too, or the next call won't know what was said."
+        say: >
+          And we append the reply as an assistant message. Forget this line, and the model never sees its own earlier answers.
+      - lines: "19-21"
+        out: "2-4"
+        note: "Turn 1: 2 messages stored, 13 input tokens."
+        say: >
+          Turn one: two messages stored, and thirteen input tokens sent.
+      - lines: "19-21"
+        out: "5-7"
+        tone: teal
+        note: "Turn 2: it knows the name, because the history was sent."
+        say: >
+          Turn two: what's my name? Anuj, because the history went with the request.
+      - lines: "20-21"
+        out: "8-10"
+        tone: amber
+        note: "Input tokens keep growing: 13, 61, 90. You pay for them every turn."
+        say: >
+          And look at the input tokens: thirteen, sixty-one, ninety. Every turn sends more. You pay for input tokens on every call, and the model has a maximum it can read. That's the problem we solve in lessons two and three.
+
+  - type: cards
+    chapter: Four kinds of memory
+    heading: "The four kinds of agent memory"
+    cards:
+      - {tag: lesson 1, title: "Conversation history", body: "The messages list. Exact, but it grows every turn.", tone: teal, say: "Let's name the kinds of memory an agent can have. First, conversation history: the messages list. Exact, but it grows every turn."}
+      - {tag: lesson 2, title: "Short-term window", body: "Only the last few turns are sent. Cheap, but old details fall out.", tone: blue, say: "Second, a short-term window: send only the last few turns. Cheap, but old details fall out."}
+      - {tag: lesson 3, title: "Summary memory", body: "Old turns compressed into a short summary. Keeps the gist.", tone: amber, say: "Third, summary memory: old turns compressed into a short summary that keeps the gist."}
+      - {tag: lesson 4-5, title: "Long-term memory", body: "Facts saved in a database. Survives restarts and new chats.", tone: violet, say: "And fourth, long-term memory: facts saved in a database, which survive a restart, and a brand new chat the next day."}
+
+  - type: table
+    heading: "Where does each kind of memory live?"
+    columns: [Memory, Lives in, Lost when]
+    widths: [1.5, 1.8, 2.2]
+    rows:
+      - {cells: ["History", "a Python list", "the program exits"], say: "Where does each one live? History lives in a Python list, and it's lost when the program exits."}
+      - {cells: ["Window", "the request you send", "a turn slides out"], say: "The window is just the part of the list you send. A turn is lost from the request when it slides out."}
+      - {cells: ["Summary", "a string, sent as system text", "details don't make the summary"], say: "The summary is a string, sent with the system prompt. Details are lost if they don't make it into the summary."}
+      - {cells: ["Long-term", "a database file", "you delete it, on purpose"], tone: teal, say: "And long-term memory lives in a database file. It's only lost when you delete it, on purpose.", note: "Where does the model keep memory? Nowhere. Every kind of memory is your code's data."}
+
+  - type: callout
+    kind: try
+    chapter: Pause and try
+    title: "Pause and try: predict the reply"
+    body: "The history is `[user: \"I love chess\", assistant: \"Nice!\"]`. Your code then sends **only** `[user: \"What do I love?\"]`."
+    say: >
+      Pause the video and try this. The history so far is: user says, I love chess. Assistant says, nice. Then your code sends a new request with only: what do I love?
+    items:
+      - {text: "What can the model answer? Why? What would you change?", say: "What can the model answer, and why? And what would you change in the code?", pause: 6}
+    outro: >
+      It can't know. The request doesn't mention chess, and the API keeps nothing between calls. The fix: append every message to the history list, and send the whole list each time.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "Does the Claude API remember earlier messages?"
+        a: "No. The Messages API is **stateless**: each request stands alone. A conversation works because **your code** resends the history (user and assistant messages, in order) with every request."
+        trap: "Saying \"the model remembers our chat\". Any memory is data your code stores and sends."
+        say_q: "Interview corner. Does the Claude API remember earlier messages?"
+        say_a: "A good answer: no. The Messages API is stateless. Each request stands alone. A conversation works because your code resends the history, the user and assistant messages in order, with every request. The trap is saying the model remembers your chat. Any memory is data your code stores, and sends."
+      - q: "Why can't you just keep the whole history forever?"
+        a: "Cost and limits. Every turn resends everything, so input tokens and **latency** grow with the conversation, and eventually it won't fit the **context window**. You need a strategy: windows, summaries, long-term facts."
+        trap: "Thinking that's only about money. Very long contexts also make replies slower."
+        say_q: "A follow-up: why not just keep the whole history forever?"
+        say_a: "Because of cost and limits. Every turn resends everything, so input tokens, and the time to answer, grow with the conversation. And eventually, it won't fit the context window. So you need a strategy: windows, summaries, and long-term facts. The trap is thinking it's only about money. Long contexts also make every reply slower."
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "Your chatbot forgets what the user said two messages ago. What's the most likely bug?"
+    options:
+      - "The model's memory is full"
+      - "The code doesn't append replies and messages to the history it sends"
+      - "The API key expired"
+      - "max_tokens is too small"
+    answer: 1
+    explain: "The API is stateless. If a message isn't in the list you send, the model never sees it."
+    say_question: >
+      Quick check. Your chatbot forgets what the user said two messages ago. What's the most likely bug?
+    say_answer: >
+      The code doesn't append every message to the history it sends. The model only sees what's in the request.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 1 recap
+    items:
+      - {text: "The API is stateless: each request stands alone", say: "Let's recap. The API is stateless. Each request stands alone."}
+      - {text: "A conversation = your code resending the history", say: "A conversation is your code resending the history, every time."}
+      - {text: "Append the user message AND the reply", say: "Append the user's message, and the reply."}
+      - {text: "History grows every turn: cost, speed, limits", say: "And the history grows every turn, which costs money and time, and hits limits."}
+    outro: >
+      Next lesson: short-term memory. You'll measure how fast the conversation grows, meet the context window, and keep only the turns that matter, without breaking tool calls.

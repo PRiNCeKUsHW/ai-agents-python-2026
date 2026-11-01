@@ -1,0 +1,225 @@
+module_title: Agent Memory and Conversation State
+title: "Long-Term Memory: Facts That Outlive a Conversation"
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 6 · Lesson 4
+    title: Long-term memory
+    subtitle: Facts saved by the model with tools, recalled into the system prompt, and protected by your code.
+    say: >
+      Windows and summaries help within one conversation. But tomorrow is a new conversation, and they start empty.
+      In this lesson, you'll give the agent long-term memory: short facts about the learner, saved with tools, and brought back into every new chat.
+
+  - type: objectives
+    items:
+      - {text: "Decide what belongs in long-term memory", say: "You'll decide what belongs in long-term memory."}
+      - {text: "Save, recall and forget facts", say: "Save, recall and forget facts."}
+      - {text: "Let the model manage memory through tools", say: "Let the model manage memory, through tools."}
+      - {text: "Put relevant facts into the system prompt, and refuse secrets", say: "And put the relevant facts into the system prompt, while refusing secrets."}
+
+  - type: callout
+    chapter: What is long-term memory?
+    kind: analogy
+    title: "A good tutor's index cards"
+    body: "A tutor with many students keeps an **index card** for each one: *name: Anuj; goal: AI agents; finds recursion hard*. Not a transcript of every lesson, just **facts that matter later**. Before each session, they glance at the card."
+    say: >
+      Here's the picture for this lesson. A good tutor with many students keeps an index card for each one. Name: Anuj. Goal: AI agents. Finds recursion hard.
+      Not a transcript of every lesson. Just a few facts that will matter later. And before each session, the tutor glances at the card.
+    items:
+      - {text: "A card = a few facts per learner, not the chat", say: "The card holds a few facts per learner, not the whole chat."}
+      - {text: "Writing on it = remember_fact", say: "Writing on the card is a tool: remember fact."}
+      - {text: "Glancing at it = facts in the system prompt", say: "Glancing at it is putting the relevant facts into the system prompt."}
+    outro: >
+      What belongs on the card? Facts that stay true and will help later: who the learner is, their goals, what they find hard, what they finished, how they like to learn. Not small talk, and never secrets.
+
+  - type: run
+    chapter: Facts in code
+    heading: "memory_demo.py: remember, recall, refuse, forget"
+    title: memory_demo.py
+    file: source/lesson-04/memory_demo.py
+    cwd: source/lesson-04
+    cmd: python memory_demo.py
+    say: >
+      Let's use the project's memory class directly. Code on the left, output on the right.
+    steps:
+      - lines: "10-11"
+        note: "One user's memory, in a database (a throwaway one here; lesson 5 covers SQLite)."
+        say: >
+          We open a throwaway database that lives only in memory, and create the long-term memory for one user, Anuj. Lesson five covers the database itself.
+      - lines: "13-16"
+        out: "1-3"
+        note: "Each fact gets a number, a topic and the date it was saved."
+        say: >
+          We remember three facts. Each one gets a number, a topic, like profile or struggle, and the date it was saved.
+      - lines: "18-19"
+        out: "4"
+        note: "Recall: facts sharing words with the question. Here: \"recursion\"."
+        say: >
+          Recall finds facts that share words with a question. Can you help with recursion, finds fact two. Simple word matching. In the RAG module, you'll replace it with embeddings, which match meaning.
+      - lines: "21-24"
+        out: "5"
+        tone: coral
+        note: "A password is refused by YOUR code, whatever the model asks."
+        say: >
+          Now we try to remember a password. It's refused. That check is in our code, so it holds whatever the model asks.
+      - lines: "26"
+        out: "6"
+        note: "Forget deletes one fact by its number."
+        say: >
+          Forget deletes one fact, by its number.
+      - lines: "27-29"
+        out: "7-9"
+        tone: teal
+        note: "For the system prompt: the profile first, then relevant and newest facts."
+        say: >
+          And for the prompt picks what to show the model: always the profile, then facts relevant to the message, and the newest ones. Not every fact, every time. Just what fits and helps.
+
+  - type: code
+    chapter: Memory as tools
+    heading: "The model decides what to remember"
+    title: companion/tools.py
+    file: project/study-companion/companion/tools.py
+    lines: "60-77"
+    steps:
+      - lines: "61-67"
+        note: "When to use it, what to save (facts, not messages), and what never to save."
+        say: >
+          Who decides what to remember? The model, through tools. Here's the remember fact tool. Its description says when to use it, to save facts, not whole messages, and never to save secrets.
+      - lines: "68-72"
+        note: "recall_facts returns facts WITH numbers..."
+        say: >
+          Recall facts searches memory, and returns facts with their numbers.
+      - lines: "73-76"
+        note: "...which forget_fact needs. Forgetting is a two-step plan."
+        say: >
+          Forget fact needs one of those numbers. So forgetting is a two step plan: recall to find the number, then forget.
+
+  - type: code
+    heading: "Inputs are checked before memory is touched"
+    title: companion/tools.py
+    file: project/study-companion/companion/tools.py
+    lines: "17-36"
+    steps:
+      - lines: "17, 24-27"
+        note: "Topic is an enum: one of five values. Descriptions guide the model."
+        say: >
+          The inputs are Pydantic models, as in Module 5. The topic must be one of five values, and each one is explained, so the model knows which to choose.
+      - lines: "21-23"
+        note: "Short facts only: 3 to 200 characters."
+        say: >
+          A fact must be between three and two hundred characters. Facts, not essays.
+      - lines: "34-36"
+        note: "fact_id must be 1 or more."
+        say: >
+          And a fact number must be one or more. Anything else becomes a tool error the model can read and fix.
+
+  - type: code
+    chapter: Facts in the system prompt
+    heading: "Every request starts with what you remember"
+    title: companion/agent.py
+    file: project/study-companion/companion/agent.py
+    lines: "90-97"
+    steps:
+      - lines: "91-92"
+        note: "Pick relevant facts for THIS message, one per line."
+        say: >
+          Here's where long-term memory meets the conversation. For every new message, we pick the relevant facts, one per line.
+      - lines: "93-94"
+        note: "The base prompt, then \"What you remember about the learner\"."
+        say: >
+          They go into the system prompt, under the heading: what you remember about the learner.
+      - lines: "95-96"
+        note: "And the running summary from lesson 3, when there is one."
+        say: >
+          And when there's a running summary from lesson three, it goes there too. So every request carries the three layers: facts, summary, and recent turns.
+
+  - type: diagram
+    chapter: Three layers together
+    heading: "What one request carries"
+    nodes:
+      - {id: sys, label: System prompt, sub: "who you are · rules · today", x: 400, y: 90, w: 520, h: 100, tone: blue}
+      - {id: facts, label: Long-term facts, sub: "from the database", x: 400, y: 250, w: 520, h: 100, tone: violet}
+      - {id: sum, label: Running summary, sub: old turns, compressed, x: 400, y: 410, w: 520, h: 100, tone: amber}
+      - {id: recent, label: Recent turns, sub: word for word, x: 400, y: 570, w: 520, h: 100, tone: teal}
+      - {id: model, label: Claude, sub: reads it all, x: 1300, y: 330, w: 420, h: 120, tone: violet}
+    edges:
+      - {from: sys, to: model}
+      - {from: facts, to: model}
+      - {from: sum, to: model}
+      - {from: recent, to: model}
+    steps:
+      - show: [sys, facts, "sys->model", "facts->model", model]
+        flow: ["facts->model"]
+        say: >
+          Let's put the layers together. The system prompt, with the long-term facts: small, and always there.
+      - show: [sum, "sum->model"]
+        flow: ["sum->model"]
+        say: >
+          The running summary: the gist of older turns.
+      - show: [recent, "recent->model"]
+        flow: ["recent->model"]
+        focus: [model]
+        say: >
+          And the recent turns, word for word. Each layer is small, so the request stays small, however long the relationship lasts.
+
+  - type: cards
+    chapter: Privacy rules
+    heading: "Rules for what an agent may remember"
+    cards:
+      - {tag: secrets, title: "Never store secrets", body: "Passwords, keys, card numbers: refused in code, not just in the prompt.", tone: coral, say: "Now some rules, because memory is personal data. First: never store secrets. Passwords, keys and card numbers are refused in code, not just discouraged in the prompt."}
+      - {tag: minimal, title: "Store less", body: "Short facts the learner would expect you to keep. Not whole messages.", tone: amber, say: "Second: store less. Short facts the user would expect you to keep, not whole messages."}
+      - {tag: visible, title: "Show it", body: "The user can list everything remembered about them.", tone: blue, say: "Third: make it visible. The user can list everything you remember about them."}
+      - {tag: delete, title: "Let them delete it", body: "Forget one fact, or everything. Lesson 5 adds retention.", tone: teal, say: "And fourth: let them delete it. One fact, or everything. Lesson five adds automatic retention."}
+
+  - type: callout
+    kind: try
+    chapter: Pause and try
+    title: "Pause and try: what should be saved?"
+    body: "The learner says: *\"Morning! Ugh, traffic was awful. I finished the decorators lesson, and I'd like shorter examples. My bank PIN is 4321, by the way.\"*"
+    say: >
+      Pause and try. The learner says: morning! Traffic was awful. I finished the decorators lesson, and I'd like shorter examples. My bank PIN is four three two one, by the way.
+    items:
+      - {text: "Which remember_fact calls should happen? With which topic?", say: "Which remember fact calls should happen, and with which topic?", pause: 6}
+    outro: >
+      Two calls. The learner finished the decorators lesson, with topic progress. And the learner prefers shorter examples, topic preference. Not the traffic: it won't matter later. And never the PIN.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "How would you give an agent memory across sessions?"
+        a: "Store **durable facts** per user in a database. Let the model **save, recall and forget** them via tools, validate inputs and block secrets in code, and inject the **relevant** facts into the system prompt of each new conversation."
+        trap: "Saving every message forever and sending it all back: costly, slow and a privacy risk."
+        say_q: "Interview corner. How would you give an agent memory across sessions?"
+        say_a: "A good answer: store lasting facts for each user in a database. Let the model save, recall and forget them through tools. Validate inputs and block secrets in your code. And put the relevant facts into the system prompt of each new conversation. The trap: saving every message forever, and sending it all back. That's costly, slow, and a privacy risk."
+      - q: "Who should decide what gets remembered: the model or your code?"
+        a: "Both. The **model** judges what's worth saving (via tool calls); **your code** enforces the rules: allowed topics, length, no secrets, per-user isolation, and deletion."
+        trap: "Trusting a prompt instruction alone to keep secrets out."
+        say_q: "Follow-up. Who decides what gets remembered: the model, or your code?"
+        say_a: "Both. The model judges what's worth saving, through tool calls. Your code enforces the rules: the allowed topics, the length, no secrets, one user's data kept apart from another's, and deletion. The trap is trusting a prompt instruction alone to keep secrets out."
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "Where does the companion put long-term facts so the model can use them?"
+    options:
+      - "In the model's weights"
+      - "In the system prompt of each request"
+      - "In a hidden API setting"
+      - "In the user's last message"
+    answer: 1
+    explain: "The model learns nothing between calls. Relevant facts are read from the database and sent in the system prompt every time."
+    say_question: >
+      Quick check. Where does the companion put long-term facts, so the model can use them?
+    say_answer: >
+      In the system prompt of each request. The model learns nothing between calls.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 4 recap
+    items:
+      - {text: "Long-term memory: short facts that stay true", say: "Let's recap. Long-term memory holds short facts that stay true."}
+      - {text: "The model manages it with remember, recall, forget tools", say: "The model manages it with tools: remember, recall and forget."}
+      - {text: "Relevant facts go into every system prompt", say: "The relevant facts go into every system prompt."}
+      - {text: "Your code refuses secrets and lets users see and delete", say: "And your code refuses secrets, and lets users see and delete what's stored."}
+    outro: >
+      Next lesson: where it's stored. You'll learn SQLite from scratch: tables, safe queries, transactions, keeping users apart, and deleting old data on a schedule.

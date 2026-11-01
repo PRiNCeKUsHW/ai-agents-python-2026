@@ -1,0 +1,540 @@
+1
+00:00:00,900 --> 00:00:04,529
+Windows and summaries
+help within one conversation.
+
+2
+00:00:04,879 --> 00:00:08,707
+But tomorrow is a new
+conversation, and they start empty.
+
+3
+00:00:09,057 --> 00:00:14,223
+In this lesson, you'll give the agent
+long-term memory: short facts about the
+
+4
+00:00:14,223 --> 00:00:18,517
+learner, saved with tools, and
+brought back into every new chat.
+
+5
+00:00:20,317 --> 00:00:23,272
+You'll decide what
+belongs in long-term memory.
+
+6
+00:00:23,872 --> 00:00:25,908
+Save, recall and forget facts.
+
+7
+00:00:26,508 --> 00:00:29,197
+Let the model manage
+memory, through tools.
+
+8
+00:00:29,797 --> 00:00:34,626
+And put the relevant facts into the
+system prompt, while refusing secrets.
+
+9
+00:00:36,426 --> 00:00:38,325
+Here's the picture for this lesson.
+
+10
+00:00:38,675 --> 00:00:42,928
+A good tutor with many students
+keeps an index card for each one.
+
+11
+00:00:43,278 --> 00:00:44,539
+Name: Anuj.
+
+12
+00:00:44,889 --> 00:00:46,472
+Goal: AI agents.
+
+13
+00:00:46,822 --> 00:00:48,402
+Finds recursion hard.
+
+14
+00:00:48,752 --> 00:00:50,837
+Not a transcript of every lesson.
+
+15
+00:00:51,187 --> 00:00:53,499
+Just a few facts that will matter later.
+
+16
+00:00:53,849 --> 00:00:57,393
+And before each session,
+the tutor glances at the card.
+
+17
+00:00:57,993 --> 00:01:01,657
+The card holds a few facts
+per learner, not the whole chat.
+
+18
+00:01:02,257 --> 00:01:05,435
+Writing on the card
+is a tool: remember fact.
+
+19
+00:01:06,035 --> 00:01:10,320
+Glancing at it is putting the
+relevant facts into the system prompt.
+
+20
+00:01:10,920 --> 00:01:12,562
+What belongs on the card?
+
+21
+00:01:12,912 --> 00:01:18,208
+Facts that stay true and will help later:
+who the learner is, their goals, what they
+
+22
+00:01:18,208 --> 00:01:21,613
+find hard, what they
+finished, how they like to learn.
+
+23
+00:01:21,963 --> 00:01:24,252
+Not small talk, and never secrets.
+
+24
+00:01:26,052 --> 00:01:28,859
+Let's use the
+project's memory class directly.
+
+25
+00:01:29,209 --> 00:01:31,382
+Code on the left, output on the right.
+
+26
+00:01:31,982 --> 00:01:38,000
+We open a throwaway database that lives
+only in memory, and create the long-term
+
+27
+00:01:38,000 --> 00:01:39,956
+memory for one user, Anuj.
+
+28
+00:01:40,306 --> 00:01:43,143
+Lesson five covers the database itself.
+
+29
+00:01:43,743 --> 00:01:45,364
+We remember three facts.
+
+30
+00:01:45,714 --> 00:01:51,143
+Each one gets a number, a topic, like
+profile or struggle, and the date it was
+
+31
+00:01:51,143 --> 00:01:51,561
+saved.
+
+32
+00:01:52,161 --> 00:01:55,203
+Recall finds facts that
+share words with a question.
+
+33
+00:01:55,553 --> 00:01:58,409
+Can you help with
+recursion, finds fact two.
+
+34
+00:01:58,759 --> 00:02:00,193
+Simple word matching.
+
+35
+00:02:00,543 --> 00:02:04,966
+In the RAG module, you'll replace it
+with embeddings, which match meaning.
+
+36
+00:02:05,566 --> 00:02:07,875
+Now we try to remember a password.
+
+37
+00:02:08,225 --> 00:02:09,378
+It's refused.
+
+38
+00:02:09,728 --> 00:02:13,913
+That check is in our code, so
+it holds whatever the model asks.
+
+39
+00:02:14,513 --> 00:02:16,988
+Forget deletes one fact, by its number.
+
+40
+00:02:17,588 --> 00:02:22,770
+And for the prompt picks what to show
+the model: always the profile, then facts
+
+41
+00:02:22,770 --> 00:02:25,721
+relevant to the
+message, and the newest ones.
+
+42
+00:02:26,071 --> 00:02:28,042
+Not every fact, every time.
+
+43
+00:02:28,392 --> 00:02:29,967
+Just what fits and helps.
+
+44
+00:02:31,767 --> 00:02:33,509
+Who decides what to remember?
+
+45
+00:02:33,859 --> 00:02:35,419
+The model, through tools.
+
+46
+00:02:35,769 --> 00:02:37,512
+Here's the remember fact tool.
+
+47
+00:02:37,862 --> 00:02:43,533
+Its description says when to use it, to
+save facts, not whole messages, and never to
+
+48
+00:02:43,533 --> 00:02:44,410
+save secrets.
+
+49
+00:02:45,010 --> 00:02:49,310
+Recall facts searches memory,
+and returns facts with their numbers.
+
+50
+00:02:49,910 --> 00:02:52,492
+Forget fact needs one of those numbers.
+
+51
+00:02:52,842 --> 00:02:57,591
+So forgetting is a two step plan:
+recall to find the number, then forget.
+
+52
+00:02:59,391 --> 00:03:03,341
+The inputs are
+Pydantic models, as in Module 5.
+
+53
+00:03:03,691 --> 00:03:09,522
+The topic must be one of five values,
+and each one is explained, so the model knows
+
+54
+00:03:09,522 --> 00:03:10,646
+which to choose.
+
+55
+00:03:11,246 --> 00:03:14,560
+A fact must be between
+three and two hundred characters.
+
+56
+00:03:14,910 --> 00:03:16,252
+Facts, not essays.
+
+57
+00:03:16,852 --> 00:03:19,176
+And a fact number must be one or more.
+
+58
+00:03:19,526 --> 00:03:23,650
+Anything else becomes a tool
+error the model can read and fix.
+
+59
+00:03:25,450 --> 00:03:28,827
+Here's where long-term
+memory meets the conversation.
+
+60
+00:03:29,177 --> 00:03:33,187
+For every new message, we pick
+the relevant facts, one per line.
+
+61
+00:03:33,787 --> 00:03:38,786
+They go into the system prompt, under
+the heading: what you remember about the
+
+62
+00:03:38,786 --> 00:03:39,298
+learner.
+
+63
+00:03:39,898 --> 00:03:44,030
+And when there's a running summary
+from lesson three, it goes there too.
+
+64
+00:03:44,380 --> 00:03:49,755
+So every request carries the three
+layers: facts, summary, and recent turns.
+
+65
+00:03:51,555 --> 00:03:53,258
+Let's put the layers together.
+
+66
+00:03:53,608 --> 00:03:58,089
+The system prompt, with the
+long-term facts: small, and always there.
+
+67
+00:03:58,689 --> 00:04:01,904
+The running summary:
+the gist of older turns.
+
+68
+00:04:02,504 --> 00:04:04,892
+And the recent turns, word for word.
+
+69
+00:04:05,242 --> 00:04:10,530
+Each layer is small, so the request
+stays small, however long the relationship
+
+70
+00:04:10,530 --> 00:04:10,937
+lasts.
+
+71
+00:04:12,737 --> 00:04:16,099
+Now some rules, because
+memory is personal data.
+
+72
+00:04:16,449 --> 00:04:18,352
+First: never store secrets.
+
+73
+00:04:18,702 --> 00:04:24,617
+Passwords, keys and card numbers are
+refused in code, not just discouraged in the
+
+74
+00:04:24,617 --> 00:04:25,128
+prompt.
+
+75
+00:04:25,728 --> 00:04:27,090
+Second: store less.
+
+76
+00:04:27,440 --> 00:04:31,849
+Short facts the user would
+expect you to keep, not whole messages.
+
+77
+00:04:32,449 --> 00:04:33,997
+Third: make it visible.
+
+78
+00:04:34,347 --> 00:04:37,616
+The user can list
+everything you remember about them.
+
+79
+00:04:38,216 --> 00:04:40,003
+And fourth: let them delete it.
+
+80
+00:04:40,353 --> 00:04:42,012
+One fact, or everything.
+
+81
+00:04:42,362 --> 00:04:45,182
+Lesson five adds automatic retention.
+
+82
+00:04:46,982 --> 00:04:48,138
+Pause and try.
+
+83
+00:04:48,488 --> 00:04:50,256
+The learner says: morning!
+
+84
+00:04:50,606 --> 00:04:51,899
+Traffic was awful.
+
+85
+00:04:52,249 --> 00:04:56,500
+I finished the decorators
+lesson, and I'd like shorter examples.
+
+86
+00:04:56,850 --> 00:05:00,458
+My bank PIN is four
+three two one, by the way.
+
+87
+00:05:01,057 --> 00:05:04,630
+Which remember fact calls
+should happen, and with which topic?
+
+88
+00:05:11,230 --> 00:05:12,190
+Two calls.
+
+89
+00:05:12,540 --> 00:05:16,720
+The learner finished the
+decorators lesson, with topic progress.
+
+90
+00:05:17,070 --> 00:05:20,720
+And the learner prefers
+shorter examples, topic preference.
+
+91
+00:05:21,070 --> 00:05:23,543
+Not the traffic: it won't matter later.
+
+92
+00:05:23,893 --> 00:05:25,397
+And never the PIN.
+
+93
+00:05:27,197 --> 00:05:28,338
+Interview corner.
+
+94
+00:05:28,688 --> 00:05:31,954
+How would you give an
+agent memory across sessions?
+
+95
+00:05:34,554 --> 00:05:39,099
+A good answer: store lasting
+facts for each user in a database.
+
+96
+00:05:39,449 --> 00:05:43,184
+Let the model save, recall
+and forget them through tools.
+
+97
+00:05:43,534 --> 00:05:46,683
+Validate inputs and
+block secrets in your code.
+
+98
+00:05:47,033 --> 00:05:51,913
+And put the relevant facts into the
+system prompt of each new conversation.
+
+99
+00:05:52,263 --> 00:05:56,513
+The trap: saving every message
+forever, and sending it all back.
+
+100
+00:05:56,863 --> 00:05:59,637
+That's costly, slow, and a privacy risk.
+
+101
+00:06:00,237 --> 00:06:01,174
+Follow-up.
+
+102
+00:06:01,524 --> 00:06:05,439
+Who decides what gets
+remembered: the model, or your code?
+
+103
+00:06:08,039 --> 00:06:08,728
+Both.
+
+104
+00:06:09,078 --> 00:06:12,748
+The model judges what's
+worth saving, through tool calls.
+
+105
+00:06:13,098 --> 00:06:19,174
+Your code enforces the rules: the allowed
+topics, the length, no secrets, one user's
+
+106
+00:06:19,174 --> 00:06:22,429
+data kept apart from
+another's, and deletion.
+
+107
+00:06:22,779 --> 00:06:27,089
+The trap is trusting a prompt
+instruction alone to keep secrets out.
+
+108
+00:06:28,889 --> 00:06:29,747
+Quick check.
+
+109
+00:06:30,097 --> 00:06:34,608
+Where does the companion put
+long-term facts, so the model can use them?
+
+110
+00:06:40,808 --> 00:06:43,063
+In the system prompt of each request.
+
+111
+00:06:43,413 --> 00:06:46,050
+The model learns nothing between calls.
+
+112
+00:06:47,850 --> 00:06:48,940
+Let's recap.
+
+113
+00:06:49,290 --> 00:06:52,620
+Long-term memory holds
+short facts that stay true.
+
+114
+00:06:53,220 --> 00:06:57,647
+The model manages it with
+tools: remember, recall and forget.
+
+115
+00:06:58,247 --> 00:07:01,127
+The relevant facts go
+into every system prompt.
+
+116
+00:07:01,727 --> 00:07:06,684
+And your code refuses secrets, and
+lets users see and delete what's stored.
+
+117
+00:07:07,284 --> 00:07:09,186
+Next lesson: where it's stored.
+
+118
+00:07:09,536 --> 00:07:15,688
+You'll learn SQLite from scratch:
+tables, safe queries, transactions, keeping users
+
+119
+00:07:15,688 --> 00:07:18,876
+apart, and deleting
+old data on a schedule.

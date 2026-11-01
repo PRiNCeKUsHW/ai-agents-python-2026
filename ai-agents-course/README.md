@@ -6,6 +6,7 @@ YouTube packaging.
 
 - Syllabus: [COURSE_SYLLABUS.md](COURSE_SYLLABUS.md)
 - Glossary of every term: [GLOSSARY.md](GLOSSARY.md)
+- Question bank, every question asked in the videos with hidden answers: [QUESTION_BANK.md](QUESTION_BANK.md)
 - Visual identity: [COURSE_DESIGN_SYSTEM.md](COURSE_DESIGN_SYSTEM.md)
 - Progress (machine-readable): [COURSE_MANIFEST.json](COURSE_MANIFEST.json) · human-readable: [progress.md](progress.md)
 
@@ -27,6 +28,14 @@ modules/module-NN-*/renders/lesson-XX.mp4  (H.264 + AAC)
         ▼
 COURSE_MANIFEST.json updated only after validation passes (tools/manifest.py)
 ```
+
+Sound effects: Modules 1-5 use effects synthesized by `tools/make_audio_assets.py` (`shared/audio/`).
+From Module 6 on, the mix uses **recorded** effects from `shared/sfx/`, with keyboard sounds under
+every typed command. Set them up once per machine with `python tools/sfx.py setup` (the recorded set
+bundled with Claude's media-use skill, Pixabay Content License). Add more with
+`python tools/sfx.py openverse "soft whoosh" --name whoosh` (CC0 / CC BY from openverse.org, credited
+automatically) or `python tools/sfx.py add file.wav --name pop --source Earshot --license "..."` for a
+file you downloaded yourself. Credits: `shared/sfx/CREDITS.md`.
 
 Visual QA: `node studio/snapshots.mjs mNN-lXX` renders one still per scene into `logs/snapshots/`.
 Thumbnails: `npx remotion still src/index.ts thumb-mNN <png>` (run in `studio/`).

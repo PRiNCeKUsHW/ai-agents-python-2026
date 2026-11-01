@@ -171,10 +171,40 @@ PROJECT_CHECKS = {
         ("step limit (exit 1)", "CALC_FAKE_FAIL=loop {bin}/python -m calc_agent ask '2 + 2' --max-steps 2; "
                                 "test $? -eq 1"),
     ],
+    "productivity-agent": [
+        ("mypy", "{bin}/mypy --no-incremental productivity"),
+        ("parallel tool calls", "rm -f /tmp/pa-check.json; PROD_DATA=/tmp/pa-check.json {bin}/python -m productivity "
+                                "ask 'add task A and add task B' | grep -c 'turn 1  act' | grep -qx 2"),
+        ("validation recovery", "PROD_DATA=/tmp/pa-check.json PROD_FAKE_FAIL=badinput {bin}/python -m productivity "
+                                "ask 'add task C' | grep -q 'observe  ! Error: invalid input'"),
+        ("declined delete keeps the task", "printf 'n\\n' | PROD_DATA=/tmp/pa-check.json {bin}/python -m productivity "
+                                           "ask 'delete task 1' >/dev/null && PROD_DATA=/tmp/pa-check.json "
+                                           "{bin}/python -m productivity tasks | grep -q '1. A'"),
+        ("read-only blocks writes", "PROD_DATA=/tmp/pa-check.json {bin}/python -m productivity ask 'add task D' "
+                                    "--read-only | grep -q 'read-only mode'"),
+        ("timeout", "PROD_DATA=/tmp/pa-check.json PROD_FAKE_SLOW=search_notes {bin}/python -m productivity "
+                    "ask 'search notes for wifi' | grep -q 'timed out after 2 s'"),
+    ],
+    "study-companion": [
+        ("mypy --strict", "{bin}/mypy --no-incremental --strict companion"),
+        ("facts saved with tools", "rm -rf /tmp/sc-check; COMP_HOME=/tmp/sc-check {bin}/python -m companion ask "
+                                   "'My name is Anuj and I find recursion hard' --session mon | grep -c "
+                                   "'memory   remember_fact' | grep -qx 2"),
+        ("next session remembers", "COMP_HOME=/tmp/sc-check {bin}/python -m companion ask \"What's my name?\" "
+                                   "--session tue | grep -q 'Your name is Anuj.'"),
+        ("secrets refused", "COMP_HOME=/tmp/sc-check {bin}/python -m companion ask 'Remember that my password "
+                            "is hunter2' | grep -q 'never store'"),
+        ("users isolated", "COMP_HOME=/tmp/sc-check {bin}/python -m companion --user riya ask \"What's my "
+                           "name?\" | grep -q \"don't know your name\""),
+        ("summary above the limit", "COMP_HOME=/tmp/sc-check COMP_SUMMARIZE_AT=100 COMP_KEEP_TURNS=1 {bin}/python -m companion "
+                                    "ask 'Explain loops' --session mon 2>&1 | grep -q 'old messages summarized'"),
+        ("delete-me removes all", "COMP_HOME=/tmp/sc-check {bin}/python -m companion delete-me --yes && "
+                                  "COMP_HOME=/tmp/sc-check {bin}/python -m companion memory | grep -qx 'no facts yet'"),
+    ],
 }
 # project checks run offline and reproducibly: no real key, proxy or scripted failures
 CHECK_ENV = {k: v for k, v in os.environ.items()
-             if not k.startswith(("ANTHROPIC_", "STUDY_", "TOOLKIT_", "RESUME_", "CALC_"))}
+             if not k.startswith(("ANTHROPIC_", "STUDY_", "TOOLKIT_", "RESUME_", "CALC_", "PROD_", "COMP_"))}
 
 def run(cmd, cwd, **kw):
     if isinstance(cmd, str) and sys.platform == "win32":
