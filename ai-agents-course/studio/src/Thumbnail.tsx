@@ -50,6 +50,14 @@ export const THUMBS: ThumbProps[] = [
     tagline: "Validate · timeout · ask first",
     code: ["act      delete_task(task_id=1)", "confirm  Delete task 1? [y/N] n", "observe  ! the user declined", "act      list_tasks(status='open')"],
   },
+  {
+    id: "thumb-m06",
+    module: 6,
+    lines: ["AGENTS THAT", "REMEMBER", "YOU"],
+    accentLine: 1,
+    tagline: "History · summaries · SQLite",
+    code: ["session tue (new) · user me", "you> What's my name?", "- #1 [profile] name is Anuj", "Your name is Anuj."],
+  },
 ];
 
 export const Thumbnail: React.FC<ThumbProps> = ({ module, lines, accentLine, tagline, code }) => (

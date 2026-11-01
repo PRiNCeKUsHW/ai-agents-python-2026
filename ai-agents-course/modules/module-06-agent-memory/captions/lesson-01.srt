@@ -1,0 +1,569 @@
+1
+00:00:00,900 --> 00:00:02,605
+Welcome to Module 6.
+
+2
+00:00:02,955 --> 00:00:06,735
+Your agents can now think
+in a loop and use tools safely.
+
+3
+00:00:07,085 --> 00:00:10,046
+But close the program,
+and they forget everything.
+
+4
+00:00:10,396 --> 00:00:14,410
+Even inside one chat, they
+only remember what you send them.
+
+5
+00:00:14,760 --> 00:00:20,741
+By the end of this module, you'll build
+a persistent study companion: it remembers
+
+6
+00:00:20,741 --> 00:00:26,795
+your name, your goals and what you find
+hard, across days, in a real database, with
+
+7
+00:00:26,795 --> 00:00:28,034
+privacy controls.
+
+8
+00:00:29,834 --> 00:00:34,210
+In this lesson, you'll learn
+what stateless means for a model API.
+
+9
+00:00:34,810 --> 00:00:39,008
+You'll prove it, by asking the
+same question with and without history.
+
+10
+00:00:39,608 --> 00:00:42,380
+You'll build a chat loop
+that keeps the conversation.
+
+11
+00:00:42,980 --> 00:00:46,461
+And you'll meet the four
+kinds of memory an agent can have.
+
+12
+00:00:48,261 --> 00:00:50,446
+Let's start with an everyday picture.
+
+13
+00:00:50,796 --> 00:00:54,354
+Imagine a brilliant
+tutor, with one strange problem.
+
+14
+00:00:54,704 --> 00:00:58,174
+The moment you leave the
+room, they forget you completely.
+
+15
+00:00:58,524 --> 00:01:00,979
+Your name, your last lesson, everything.
+
+16
+00:01:01,329 --> 00:01:03,052
+You can still get great help.
+
+17
+00:01:03,402 --> 00:01:08,161
+You just have to bring your notebook
+every time, and show them what you covered
+
+18
+00:01:08,161 --> 00:01:08,583
+before.
+
+19
+00:01:09,183 --> 00:01:10,790
+The tutor is the model.
+
+20
+00:01:11,140 --> 00:01:14,562
+Very smart, but it
+remembers nothing between visits.
+
+21
+00:01:15,162 --> 00:01:19,585
+The notebook is the list of
+messages you send with every request.
+
+22
+00:01:20,185 --> 00:01:24,670
+And carrying the notebook is
+your code's job, on every single call.
+
+23
+00:01:25,270 --> 00:01:26,918
+That's what stateless means.
+
+24
+00:01:27,268 --> 00:01:30,073
+Each request to the API stands alone.
+
+25
+00:01:30,423 --> 00:01:33,830
+The server doesn't keep
+your conversation between calls.
+
+26
+00:01:34,180 --> 00:01:39,075
+If the model seems to remember, it's
+because your code sent the history again.
+
+27
+00:01:40,875 --> 00:01:42,351
+Let's prove it with code.
+
+28
+00:01:42,701 --> 00:01:46,430
+The code is on the left, and
+what it printed is on the right.
+
+29
+00:01:47,030 --> 00:01:50,368
+As in every module, no API key is needed.
+
+30
+00:01:50,718 --> 00:01:55,195
+A scripted fake plays the model,
+and the first output line says so.
+
+31
+00:01:55,545 --> 00:02:01,110
+The important thing: like a real
+model, the fake only knows what is inside the
+
+32
+00:02:01,110 --> 00:02:01,680
+request.
+
+33
+00:02:02,280 --> 00:02:07,811
+This small function sends a list of
+messages, and returns the text of the reply.
+
+34
+00:02:08,411 --> 00:02:09,206
+Call one.
+
+35
+00:02:09,556 --> 00:02:11,752
+We say: hi, my name is Anuj.
+
+36
+00:02:12,352 --> 00:02:17,392
+Call two is a brand new request,
+with only the question: what's my name?
+
+37
+00:02:17,742 --> 00:02:19,798
+And the answer is: I don't know.
+
+38
+00:02:20,148 --> 00:02:21,927
+Nothing in this request says it.
+
+39
+00:02:22,277 --> 00:02:23,497
+Call one is gone.
+
+40
+00:02:24,097 --> 00:02:29,681
+Call three sends the earlier messages
+again: our introduction, the reply, and then
+
+41
+00:02:29,681 --> 00:02:30,566
+the question.
+
+42
+00:02:30,916 --> 00:02:33,843
+Now the answer is: your name is Anuj.
+
+43
+00:02:34,193 --> 00:02:35,943
+Same model, same question.
+
+44
+00:02:36,293 --> 00:02:38,376
+The only difference is what we sent.
+
+45
+00:02:40,176 --> 00:02:42,600
+Now, how does a normal chat work, then?
+
+46
+00:02:43,200 --> 00:02:46,429
+The first request has
+one message: the user's.
+
+47
+00:02:46,779 --> 00:02:48,947
+The API answers and forgets.
+
+48
+00:02:49,547 --> 00:02:55,249
+For the second request, your code sends
+three messages: the first user message, the
+
+49
+00:02:55,249 --> 00:02:58,271
+assistant's reply,
+and the new user message.
+
+50
+00:02:58,871 --> 00:03:00,850
+The third request sends five.
+
+51
+00:03:01,200 --> 00:03:06,852
+The conversation grows by two messages
+every turn, and the whole thing travels with
+
+52
+00:03:06,852 --> 00:03:07,805
+every request.
+
+53
+00:03:08,155 --> 00:03:13,345
+Keep this picture in mind: it's the
+reason for everything in the next two lessons.
+
+54
+00:03:15,145 --> 00:03:16,732
+Here's a real chat loop.
+
+55
+00:03:17,082 --> 00:03:20,464
+One list, history,
+holds the whole conversation.
+
+56
+00:03:21,064 --> 00:03:25,389
+Each line of input becomes a
+user message, appended to the list.
+
+57
+00:03:25,739 --> 00:03:30,089
+For a repeatable demo, the three
+lines come from a small text file.
+
+58
+00:03:30,689 --> 00:03:33,025
+Then we send the whole list, every time.
+
+59
+00:03:33,625 --> 00:03:36,596
+And we append the reply
+as an assistant message.
+
+60
+00:03:36,946 --> 00:03:41,580
+Forget this line, and the model
+never sees its own earlier answers.
+
+61
+00:03:42,180 --> 00:03:46,425
+Turn one: two messages stored,
+and thirteen input tokens sent.
+
+62
+00:03:47,025 --> 00:03:48,632
+Turn two: what's my name?
+
+63
+00:03:48,982 --> 00:03:51,765
+Anuj, because the
+history went with the request.
+
+64
+00:03:52,365 --> 00:03:56,453
+And look at the input
+tokens: thirteen, sixty-one, ninety.
+
+65
+00:03:56,803 --> 00:03:58,290
+Every turn sends more.
+
+66
+00:03:58,640 --> 00:04:04,108
+You pay for input tokens on every call,
+and the model has a maximum it can read.
+
+67
+00:04:04,458 --> 00:04:07,524
+That's the problem we
+solve in lessons two and three.
+
+68
+00:04:09,324 --> 00:04:12,403
+Let's name the kinds of
+memory an agent can have.
+
+69
+00:04:12,753 --> 00:04:16,130
+First, conversation
+history: the messages list.
+
+70
+00:04:16,480 --> 00:04:18,586
+Exact, but it grows every turn.
+
+71
+00:04:19,186 --> 00:04:23,312
+Second, a short-term window:
+send only the last few turns.
+
+72
+00:04:23,662 --> 00:04:25,826
+Cheap, but old details fall out.
+
+73
+00:04:26,426 --> 00:04:32,041
+Third, summary memory: old turns
+compressed into a short summary that keeps the
+
+74
+00:04:32,041 --> 00:04:32,396
+gist.
+
+75
+00:04:32,996 --> 00:04:38,885
+And fourth, long-term memory: facts
+saved in a database, which survive a restart,
+
+76
+00:04:38,885 --> 00:04:41,357
+and a brand new chat the next day.
+
+77
+00:04:43,157 --> 00:04:44,624
+Where does each one live?
+
+78
+00:04:44,974 --> 00:04:49,705
+History lives in a Python list,
+and it's lost when the program exits.
+
+79
+00:04:50,305 --> 00:04:53,085
+The window is just the
+part of the list you send.
+
+80
+00:04:53,435 --> 00:04:56,383
+A turn is lost from the
+request when it slides out.
+
+81
+00:04:56,983 --> 00:05:00,376
+The summary is a string,
+sent with the system prompt.
+
+82
+00:05:00,726 --> 00:05:04,121
+Details are lost if they
+don't make it into the summary.
+
+83
+00:05:04,721 --> 00:05:08,242
+And long-term memory
+lives in a database file.
+
+84
+00:05:08,592 --> 00:05:11,460
+It's only lost when
+you delete it, on purpose.
+
+85
+00:05:13,260 --> 00:05:15,099
+Pause the video and try this.
+
+86
+00:05:15,449 --> 00:05:19,072
+The history so far is:
+user says, I love chess.
+
+87
+00:05:19,422 --> 00:05:20,960
+Assistant says, nice.
+
+88
+00:05:21,310 --> 00:05:25,450
+Then your code sends a new
+request with only: what do I love?
+
+89
+00:05:26,050 --> 00:05:28,127
+What can the model answer, and why?
+
+90
+00:05:28,477 --> 00:05:30,322
+And what would you change in the code?
+
+91
+00:05:36,922 --> 00:05:37,955
+It can't know.
+
+92
+00:05:38,305 --> 00:05:43,476
+The request doesn't mention chess,
+and the API keeps nothing between calls.
+
+93
+00:05:43,826 --> 00:05:49,131
+The fix: append every message to the
+history list, and send the whole list each
+
+94
+00:05:49,131 --> 00:05:49,467
+time.
+
+95
+00:05:51,267 --> 00:05:52,408
+Interview corner.
+
+96
+00:05:52,758 --> 00:05:56,297
+Does the Claude API
+remember earlier messages?
+
+97
+00:05:58,897 --> 00:06:00,327
+A good answer: no.
+
+98
+00:06:00,677 --> 00:06:02,846
+The Messages API is stateless.
+
+99
+00:06:03,196 --> 00:06:04,948
+Each request stands alone.
+
+100
+00:06:05,298 --> 00:06:11,027
+A conversation works because your code
+resends the history, the user and assistant
+
+101
+00:06:11,027 --> 00:06:13,682
+messages in order, with every request.
+
+102
+00:06:14,032 --> 00:06:16,890
+The trap is saying the
+model remembers your chat.
+
+103
+00:06:17,240 --> 00:06:20,420
+Any memory is data
+your code stores, and sends.
+
+104
+00:06:21,020 --> 00:06:24,702
+A follow-up: why not just
+keep the whole history forever?
+
+105
+00:06:27,302 --> 00:06:28,992
+Because of cost and limits.
+
+106
+00:06:29,342 --> 00:06:35,101
+Every turn resends everything, so input
+tokens, and the time to answer, grow with
+
+107
+00:06:35,101 --> 00:06:36,310
+the conversation.
+
+108
+00:06:36,660 --> 00:06:39,920
+And eventually, it
+won't fit the context window.
+
+109
+00:06:40,270 --> 00:06:44,644
+So you need a strategy:
+windows, summaries, and long-term facts.
+
+110
+00:06:44,994 --> 00:06:47,494
+The trap is thinking
+it's only about money.
+
+111
+00:06:47,844 --> 00:06:50,873
+Long contexts also
+make every reply slower.
+
+112
+00:06:52,673 --> 00:06:53,532
+Quick check.
+
+113
+00:06:53,882 --> 00:06:57,752
+Your chatbot forgets what
+the user said two messages ago.
+
+114
+00:06:58,102 --> 00:06:59,752
+What's the most likely bug?
+
+115
+00:07:05,952 --> 00:07:09,642
+The code doesn't append every
+message to the history it sends.
+
+116
+00:07:09,992 --> 00:07:12,556
+The model only sees what's in the request.
+
+117
+00:07:14,356 --> 00:07:15,446
+Let's recap.
+
+118
+00:07:15,796 --> 00:07:17,447
+The API is stateless.
+
+119
+00:07:17,797 --> 00:07:19,548
+Each request stands alone.
+
+120
+00:07:20,148 --> 00:07:24,159
+A conversation is your code
+resending the history, every time.
+
+121
+00:07:24,759 --> 00:07:27,411
+Append the user's message, and the reply.
+
+122
+00:07:28,011 --> 00:07:33,245
+And the history grows every turn,
+which costs money and time, and hits limits.
+
+123
+00:07:33,845 --> 00:07:35,974
+Next lesson: short-term memory.
+
+124
+00:07:36,324 --> 00:07:41,984
+You'll measure how fast the
+conversation grows, meet the context window, and keep
+
+125
+00:07:41,984 --> 00:07:45,897
+only the turns that matter,
+without breaking tool calls.

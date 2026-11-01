@@ -1,0 +1,478 @@
+1
+00:00:00,900 --> 00:00:06,565
+In lesson two, a sliding window kept
+the conversation small, but it forgot the
+
+2
+00:00:06,565 --> 00:00:07,437
+user's name.
+
+3
+00:00:07,787 --> 00:00:13,034
+In this lesson, instead of throwing
+old turns away, you'll compress them into a
+
+4
+00:00:13,034 --> 00:00:14,495
+short running summary.
+
+5
+00:00:14,845 --> 00:00:17,347
+Small like a window,
+but it keeps the gist.
+
+6
+00:00:19,147 --> 00:00:23,066
+You'll explain summary memory,
+and when it beats a plain window.
+
+7
+00:00:23,666 --> 00:00:27,383
+Summarize old turns,
+with one extra model call.
+
+8
+00:00:27,983 --> 00:00:30,888
+Send the summary along
+with the system prompt.
+
+9
+00:00:31,488 --> 00:00:35,176
+And know the costs: lost
+details, and an extra call.
+
+10
+00:00:36,976 --> 00:00:38,621
+Think about a long meeting.
+
+11
+00:00:38,971 --> 00:00:42,137
+Afterwards, nobody
+re-reads the full transcript.
+
+12
+00:00:42,487 --> 00:00:47,123
+People read the minutes: the decisions,
+who agreed to what, and what's still open.
+
+13
+00:00:47,473 --> 00:00:50,830
+Summary memory does the
+same for a conversation.
+
+14
+00:00:51,180 --> 00:00:56,806
+The old part becomes minutes, and only
+the last few turns are kept word for word.
+
+15
+00:00:57,406 --> 00:01:00,147
+Old turns become a short, running summary.
+
+16
+00:01:00,747 --> 00:01:05,164
+Recent turns are kept exactly,
+because details matter most there.
+
+17
+00:01:05,764 --> 00:01:10,528
+And every request sends the summary,
+the recent turns, and the new message.
+
+18
+00:01:11,128 --> 00:01:15,388
+Running means the summary is
+updated, not rewritten from scratch.
+
+19
+00:01:15,738 --> 00:01:20,744
+Each time, the model merges the old
+summary with the turns that are leaving.
+
+20
+00:01:21,094 --> 00:01:23,739
+So it stays short
+however long the chat gets.
+
+21
+00:01:25,539 --> 00:01:26,895
+Here's how it works.
+
+22
+00:01:27,245 --> 00:01:29,337
+After each turn, check the size.
+
+23
+00:01:29,687 --> 00:01:31,959
+Is the conversation above our limit?
+
+24
+00:01:32,559 --> 00:01:38,511
+If so, split it into old turns and the
+last few turns, cutting where a turn starts,
+
+25
+00:01:38,511 --> 00:01:39,730
+as in lesson two.
+
+26
+00:01:40,330 --> 00:01:42,109
+Then make one extra call.
+
+27
+00:01:42,459 --> 00:01:47,494
+Give the model the old summary and
+the old turns, and ask for a new summary.
+
+28
+00:01:48,094 --> 00:01:51,714
+Finally, keep the new
+summary, and drop the old turns.
+
+29
+00:01:52,064 --> 00:01:54,656
+But only after the summary has arrived.
+
+30
+00:01:55,006 --> 00:01:57,259
+If the call fails, nothing is lost.
+
+31
+00:01:59,059 --> 00:02:00,252
+Let's see it run.
+
+32
+00:02:00,602 --> 00:02:02,761
+Same five turns as lesson two.
+
+33
+00:02:03,111 --> 00:02:06,093
+The code is on the
+left, the output on the right.
+
+34
+00:02:06,693 --> 00:02:12,739
+First, the same conversation as last
+lesson: five turns, about seven hundred and
+
+35
+00:02:12,739 --> 00:02:13,797
+thirty tokens.
+
+36
+00:02:14,397 --> 00:02:20,287
+The summarize function builds a prompt
+with the summary so far, or none, and the old
+
+37
+00:02:20,287 --> 00:02:23,161
+messages written out as plain text lines.
+
+38
+00:02:23,761 --> 00:02:29,050
+Then one extra model call, with a
+system prompt written just for summarizing.
+
+39
+00:02:29,650 --> 00:02:34,906
+Compact folds the old turns in when
+we're over the limit, keeping the last two
+
+40
+00:02:34,906 --> 00:02:35,310
+turns.
+
+41
+00:02:35,660 --> 00:02:41,564
+Six messages folded, and the size drops
+from about seven hundred and thirty tokens
+
+42
+00:02:41,564 --> 00:02:43,220
+to about three hundred.
+
+43
+00:02:43,820 --> 00:02:44,953
+Here's the summary.
+
+44
+00:02:45,303 --> 00:02:50,521
+In offline mode the fake writes a
+simple extract of what the learner said, and
+
+45
+00:02:50,521 --> 00:02:53,464
+labels it, so we
+never pretend it's a model.
+
+46
+00:02:53,814 --> 00:02:57,594
+A real model writes a
+proper summary in its own words.
+
+47
+00:02:58,194 --> 00:03:00,982
+And now the question
+again: what's my name?
+
+48
+00:03:01,332 --> 00:03:06,354
+The summary goes into the system
+prompt, and this time the answer is: Anuj.
+
+49
+00:03:06,704 --> 00:03:09,484
+As small as the
+window, but it kept the name.
+
+50
+00:03:11,284 --> 00:03:16,935
+In the project, the summarizer's system
+prompt says what to keep: facts about the
+
+51
+00:03:16,935 --> 00:03:21,051
+learner, topics covered,
+open questions, and promises made.
+
+52
+00:03:21,401 --> 00:03:25,075
+And it sets a limit: at
+most a hundred and twenty words.
+
+53
+00:03:25,425 --> 00:03:29,287
+Without a limit, summaries
+slowly grow back into transcripts.
+
+54
+00:03:31,087 --> 00:03:32,988
+Here's compact in the project.
+
+55
+00:03:33,338 --> 00:03:37,121
+Under the limit, or with too
+few turns to fold, it does nothing.
+
+56
+00:03:37,721 --> 00:03:41,934
+Otherwise it cuts where a turn
+starts, so tool pairs stay together.
+
+57
+00:03:42,534 --> 00:03:43,812
+And the order matters.
+
+58
+00:03:44,162 --> 00:03:45,392
+Summarize first.
+
+59
+00:03:45,742 --> 00:03:50,490
+Only when the new summary has
+arrived do we drop the old messages.
+
+60
+00:03:50,840 --> 00:03:54,445
+If the API call fails,
+every message is still there.
+
+61
+00:03:56,245 --> 00:03:58,185
+So which strategy should you use?
+
+62
+00:03:58,535 --> 00:04:02,820
+Full history keeps everything
+exactly, but grows every turn.
+
+63
+00:04:03,420 --> 00:04:07,753
+A window keeps recent turns
+exactly, but forgets older ones.
+
+64
+00:04:08,353 --> 00:04:14,606
+A summary plus a window keeps the gist
+of old turns and the recent turns exactly.
+
+65
+00:04:14,956 --> 00:04:19,675
+It costs an extra call now and
+then, and fine details can be lost.
+
+66
+00:04:20,275 --> 00:04:25,669
+And for the facts that must never be
+lost, like a name, we add long-term memory,
+
+67
+00:04:25,669 --> 00:04:26,478
+next lesson.
+
+68
+00:04:28,278 --> 00:04:29,435
+Pause and try.
+
+69
+00:04:29,785 --> 00:04:35,233
+Here are some old turns from Riya: I'm
+preparing for a Python interview on Friday.
+
+70
+00:04:35,583 --> 00:04:38,543
+Lists are fine, decorators confuse me.
+
+71
+00:04:38,893 --> 00:04:40,519
+Can you quiz me tomorrow?
+
+72
+00:04:41,119 --> 00:04:43,834
+Write a summary in at
+most twenty five words.
+
+73
+00:04:44,184 --> 00:04:45,442
+What must it keep?
+
+74
+00:04:52,042 --> 00:04:55,725
+One good summary: Riya,
+Python interview on Friday.
+
+75
+00:04:56,075 --> 00:04:59,275
+Comfortable with lists,
+struggles with decorators.
+
+76
+00:04:59,625 --> 00:05:01,404
+Promised: a quiz tomorrow.
+
+77
+00:05:01,754 --> 00:05:05,106
+It keeps the fact, the goal,
+the struggle, and the promise.
+
+78
+00:05:06,906 --> 00:05:08,048
+Interview corner.
+
+79
+00:05:08,398 --> 00:05:11,396
+How would you keep a long
+running chat within budget?
+
+80
+00:05:13,996 --> 00:05:19,789
+A good answer: keep the last few
+turns word for word, fold older turns into a
+
+81
+00:05:19,789 --> 00:05:25,657
+running summary with a dedicated
+prompt, and move lasting facts into long-term
+
+82
+00:05:25,657 --> 00:05:26,183
+memory.
+
+83
+00:05:26,533 --> 00:05:32,560
+Summarize only when you pass a token
+threshold, and drop old turns only after the
+
+84
+00:05:32,560 --> 00:05:33,825
+summary succeeds.
+
+85
+00:05:34,175 --> 00:05:36,712
+The trap: summarizing on every turn.
+
+86
+00:05:37,062 --> 00:05:40,903
+That adds a call each time,
+and the summary slowly drifts.
+
+87
+00:05:41,503 --> 00:05:43,496
+And: what can go wrong with summaries?
+
+88
+00:05:46,096 --> 00:05:49,554
+Details get lost,
+like exact numbers or code.
+
+89
+00:05:49,904 --> 00:05:51,914
+Summaries of summaries can drift.
+
+90
+00:05:52,264 --> 00:05:54,672
+And the summary call costs money and time.
+
+91
+00:05:55,022 --> 00:06:00,226
+You reduce that with a clear list of
+what to keep, a length limit, and long-term
+
+92
+00:06:00,226 --> 00:06:02,829
+facts for anything that must stay exact.
+
+93
+00:06:03,179 --> 00:06:06,497
+The trap is treating a
+summary as a perfect record.
+
+94
+00:06:08,297 --> 00:06:09,156
+Quick check.
+
+95
+00:06:09,506 --> 00:06:15,000
+Why does compact drop the old
+messages only after the summary call returns?
+
+96
+00:06:21,200 --> 00:06:24,882
+Because if the call
+fails, no conversation is lost.
+
+97
+00:06:26,682 --> 00:06:27,771
+Let's recap.
+
+98
+00:06:28,121 --> 00:06:31,832
+Summary memory turns old
+turns into a running summary.
+
+99
+00:06:32,432 --> 00:06:34,643
+Recent turns stay word for word.
+
+100
+00:06:35,243 --> 00:06:39,268
+It costs one extra call,
+only when you pass a token limit.
+
+101
+00:06:39,868 --> 00:06:44,229
+Summarize first, then drop, and
+tell the summarizer what to keep.
+
+102
+00:06:44,829 --> 00:06:47,051
+Next lesson: long-term memory.
+
+103
+00:06:47,401 --> 00:06:53,017
+Facts that survive a restart and a new
+day, saved by the model with tools, and
+
+104
+00:06:53,017 --> 00:06:54,673
+protected by your code.

@@ -1,0 +1,199 @@
+module_title: Agent Memory and Conversation State
+title: "Short-Term Memory: Context Windows and Sliding Windows"
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 6 · Lesson 2
+    title: Short-term memory
+    subtitle: How fast a conversation grows, the context window, and keeping only the last few turns, safely.
+    say: >
+      In lesson one, you saw that a conversation is a list you resend every time, and that it keeps growing.
+      In this lesson, you'll measure that growth, learn what the context window is, and keep the conversation small with a sliding window, without breaking tool calls.
+
+  - type: objectives
+    items:
+      - {text: "Explain tokens and the context window", say: "You'll explain tokens, and the context window."}
+      - {text: "Measure how a conversation grows, turn by turn", say: "Measure how a conversation grows, turn by turn."}
+      - {text: "Keep only the last N turns with a sliding window", say: "Keep only the last few turns, with a sliding window."}
+      - {text: "Cut at turn boundaries so tool calls stay valid", say: "And cut only at turn boundaries, so tool calls stay valid."}
+
+  - type: callout
+    chapter: The context window
+    kind: analogy
+    title: "The context window is a whiteboard of fixed size"
+    body: "A teacher's whiteboard holds only so much. When it's full, something must be **erased** before anything new is written. The context window is the model's whiteboard: everything it can read in one request, measured in **tokens**."
+    say: >
+      First, a picture. A classroom whiteboard holds only so much writing. When it's full, the teacher must erase something before writing anything new.
+      The context window is the model's whiteboard. It's everything the model can read in one request: the system prompt, the tools, the messages, and room for its reply.
+    items:
+      - {text: "A token ≈ a few characters, about ¾ of a word in English", say: "It's measured in tokens. A token is a piece of text, a few characters long. In English, roughly three quarters of a word."}
+      - {text: "Window size: the most tokens one request can hold", say: "The window size is the most tokens one request can hold."}
+      - {text: "You pay for every input token, on every call", say: "And you pay for every input token you send, on every call."}
+    outro: >
+      Today's Claude models have very large context windows, hundreds of thousands of tokens. So why worry? Because long before you hit the limit, a growing conversation costs more on every turn, and every reply gets slower.
+
+  - type: run
+    chapter: Measuring growth
+    heading: "window.py: watch the conversation grow"
+    title: window.py
+    file: source/lesson-02/window.py
+    cwd: source/lesson-02
+    cmd: python window.py
+    say: >
+      Let's measure it. The code is on the left, and its output is on the right.
+    steps:
+      - lines: "8-13"
+        note: "Five turns: a question and a long answer each."
+        say: >
+          We build a conversation of five turns. Each turn is a short question, and a long answer, like real tutoring.
+      - lines: "14-15"
+        out: "2-6"
+        tone: amber
+        note: "~146 more tokens every turn, and all of it is sent each time."
+        say: >
+          After each turn we print the size. About a hundred and fifty tokens more every turn. And remember, the whole thing is sent on every call. That's the cost of perfect memory.
+      - lines: "17"
+        note: "`window(keep_turns=2)`: only the last 2 turns."
+        say: >
+          Now the simplest fix: a sliding window. We keep only the last two turns.
+      - lines: "18-19"
+        out: "7-8"
+        tone: teal
+        note: "4 messages, ~293 tokens: under half the size."
+        say: >
+          Four messages, about two hundred and ninety tokens, less than half. The oldest message kept is: explain loops.
+      - lines: "21-24"
+        out: "9"
+        tone: coral
+        note: "The trade-off: turn 1 is gone, and the name with it."
+        say: >
+          But here's the price. We ask: what's my name? And the answer is: I don't know. The name was in turn one, and turn one slid out of the window.
+
+  - type: compare
+    chapter: Windows by turns or by tokens
+    heading: "Two ways to size a window"
+    left:
+      title: "By turns"
+      tone: blue
+      label: Simple
+      items:
+        - "Keep the last **N turns**"
+        - "Easy to reason about"
+        - "But one huge turn can still be too big"
+    right:
+      title: "By tokens"
+      tone: teal
+      label: Precise
+      items:
+        - "Keep recent turns up to a **token budget**"
+        - "Size stays under a known limit"
+        - "Count tokens: estimate, or the count_tokens API"
+    steps:
+      - show: left
+        say: >
+          There are two common ways to size a window. By turns: keep the last N turns. It's simple, and easy to reason about. But one turn with a huge answer can still be too big.
+      - show: right
+        say: >
+          Or by tokens: keep as many recent turns as fit a token budget. That keeps the size under a known limit. To count tokens you can estimate, about four characters per token, or ask the API exactly, with its count tokens endpoint.
+
+  - type: code
+    chapter: Cutting safely
+    heading: "conversation.py: a turn starts with the user's own words"
+    title: companion/conversation.py
+    file: project/study-companion/companion/conversation.py
+    lines: "16-24"
+    steps:
+      - lines: "16-19"
+        note: "A rough count: about 4 characters per token. Real counts differ."
+        say: >
+          Here's the project's version. First, a rough token estimate: about four characters per token. Good enough to decide when to trim. For exact numbers, use the API's count tokens endpoint.
+      - lines: "22-24"
+        tone: amber
+        note: "Tool results are user messages too, but they don't start a turn."
+        say: >
+          Now, where do developers go wrong? Cutting in the wrong place. A turn starts with a user message whose content is plain text. Tool results are also sent with the user role, but they're a list of blocks, so they don't start a turn.
+
+  - type: code
+    heading: "window(): cut only where a turn starts"
+    title: companion/conversation.py
+    file: project/study-companion/companion/conversation.py
+    lines: "43-60"
+    steps:
+      - lines: "48-49"
+        note: "Size = messages + summary (lesson 3)."
+        say: >
+          The conversation class holds the messages, and a summary we'll use next lesson. Its size is the estimate of both.
+      - lines: "51-53"
+        note: "The index where each turn starts."
+        say: >
+          This method finds the index where each turn starts.
+      - lines: "55-60"
+        tone: teal
+        note: "Cut only at a turn start: a tool_use and its tool_result stay together."
+        say: >
+          And the window starts at the turn start, so many turns back. That guarantees a tool use block and its tool result are never separated.
+
+  - type: table
+    heading: "Dry run: window(keep_turns=2) on a chat with a tool call"
+    columns: ["#", Message, "Turn starts here?", "Kept?"]
+    widths: [0.4, 2.6, 1.3, 0.8]
+    rows:
+      - {cells: ["0", "user: My name is Anuj", "yes", "no"], say: "Let's dry run it on a chat with a tool call. Message zero, the user's own words: a turn starts here."}
+      - {cells: ["1", "assistant: tool_use remember_fact", "no", "no"], say: "Message one: the assistant asks for a tool."}
+      - {cells: ["2", "user: tool_result", "no: it's a block list", "no"], say: "Message two: the tool result. User role, but not a turn start."}
+      - {cells: ["3", "assistant: Saved!", "no", "no"], say: "Message three: the reply."}
+      - {cells: ["4", "user: Explain loops", "yes", "yes"], tone: teal, say: "Message four starts turn two. With keep turns two, the window starts here."}
+      - {cells: ["5-7", "assistant · user · assistant", "message 6 does", "yes"], tone: teal, say: "And everything after it is kept.", note: "Cutting at message 2 would send a tool_result with no tool_use: the API rejects that with a 400 error."}
+
+  - type: callout
+    kind: try
+    chapter: Pause and try
+    title: "Pause and try: pick the window"
+    body: "Messages: `0 user` · `1 assistant` · `2 user` · `3 assistant tool_use` · `4 user tool_result` · `5 assistant` · `6 user` · `7 assistant`."
+    say: >
+      Pause and try it. Here are eight messages. Message three is a tool use, and message four is its tool result.
+    items:
+      - {text: "Which messages does window(keep_turns=2) keep?", say: "Which messages does a window of two turns keep?", pause: 6}
+    outro: >
+      Turns start at messages zero, two and six. Keeping two turns means starting at message two, so it keeps messages two to seven, and the tool use stays with its result.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is a context window, and how do you manage it in a long chat?"
+        a: "The most tokens a model can read in one request (system prompt, tools, messages, reply). Manage it with a **sliding window** of recent turns, **summaries** of older ones, and **long-term facts** fetched when needed."
+        trap: "Saying a big window means you never need to manage it: cost and latency grow long before the limit."
+        say_q: "Interview corner. What is a context window, and how do you manage it in a long chat?"
+        say_a: "A good answer: it's the most tokens a model can read in one request, including the system prompt, tools, messages and the reply. You manage it with a sliding window of recent turns, summaries of older turns, and long-term facts that you fetch when needed. The trap: saying a big window means you never need to manage it. Cost and latency grow long before the limit."
+      - q: "Why can't you just drop the oldest message?"
+        a: "Because messages come in linked groups. Dropping a `tool_use` but keeping its `tool_result` (or the reverse) makes the request **invalid**. Cut at **turn boundaries** instead."
+        trap: "Forgetting that tool results are sent with the user role."
+        say_q: "Follow-up. Why can't you just drop the oldest message?"
+        say_a: "Because messages come in linked groups. Dropping a tool use but keeping its tool result, or the reverse, makes the request invalid. So you cut at turn boundaries. The trap is forgetting that tool results are sent with the user role, so not every user message starts a turn."
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "A sliding window keeps the last 3 turns. What is the main risk?"
+    options:
+      - "The request becomes invalid"
+      - "Facts from early turns, like the user's name, are lost"
+      - "Costs grow every turn"
+      - "The model can't call tools any more"
+    answer: 1
+    explain: "A window bounds cost, but anything older than the window is gone. Lessons 3 and 4 fix that with summaries and long-term facts."
+    say_question: >
+      Quick check. A sliding window keeps the last three turns. What's the main risk?
+    say_answer: >
+      Facts from early turns, like the user's name, are lost. The window keeps costs down, but forgets.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 2 recap
+    items:
+      - {text: "Context window: everything one request can hold, in tokens", say: "Let's recap. The context window is everything one request can hold, measured in tokens."}
+      - {text: "A conversation grows every turn: cost and latency", say: "A conversation grows every turn, which costs money and time."}
+      - {text: "Sliding window: keep the last N turns (or a token budget)", say: "A sliding window keeps the last few turns, or as many as fit a token budget."}
+      - {text: "Cut at turn starts; tool pairs stay together", say: "And always cut where a turn starts, so tool pairs stay together."}
+    outro: >
+      Next lesson: summary memory. Instead of throwing old turns away, we'll fold them into a short summary, and get the name back.

@@ -1,0 +1,208 @@
+module_title: Agent Memory and Conversation State
+title: "Project, Part 1: The Persistent AI Study Companion"
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 6 · Lesson 6 · Project
+    title: "Build the Persistent AI Study Companion, part 1"
+    subtitle: The brief, the architecture, settings, the honest fake, and the first conversation.
+    loop: [Recall, Answer, Remember, Save]
+    say: >
+      It's project time. You've learned four kinds of memory, and how to store them safely. Now we put them together.
+      Over two lessons, you'll build a study companion that remembers you across days, keeps its conversations small, and lets you see and delete everything it knows.
+
+  - type: bullets
+    chapter: The brief
+    heading: The brief
+    items:
+      - {text: "Chat at the command line: ask once, or a chat loop", say: "Here's what we're building. A study companion you talk to at the command line: one message with ask, or a whole chat loop."}
+      - {text: "Long-term facts saved with tools: name, goals, struggles", say: "It saves lasting facts with tools: your name, your goals, what you find hard."}
+      - {text: "Conversations resume; old turns become a summary", say: "Conversations are saved and resume where you left off, and old turns fold into a running summary."}
+      - {text: "SQLite: one user's data apart from another's", say: "Everything lives in SQLite, with each user's data kept apart."}
+      - {text: "See it, forget it, purge it, delete it all; 41 tests", say: "You can see everything it knows, forget a fact, purge old chats, or delete it all. And there are forty-one tests, with an offline mode."}
+
+  - type: diagram
+    chapter: Architecture
+    heading: Architecture
+    nodes:
+      - {id: cli, label: cli.py, sub: "ask · chat · memory · delete-me", x: 800, y: 70, w: 440, h: 110, tone: amber, mono: true}
+      - {id: agent, label: agent.py, sub: "one turn: recall · answer · save", x: 800, y: 250, w: 440, h: 110, tone: teal, mono: true}
+      - {id: conv, label: conversation.py, sub: "window · summary", x: 1400, y: 140, w: 420, h: 100, tone: amber, mono: true}
+      - {id: tools, label: tools.py, sub: "remember · recall · forget", x: 1400, y: 330, w: 420, h: 100, tone: teal, mono: true}
+      - {id: memory, label: memory.py, sub: long-term facts, x: 1400, y: 500, w: 420, h: 100, tone: violet, mono: true}
+      - {id: db, label: db.py, sub: "SQLite: facts · sessions · messages", x: 1400, y: 660, w: 420, h: 100, tone: blue, mono: true}
+      - {id: client, label: client.py, sub: real or offline, x: 800, y: 480, w: 440, h: 110, tone: blue, mono: true}
+      - {id: api, label: Claude API, sub: needs a key, x: 260, y: 400, w: 340, h: 100, tone: violet}
+      - {id: fake, label: fake_api.py, sub: scripted stand-in, x: 260, y: 620, w: 340, h: 100, tone: muted, mono: true}
+    edges:
+      - {from: cli, to: agent}
+      - {from: agent, to: conv}
+      - {from: agent, to: tools}
+      - {from: tools, to: memory}
+      - {from: memory, to: db}
+      - {from: agent, to: client}
+      - {from: client, to: api}
+      - {from: client, to: fake}
+    steps:
+      - show: [cli, agent, "cli->agent"]
+        focus: [agent]
+        say: >
+          Here's the plan. The command line opens the companion for one user and one session, and passes each message to the agent.
+      - show: [conv, "agent->conv"]
+        focus: [conv]
+        flow: ["agent->conv"]
+        say: >
+          The agent keeps the conversation: recent turns, and the running summary. That's short-term memory, from lessons two and three.
+      - show: [tools, memory, db, "agent->tools", "tools->memory", "memory->db"]
+        focus: [tools, memory, db]
+        flow: ["agent->tools", "tools->memory", "memory->db"]
+        say: >
+          The model reaches long-term memory only through three tools. Memory dot py holds the facts, and everything is stored by db dot py, in SQLite.
+      - show: [client, api, fake, "agent->client", "client->api", "client->fake"]
+        focus: [client]
+        say: >
+          And the client talks to the real Claude API when there's a key, or to the scripted fake, offline.
+
+  - type: code
+    chapter: Settings
+    heading: "config.py: every setting from the environment"
+    title: companion/config.py
+    file: project/study-companion/companion/config.py
+    lines: "22-36"
+    steps:
+      - lines: "24, 28"
+        note: "No API key → offline mode. Keys are never in code."
+        say: >
+          Settings come from environment variables, as in every module. No API key means offline mode, and keys are never written in code.
+      - lines: "32"
+        note: "COMP_HOME: the folder with companion.db."
+        say: >
+          COMP home is the folder for the database file.
+      - lines: "33-34"
+        tone: teal
+        note: "Keep 4 recent turns; summarize above ~1500 tokens."
+        say: >
+          Keep turns: how many recent turns stay word for word. And summarize at: the estimated size that triggers a summary. You can tune both without touching code.
+      - lines: "25, 35"
+        note: "COMP_TODAY fixes the date for tests and demos."
+        say: >
+          And COMP today fixes the date, so tests and demos are repeatable.
+
+  - type: code
+    chapter: An honest fake
+    heading: "fake_api.py: it only knows what's in the request"
+    title: companion/fake_api.py
+    file: project/study-companion/companion/fake_api.py
+    lines: "1-15"
+    steps:
+      - lines: "3-7"
+        tone: teal
+        note: "Like a real model, it only sees the request. Drop the history: it can't know."
+        say: >
+          The offline fake is built to teach memory honestly. Like a real model, it only knows what's in the request: the system prompt, with the summary and facts, and the messages. Drop the history, and it can't know your name.
+      - lines: "9-12"
+        note: "A fixed script: simple patterns become memory tool calls."
+        say: >
+          It follows a fixed script. Phrases like my name is, or I find something hard, become remember fact calls. Forget becomes recall, then forget.
+      - lines: "12-14"
+        tone: amber
+        note: "Every reply is labelled: never presented as model output."
+        say: >
+          And every reply is labelled offline demo, and every summary offline summary. It's never presented as model output.
+
+  - type: code
+    chapter: The command line
+    heading: "cli.py: opening a session"
+    title: companion/cli.py
+    file: project/study-companion/companion/cli.py
+    lines: "79-104"
+    steps:
+      - lines: "81"
+        note: "Default session = today's date: a fresh conversation each day."
+        say: >
+          The command line opens a session. By default, the session is today's date, so each day starts a fresh conversation, while long-term facts carry over.
+      - lines: "82-87"
+        note: "Loading the companion resumes the session from the database."
+        say: >
+          Creating the companion loads the session from the database. If it has turns already, it's resumed, and the first line says so.
+      - lines: "91-104"
+        note: "chat: a read-eval-print loop until bye. Piped input works too."
+        say: >
+          And chat is a read eval print loop: read a line, answer, until you type bye. Piped input works too, which makes demos repeatable.
+
+  - type: terminal
+    chapter: First conversation
+    title: terminal — study-companion
+    cwd: project/study-companion
+    font: 21
+    say: >
+      Let's run it. Every command is a separate process, like closing and reopening the app.
+    steps:
+      - cmd: rm -rf .companion
+        say: >
+          First, a clean start: remove the data folder, so the database is created fresh.
+      - cmd: python -m companion ask "My name is Anuj and I find recursion hard" --session mon
+        say: >
+          Now a first message, in a session called mon. A new session. The model calls remember fact twice, in one turn: a profile fact, and a struggle. Then a short reply, and the footer shows the conversation size.
+      - cmd: python -m companion ask "I'm learning Python for AI agents" --session mon
+        say: >
+          A second message, in the same session. It's resumed with one turn, and a goal is saved.
+      - cmd: python -m companion memory
+        say: >
+          The memory command shows everything remembered about you: three facts, with topics and dates. Visible, as promised.
+      - cmd: printf "what did we talk about?\nbye\n" | python -m companion chat --session mon
+        say: >
+          And the chat loop, continuing the same session. What did we talk about? It can see both earlier turns, because the session was loaded from the database.
+
+  - type: callout
+    kind: try
+    chapter: Pause and try
+    title: "Pause and try: trace the request"
+    body: "Tomorrow you run `python -m companion ask \"What's my name?\"` with **no** `--session`."
+    say: >
+      Pause and try. Tomorrow, you run ask, what's my name, without a session option.
+    items:
+      - {text: "Which session is used? What's in the request? Can it answer?", say: "Which session is used? What's in the request? And can it answer?", pause: 6}
+    outro: >
+      The session is tomorrow's date, so it's new and empty. But the system prompt still carries the long-term facts, including: the learner's name is Anuj. So yes, it answers Anuj. That's the difference between conversation memory and long-term memory.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What's the difference between a session and long-term memory?"
+        a: "A **session** is one conversation: its turns and summary, resumable by id. **Long-term memory** is facts about the user shared by **all** sessions. New session: empty history, same facts."
+        trap: "Storing everything in one ever-growing conversation instead."
+        say_q: "Interview corner. What's the difference between a session, and long-term memory?"
+        say_a: "A good answer: a session is one conversation, its turns and its summary, which you can resume by its ID. Long-term memory is facts about the user, shared by all sessions. A new session starts with an empty history, but the same facts. The trap is keeping everything in one conversation that grows forever."
+      - q: "How do you test an agent's memory without paying for API calls?"
+        a: "Run the **real** agent, tools and database against a **fake API** with the same protocol, and a temporary database per test. Check the facts saved, the requests sent and the reloaded sessions."
+        trap: "Mocking the agent's own methods, so the real loop is never tested."
+        say_q: "Follow-up. How do you test an agent's memory without paying for API calls?"
+        say_a: "Run the real agent, the real tools and a real database against a fake API that speaks the same protocol, with a temporary database for each test. Then check the facts saved, the requests sent, and the sessions reloaded. The trap is mocking the agent's own methods, so the real loop is never tested."
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "In the companion, which part decides that \"I find recursion hard\" is worth remembering?"
+    options:
+      - "db.py, when saving the session"
+      - "The model, by calling remember_fact"
+      - "The CLI, by parsing the message"
+      - "conversation.py, when summarizing"
+    answer: 1
+    explain: "The model judges what's worth saving and calls the tool. Your code then validates and stores it, or refuses it."
+    say_question: >
+      Quick check. In the companion, which part decides that, I find recursion hard, is worth remembering?
+    say_answer: >
+      The model, by calling remember fact. Your code then checks it, and stores it.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 6 recap
+    items:
+      - {text: "Layers: CLI → agent → conversation, tools → memory → SQLite", say: "Let's recap. The layers: the command line, the agent, the conversation, and tools, memory and SQLite."}
+      - {text: "Settings from the environment; offline without a key", say: "Settings come from the environment, and it runs offline without a key."}
+      - {text: "An honest fake: it only knows the request", say: "The fake is honest: it only knows what's in the request."}
+      - {text: "Sessions resume from the database; facts are shared by all", say: "Sessions resume from the database, and facts are shared by all sessions."}
+    outro: >
+      Next lesson: the agent's turn, line by line. Then a two-day demo, privacy features on purpose, the tests, and the module wrap-up.

@@ -60,6 +60,13 @@ def set_pacing(module):
         SPEED, LEAD, TAIL, GAP, SENTENCE_GAP = p["SPEED"], p["LEAD"], p["TAIL"], p["GAP"], p["SENTENCE_GAP"]
 ENVELOPE_HZ = 30
 
+# From Module 6 on the mix uses recorded effects from shared/sfx/ (tools/sfx.py); the original
+# synthesized ones in shared/audio/ stay for Modules 1-5, so their rebuilds don't change.
+# cue -> (recorded effect, gain): gains are matched to the old mix's loudness (sfx peaks are -3 dBFS).
+REAL_SFX = {"sting": ("sparkle", 0.30), "whoosh": ("whoosh-short", 0.14), "tick": ("pop", 0.15),
+            "chime": ("chime", 0.30), "typing": ("typing", 0.22)}
+SFX_REAL = False
+
 # words the phonemiser gets wrong, spelled the way they are said (display text is untouched)
 SAY_AS = {
     "JSON": "Jason", "venv": "vee-env", ".venv": "dot vee-env", "pip": "pip", "httpx": "H T T P X",
@@ -281,6 +288,18 @@ def scene_beats(scene):
     return beats or [{"pause": 2, "kind": "intro"}]
 
 
+def typed_command(scene, bi, beat):
+    """The command typed on screen at this beat (terminal and run scenes), if any."""
+    if beat["kind"] != "item" or scene["type"] not in ("terminal", "run"):
+        return None
+    k = bi - (1 if scene.get("say") else 0)
+    steps = scene.get("steps", [])
+    if scene["type"] == "terminal":
+        return steps[k].get("cmd") if 0 <= k < len(steps) else None
+    first_out = next((i for i, st in enumerate(steps) if "out" in st), None)
+    return scene.get("cmd") if k == first_out else None
+
+
 def build_scene(scene, module_dir, env):
     kind = scene["type"]
     props = {k: v for k, v in scene.items() if k not in ("say", "outro", "say_question", "say_answer")}
@@ -357,11 +376,27 @@ def load_mono(path):
     return x if x.ndim == 1 else x.mean(axis=1)
 
 
+def sfx_sample(name, gain):
+    """A cue as audio: the recorded effect from Module 6 on (if set up), else the synthesized one."""
+    if SFX_REAL:
+        real, real_gain = REAL_SFX.get(name, (name, 0.3 if gain is None else gain))
+        path = ROOT / f"shared/sfx/{real}.wav"
+        if path.exists():
+            return load_mono(path) * real_gain
+        print(f"  note: {path.relative_to(ROOT)} missing (python tools/sfx.py setup); using synthesized {name}")
+    path = ROOT / f"shared/audio/{name}.wav"
+    return load_mono(path) * gain if path.exists() else np.zeros(1, dtype=np.float32)
+
+
 def mix(narration, events, total_samples):
     out = np.zeros(total_samples, dtype=np.float32)
     out[: len(narration)] += narration
-    for name, at, gain in events:
-        s = load_mono(ROOT / f"shared/audio/{name}.wav") * gain
+    for name, at, gain, *length in events:
+        s = sfx_sample(name, gain)
+        if length:                              # cut to a length, with a short fade-out
+            s = s[: int(length[0] * SR)].copy()
+            f = min(len(s), int(0.06 * SR))
+            s[len(s) - f:] *= np.linspace(1, 0, f)
         a = int(at * SR)
         out[a: a + len(s)] += s[: max(0, total_samples - a)]
     bed = load_mono(ROOT / "shared/audio/music_bed.wav")
@@ -441,7 +476,8 @@ def build(module, lesson, allow_new=True):
     set_pacing(module)
     mdir = module_dir_for(module)
     spec = yaml.safe_load((mdir / f"scripts/lesson-{lesson:02d}.yaml").read_text(encoding="utf-8"))
-    global VOICE, LANG
+    global VOICE, LANG, SFX_REAL
+    SFX_REAL = module >= 6 and spec.get("sfx", "real") == "real"
     VOICE, LANG = ("am_michael", "en-us") if spec.get("narration") != "hinglish" else (HINGLISH_VOICE, "hinglish")
     if LANG == "hinglish":
         global SPEED
@@ -456,7 +492,9 @@ def build(module, lesson, allow_new=True):
                  "RESUME_MODEL", "RESUME_BUDGET_USD", "RESUME_MAX_RETRIES", "RESUME_FAKE_FAIL",
                  "CALC_MODEL", "CALC_BUDGET_USD", "CALC_MAX_RETRIES", "CALC_MAX_STEPS", "CALC_FAKE_FAIL",
                  "PROD_MODEL", "PROD_BUDGET_USD", "PROD_MAX_RETRIES", "PROD_MAX_STEPS", "PROD_FAKE_FAIL",
-                 "PROD_FAKE_SLOW", "PROD_DATA", "PROD_TODAY"):
+                 "PROD_FAKE_SLOW", "PROD_DATA", "PROD_TODAY",
+                 "COMP_MODEL", "COMP_BUDGET_USD", "COMP_MAX_RETRIES", "COMP_MAX_STEPS", "COMP_HOME",
+                 "COMP_KEEP_TURNS", "COMP_SUMMARIZE_AT", "COMP_TODAY", "COMP_USER", "COMP_FAKE_FAIL"):
         env.pop(name, None)
 
     pieces, events, captions, scenes, chapters = [], [], [], [], []
@@ -485,6 +523,11 @@ def build(module, lesson, allow_new=True):
                 t -= SENTENCE_GAP
             if beat.get("pause"):
                 t += float(beat["pause"])
+            cmd = typed_command(scene, bi, beat) if SFX_REAL else None
+            if cmd:                             # keyboard under the typing animation
+                type_frames, lead = (min(50, 10 + len(cmd) * 1.2), 6) if scene["type"] == "terminal" \
+                    else (min(45, 10 + len(cmd) * 1.2), 4)
+                events.append(("typing", b_start + lead / FPS, None, type_frames / FPS))
             if beat.get("sfx"):
                 events.append((beat["sfx"], b_start, 0.3))
             elif bi and scene["type"] in ("bullets", "cards", "recap", "objectives", "diagram", "steps"):

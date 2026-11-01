@@ -1,0 +1,242 @@
+module_title: Agent Memory and Conversation State
+title: "Saving Memory in SQLite: Sessions, Users, Retention and Deletion"
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 6 · Lesson 5
+    title: Saving memory in SQLite
+    subtitle: Tables, safe queries and transactions, one user's data kept apart, and deleting old data on purpose.
+    say: >
+      Memory that disappears when the program closes isn't long-term. It needs a home on disk.
+      In this lesson you'll learn SQLite from scratch: tables, safe queries, transactions, keeping users apart, and deleting data on purpose. Then you'll see how it compares with PostgreSQL.
+
+  - type: objectives
+    items:
+      - {text: "Create tables and insert and read rows with SQLite", say: "You'll create tables, and insert and read rows, with SQLite."}
+      - {text: "Write queries that are safe from SQL injection", say: "Write queries that are safe from SQL injection."}
+      - {text: "Use transactions: all or nothing", say: "Use transactions, which are all or nothing."}
+      - {text: "Keep users apart; delete old and unwanted data", say: "And keep users apart, and delete old or unwanted data."}
+
+  - type: callout
+    chapter: What is SQLite?
+    kind: analogy
+    title: "A database is a filing cabinet with strict drawers"
+    body: "Each drawer is a **table** (facts, sessions, messages). Each card in it is a **row**, and every card has the same fields: the **columns**. SQL is how you ask the clerk: *\"give me Anuj's facts\"*. SQLite keeps the whole cabinet in **one file**."
+    say: >
+      First, what is a database? Picture a filing cabinet with strict drawers. Each drawer is a table: one for facts, one for sessions, one for messages.
+      Each card in a drawer is a row, and every card has the same fields, called columns. SQL is the language you use to ask the clerk: give me Anuj's facts.
+    items:
+      - {text: "SQLite: a full SQL database in one file", say: "SQLite is a full SQL database that lives in a single file."}
+      - {text: "Built into Python: import sqlite3, nothing to install", say: "It's built into Python. Import sqlite three, and there's nothing to install, and no server to run."}
+      - {text: "Survives restarts; handles crashes safely", say: "It survives restarts, and it handles crashes safely, thanks to transactions."}
+    outro: >
+      Why not the JSON file from Module 5? A JSON file is rewritten whole on every save, has no queries, and gets messy with many users. A database finds one user's rows quickly, changes them safely, and grows with you.
+
+  - type: run
+    chapter: SQLite in code
+    heading: "sqlite_demo.py: the four ideas you need"
+    title: sqlite_demo.py
+    file: source/lesson-05/sqlite_demo.py
+    cwd: source/lesson-05
+    cmd: python sqlite_demo.py
+    say: >
+      Let's learn it by running it. Code on the left, output on the right.
+    steps:
+      - lines: "4-6"
+        note: "`connect()` opens (or creates) a database. `CREATE TABLE` names the columns."
+        say: >
+          Connect opens a database, or creates it. Here it lives in memory, for the demo. In real code, it's a file path. Create table makes a table called facts, with an ID, a user ID and the text.
+      - lines: "7-11"
+        note: "`?` placeholders: values travel separately from the SQL."
+        say: >
+          Insert adds rows. Notice the question marks. The values travel separately from the SQL text. Hold on to that idea. And the with block makes both inserts one transaction.
+      - lines: "13-15"
+        out: "1"
+        tone: teal
+        note: "`WHERE user_id = ?`: Anuj sees only Anuj's rows. That's user isolation."
+        say: >
+          Select reads rows. Where user ID equals Anuj means Anuj sees only Anuj's row, not Riya's. That's user isolation, in one line.
+      - lines: "17-20"
+        out: "2"
+        tone: teal
+        note: "An injection attempt is just a strange name: it finds nothing."
+        say: >
+          Now an attack. This value tries to rewrite the query, so it matches every row. Because it's passed as a parameter, it's treated as plain data, a very strange user name, and it finds nothing.
+      - lines: "22-27"
+        out: "3"
+        note: "A transaction: an error inside the `with` block undoes everything in it."
+        say: >
+          Next, a transaction. We delete Anuj's rows, and then crash halfway, before the block ends.
+      - lines: "28-29"
+        out: "4"
+        tone: teal
+        note: "Still 2 facts: the delete was rolled back."
+        say: >
+          And still two facts. The error rolled the whole block back. All or nothing.
+      - lines: "31-32"
+        out: "5"
+        note: "`user_version`: a number you store to know which schema a file has."
+        say: >
+          Last, the user version. It's a number SQLite stores in the file for you. Use it as your schema version, so a newer program can recognise an old file.
+
+  - type: compare
+    chapter: SQL injection
+    heading: "Never build SQL with f-strings"
+    left:
+      title: "Injectable"
+      tone: coral
+      label: Never
+      code: |
+        user = "x' OR '1'='1"
+        conn.execute(
+          f"SELECT * FROM facts "
+          f"WHERE user_id = '{user}'")
+        # WHERE user_id = 'x' OR '1'='1'
+        # -> every user's facts!
+    right:
+      title: "Parameterised"
+      tone: teal
+      label: Always
+      code: |
+        user = "x' OR '1'='1"
+        conn.execute(
+          "SELECT * FROM facts "
+          "WHERE user_id = ?", (user,))
+        # the value is data, never SQL
+        # -> nothing found
+    steps:
+      - show: left
+        say: >
+          Here's why the question marks matter. If you paste a value into the SQL with an f-string, the value becomes part of the query. This input turns the condition into: user is x, or one equals one. That's true for every row, so one user reads everybody's facts. That's SQL injection.
+      - show: right
+        say: >
+          With a parameter, the database receives the SQL and the value separately. The value can never change the query. Always use parameters. In an agent, this matters even more, because values may come from model output.
+
+  - type: code
+    chapter: The project's schema
+    heading: "db.py: three tables, every row has a user"
+    title: companion/db.py
+    file: project/study-companion/companion/db.py
+    lines: "18-44"
+    steps:
+      - lines: "19-25"
+        note: "facts: long-term memory. Every fact belongs to a user."
+        say: >
+          Here's the project's schema. Facts: the long-term memory from lesson four. Every fact has a user ID.
+      - lines: "26-32"
+        note: "sessions: one row per conversation, with its running summary."
+        say: >
+          Sessions: one row per conversation, with its running summary from lesson three. The key is the user and the session ID together.
+      - lines: "33-41"
+        note: "messages: the turns. JSON text holds a string or a list of blocks."
+        say: >
+          Messages: the conversation, one message per row. The content is stored as JSON text, because it can be a string or a list of blocks, like tool use.
+      - lines: "39-40"
+        tone: teal
+        note: "ON DELETE CASCADE: delete a session, and its messages go too."
+        say: >
+          And this foreign key says every message belongs to a session. On delete cascade means: delete a session, and its messages are deleted automatically.
+      - lines: "42-43"
+        note: "Indexes make \"this user's rows\" fast."
+        say: >
+          Indexes make looking up one user's rows fast, even with many users.
+
+  - type: code
+    heading: "save_session(): one transaction per turn"
+    title: companion/db.py
+    file: project/study-companion/companion/db.py
+    lines: "85-100"
+    steps:
+      - lines: "88"
+        note: "One `with` block: the whole save is all or nothing."
+        say: >
+          Saving a session after each turn happens in one transaction.
+      - lines: "89-93"
+        note: "Upsert: insert the session, or update its summary and date."
+        say: >
+          First an upsert: insert the session, or if it already exists, update its summary and the date it was last used.
+      - lines: "94-100"
+        note: "Replace the messages. A crash in the middle leaves the old version, never half."
+        say: >
+          Then replace its messages. If the program crashes in the middle, the transaction rolls back, and the old version stays. Never half a conversation.
+
+  - type: code
+    chapter: Retention and deletion
+    heading: "Deleting on purpose"
+    title: companion/db.py
+    file: project/study-companion/companion/db.py
+    lines: "110-125"
+    steps:
+      - lines: "110-116"
+        note: "Retention: delete sessions not used for N days (their messages cascade)."
+        say: >
+          Memory is personal data, so deleting it must be easy. Purge is a retention rule: delete this user's sessions not used for so many days. Their messages go too, through the cascade.
+      - lines: "118-125"
+        tone: teal
+        note: "Deletion: one user's facts and sessions, nobody else's."
+        say: >
+          And delete user removes every fact and every session of one user, and nobody else's, in one transaction. In the project, that's the command delete me.
+
+  - type: table
+    chapter: SQLite or PostgreSQL?
+    heading: "SQLite or PostgreSQL?"
+    columns: ["", SQLite, PostgreSQL]
+    widths: [1.3, 2, 2]
+    rows:
+      - {cells: ["Runs as", "a file, inside your program", "a server you connect to"], say: "When do you need PostgreSQL? SQLite is a file inside your program. PostgreSQL is a server you connect to."}
+      - {cells: ["Best for", "one app, one machine", "many app servers, many users"], say: "SQLite is best for one app on one machine. PostgreSQL, for many app servers sharing data with many users."}
+      - {cells: ["Writers", "one at a time", "many at once"], say: "SQLite allows one writer at a time. PostgreSQL handles many at once."}
+      - {cells: ["In Python", "import sqlite3 · ? placeholders", "psycopg · %s placeholders"], tone: teal, say: "In Python, SQLite uses question marks. With PostgreSQL, through the psycopg library, placeholders are percent s. Most of the SQL stays the same.", note: "Start with SQLite. Move to PostgreSQL when several servers must share the memory."}
+
+  - type: callout
+    kind: try
+    chapter: Pause and try
+    title: "Pause and try: write the query"
+    body: "Table `sessions(user_id, id, updated)`. Find **riya's** sessions last used **before 2026-10-01**."
+    say: >
+      Pause and try. There's a sessions table with a user ID, an ID, and the date last updated. Write the query for Riya's sessions last used before October first.
+    items:
+      - {text: "Write the SQL and the Python call. Where do the values go?", say: "Write the SQL and the Python call. Where do the values go?", pause: 6}
+    outro: >
+      conn dot execute, with: select id from sessions where user ID equals question mark and updated is less than question mark. Then a tuple: riya, and the date. The values go in the tuple, never in the SQL text. ISO dates compare correctly as text.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is SQL injection, and how do you prevent it?"
+        a: "Input that becomes part of the SQL text and changes the query. Prevent it with **parameterised queries** (`?` or `%s`): the driver sends values separately, so they're always data. Never format SQL with f-strings."
+        trap: "Escaping quotes by hand. Parameters are the fix."
+        say_q: "Interview corner. What is SQL injection, and how do you prevent it?"
+        say_a: "A good answer: it's input that becomes part of the SQL text and changes the query. You prevent it with parameterised queries, using question marks or percent s. The driver sends the values separately, so they're always treated as data. Never build SQL with f-strings. The trap is escaping quotes by hand. Parameters are the fix."
+      - q: "How do you keep one user's memory away from another's?"
+        a: "Every table has a **user_id**, every query filters by it, and the user id comes from **authentication**, never from the model. Test it: user B can't read or delete user A's rows."
+        trap: "Letting the model pass the user id as a tool argument."
+        say_q: "Follow-up. How do you keep one user's memory away from another's?"
+        say_a: "Every table has a user ID, and every query filters by it. The user ID comes from your app's login, never from the model. And you test it: user B can't read or delete user A's rows. The trap is letting the model pass the user ID as a tool argument. Then a clever prompt could reach someone else's data."
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "A transaction deletes a session's messages, then the program crashes before the block ends. What's in the database?"
+    options:
+      - "The messages are gone"
+      - "Half of the messages are gone"
+      - "Everything as before the transaction"
+      - "An empty database"
+    answer: 2
+    explain: "A transaction is all or nothing. If it doesn't finish, every change in it is rolled back."
+    say_question: >
+      Quick check. A transaction deletes a session's messages, and then the program crashes before the block ends. What's in the database?
+    say_answer: >
+      Everything as it was before the transaction. All or nothing.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 5 recap
+    items:
+      - {text: "SQLite: tables of rows, in one file, built into Python", say: "Let's recap. SQLite stores tables of rows in one file, and it's built into Python."}
+      - {text: "Always ? parameters: values are data, never SQL", say: "Always use parameters. Values are data, never SQL."}
+      - {text: "Transactions: all or nothing", say: "Transactions are all or nothing."}
+      - {text: "user_id on every row; purge and delete on purpose", say: "And every row has a user ID, with purge and delete built in from day one."}
+    outro: >
+      Next lesson, the project: the Persistent AI Study Companion. We put windows, summaries, long-term facts and SQLite together into one agent.

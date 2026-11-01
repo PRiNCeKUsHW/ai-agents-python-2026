@@ -1,0 +1,177 @@
+module_title: Agent Memory and Conversation State
+title: "Summary Memory: Compressing a Long Conversation"
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 6 · Lesson 3
+    title: Summary memory
+    subtitle: Fold old turns into a running summary, keep recent turns word for word, and know what you lose.
+    say: >
+      In lesson two, a sliding window kept the conversation small, but it forgot the user's name.
+      In this lesson, instead of throwing old turns away, you'll compress them into a short running summary. Small like a window, but it keeps the gist.
+
+  - type: objectives
+    items:
+      - {text: "Explain summary memory, and when it beats a window", say: "You'll explain summary memory, and when it beats a plain window."}
+      - {text: "Summarize old turns with one extra model call", say: "Summarize old turns, with one extra model call."}
+      - {text: "Send the summary with the system prompt", say: "Send the summary along with the system prompt."}
+      - {text: "Know the costs: lost details, an extra call", say: "And know the costs: lost details, and an extra call."}
+
+  - type: callout
+    chapter: What is summary memory?
+    kind: analogy
+    title: "Minutes of a meeting"
+    body: "Nobody re-reads a whole meeting transcript. They read the **minutes**: who decided what, and what's still open. Summary memory writes minutes for the old part of a conversation, and keeps only the **last few turns** word for word."
+    say: >
+      Think about a long meeting. Afterwards, nobody re-reads the full transcript. People read the minutes: the decisions, who agreed to what, and what's still open.
+      Summary memory does the same for a conversation. The old part becomes minutes, and only the last few turns are kept word for word.
+    items:
+      - {text: "Old turns → a short running summary", say: "Old turns become a short, running summary."}
+      - {text: "Recent turns → kept exactly", say: "Recent turns are kept exactly, because details matter most there."}
+      - {text: "Every request: summary + recent turns + new message", say: "And every request sends the summary, the recent turns, and the new message."}
+    outro: >
+      Running means the summary is updated, not rewritten from scratch. Each time, the model merges the old summary with the turns that are leaving. So it stays short however long the chat gets.
+
+  - type: steps
+    chapter: How it works
+    heading: How a running summary is updated
+    items:
+      - {text: "After a turn, check the size", sub: "estimated tokens above the limit?", say: "Here's how it works. After each turn, check the size. Is the conversation above our limit?"}
+      - {text: "Split: old turns and the last N turns", sub: "cut where a turn starts, as in lesson 2", say: "If so, split it into old turns and the last few turns, cutting where a turn starts, as in lesson two."}
+      - {text: "Ask the model: old summary + old turns → new summary", sub: "one extra call, with its own system prompt", say: "Then make one extra call. Give the model the old summary and the old turns, and ask for a new summary."}
+      - {text: "Keep the new summary; drop the old turns", sub: "only after the summary arrived", tone: teal, say: "Finally, keep the new summary, and drop the old turns. But only after the summary has arrived. If the call fails, nothing is lost."}
+
+  - type: run
+    chapter: Summary in code
+    heading: "summary.py: fold old turns, then ask again"
+    title: summary.py
+    file: source/lesson-03/summary.py
+    cwd: source/lesson-03
+    cmd: python summary.py
+    say: >
+      Let's see it run. Same five turns as lesson two. The code is on the left, the output on the right.
+    steps:
+      - lines: "10-15"
+        note: "The same five turns as lesson 2: about 730 tokens."
+        say: >
+          First, the same conversation as last lesson: five turns, about seven hundred and thirty tokens.
+      - lines: "18-20"
+        note: "The prompt: the summary so far, plus the old turns as plain text."
+        say: >
+          The summarize function builds a prompt with the summary so far, or none, and the old messages written out as plain text lines.
+      - lines: "21-23"
+        note: "One extra call, with a system prompt just for summarizing."
+        say: >
+          Then one extra model call, with a system prompt written just for summarizing.
+      - lines: "26-28"
+        out: "1-2"
+        tone: teal
+        note: "6 messages folded: ~732 → ~314 tokens."
+        say: >
+          Compact folds the old turns in when we're over the limit, keeping the last two turns. Six messages folded, and the size drops from about seven hundred and thirty tokens to about three hundred.
+      - lines: "29"
+        out: "3"
+        note: "The offline fake writes an **extract**, labelled: a real model writes real prose."
+        say: >
+          Here's the summary. In offline mode the fake writes a simple extract of what the learner said, and labels it, so we never pretend it's a model. A real model writes a proper summary in its own words.
+      - lines: "31-35"
+        out: "4"
+        tone: teal
+        note: "The summary goes in the **system** prompt. The name is back."
+        say: >
+          And now the question again: what's my name? The summary goes into the system prompt, and this time the answer is: Anuj. As small as the window, but it kept the name.
+
+  - type: code
+    heading: "The summarizer's instructions"
+    title: companion/agent.py
+    file: project/study-companion/companion/agent.py
+    lines: "25-28"
+    steps:
+      - lines: "25-28"
+        note: "Say what to KEEP: facts, topics, open questions, promises. And a length limit."
+        say: >
+          In the project, the summarizer's system prompt says what to keep: facts about the learner, topics covered, open questions, and promises made. And it sets a limit: at most a hundred and twenty words. Without a limit, summaries slowly grow back into transcripts.
+
+  - type: code
+    heading: "compact(): summary first, then drop"
+    title: companion/conversation.py
+    file: project/study-companion/companion/conversation.py
+    lines: "62-78"
+    steps:
+      - lines: "69-73"
+        note: "Under the limit, or too few turns: do nothing."
+        say: >
+          Here's compact in the project. Under the limit, or with too few turns to fold, it does nothing.
+      - lines: "74-75"
+        note: "Cut where a turn starts, so tool pairs stay together."
+        say: >
+          Otherwise it cuts where a turn starts, so tool pairs stay together.
+      - lines: "76-78"
+        tone: teal
+        note: "Summarize FIRST; drop old messages only after it succeeded."
+        say: >
+          And the order matters. Summarize first. Only when the new summary has arrived do we drop the old messages. If the API call fails, every message is still there.
+
+  - type: table
+    chapter: Window or summary?
+    heading: "Window, summary, or both?"
+    columns: [Strategy, Keeps, Costs]
+    widths: [1.3, 2.2, 2.2]
+    rows:
+      - {cells: ["Full history", "everything, exactly", "grows every turn"], say: "So which strategy should you use? Full history keeps everything exactly, but grows every turn."}
+      - {cells: ["Window", "recent turns, exactly", "forgets older turns"], say: "A window keeps recent turns exactly, but forgets older ones."}
+      - {cells: ["Summary + window", "the gist of old turns + recent turns", "an extra call; details can be lost"], tone: teal, say: "A summary plus a window keeps the gist of old turns and the recent turns exactly. It costs an extra call now and then, and fine details can be lost."}
+      - {cells: ["+ long-term facts", "key facts, forever", "you decide what's saved"], tone: violet, say: "And for the facts that must never be lost, like a name, we add long-term memory, next lesson.", note: "Real agents combine them: a window for detail, a summary for the gist, facts for what must last."}
+
+  - type: callout
+    kind: try
+    chapter: Pause and try
+    title: "Pause and try: write the minutes"
+    body: "Old turns: *\"I'm Riya. I'm preparing for a Python interview on Friday. Lists are fine, decorators confuse me. Can you quiz me tomorrow?\"*"
+    say: >
+      Pause and try. Here are some old turns from Riya: I'm preparing for a Python interview on Friday. Lists are fine, decorators confuse me. Can you quiz me tomorrow?
+    items:
+      - {text: "Write a summary of at most 25 words. What must it keep?", say: "Write a summary in at most twenty five words. What must it keep?", pause: 6}
+    outro: >
+      One good summary: Riya, Python interview on Friday. Comfortable with lists, struggles with decorators. Promised: a quiz tomorrow. It keeps the fact, the goal, the struggle, and the promise.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "How would you keep a long-running chat within budget?"
+        a: "Keep the last few turns verbatim, fold older turns into a **running summary** with a dedicated prompt, and move durable facts to **long-term memory**. Summarize only when over a token threshold, and drop old turns only after the summary succeeds."
+        trap: "Summarizing on every turn: it adds a call each time and the summary drifts."
+        say_q: "Interview corner. How would you keep a long running chat within budget?"
+        say_a: "A good answer: keep the last few turns word for word, fold older turns into a running summary with a dedicated prompt, and move lasting facts into long-term memory. Summarize only when you pass a token threshold, and drop old turns only after the summary succeeds. The trap: summarizing on every turn. That adds a call each time, and the summary slowly drifts."
+      - q: "What can go wrong with summaries?"
+        a: "**Lost details** (exact numbers, code), **drift** as summaries of summaries pile up, and the extra **cost** and latency of the summary call. Mitigate with a clear keep-list, a length limit and long-term facts for what must be exact."
+        trap: "Treating a summary as a perfect record."
+        say_q: "And: what can go wrong with summaries?"
+        say_a: "Details get lost, like exact numbers or code. Summaries of summaries can drift. And the summary call costs money and time. You reduce that with a clear list of what to keep, a length limit, and long-term facts for anything that must stay exact. The trap is treating a summary as a perfect record."
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "Why does compact() drop the old messages only after the summary call returns?"
+    options:
+      - "It's faster"
+      - "If the call fails, no conversation is lost"
+      - "The API requires it"
+      - "So the summary includes the newest turn"
+    answer: 1
+    explain: "Summarize first, then drop. A failed or slow summary call must never lose the conversation."
+    say_question: >
+      Quick check. Why does compact drop the old messages only after the summary call returns?
+    say_answer: >
+      Because if the call fails, no conversation is lost.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 3 recap
+    items:
+      - {text: "Summary memory: old turns become a running summary", say: "Let's recap. Summary memory turns old turns into a running summary."}
+      - {text: "Recent turns stay word for word", say: "Recent turns stay word for word."}
+      - {text: "One extra call, only above a token limit", say: "It costs one extra call, only when you pass a token limit."}
+      - {text: "Summarize first, then drop; say what to keep", say: "Summarize first, then drop, and tell the summarizer what to keep."}
+    outro: >
+      Next lesson: long-term memory. Facts that survive a restart and a new day, saved by the model with tools, and protected by your code.

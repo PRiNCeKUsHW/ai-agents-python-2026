@@ -110,3 +110,31 @@ in brackets. New terms are added with each module.
 | **thread** [5] | A second worker inside the same program; used to run a tool while the main code watches the clock. |
 | **timeout** [5] | The longest you'll wait for something before giving up with a clear error. |
 | **validation** [5] | Checking input before using it; here with Pydantic's `model_validate`. |
+
+## Memory and data
+
+| Term | Meaning |
+|---|---|
+| **cascade (ON DELETE CASCADE)** [6] | A database rule: deleting a parent row (a session) also deletes its children (its messages). |
+| **conversation history** [6] | The list of user and assistant messages your code resends with every request; the model keeps nothing itself. |
+| **database / table / row / column** [6] | A database stores tables; a table is a set of rows; every row has the same columns (fields). |
+| **foreign key** [6] | A column that must match a row in another table, e.g. each message belongs to a session. |
+| **index (database)** [6] | A lookup structure that makes finding rows by a column (like `user_id`) fast. |
+| **long-term memory** [6] | Facts saved outside the conversation (in a database) that survive restarts and new sessions. |
+| **parameterised query** [6] | SQL with `?` (or `%s`) placeholders; values are sent separately, so they can never change the query. |
+| **PostgreSQL** [6] | A database server many programs can share at once; the usual next step after SQLite. |
+| **retention** [6] | A rule for how long data is kept before it's deleted, e.g. sessions unused for 30 days. |
+| **running summary** [6] | A short summary of older turns, updated (not rewritten) each time more turns are folded in. |
+| **schema version** [6] | A number stored with your data (`PRAGMA user_version`) that says which table layout it uses. |
+| **session** [6] | One conversation (its turns and summary), saved and resumed by its id. |
+| **short-term memory** [6] | What the model sees of the current conversation: recent turns, and maybe a summary. |
+| **sliding window** [6] | Sending only the last N turns (or the newest turns that fit a token budget). |
+| **SQL** [6] | The language for asking a database for data: `SELECT`, `INSERT`, `UPDATE`, `DELETE`. |
+| **SQL injection** [6] | An attack where input pasted into SQL text changes the query; prevented by parameterised queries. |
+| **SQLite** [6] | A full SQL database stored in one file, built into Python as `sqlite3`. |
+| **stateless** [6] | Keeps nothing between requests. The Messages API is stateless: each request stands alone. |
+| **summary memory** [6] | Folding older turns into a running summary so the conversation stays small. |
+| **transaction** [6] | A group of database changes that happen all together or not at all. |
+| **turn** [6] | One exchange that starts with the user's own words; it may include tool calls and results. |
+| **upsert** [6] | Insert a row, or update it if it already exists (`INSERT ... ON CONFLICT DO UPDATE`). |
+| **user isolation** [6] | Every row has a user id and every query filters by it, so users never see each other's data. |

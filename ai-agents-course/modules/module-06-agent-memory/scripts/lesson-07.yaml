@@ -1,0 +1,333 @@
+module_title: Agent Memory and Conversation State
+title: "Project, Part 2: One Turn, a Two-Day Demo, Privacy, Tests and Wrap-up"
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 6 · Lesson 7 · Project
+    title: "Build the Persistent AI Study Companion, part 2"
+    subtitle: One turn line by line, a two-day demo, privacy on purpose, the tests, and the module quiz.
+    loop: [Recall, Answer, Remember, Save]
+    say: >
+      Welcome back. The storage, the memory and the command line are ready. Now we read the agent's turn line by line, run a demo across two days, use every privacy feature on purpose, and look at the tests.
+      Then we wrap up the module with interview questions, a quiz, and your extension challenge.
+
+  - type: code
+    chapter: The system prompt
+    heading: "The system prompt: why memory tools exist"
+    title: companion/agent.py
+    file: project/study-companion/companion/agent.py
+    lines: "17-24"
+    steps:
+      - lines: "18-20"
+        note: "The reason first: a conversation alone is forgotten."
+        say: >
+          First, the system prompt. As in Module 3, it explains why: the companion remembers through long-term memory, because a conversation alone is forgotten.
+      - lines: "20-23"
+        note: "What's worth saving, one fact per call, and how to use it."
+        say: >
+          It says what's worth saving, one fact per call, and to use what it remembers to personalise explanations and quizzes.
+      - lines: "24"
+        tone: amber
+        note: "Never secrets: in the prompt AND enforced in code."
+        say: >
+          And never to save secrets. Remember, the prompt asks, but the code enforces.
+
+  - type: code
+    chapter: One turn, line by line
+    heading: "chat(): one turn, saved only when complete"
+    title: companion/agent.py
+    file: project/study-companion/companion/agent.py
+    lines: "123-142"
+    steps:
+      - lines: "126-128"
+        note: "Remember where this turn started, then run it."
+        say: >
+          Here's one turn. We remember how many messages there were, then run the turn.
+      - lines: "129-131"
+        tone: coral
+        note: "Refused, cut off, too many steps: undo the turn."
+        say: >
+          If the turn didn't end with an answer, a refusal, a cut off reply, too many steps, we remove its messages. Never save half a turn.
+      - lines: "132-134"
+        note: "Then fold old turns into the summary, if over the limit (lesson 3)."
+        say: >
+          After a good answer, compact folds old turns into the summary, if we're over the limit. That's lesson three.
+      - lines: "135-137"
+        note: "An API error: undo too, and report it."
+        say: >
+          An API error undoes the turn too, and is reported.
+      - lines: "138-142"
+        tone: teal
+        note: "Save the whole session in one transaction (lesson 5)."
+        say: >
+          And finally, the whole session is saved in one transaction, as in lesson five.
+
+  - type: code
+    heading: "_turn(): the agent loop with memory tools"
+    title: companion/agent.py
+    file: project/study-companion/companion/agent.py
+    lines: "144-174"
+    steps:
+      - lines: "145-147"
+        tone: teal
+        note: "The system prompt is built for THIS message: facts + summary."
+        say: >
+          Inside the turn: add the user's message, and build the system prompt for this message, with the relevant facts and the summary.
+      - lines: "149-154"
+        note: "Store replies as plain JSON blocks, so they can be saved and re-sent."
+        say: >
+          Then the loop from Module 4. Each reply is stored as plain JSON blocks, so it can be saved to the database, and sent again tomorrow.
+      - lines: "159-163"
+        note: "No tool calls: that's the answer."
+        say: >
+          No tool calls means the model has answered.
+      - lines: "164-173"
+        note: "Every memory call runs; every result goes back in ONE message."
+        say: >
+          Otherwise, every memory tool call runs, a refused secret becomes an error result, and all the results go back in one message, as in Module 5.
+
+  - type: terminal
+    chapter: Two-day demo
+    title: terminal — study-companion · the next day
+    cwd: project/study-companion
+    font: 21
+    say: >
+      Now the demo. It's the next day: a new session called tue. The conversation from mon isn't sent at all.
+    steps:
+      - cmd: python -m companion ask "What's my name?" --session tue
+        say: >
+          What's my name? A new, empty session. But the answer is Anuj, from long-term memory in the system prompt.
+      - cmd: python -m companion ask "Quiz me" --session tue
+        say: >
+          Quiz me. It remembered that I find recursion hard, so the question is about recursion. That's what memory is for: personal help.
+      - cmd: python -m companion ask "Please forget that I find recursion hard" --session tue
+        say: >
+          Now, forget that I find recursion hard. Two steps: recall finds the fact and its number, then forget fact deletes it.
+      - cmd: python -m companion ask "Remember that my password is hunter2" --session tue
+        say: >
+          And a password. The model tried to save it, and our code refused. The error went back to the model as an observation.
+
+  - type: terminal
+    chapter: Privacy on purpose
+    title: terminal — study-companion
+    cwd: project/study-companion
+    font: 21
+    steps:
+      - cmd: python -m companion --user riya ask "What's my name?"
+        say: >
+          Another user, Riya, asks the same question. She doesn't get my name. Every query filters by user.
+      - cmd: COMP_SUMMARIZE_AT=300 python -m companion ask "Explain loops" --session tue
+        say: >
+          Now we lower the summary limit, to see compaction. The footer says: two old messages summarized.
+      - cmd: python -m companion history tue
+        keep: "1-3,-2"
+        say: >
+          History shows the session as stored. On top, the running summary. Then the recent turns, word for word. We show the first and last lines here.
+      - cmd: python -m companion sessions
+        say: >
+          Sessions lists my conversations: mon and tue, with message counts, and tue now has a summary.
+      - cmd: COMP_TODAY=2027-01-15 python -m companion purge --days 30
+        say: >
+          Retention. Pretend it's January: purge deletes sessions not used for thirty days. Both are gone, with their messages.
+      - cmd: printf 'y\n' | python -m companion delete-me
+        say: >
+          And delete me asks first, then deletes every fact and session of mine, and nobody else's.
+
+  - type: code
+    chapter: Testing
+    heading: "Tests: the real agent, a fake model, a temporary database"
+    title: tests/test_agent.py
+    file: project/study-companion/tests/test_agent.py
+    lines: "19-34"
+    steps:
+      - lines: "19-25"
+        note: "Same question, another session: without history, it can't know."
+        say: >
+          The tests run the real agent, tools and SQLite against the fake model, with a new temporary database for every test. This one proves the point of lesson one: in another session, without the history or a saved fact, the name can't be known.
+      - lines: "28-34"
+        tone: teal
+        note: "Long-term memory crosses sessions, through the system prompt."
+        say: >
+          And this one proves long-term memory: a new session starts with no messages, still answers Anuj, and the request really carried the fact in its system prompt.
+
+  - type: terminal
+    title: terminal — study-companion
+    cwd: project/study-companion
+    steps:
+      - cmd: python -m pytest -q
+        run: python -m pytest -q -p no:cacheprovider
+        say: >
+          Forty-one tests: memory, the database, the conversation, the tools, the agent and the command line. All passing, with no key and no network.
+      - cmd: mypy --strict companion
+        run: mypy --no-incremental --strict companion
+        say: >
+          And mypy, in strict mode, is happy with every type.
+
+  - type: cards
+    chapter: Troubleshooting
+    heading: Common problems, and fixes
+    cards:
+      - {tag: forgets, title: "It forgets mid-chat", body: "A reply or message isn't appended to the history you send.", tone: coral, say: "Common problems. It forgets in the middle of a chat: a message or reply isn't appended to the history you send."}
+      - {tag: "400", title: "400: tool_result without tool_use", body: "You trimmed between a pair. Cut only where a turn starts.", tone: amber, say: "A four hundred error about a tool result without a tool use: you trimmed between a pair. Cut only where a turn starts."}
+      - {tag: privacy, title: "Another user's facts appear", body: "A query is missing WHERE user_id = ?. Test isolation.", tone: coral, say: "Another user's facts appear: a query is missing the user filter. Write a test for isolation."}
+      - {tag: database, title: "database is locked", body: "Two writers at once in SQLite. Keep transactions short, or use PostgreSQL.", tone: blue, say: "And database is locked: two programs writing at once. Keep transactions short, or move to PostgreSQL for many writers."}
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "Design memory for a tutoring agent used by thousands of students."
+        a: "Per-student rows in **PostgreSQL**; a **window + running summary** per session; **long-term facts** saved via tools and injected by relevance; secrets refused in code; **retention** and **delete-my-data**; isolation tests; embeddings for recall at scale."
+        trap: "One giant shared history, or letting the model choose the user id."
+        say_q: "Interview corner. Design memory for a tutoring agent used by thousands of students."
+        say_a: "A good answer: one set of rows per student, in PostgreSQL. For each session, a window of recent turns and a running summary. Long-term facts saved with tools, and the relevant ones put in the system prompt. Secrets refused in code, a retention rule, a delete my data command, and tests for isolation. And at scale, embeddings to find relevant facts. The trap: one giant shared history, or letting the model choose the user ID."
+      - q: "A user asks you to delete their data. What must happen?"
+        a: "Delete their **facts, sessions and messages** (and backups and logs, per policy), confirm it, and make sure nothing reloads it. In code: one transaction filtered by user, cascades for children, and a test."
+        trap: "Deleting only the facts and forgetting stored conversations."
+        say_q: "Follow-up. A user asks you to delete their data. What must happen?"
+        say_a: "Delete their facts, their sessions and their messages, and backups and logs too, according to your policy. Confirm it, and make sure nothing loads it again. In code, that's one transaction filtered by the user, with cascades for the messages, and a test. The trap is deleting the facts, but forgetting the stored conversations."
+
+  - type: recap
+    chapter: Module recap
+    heading: Module 6 recap
+    items:
+      - {text: "The API is stateless: memory is data your code sends", say: "Let's recap the whole module. The API is stateless. All memory is data your code sends."}
+      - {text: "Short-term: a window of recent turns, cut at turn starts", say: "Short-term memory is a window of recent turns, cut where a turn starts."}
+      - {text: "Summary: old turns folded into a running summary", say: "Summary memory folds old turns into a running summary."}
+      - {text: "Long-term: facts via tools, relevant ones in the system prompt", say: "Long-term memory is facts saved with tools, with the relevant ones in the system prompt."}
+      - {text: "SQLite: parameters, transactions, user_id, retention, deletion", say: "And SQLite stores it all, with parameters, transactions, a user ID on every row, retention, and deletion."}
+
+  - type: quiz
+    chapter: Module quiz
+    number: 1
+    of: 5
+    question: "Why does a chatbot \"remember\" earlier messages in a conversation?"
+    options:
+      - "The API stores the conversation"
+      - "The model learns during the chat"
+      - "Your code resends the history with each request"
+      - "The API key keeps a session"
+    answer: 2
+    explain: "The Messages API is stateless. Memory within a chat is the history your code sends every time."
+    say_question: >
+      Module quiz, question one. Why does a chatbot remember earlier messages in a conversation?
+    say_answer: >
+      Because your code resends the history with each request. The API itself is stateless.
+
+  - type: quiz
+    number: 2
+    of: 5
+    question: "Where must a sliding window cut the conversation?"
+    options:
+      - "Exactly N messages from the end"
+      - "Where a turn starts: a user message with plain text"
+      - "Before every assistant message"
+      - "Anywhere, the API fixes it"
+    answer: 1
+    explain: "Cutting at a turn start keeps each tool_use with its tool_result. Tool results are user messages, but don't start a turn."
+    say_question: >
+      Question two. Where must a sliding window cut the conversation?
+    say_answer: >
+      Where a turn starts: a user message with plain text. That keeps tool pairs together.
+
+  - type: quiz
+    number: 3
+    of: 5
+    question: "What is the main trade-off of summary memory?"
+    options:
+      - "It makes requests bigger"
+      - "Details can be lost, and it costs an extra call"
+      - "It can't be saved to disk"
+      - "It breaks tool calls"
+    answer: 1
+    explain: "A summary keeps the gist small, but exact details may be dropped, and summarizing is one more model call."
+    say_question: >
+      Question three. What's the main trade-off of summary memory?
+    say_answer: >
+      Details can be lost, and it costs an extra call.
+
+  - type: quiz
+    number: 4
+    of: 5
+    question: "The model calls remember_fact with a user's password. What should happen?"
+    options:
+      - "Save it encrypted"
+      - "Save it, the model decided"
+      - "Your code refuses it and returns a tool error"
+      - "Crash the agent"
+    answer: 2
+    explain: "Prompts guide; code enforces. The memory layer refuses secrets and the model receives an error observation."
+    say_question: >
+      Question four. The model calls remember fact with a user's password. What should happen?
+    say_answer: >
+      Your code refuses it, and returns a tool error. Prompts guide, code enforces.
+
+  - type: quiz
+    number: 5
+    of: 5
+    question: "Which query is safe from SQL injection?"
+    code: |
+      a) conn.execute(f"SELECT * FROM facts WHERE user_id = '{u}'")
+      b) conn.execute("SELECT * FROM facts WHERE user_id = ?", (u,))
+      c) conn.execute("SELECT * FROM facts WHERE user_id = '" + u + "'")
+      d) conn.execute("SELECT * FROM facts WHERE user_id = '%s'" % u)
+    options:
+      - "a"
+      - "b"
+      - "c"
+      - "d"
+    answer: 1
+    explain: "Only b passes the value as a parameter. The others paste the value into the SQL text, so input can change the query."
+    say_question: >
+      And question five. Which of these queries is safe from SQL injection?
+    say_answer: >
+      B. It's the only one that passes the value as a parameter. The others paste it into the SQL text.
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Practice questions"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Now some practice, from easy to hard. Pause and try them. The answers are in the module's quiz dot md file.
+    items:
+      - {text: "Write window_by_tokens(messages, budget): recent turns up to a token budget", say: "One. Write a window by tokens function, which keeps recent turns up to a token budget."}
+      - {text: "Which facts from \"I'm Sam, I'm tired today, I passed my Python exam\" should be saved?", say: "Two. From: I'm Sam, I'm tired today, I passed my Python exam. Which facts should be saved?"}
+      - {text: "Write the SQL to count each user's messages", say: "Three. Write the SQL to count each user's messages."}
+      - {text: "Scenario: a support bot remembers customers. Design its memory and privacy rules.", say: "And four, a scenario. A customer support bot remembers customers. Design its memory, and its privacy rules.", pause: 6}
+
+  - type: callout
+    chapter: Extension challenge
+    kind: challenge
+    title: "Extend the Study Companion"
+    body: "Pick one or more. Each needs code **and** a test using the fake API."
+    say: >
+      Your extension challenge. Pick one or more, and write a test for each, using the fake API.
+    items:
+      - {text: "Add `export` and `import`: your data as a JSON file", say: "Add export and import commands, that save and load your data as a JSON file."}
+      - {text: "Make facts expire: \"struggle\" facts older than 60 days", say: "Make some facts expire, for example struggle facts older than sixty days."}
+      - {text: "Window by tokens instead of turns (practice 1)", say: "Size the window by tokens, instead of turns."}
+      - {text: "Swap SQLite for PostgreSQL with psycopg, same tests", say: "Or swap SQLite for PostgreSQL, with psycopg, and keep the same tests passing."}
+
+  - type: links
+    chapter: Documentation
+    heading: Official documentation
+    items:
+      - {title: Messages API and conversations, url: platform.claude.com/docs/en/build-with-claude/working-with-messages}
+      - {title: Context windows, url: platform.claude.com/docs/en/build-with-claude/context-windows}
+      - {title: Token counting, url: platform.claude.com/docs/en/build-with-claude/token-counting}
+      - {title: Memory tool, url: platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool}
+      - {title: Python sqlite3, url: docs.python.org/3/library/sqlite3.html}
+      - {title: SQLite SQL reference, url: sqlite.org/lang.html}
+      - {title: psycopg (PostgreSQL), url: www.psycopg.org/psycopg3/docs}
+      - {title: Python SDK, url: github.com/anthropics/anthropic-sdk-python}
+    say: >
+      These are the official documentation pages for this module, including Claude's ready-made memory tool, which you can compare with what you built. Links are in the description, with the full source code and the question bank.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 7
+    title: Reliable and Efficient Agents
+    subtitle: "Async, retries with backoff, caching, rate limits, loop prevention, token budgets, logging and tracing. Project: a Resilient API Agent."
+    say: >
+      That's Module 6 complete. Your agent now remembers: within a chat, across days, and only what it should, with every user's data kept apart.
+      In Module 7, we make agents reliable and efficient: retries, caching, budgets, and tracing what they do. See you there.
