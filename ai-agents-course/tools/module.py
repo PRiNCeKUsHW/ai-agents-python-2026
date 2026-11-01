@@ -185,10 +185,26 @@ PROJECT_CHECKS = {
         ("timeout", "PROD_DATA=/tmp/pa-check.json PROD_FAKE_SLOW=search_notes {bin}/python -m productivity "
                     "ask 'search notes for wifi' | grep -q 'timed out after 2 s'"),
     ],
+    "study-companion": [
+        ("mypy --strict", "{bin}/mypy --no-incremental --strict companion"),
+        ("facts saved with tools", "rm -rf /tmp/sc-check; COMP_HOME=/tmp/sc-check {bin}/python -m companion ask "
+                                   "'My name is Anuj and I find recursion hard' --session mon | grep -c "
+                                   "'memory   remember_fact' | grep -qx 2"),
+        ("next session remembers", "COMP_HOME=/tmp/sc-check {bin}/python -m companion ask \"What's my name?\" "
+                                   "--session tue | grep -q 'Your name is Anuj.'"),
+        ("secrets refused", "COMP_HOME=/tmp/sc-check {bin}/python -m companion ask 'Remember that my password "
+                            "is hunter2' | grep -q 'never store'"),
+        ("users isolated", "COMP_HOME=/tmp/sc-check {bin}/python -m companion --user riya ask \"What's my "
+                           "name?\" | grep -q \"don't know your name\""),
+        ("summary above the limit", "COMP_HOME=/tmp/sc-check COMP_SUMMARIZE_AT=100 COMP_KEEP_TURNS=1 {bin}/python -m companion "
+                                    "ask 'Explain loops' --session mon 2>&1 | grep -q 'old messages summarized'"),
+        ("delete-me removes all", "COMP_HOME=/tmp/sc-check {bin}/python -m companion delete-me --yes && "
+                                  "COMP_HOME=/tmp/sc-check {bin}/python -m companion memory | grep -qx 'no facts yet'"),
+    ],
 }
 # project checks run offline and reproducibly: no real key, proxy or scripted failures
 CHECK_ENV = {k: v for k, v in os.environ.items()
-             if not k.startswith(("ANTHROPIC_", "STUDY_", "TOOLKIT_", "RESUME_", "CALC_", "PROD_"))}
+             if not k.startswith(("ANTHROPIC_", "STUDY_", "TOOLKIT_", "RESUME_", "CALC_", "PROD_", "COMP_"))}
 
 def run(cmd, cwd, **kw):
     if isinstance(cmd, str) and sys.platform == "win32":

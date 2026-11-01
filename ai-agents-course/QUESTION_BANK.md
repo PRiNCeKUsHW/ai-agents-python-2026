@@ -1,6 +1,6 @@
 # Course question bank
 
-Every question asked in the videos: quick checks, module quizzes, pause-and-try, practice and interview questions, with collapsible answers. **125 questions so far.**
+Every question asked in the videos: quick checks, module quizzes, pause-and-try, practice and interview questions, with collapsible answers. **160 questions so far.**
 
 | Module | Topic | Questions |
 |---|---|---|
@@ -9,5 +9,6 @@ Every question asked in the videos: quick checks, module quizzes, pause-and-try,
 | 3 | [Prompt Engineering and Structured Outputs](modules/module-03-prompt-engineering/QUESTIONS.md) | 9 |
 | 4 | [AI Agent Architecture](modules/module-04-agent-architecture/QUESTIONS.md) | 21 |
 | 5 | [Tool Calling and Function Execution](modules/module-05-tool-calling/QUESTIONS.md) | 39 |
+| 6 | [Agent Memory and Conversation State](modules/module-06-agent-memory/QUESTIONS.md) | 35 |
 
 Regenerate after editing a lesson script: `python tools/quiz_book.py`.
