@@ -2,7 +2,7 @@
 
 usage:
   python tools/manifest.py init                      # create it if missing (all NOT_STARTED)
-  python tools/manifest.py set 1 STATUS [key=value]  # update a module after real checks
+  python tools/manifest.py set N STATUS  [key=value]  # update a module after real checks
   python tools/manifest.py show
 Statuses: NOT_STARTED, IN_PROGRESS, VALIDATION_FAILED, READY, COMPLETED.
 """
@@ -16,6 +16,7 @@ PATH = ROOT / "COURSE_MANIFEST.json"
 STATUSES = {"NOT_STARTED", "IN_PROGRESS", "VALIDATION_FAILED", "READY", "COMPLETED"}
 
 MODULES = [
+    (0, "Your Developer Setup", "Your First GitHub Repository", "Start here"),
     (1, "Python for AI Engineering", "Python AI Toolkit", "I — Foundations"),
     (2, "LLM Fundamentals and API Integration", "AI Study Assistant", "I — Foundations"),
     (3, "Prompt Engineering and Structured Outputs", "AI Resume Analyzer", "I — Foundations"),
@@ -25,7 +26,7 @@ MODULES = [
     (7, "Reliable and Efficient Agents", "Resilient API Agent", "II — Build Agents from Scratch"),
     (8, "Model Context Protocol (MCP)", "Restricted File Assistant MCP Server", "III — Knowledge and Tool Connectivity"),
     (9, "Embeddings and Vector Search", "Semantic Search Engine", "III — Knowledge and Tool Connectivity"),
-    (10, "Retrieval-Augmented Generation (RAG)", "Chat With Your PDFs", "III — Knowledge and Tool Connectivity"),
+    (10, "Retrieval-Augmented Generation (RAG)", "Chat With Your PDFs + Ask Your Database", "III — Knowledge and Tool Connectivity"),
     (11, "LangGraph Fundamentals", "AI Content Workflow", "IV — Advanced Orchestration"),
     (12, "Multi-Agent Systems", "AI Research Team", "IV — Advanced Orchestration"),
     (13, "Web Research and Automation Agents", "Research Assistant", "IV — Advanced Orchestration"),
@@ -34,6 +35,7 @@ MODULES = [
     (16, "FastAPI for AI Applications", "Authenticated AI Agent API", "VI — Production"),
     (17, "Docker, Deployment, and Monitoring", "Deployed AI Agent API", "VI — Production"),
     (18, "Full-Stack AI Agent Application", "Production AI Workspace", "VI — Production"),
+    (19, "AI Career Switch", "Your AI Engineer Portfolio", "VII — Career"),
 ]
 
 
@@ -54,7 +56,7 @@ def init():
         "language": "en",
         "video": {"width": 1920, "height": 1080, "fps": 60, "codec": "h264", "audio": "aac"},
         "design_system": "COURSE_DESIGN_SYSTEM.md",
-        "next_module": 1,
+        "next_module": 0,
         "modules": [{"number": n, "title": t, "part": part, "project": p, "status": "NOT_STARTED",
                      "lessons": [], "paths": {}, "validation": None, "render": None, "blockers": []}
                     for n, t, p, part in MODULES],
@@ -66,7 +68,7 @@ def init():
 def set_status(n, status, extras):
     assert status in STATUSES, status
     m = load()
-    mod = m["modules"][n - 1]
+    mod = next(x for x in m["modules"] if x["number"] == n)
     mod["status"] = status
     for kv in extras:
         k, v = kv.split("=", 1)

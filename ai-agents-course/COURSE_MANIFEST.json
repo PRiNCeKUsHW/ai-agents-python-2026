@@ -1,5 +1,12 @@
 {
   "course": "AI Agents with Python — Beginner to Production (2026)",
+  "audience": "College students and working professionals who want to become an AI Engineer / AI Agent Developer",
+  "plan": {
+    "modules": 20,
+    "lessons": 153,
+    "estimated_hours": "19-20",
+    "revised": "2026-11-16"
+  },
   "language": "en",
   "video": {
     "width": 1920,
@@ -9,8 +16,25 @@
     "audio": "aac"
   },
   "design_system": "COURSE_DESIGN_SYSTEM.md",
-  "next_module": 7,
+  "next_module": 0,
   "modules": [
+    {
+      "number": 0,
+      "title": "Your Developer Setup",
+      "part": "Start here",
+      "project": "Your First GitHub Repository",
+      "status": "NOT_STARTED",
+      "lessons": [
+        "The Terminal: Folders, Files and Running Commands",
+        "Virtual Environments, pip and the .env File: Why Every Project Gets Its Own",
+        "Git and GitHub: Save, Commit, Push and Share Your Work"
+      ],
+      "lesson_topics": {},
+      "paths": {},
+      "validation": null,
+      "render": null,
+      "blockers": []
+    },
     {
       "number": 1,
       "title": "Python for AI Engineering",
@@ -243,7 +267,38 @@
       "part": "II — Build Agents from Scratch",
       "project": "Resilient API Agent",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "Why Agents Fail in Production: Errors, Slow Calls and Rate Limits (429)",
+        "Retries Done Right: Exponential Backoff, Jitter and Timeouts",
+        "Rate-Limit-Aware Concurrency: Many Calls Without Getting Blocked",
+        "Circuit Breakers: Stop Calling a Service That Is Down",
+        "Fallbacks and Other Providers: OpenAI, Gemini and a Local Model with Ollama",
+        "Choosing and Routing Models: Small vs Large, Cost vs Quality",
+        "Caching: Response Caches and Prompt Caching",
+        "Context Engineering: What Goes In, What Stays Out",
+        "Project, Part 1: Resilient API Agent, Retry, Breaker and Fallback Chain (setup with uv)",
+        "Project, Part 2: Budgets, Logging, Tracing, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Rate-Limit-Aware Concurrency: Many Calls Without Getting Blocked": [
+          "a limit on calls running at the same time",
+          "reading the rate-limit and retry-after information a provider sends back"
+        ],
+        "Fallbacks and Other Providers: OpenAI, Gemini and a Local Model with Ollama": [
+          "one small ModelClient interface, many providers behind it",
+          "provider-independent error handling",
+          "structured output reliability across providers"
+        ],
+        "Choosing and Routing Models: Small vs Large, Cost vs Quality": [
+          "routing by task complexity",
+          "escalating to a larger model only when a check fails",
+          "comparing cost and quality on your own test cases"
+        ],
+        "Context Engineering: What Goes In, What Stays Out": [
+          "counting tokens before a call and estimating its cost",
+          "trimming large tool results, ordering content, token and cost budgets"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -255,7 +310,29 @@
       "part": "III — Knowledge and Tool Connectivity",
       "project": "Restricted File Assistant MCP Server",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "What MCP Is: Hosts, Clients and Servers, and Why It Exists",
+        "Tools, Resources and Prompts: The Three Things a Server Offers",
+        "Building an MCP Server in Python",
+        "Connecting Your Server to Claude, and Using Ready-Made MCP Servers",
+        "Remote MCP: HTTP Transport and Authorization",
+        "Testing an MCP Server and Staying Compatible Across Versions",
+        "Project, Part 1: Restricted File Assistant, Allowed Folders and Path Safety",
+        "Project, Part 2: Client, Demo, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Tools, Resources and Prompts: The Three Things a Server Offers": [
+          "tool discovery and capability negotiation"
+        ],
+        "Connecting Your Server to Claude, and Using Ready-Made MCP Servers": [
+          "risks of connecting an untrusted third-party server",
+          "tool output validation"
+        ],
+        "Remote MCP: HTTP Transport and Authorization": [
+          "OAuth fundamentals: tokens and scopes",
+          "server authentication and trust boundaries"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -267,7 +344,26 @@
       "part": "III — Knowledge and Tool Connectivity",
       "project": "Semantic Search Engine",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "What Embeddings Are: Meaning as Numbers",
+        "Cosine Similarity: Measuring How Close Two Texts Are",
+        "Chunking Text: Size, Overlap and Metadata",
+        "Vector Databases: Building and Querying a Search Index",
+        "Keyword Search (BM25) and Measuring Search Quality",
+        "Project, Part 1: Semantic Search Engine, Ingest and Index",
+        "Project, Part 2: Filters, Quality Report, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Vector Databases: Building and Querying a Search Index": [
+          "updating and deleting entries",
+          "metadata filtering at query time"
+        ],
+        "Keyword Search (BM25) and Measuring Search Quality": [
+          "precision@k and recall@k",
+          "benchmarking different chunk sizes and settings",
+          "speed, memory and cost trade-offs"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -277,9 +373,28 @@
       "number": 10,
       "title": "Retrieval-Augmented Generation (RAG)",
       "part": "III — Knowledge and Tool Connectivity",
-      "project": "Chat With Your PDFs",
+      "project": "Chat With Your PDFs + Ask Your Database",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "The RAG Pipeline: Ingest, Retrieve, Generate",
+        "Loading and Chunking PDFs, Including Scanned Pages and Images with Vision",
+        "Retrieve Then Answer: Citations and Saying \"I Don't Know\"",
+        "Hybrid Search and Reranking: Better Results from the Same Documents",
+        "Query Rewriting and Agentic RAG: Retrieval as a Tool",
+        "Keeping the Index Fresh: Document Versions, Incremental Indexing and Deletion",
+        "Who Can See What: Access Control and Multi-User Document Isolation",
+        "Talking to Databases: A Safe Read-Only SQL Agent",
+        "Evaluating RAG: Retrieval Quality and Answer Quality",
+        "Project, Part 1: Chat With Your PDFs, Ingestion and Retrieval",
+        "Project, Part 2: Grounded Answers, Citations, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Evaluating RAG: Retrieval Quality and Answer Quality": [
+          "RAG evaluation datasets",
+          "citation correctness",
+          "retrieval failure analysis"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -291,7 +406,21 @@
       "part": "IV — Advanced Orchestration",
       "project": "AI Content Workflow",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "Why Graphs: State, Nodes and Edges",
+        "Conditional Routing and Loops",
+        "Checkpoints and Persistence: Pause Today, Continue Tomorrow (with checkpoint recovery)",
+        "Human-in-the-Loop: Interrupts, Approval and Resuming",
+        "Safe to Run Twice: Idempotent Nodes and Failed-Node Recovery",
+        "Project, Part 1: AI Content Workflow, Graph and State",
+        "Project, Part 2: Approval Step, Demo, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Safe to Run Twice: Idempotent Nodes and Failed-Node Recovery": [
+          "duplicate execution prevention",
+          "state versioning and workflow evolution"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -303,7 +432,20 @@
       "part": "IV — Advanced Orchestration",
       "project": "AI Research Team",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "One Agent or Many: When Several Agents Help and When They Don't",
+        "Orchestrator and Worker Agents",
+        "Handoffs and Sharing Context Between Agents (with shared-state consistency)",
+        "Parallel Agents: Speed, Cost and Coordination Failures",
+        "The Framework Landscape: Claude Agent SDK, OpenAI Agents SDK, CrewAI and LangGraph",
+        "Project, Part 1: AI Research Team, Roles and Handoffs",
+        "Project, Part 2: Parallel Research, Review, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "The Framework Landscape: Claude Agent SDK, OpenAI Agents SDK, CrewAI and LangGraph": [
+          "framework vs custom orchestration, compared on one task"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -315,7 +457,16 @@
       "part": "IV — Advanced Orchestration",
       "project": "Research Assistant",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "Web Search and Fetch Tools (with SSRF and unsafe URL-fetch prevention)",
+        "Reading Pages Safely: Untrusted Content, Site Terms and Rate Limits",
+        "Browser Automation Basics (with failure recovery)",
+        "Source Checking: Comparing and Trusting Sources",
+        "Writing a Cited Report",
+        "Project, Part 1: Research Assistant, Search, Fetch and Extract",
+        "Project, Part 2: Source Checks, Cited Brief, Tests and Wrap-up"
+      ],
+      "lesson_topics": {},
       "paths": {},
       "validation": null,
       "render": null,
@@ -327,7 +478,23 @@
       "part": "V — Quality and Security",
       "project": "AI Agent Evaluation Suite",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "Unit Tests vs Evals: Two Different Questions",
+        "Building Test Sets: Real Cases, Edge Cases and Expected Outcomes",
+        "Agent Metrics: Tool-Selection Accuracy, Task-Completion Rate and Multi-Step Success",
+        "Grading: Code Checks and LLM-as-Judge (and human evaluation)",
+        "Regression Testing: Did the New Prompt Break an Old Case? (with GitHub Actions)",
+        "Measuring Cost and Latency",
+        "Observability in Practice: Tracing with Langfuse, LangSmith and OpenTelemetry",
+        "Project, Part 1: Evaluation Suite, Dataset and Graders",
+        "Project, Part 2: Reports, Regression Run, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Observability in Practice: Tracing with Langfuse, LangSmith and OpenTelemetry": [
+          "production trace analysis",
+          "continuous production evaluation"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -339,7 +506,23 @@
       "part": "V — Quality and Security",
       "project": "Secure Document Agent",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "Thinking Like an Attacker: The OWASP Top 10 for LLM Applications",
+        "Prompt Injection: Direct Attacks and Hidden Instructions in Documents (direct and indirect)",
+        "Protecting Secrets and Least-Privilege Tools",
+        "Input and Output Filtering, PII and Data Privacy",
+        "Multi-Tenant Data Isolation: One Customer Must Never See Another's Data",
+        "Sandboxing and Audit Logs (with security incident handling)",
+        "Supply-Chain Security: Dependencies and Vulnerability Scanning",
+        "Project, Part 1: Secure Document Agent, Defences",
+        "Project, Part 2: Adversarial Tests, Audit Trail and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Protecting Secrets and Least-Privilege Tools": [
+          "secrets management",
+          "unsafe tool execution and SSRF"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -351,7 +534,29 @@
       "part": "VI — Production",
       "project": "Authenticated AI Agent API",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "FastAPI Basics: Routes, Pydantic and Automatic Docs",
+        "Endpoints for an Agent: Request Validation and Errors",
+        "Streaming Responses",
+        "Authentication: API Keys and Tokens",
+        "Persistence: PostgreSQL and Migrations",
+        "Redis Fundamentals: Keys, Expiry and a Shared Cache",
+        "Long-Running Agents: Background Jobs, Status Checks and Resuming After a Crash",
+        "Jobs That Survive Failure: Idempotency, Retries and Dead-Letter Queues",
+        "Project, Part 1: Authenticated AI Agent API, Endpoints and Auth",
+        "Project, Part 2: Streaming, Background Jobs, Tests and Wrap-up"
+      ],
+      "lesson_topics": {
+        "Long-Running Agents: Background Jobs, Status Checks and Resuming After a Crash": [
+          "task queues and background workers",
+          "job cancellation"
+        ],
+        "Jobs That Survive Failure: Idempotency, Retries and Dead-Letter Queues": [
+          "duplicate job prevention",
+          "multiple workers and simple locks",
+          "safe recovery after a crash"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -363,7 +568,22 @@
       "part": "VI — Production",
       "project": "Deployed AI Agent API",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "Dockerfiles and Containers",
+        "Environment Configuration and Secrets (with production configuration management)",
+        "Deploying to the Cloud",
+        "CI/CD: Test and Deploy on Every Push",
+        "Releasing Safely: Versioned Images and Rollback",
+        "Health Checks, Logs, Metrics and Alerts (with infrastructure health monitoring)",
+        "Cost Monitoring and Scaling",
+        "Project: Deploy the AI Agent API and Wrap-up"
+      ],
+      "lesson_topics": {
+        "CI/CD: Test and Deploy on Every Push": [
+          "GitHub Actions pipeline: test, build, scan, deploy",
+          "dependency and container image scanning"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -375,7 +595,56 @@
       "part": "VI — Production",
       "project": "Production AI Workspace",
       "status": "NOT_STARTED",
-      "lessons": [],
+      "lessons": [
+        "Architecture: How the Pieces Fit Together (multi-tenant architecture and trade-offs)",
+        "A Frontend for the Agent API",
+        "Users, Data and Authentication (with user-level data isolation)",
+        "Memory, RAG and Tools Working Together",
+        "Rate Limiting, Usage Tracking and Observability (with usage limits and quotas)",
+        "Production Error Handling and End-to-End Integration Testing",
+        "Final Deployment",
+        "Demo, Tests and Course Wrap-up"
+      ],
+      "lesson_topics": {},
+      "paths": {},
+      "validation": null,
+      "render": null,
+      "blockers": []
+    },
+    {
+      "number": 19,
+      "title": "AI Career Switch",
+      "part": "VII — Career",
+      "project": "Your AI Engineer Portfolio",
+      "status": "NOT_STARTED",
+      "lessons": [
+        "AI Roles Explained: AI Engineer, ML Engineer and Data Scientist",
+        "Prompting, RAG or Fine-Tuning: Choosing the Right Tool",
+        "Working in an Existing Codebase: Read, Debug and Change It Safely",
+        "From 18 Projects to a Portfolio: READMEs, Demo Videos and GitHub",
+        "Resume and LinkedIn for Career Switchers",
+        "The AI System Design Interview",
+        "Interview Practice: Using the Course Question Banks",
+        "Working with AI Coding Tools: Claude Code and Cursor",
+        "Your 90-Day Plan and How to Stay Current"
+      ],
+      "lesson_topics": {
+        "Prompting, RAG or Fine-Tuning: Choosing the Right Tool": [
+          "agent, workflow, RAG or traditional software"
+        ],
+        "Working in an Existing Codebase: Read, Debug and Change It Safely": [
+          "reading an unfamiliar AI codebase",
+          "debugging an existing agent",
+          "regression tests before every change"
+        ],
+        "The AI System Design Interview": [
+          "cost and infrastructure estimation",
+          "architecture trade-offs"
+        ],
+        "Interview Practice: Using the Course Question Banks": [
+          "practical interview scenarios and mock interviews"
+        ]
+      },
       "paths": {},
       "validation": null,
       "render": null,
@@ -383,9 +652,19 @@
     }
   ],
   "optional_capstones": [
-    "AI Research Assistant",
-    "Enterprise Knowledge Assistant",
-    "AI Workflow Automation Platform"
+    {
+      "title": "AI Research Assistant",
+      "shows": "web search and fetching, source verification, agent orchestration, cited reports, evaluation"
+    },
+    {
+      "title": "Enterprise Knowledge Assistant",
+      "shows": "RAG, hybrid search and reranking, document permissions, citation verification, SQL, evaluation"
+    },
+    {
+      "title": "AI Workflow Automation Platform",
+      "shows": "multi-step workflows, human approval, background jobs, persistent state, authentication, monitoring"
+    }
   ],
-  "updated": "2026-11-01T16:50:20Z"
+  "capstone_deliverables": "a public GitHub repository, a professional README, an architecture diagram, setup instructions, automated tests, a short demo video, a deployed demo where feasible, and known limitations",
+  "updated": "2026-11-16T00:00:00Z"
 }

@@ -2,6 +2,17 @@
 
 Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, and only after real checks).
 
+## Plan revised 2026-11-16: 20 modules, 153 lessons
+
+- New **Module 0: Your Developer Setup** (terminal, virtual environments and .env, Git and GitHub; project:
+  Your First GitHub Repository) and new **Module 19: AI Career Switch** (project: Your AI Engineer Portfolio).
+- Modules 7–18 expanded: 7 has 10 lessons (providers, model routing, context engineering), 8 has 8
+  (remote MCP, OAuth), 10 has 11 (hybrid search, vision PDFs, access control, a read-only SQL agent:
+  "Ask Your Database"), 14–16 have 9, 9 and 10 (observability, OWASP, Redis, background jobs).
+- Modules 1–6 are unchanged and stay COMPLETED.
+- Full lesson list with sub-topics: `COURSE_SYLLABUS.md`; per-lesson titles and topics also in the manifest.
+- Done: 6 of 20 modules, 40 of 153 lessons. Remaining: Module 0 and Modules 7–19 (113 lessons).
+
 ## Module 1: Python for AI Engineering: COMPLETED
 
 - 7 lessons rendered (1920x1080, 60 fps, H.264 + AAC, about -17 LUFS); full module video 56:58 with 66 chapters

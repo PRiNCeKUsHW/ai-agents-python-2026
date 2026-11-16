@@ -1,7 +1,8 @@
 # AI Agents with Python — Beginner to Production (2026)
 
-A YouTube course in 18 modules, produced one module at a time. Every module has narrated videos,
-captions, a fully implemented and tested practical project, a quiz, an extension challenge and
+A YouTube course in 20 modules (Module 0 to Module 19, 153 lessons, about 19–20 hours), produced one
+module at a time, for college students and working professionals who want to become AI Engineers.
+Every module has narrated videos, captions, a fully implemented and tested practical project, a quiz, an extension challenge and
 YouTube packaging.
 
 - Syllabus: [COURSE_SYLLABUS.md](COURSE_SYLLABUS.md)
