@@ -65,3 +65,9 @@ Skip the analogy when a direct explanation is clearer.
 - **Light "Paper" theme** (`studio/src/theme.ts`): warm off-white page, dark ink, light code editor.
 - Scene types for this style: `run` (code left, real output right), `table` (dry runs, comparisons),
   `interview` (question, answer to say out loud, trap), callout kinds `analogy`, `scenario`, `practice`.
+
+## Video length and parts (rule from 2026-11-17)
+- There is no length limit. A module is as long as it needs to be to cover its whole syllabus: every lesson and every sub-topic in `COURSE_SYLLABUS.md`, taught at beginner pace with full examples.
+- Never cut a topic short to save time.
+- For YouTube, a long module is split into as many parts as needed (2, 3, 4 or more). Each part holds whole lessons, its chapters start at 00:00, and it links to every other part.
+- Every lesson is in exactly one part, in order. `tools/youtube.py` checks this and stops if a lesson is missing.

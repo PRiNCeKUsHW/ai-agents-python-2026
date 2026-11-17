@@ -137,3 +137,8 @@ Notes for the next modules, learned in Module 1:
 - Never use a real API key in recorded output. Module 2 needs an LLM API: use a mock/fake transport
   for tests and recorded demos unless a key is configured in the environment; say clearly on screen
   which outputs come from a real model call.
+
+## Rule added 2026-11-17: no video length limit
+- Each module is as long as its full syllabus needs. Nothing is cut to fit a time.
+- Long modules are uploaded in as many parts as needed, not only two. `tools/youtube.py` now supports any number of parts and checks that every lesson is covered exactly once. Module 6's packaging is unchanged.
+- The "19–20 hours" in the plan is an estimate, not a cap.

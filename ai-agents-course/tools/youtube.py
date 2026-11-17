@@ -151,7 +151,12 @@ def two_parts(m, info, lessons, datas, src):
     parts = info.get("parts")
     if not parts:
         return []
-    out = ["## Uploaded in two parts", ""]
+    # No length limit: a module is as long as its syllabus needs, split into as many
+    # parts as it takes. Every lesson must be in exactly one part, in order.
+    covered = [n for part in parts for n in part["lessons"]]
+    assert covered == sorted(lessons), f"parts must cover every lesson once, in order: {covered}"
+    words = {2: "two", 3: "three", 4: "four", 5: "five", 6: "six"}
+    out = [f"## Uploaded in {words.get(len(parts), len(parts))} parts", ""]
     bank = src.replace("/tree/", "/blob/") + "/QUESTIONS.md"
     for k, part in enumerate(parts, 1):
         t, yt, last = 0.0, [], -99.0
@@ -165,12 +170,13 @@ def two_parts(m, info, lessons, datas, src):
         first, final = part["lessons"][0], part["lessons"][-1]
         title = f"AI Agents with Python 2026 · Module {m} (Part {k}/{len(parts)}): {part['title']}"
         assert len(title) <= 100, (len(title), title)
-        other = 2 if k == 1 else 1
+        others = [f"Part {j} ({part['other'] if len(parts) == 2 and 'other' in part else p['title']}): "
+                  "https://youtu.be/XXXX" for j, p in enumerate(parts, 1) if j != k]
         blurb = part["blurb"].format(project_blurb=info["project_blurb"])
         text = [f"Module {m} of \"AI Agents with Python: Beginner to Production (2026)\": {info['title']}. "
                 f"Part {k} of {len(parts)} (Lessons {first}–{final}).", "",
                 f"In this part: {blurb}", "",
-                f"Part {other} ({part['other']}): https://youtu.be/XXXX", "",
+                *others, "",
                 "Every lesson explains the concept, shows real code on the left with its real output on the "
                 "right, covers common errors, and ends with a quick check, an interview corner and "
                 "pause-and-try questions.", "",

@@ -13,7 +13,8 @@
     "height": 1080,
     "fps": 60,
     "codec": "h264",
-    "audio": "aac"
+    "audio": "aac",
+    "length_rule": "No length limit. Each module is as long as it needs to cover its full syllabus (every lesson and every sub-topic). Long modules are uploaded in as many parts as needed; a lesson is never cut between parts, and every lesson is in exactly one part."
   },
   "design_system": "COURSE_DESIGN_SYSTEM.md",
   "next_module": 0,
