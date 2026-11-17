@@ -6,7 +6,7 @@ import { Heading } from "../ui/Heading";
 import { Window } from "../ui/CodeView";
 
 type Pair = { cmd: string; out: string[] };
-type Step = { pairs: Pair[] };
+type Step = { pairs: Pair[]; prompt?: string }; // a step may change the prompt, e.g. after `source activate`
 
 const colorFor = (line: string) => {
   if (/^\s*(x |error|Error|Traceback|E |FAILED)/.test(line) || /Error:/.test(line)) return C.coral;
@@ -41,14 +41,14 @@ export const TerminalScene: React.FC<{ scene: SceneBase }> = ({ scene }) => {
   };
 
   // build the visible transcript up to the current step
-  const rows: { text: string; kind: "cmd" | "out"; typed?: number; at: number }[] = [];
+  const rows: { text: string; kind: "cmd" | "out"; typed?: number; at: number; prompt?: string }[] = [];
   s.steps.forEach((st, k) => {
     if (k > current || !items[k]) return;
     let at = items[k].from;
     st.pairs.forEach((pair) => {
       const typeFrames = Math.min(50, 10 + pair.cmd.length * 1.2);
       const typed = Math.floor(interpolate(frame, [at + 6, at + 6 + typeFrames], [0, pair.cmd.length], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }));
-      if (frame >= at) rows.push({ text: pair.cmd, kind: "cmd", typed, at });
+      if (frame >= at) rows.push({ text: pair.cmd, kind: "cmd", typed, at, prompt: st.prompt ?? prompt });
       const outAt = at + 10 + typeFrames;
       const lines = pair.out.flatMap(wrap);
       lines.forEach((line, j) => {
@@ -69,7 +69,7 @@ export const TerminalScene: React.FC<{ scene: SceneBase }> = ({ scene }) => {
           {rows.slice(scroll).map((r, i) =>
             r.kind === "cmd" ? (
               <div key={i} style={{ height: lh, whiteSpace: "pre", display: "flex", alignItems: "center" }}>
-                <span style={{ color: C.teal, marginRight: 16 }}>{prompt}</span>
+                <span style={{ color: C.teal, marginRight: 16 }}>{r.prompt}</span>
                 <span style={{ color: C.text }}>{r.text.slice(0, r.typed)}</span>
                 {r === lastCmd && (r.typed ?? 0) < r.text.length ? <span style={{ width: fs * 0.6, height: fs * 1.1, background: C.teal, opacity: 0.8 }} /> : null}
               </div>
@@ -81,7 +81,7 @@ export const TerminalScene: React.FC<{ scene: SceneBase }> = ({ scene }) => {
           )}
           {lastCmd && (lastCmd.typed ?? 0) >= lastCmd.text.length && rows[rows.length - 1].kind === "out" && current === s.steps.length - 1 ? (
             <div style={{ height: lh, display: "flex", alignItems: "center" }}>
-              <span style={{ color: C.teal, marginRight: 16 }}>{prompt}</span>
+              <span style={{ color: C.teal, marginRight: 16 }}>{s.steps[s.steps.length - 1].prompt ?? prompt}</span>
               <span style={{ width: fs * 0.6, height: fs * 1.1, background: C.teal, opacity: cursorOn ? 0.8 : 0 }} />
             </div>
           ) : null}

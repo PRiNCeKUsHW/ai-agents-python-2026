@@ -1,0 +1,11 @@
+# secrets and local settings
+.env
+
+# the virtual environment (recreate it with: python -m venv .venv)
+.venv/
+
+# Python caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/

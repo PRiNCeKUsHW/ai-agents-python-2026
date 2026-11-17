@@ -1,0 +1,475 @@
+module_title: Your Developer Setup
+title: "The Terminal: Folders, Files and Running Commands"
+narration: hinglish
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 0 · Lesson 1
+    title: The terminal
+    subtitle: Folders, files and running commands, the way every developer works.
+    say: >
+      Namaste, aur swagat hai AI Agents with Python course mein. Yeh Module zero hai, yaani shuruaat se bhi pehle ki tayyari.
+      Iss module mein hum woh teen cheezein seekhenge jo har AI engineer roz use karta hai: terminal, virtual environment, aur Git ke saath GitHub.
+      Aur module ke end tak aapka pehla GitHub repository ready hoga. Chalo, pehle lesson se shuru karte hain: terminal.
+
+  - type: objectives
+    items:
+      - {text: "Explain what a terminal and a shell are", say: "Iss lesson ke baad aap explain kar paoge ki terminal aur shell kya hote hain."}
+      - {text: "Move around folders: `pwd`, `ls`, `cd`, paths", say: "Folders mein aana jaana seekhoge: pwd, ls, cd, aur paths."}
+      - {text: "Create, read, copy, move and delete files", say: "Files banana, padhna, copy karna, move karna, aur delete karna."}
+      - {text: "Run a Python file with arguments and read its exit code", say: "Python file ko arguments ke saath chalana, aur uska exit code padhna."}
+      - {text: "Fix the two most common errors: wrong folder, command not found", say: "Aur do sabse common errors theek karna: galat folder, aur command not found."}
+
+  - type: callout
+    chapter: What is a terminal?
+    kind: analogy
+    title: "Clicking vs telling: a restaurant menu"
+    body: "In a restaurant you can **point at pictures** on the menu, or you can **tell the waiter exactly** what you want: \"one masala dosa, less spicy, no onion\". The mouse is pointing. The terminal is telling: exact, fast, and easy to repeat."
+    say: >
+      Pehle what: terminal kya hai? Ek restaurant socho. Aap menu mein photo par ungli rakh sakte ho, ya waiter ko exact bata sakte ho: ek masala dosa, kam spicy, bina pyaaz ke.
+      Mouse se click karna photo par ungli rakhne jaisa hai. Terminal mein type karna exact batane jaisa hai.
+    items:
+      - {text: "Terminal: the window where you type", say: "Terminal woh window hai jisme aap type karte ho."}
+      - {text: "Shell: the program inside it that reads and runs your commands (bash, zsh, PowerShell)", say: "Shell uske andar ka program hai, jo aapki command padhta hai aur chalata hai. Jaise bash, zsh, ya PowerShell."}
+      - {text: "Command: one instruction, like `ls` or `python hello.py`", say: "Aur command ek instruction hai, jaise ls, ya python hello dot py."}
+    outro: >
+      Log aksar terminal aur shell ko ek hi cheez bolte hain, aur roz ki baat mein yeh theek hai. Lekin interview mein farak pata hona achha lagta hai: terminal window hai, shell andar ka program hai.
+
+  - type: compare
+    heading: "Why developers use the terminal"
+    left:
+      title: "Mouse and windows (GUI)"
+      tone: blue
+      label: Easy to start
+      items:
+        - "Great for browsing and one-off tasks"
+        - "Hard to repeat the exact same steps"
+        - "Hard to explain: \"click here, then there...\""
+        - "Not available on most servers"
+    right:
+      title: "Terminal (CLI)"
+      tone: teal
+      label: Exact and repeatable
+      items:
+        - "Every step is a line of text you can copy"
+        - "Same commands work again tomorrow, or in a script"
+        - "Servers, Docker, cloud: all terminal"
+        - "pip, git, Python and AI tools are terminal-first"
+    steps:
+      - show: left
+        say: >
+          Ab why: terminal kyun? Mouse aur windows wala tareeka, yaani GUI, shuru karne ke liye aasaan hai. Lekin same steps exact repeat karna mushkil hai, aur kisi ko samjhana bhi mushkil: yahan click karo, phir wahan.
+      - show: right
+        say: >
+          Terminal mein har step text ki ek line hai. Aap usse copy kar sakte ho, kal phir chala sakte ho, ya script mein daal sakte ho.
+          Aur jab aapka AI agent kisi server ya cloud par chalega, wahan mouse hota hi nahi. pip, git, Python, aur zyaadatar AI tools terminal se hi chalte hain. Isliye yeh course terminal se shuru hota hai.
+
+  - type: table
+    chapter: Opening a terminal
+    heading: "Open a terminal on your computer"
+    columns: [Your computer, Open this, Shell]
+    widths: [1.1, 2.2, 1]
+    rows:
+      - {cells: ["Windows", "**Git Bash** (comes with Git for Windows), or PowerShell", "bash / PowerShell"], say: "Ab terminal kholte hain. Windows par Git for Windows install karo. Uske saath Git Bash aata hai. Iss course ki commands bash ki hain, isliye Windows par Git Bash sabse aasaan hai. PowerShell bhi chalega, uske alag commands mai table mein dikhaungi."}
+      - {cells: ["macOS", "Terminal app (Cmd + Space, type Terminal)", "zsh"], say: "Mac par Terminal app kholo. Command space dabao aur Terminal type karo. Mac ka shell zsh hai, jo bash jaisa hi hai."}
+      - {cells: ["Linux", "Terminal (Ctrl + Alt + T on Ubuntu)", "bash"], say: "Linux par Terminal kholo. Ubuntu par control, alt, T."}
+      - {cells: ["Any editor", "VS Code: View → Terminal", "your default"], say: "Aur VS Code ke andar bhi terminal hota hai. View menu mein Terminal. Coding karte waqt yahi sabse comfortable hai.", tone: teal}
+
+  - type: diagram
+    heading: "Anatomy of a command"
+    nodes:
+      - {id: prompt, label: "$", sub: "the prompt: ready", x: 220, y: 200, w: 220, h: 110, tone: teal}
+      - {id: prog, label: "python3", sub: "the program to run", x: 620, y: 200, w: 340, h: 110, tone: blue}
+      - {id: args, label: "hello.py Riya", sub: "arguments: what to give it", x: 1150, y: 200, w: 460, h: 110, tone: amber}
+      - {id: enter, label: "Enter", sub: "the shell runs it", x: 620, y: 470, w: 340, h: 110, tone: violet}
+      - {id: out, label: "Output + exit code", sub: "Hello, Riya! · 0 = success", x: 1150, y: 470, w: 460, h: 110, tone: teal}
+    edges:
+      - {from: prompt, to: prog}
+      - {from: prog, to: args}
+      - {from: args, to: enter}
+      - {from: enter, to: out}
+    say: >
+      Ab how: ek command ke parts. Har command ek hi pattern follow karti hai.
+    steps:
+      - show: [prompt]
+        say: >
+          Sabse pehle prompt. Dollar sign ka matlab hai: shell ready hai, aap type kar sakte ho. Dollar khud type nahi karna hota.
+      - show: [prog, "prompt->prog"]
+        flow: ["prompt->prog"]
+        say: >
+          Pehla word program ka naam hota hai. Yahan python three.
+      - show: [args, "prog->args"]
+        flow: ["prog->args"]
+        say: >
+          Uske baad arguments, yaani program ko kya dena hai. Yahan file ka naam hello dot py, aur ek naam, Riya. Har word ke beech space hota hai.
+      - show: [enter, out, "args->enter", "enter->out"]
+        flow: ["args->enter", "enter->out"]
+        focus: [out]
+        say: >
+          Enter dabate hi shell program chalata hai. Program output print karta hai, aur end mein ek exit code deta hai. Zero ka matlab success. Exit code abhi thodi der mein real mein dekhenge.
+
+  - type: terminal
+    chapter: First commands
+    heading: Your first commands
+    title: terminal — bash
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: echo "Hello from the terminal"
+        say: >
+          Chalo, pehli commands. echo jo bhi aap likhte ho, wahi wapas print kar deta hai. Simple hai, lekin yeh confirm karta hai ki terminal kaam kar raha hai.
+      - cmd: python3 --version
+        say: >
+          Doosri command: python three dash dash version. Yeh batata hai ki Python install hai, aur kaunsa version. Iss course ke liye three point eleven ya usse naya chahiye. Yahan three point thirteen hai.
+      - cmd: git --version
+        say: >
+          Aur git dash dash version. Git hum lesson teen mein use karenge. Agar aapke computer par command not found aaye, toh git scm dot com se install karo.
+    outro: >
+      Windows par python three ki jagah aksar python ya py likhna padta hai. Agar python three se error aaye, toh python dash dash version try karo.
+
+  - type: callout
+    chapter: Folders and paths
+    kind: analogy
+    title: "Folders are a building; a path is an address"
+    body: "Your files live in folders inside folders, like rooms inside floors inside a building. A **path** is the full address of a room: `/home/student/projects`. The **working directory** is the room you are standing in right now."
+    say: >
+      Ab folders aur paths. Isse ek building ki tarah socho. Building mein floors hain, floors mein rooms hain. Waise hi folders ke andar folders hote hain.
+      Path ek room ka poora address hai. Aur working directory woh room hai jisme aap abhi khade ho. Terminal hamesha kisi ek folder mein khada hota hai, aur commands wahin chalti hain.
+
+  - type: diagram
+    heading: "A path is the route from the top folder"
+    nodes:
+      - {id: root, label: "/", sub: "the top (root)", x: 260, y: 110, w: 260, h: 96, tone: muted}
+      - {id: home, label: "home", x: 260, y: 290, w: 260, h: 96, tone: blue}
+      - {id: student, label: "student", sub: "your home: ~", x: 260, y: 470, w: 260, h: 96, tone: blue}
+      - {id: projects, label: "projects", x: 700, y: 470, w: 280, h: 96, tone: teal}
+      - {id: repo, label: "my-first-repo", x: 1150, y: 470, w: 340, h: 96, tone: amber}
+      - {id: file, label: "hello.py", x: 1150, y: 650, w: 300, h: 96, tone: amber}
+    edges:
+      - {from: root, to: home}
+      - {from: home, to: student}
+      - {from: student, to: projects}
+      - {from: projects, to: repo}
+      - {from: repo, to: file}
+    say: >
+      Yeh dekho ek folder tree.
+    steps:
+      - show: [root, home, student, "root->home", "home->student"]
+        say: >
+          Sabse upar slash hai, jise root kehte hain. Uske andar home, aur uske andar aapka apna folder, yahan student. Isse home directory kehte hain, aur iska shortcut hai tilde sign.
+      - show: [projects, repo, "student->projects", "projects->repo"]
+        flow: ["student->projects", "projects->repo"]
+        say: >
+          Home ke andar projects, aur uske andar hamara project, my first repo. Iska absolute path hai: slash home slash student slash projects slash my first repo. Absolute matlab root se shuru hone wala poora address.
+      - show: [file, "repo->file"]
+        flow: ["repo->file"]
+        focus: [file, repo]
+        say: >
+          Aur agar aap pehle se my first repo ke andar khade ho, toh file ka relative path bas hello dot py hai. Relative matlab jahan aap abhi ho, wahan se address. Yeh farak bahut important hai, aur zyaadatar beginner errors yahin se aate hain.
+
+  - type: terminal
+    chapter: Moving around
+    heading: "pwd, mkdir, ls, cd: where am I, and how do I move?"
+    title: terminal — bash
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: pwd
+        say: >
+          Ab real mein chalte hain. pwd ka matlab print working directory. Yeh batata hai ki aap abhi kis folder mein ho. Hum projects folder mein hain.
+      - cmd: mkdir my-first-repo
+        say: >
+          mkdir ka matlab make directory, yaani naya folder banao. Hum apne project ka folder bana rahe hain: my first repo. Kuch print nahi hua. Terminal mein, kuch print na hona aksar success ka matlab hai.
+      - cmd: ls
+        run: ls -C -T 0
+        say: >
+          ls ka matlab list. Yeh current folder ki cheezein dikhata hai. Hamara naya folder yahan hai.
+      - cmd: cd my-first-repo
+        run: cd my-first-repo
+        say: >
+          cd ka matlab change directory, yaani folder ke andar jao. Ab hum my first repo ke andar hain.
+      - cmd: pwd
+        run: cd my-first-repo && pwd
+        say: >
+          pwd se confirm karte hain. Haan, ab path ke end mein my first repo hai.
+      - cmd: cd ..
+        run: cd my-first-repo && cd .. && pwd >/dev/null
+        say: >
+          Aur wapas bahar kaise jaayein? cd dot dot. Do dots ka matlab hai parent folder, yaani ek level upar.
+      - cmd: pwd
+        say: >
+          Aur hum wapas projects mein hain.
+
+  - type: table
+    heading: "Path shortcuts you will type every day"
+    columns: [Shortcut, Means, Example]
+    widths: [0.8, 1.6, 2]
+    rows:
+      - {cells: ["`.`", "this folder", "`python ./hello.py`"], say: "Kuch shortcuts jo aap roz type karoge. Ek dot ka matlab yahi folder."}
+      - {cells: ["`..`", "the parent folder, one level up", "`cd ..`"], say: "Do dots matlab parent folder, ek level upar."}
+      - {cells: ["`~`", "your home folder", "`cd ~/projects`"], say: "Tilde matlab aapka home folder. cd tilde slash projects, aap kahin se bhi ho, seedhe projects mein pahunch jaaoge."}
+      - {cells: ["`/`", "the root, or between folder names", "`/home/student`"], say: "Slash do kaam karta hai. Shuru mein ho toh root, aur beech mein ho toh folder names ko alag karta hai."}
+      - {cells: ["`cd` alone", "go home", "`cd`"], say: "Aur sirf cd likho, bina kisi naam ke, toh seedhe home folder.", tone: teal}
+
+  - type: terminal
+    chapter: Working with files
+    heading: "Create and read files"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: echo "# My First Repo" > README.md
+        run: cd my-first-repo && echo "# My First Repo" > README.md
+        say: >
+          Ab files. Hum my first repo ke andar hain. echo ke saath greater than sign ka matlab hai: output screen par mat dikhao, file mein likh do. Yeh README dot md file banata hai. Dhyan rahe, ek greater than sign file ko overwrite karta hai, yaani purana content mita deta hai.
+      - cmd: cat README.md
+        run: cd my-first-repo && cat README.md
+        say: >
+          cat file ka content print karta hai. Hamari ek line wahan hai.
+      - cmd: echo "Built in Module 0." >> README.md
+        run: cd my-first-repo && echo "Built in Module 0." >> README.md
+        say: >
+          Do greater than signs ka matlab hai append, yaani file ke end mein jodo, purana content mitaye bina.
+      - cmd: cat README.md
+        run: cd my-first-repo && cat README.md
+        say: >
+          Ab dono lines hain.
+      - cmd: touch notes.txt
+        run: cd my-first-repo && touch notes.txt
+        say: >
+          touch ek khaali file banata hai. Jab bas file chahiye, content baad mein.
+      - cmd: wc -c README.md notes.txt
+        run: cd my-first-repo && wc -c README.md notes.txt
+        say: >
+          wc dash c har file ke bytes ginta hai. notes dot txt zero bytes ki hai, kyunki khaali hai. Aur end mein total.
+
+  - type: terminal
+    heading: "Copy, move, rename and delete"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: cp README.md backup.md
+        run: cd my-first-repo && cp README.md backup.md
+        say: >
+          cp matlab copy. Pehle source file, phir naya naam. Ab README ki ek copy backup dot md mein hai.
+      - cmd: mv notes.txt ideas.txt
+        run: cd my-first-repo && mv notes.txt ideas.txt
+        say: >
+          mv matlab move. Same folder mein move karna rename karne jaisa hai. notes dot txt ab ideas dot txt hai.
+      - cmd: mkdir docs && mv ideas.txt docs/
+        run: cd my-first-repo && mkdir docs && mv ideas.txt docs/
+        say: >
+          Aur kisi doosre folder mein bhejna ho toh folder ka naam do. Do ampersand ka matlab hai: pehli command successful ho, tabhi doosri chalao.
+      - cmd: ls -R
+        run: cd my-first-repo && ls -RC -T 0
+        say: >
+          ls dash capital R har folder ke andar ka bhi dikhata hai. ideas dot txt ab docs ke andar hai.
+      - cmd: rm backup.md
+        run: cd my-first-repo && rm backup.md
+        say: >
+          Aur rm matlab remove, yaani delete. Backup chala gaya.
+      - cmd: rm -r docs
+        run: cd my-first-repo && rm -r docs
+        say: >
+          Folder delete karne ke liye rm dash r chahiye. r matlab recursive, yaani folder aur uske andar sab kuch.
+      - cmd: ls
+        run: cd my-first-repo && ls -C -T 0
+        say: >
+          Ab sirf README bacha hai.
+
+  - type: callout
+    kind: warn
+    title: "rm has no Recycle Bin"
+    body: "A file deleted with `rm` is **gone**: no Trash, no undo. Read every `rm` twice, especially `rm -r`. Never paste a command you don't understand, and be extra careful with `sudo` (run as administrator)."
+    say: >
+      Ek zaroori warning. rm se delete hui file Recycle Bin mein nahi jaati. Seedhe gayab. Koi undo nahi.
+      Isliye har rm command do baar padho, khaaskar rm dash r. Aur internet se koi command copy karke tab tak mat chalao, jab tak samajh na aaye ki woh kya karti hai. sudo wali commands par aur bhi dhyan do, kyunki woh administrator ki tarah chalti hain.
+
+  - type: terminal
+    chapter: Hidden files
+    heading: "Hidden files start with a dot"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: touch .env
+        run: cd my-first-repo && touch .env
+        say: >
+          Ab ek special type ki file. Jis file ka naam dot se shuru hota hai, woh hidden hoti hai. Hum ek dot env file banate hain. Lesson do mein isme settings aur secrets rakhenge.
+      - cmd: ls
+        run: cd my-first-repo && ls -C -T 0
+        say: >
+          Normal ls mein dot env dikhti hi nahi.
+      - cmd: ls -a
+        run: cd my-first-repo && ls -aC -T 0
+        say: >
+          ls dash a, yaani all, sab kuch dikhata hai, hidden files bhi. Yahan dot env hai, aur ek dot aur do dots bhi, jo aapne abhi seekhe: yeh folder, aur parent folder.
+    outro: >
+      Developer tools aksar apni settings hidden files mein rakhte hain: dot env, dot git, dot venv, dot gitignore. Agle do lessons mein yeh chaaron aayengi. Toh ls dash a yaad rakhna.
+
+  - type: run
+    chapter: Running Python
+    heading: "hello.py: a program that reads its arguments"
+    title: hello.py
+    file: project/my-first-repo/hello.py
+    cwd: project/my-first-repo
+    cmd: python hello.py Riya
+    say: >
+      Ab Python programs chalate hain. Yeh hamare project ki pehli file hai, hello dot py. Left side par code, right side par uska real output.
+    steps:
+      - lines: "11-13"
+        note: "`greet()` builds the text. It doesn't print: that makes it easy to test."
+        say: >
+          greet function ek naam leta hai aur greeting ka text banata hai. Yeh print nahi karta, sirf text return karta hai. Aise functions ko test karna aasaan hota hai. Lesson teen mein iske tests chalayenge.
+      - lines: "16-17"
+        note: "`argv` = the command's words: `['hello.py', 'Riya']`. `argv[1:]` skips the file name."
+        say: >
+          main function ko argv milta hai. argv command ke words ki list hai. python ke baad jo bhi likha, woh sab. Yahan hello dot py aur Riya. argv one se aage ka matlab: file ka naam chhod do, baaki words lo. Agar koi naam nahi diya, toh world.
+      - lines: "18"
+        out: "1"
+        note: "The output, on the right."
+        say: >
+          Phir greeting print hoti hai. Right side par output: Hello, Riya.
+      - lines: "19, 22-23"
+        note: "`return 0` → `sys.exit(0)`: tell the shell \"success\"."
+        say: >
+          Aur main zero return karta hai, jo sys dot exit ke through shell tak jaata hai. Zero matlab sab theek. If name equals main wali line ka matlab: yeh code tabhi chalega jab file seedhe run ho, import hone par nahi.
+
+  - type: terminal
+    chapter: Exit codes and errors
+    heading: "Exit codes, and the two most common errors"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: project/my-first-repo
+    alias: /home/student/projects/my-first-repo
+    steps:
+      - cmd: 'python3 hello.py; echo "exit code: $?"'
+        say: >
+          Exit code dekhte hain. Dollar question mark pichli command ka exit code rakhta hai. Bina naam ke, Hello world, aur exit code zero.
+      - cmd: python3 hello.py "Riya Sharma"
+        say: >
+          Naam mein space ho, toh quotes lagao. Warna shell usse do alag arguments samjhega. Hamara program dono words jodta hai, isliye yahan dono tareeke chalenge, lekin quotes ki aadat daalo.
+      - cmd: 'python3 helo.py; echo "exit code: $?"'
+        say: >
+          Ab pehla common error. File ka naam galat likha: helo, ek l ke saath. Python kehta hai: can't open file, no such file or directory. Aur exit code do, yaani failure.
+          Iska fix: ls chalao aur dekho ki file sach mein yahan hai, aur naam exactly kya hai. Aksar aap galat folder mein hote ho. Tab pwd se check karo.
+      - cmd: pyhton3 --version
+        exit: 127
+        say: >
+          Doosra common error: command not found. Yahan python ki spelling galat hai. Shell ko iss naam ka koi program mila hi nahi, aur exit code ek sau sattaees aata hai.
+          Iska matlab: ya toh spelling galat hai, ya program install nahi hai, ya woh PATH mein nahi hai.
+      - cmd: echo $PATH | tr ':' '\n' | grep -c /
+        say: >
+          PATH ek list hai folders ki, jahan shell programs dhoondhta hai, ek ke baad ek. Mai yahan bas ginti dikha rahi hoon: iss machine par itne folders hain. Aap echo dollar PATH chala kar apni poori list dekh sakte ho.
+      - cmd: which git
+        say: >
+          Aur which command batati hai ki ek program kis folder se aa raha hai. Git yahan user bin mein mila. Jab bhi lage ki galat Python chal raha hai, which python three chalao.
+
+  - type: table
+    chapter: Windows PowerShell
+    heading: "Same ideas in Windows PowerShell"
+    columns: [Task, bash / zsh / Git Bash, PowerShell]
+    widths: [1.3, 1.5, 1.8]
+    rows:
+      - {cells: ["Where am I?", "`pwd`", "`pwd` (or `Get-Location`)"], say: "Agar aap Windows par PowerShell use karte ho, toh zyaadatar commands same hain, kyunki PowerShell ne inke aliases banaye hain. pwd same hai."}
+      - {cells: ["List / change folder", "`ls`, `cd`", "`ls`, `cd` (same)"], say: "ls aur cd bhi same."}
+      - {cells: ["New folder / empty file", "`mkdir x`, `touch f`", "`mkdir x`, `New-Item f`"], say: "mkdir same hai. Lekin touch nahi hota. Uski jagah New Item."}
+      - {cells: ["Show hidden files", "`ls -a`", "`ls -Force`"], say: "Hidden files ke liye ls dash Force."}
+      - {cells: ["Delete a folder", "`rm -r docs`", "`rm -r docs` (asks first)"], say: "rm dash r chalta hai, bas PowerShell pehle confirm karta hai."}
+      - {cells: ["Run Python", "`python3 hello.py`", "`python hello.py` or `py hello.py`"], say: "Python ke liye python ya py."}
+      - {cells: ["Last exit code", "`echo $?`", "`$LASTEXITCODE`"], say: "Aur exit code ke liye dollar LASTEXITCODE.", tone: teal}
+    outro: >
+      Iss course ki saari videos bash commands dikhati hain, jo Mac, Linux, aur Windows ke Git Bash teeno par chalti hain. Jahan Windows par kuch alag ho, mai bataungi.
+
+  - type: steps
+    chapter: Speed tips
+    heading: "Five habits that make the terminal fast"
+    items:
+      - {text: "**Tab** completes names: type `hel` + Tab → `hello.py`", sub: "fewer typos, and it proves the file is there", say: "Ab kuch aadatein jo terminal ko fast banati hain. Pehli: Tab key. hel likho aur Tab dabao, poora naam aa jaayega. Typos kam, aur pata bhi chal jaata hai ki file sach mein hai."}
+      - {text: "**Up arrow** brings back your last commands", sub: "edit and re-run instead of retyping", say: "Doosri: upar wala arrow. Pichli commands wapas aa jaati hain. Dobara type mat karo, edit karke chalao."}
+      - {text: "**Ctrl + C** stops a running command", sub: "when something hangs or runs forever", say: "Teesri: control C. Koi command atak jaaye ya rukti hi na ho, toh control C usse rok deta hai. Yeh copy nahi hai terminal mein, yeh stop hai."}
+      - {text: "`clear` (or Ctrl + L) cleans the screen", sub: "your history is still there", say: "Chauthi: clear, ya control L. Screen saaf ho jaati hai."}
+      - {text: "`command --help` explains any command", sub: "`ls --help`, `git --help`, `python3 --help`", tone: teal, say: "Aur paanchvi: kisi bhi command ke aage dash dash help lagao. Command khud bata degi ki woh kya kar sakti hai."}
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is the difference between an absolute and a relative path?"
+        a: "An **absolute** path starts at the root (`/home/student/projects/app.py`) and works from anywhere. A **relative** path starts from the current working directory (`app.py`, `../data/x.csv`), so it depends on where you run the command."
+        trap: "Code that opens `data.csv` works on your machine and fails in production because it was run from a different folder."
+        say_q: "Interview corner. Pehla question: absolute aur relative path mein kya farak hai?"
+        say_a: "Answer: absolute path root se shuru hota hai, aur kahin se bhi kaam karta hai. Relative path current folder se shuru hota hai, isliye woh iss baat par depend karta hai ki command kahan se chali. Trap: aapke code mein data dot csv likha hai, aapki machine par chalta hai, aur production mein fail hota hai, kyunki wahan program kisi aur folder se chala."
+      - q: "What does an exit code tell you?"
+        a: "Whether a command succeeded: **0 means success**, anything else is a failure. Scripts, CI pipelines and tools like `&&` use it to decide what runs next."
+        trap: "Checking only the printed text. A program can print \"done\" and still fail with a non-zero code."
+        say_q: "Doosra question: exit code kya batata hai?"
+        say_a: "Answer: command successful hui ya nahi. Zero matlab success, aur baaki koi bhi number matlab failure. Scripts, CI pipelines, aur do ampersand isi se decide karte hain ki aage kya chalega. Trap: sirf print hua text dekhna. Program done print karke bhi fail ho sakta hai."
+      - q: "You type `python3` and get \"command not found\". What do you check?"
+        a: "Spelling first; then whether Python is installed; then whether its folder is on **PATH** (`which python3`, `echo $PATH`). On Windows, try `python` or `py`."
+        trap: "Reinstalling everything before reading the error."
+        say_q: "Teesra: python three type kiya aur command not found aaya. Aap kya check karoge?"
+        say_a: "Answer: pehle spelling. Phir ki Python install hai ya nahi. Phir ki uska folder PATH mein hai ya nahi, which aur echo dollar PATH se. Windows par python ya py try karo. Trap: error padhe bina sab kuch reinstall kar dena."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Video pause karo aur apne terminal mein khud karo.
+    items:
+      - {text: "Make `~/projects/practice/notes` in one command (hint: `mkdir -p`)", say: "Pehla: ek hi command mein projects ke andar practice, aur uske andar notes folder banao. Hint: mkdir dash p."}
+      - {text: "Write two lines to `todo.txt`, then show only the file's line count with `wc -l`", say: "Doosra: todo dot txt mein do lines likho, phir wc dash l se sirf lines ki ginti dikhao."}
+      - {text: "Run `python3 hello.py` from the parent folder. What path do you need?", say: "Teesra: hello dot py ko parent folder se chalao. Kaunsa path dena padega?"}
+      - {text: "Scenario: a script works in your folder but fails when a teammate runs it. Find three causes.", say: "Aur scenario: ek script aapke folder mein chalti hai, lekin teammate ke yahan fail hoti hai. Teen possible reasons socho.", pause: 6}
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "You are in `/home/student/projects/my-first-repo`. What does `cd ..` then `pwd` print?"
+    options:
+      - "`/home/student/projects/my-first-repo`"
+      - "`/home/student/projects`"
+      - "`/home/student`"
+      - "`/`"
+    answer: 1
+    explain: "`..` is the parent folder: one level up from `my-first-repo` is `projects`."
+    say_question: >
+      Quick check. Aap my first repo ke andar ho. cd dot dot, phir pwd. Kya print hoga?
+    say_answer: >
+      Slash home slash student slash projects. Do dots matlab ek level upar.
+
+  - type: quiz
+    number: 2
+    question: "Which command adds a line to the END of `notes.txt` without deleting what is there?"
+    options:
+      - "`echo \"hi\" > notes.txt`"
+      - "`echo \"hi\" >> notes.txt`"
+      - "`cat \"hi\" notes.txt`"
+      - "`touch notes.txt \"hi\"`"
+    answer: 1
+    explain: "`>>` appends. A single `>` overwrites the file."
+    say_question: >
+      Doosra question. Kaunsi command notes dot txt ke end mein line jodti hai, purana content mitaye bina?
+    say_answer: >
+      B, do greater than signs. Ek greater than sign poori file ko overwrite kar deta hai.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 1 recap
+    items:
+      - {text: "Terminal = the window; shell = the program that runs your commands", say: "Recap. Terminal window hai, shell andar ka program hai jo commands chalata hai."}
+      - {text: "`pwd` where am I · `ls` what's here · `cd` move · `..` up · `~` home", say: "pwd, ls, cd, dot dot, aur tilde se aap kahin bhi aa ja sakte ho."}
+      - {text: "`mkdir` `touch` `cat` `cp` `mv` `rm`, and `>` vs `>>`", say: "mkdir, touch, cat, cp, mv, aur rm se files aur folders sambhalte ho. Aur ek greater than overwrite karta hai, do append."}
+      - {text: "Hidden files start with a dot: see them with `ls -a`", say: "Dot se shuru hone wali files hidden hoti hain, ls dash a se dikhti hain."}
+      - {text: "Exit code 0 = success; \"command not found\" = spelling, install, or PATH", say: "Exit code zero matlab success. Aur command not found matlab spelling, install, ya PATH."}
+    outro: >
+      Agle lesson mein hum har project ko uska apna Python environment denge, packages install karenge, aur secrets ko code se bahar rakhenge, dot env file mein.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 0 · Lesson 2
+    title: Virtual environments, pip and .env
+    subtitle: Why every project gets its own environment, and where secrets belong.
+    say: >
+      Lesson ek complete. Aapne terminal mein folders, files, aur programs sambhalna seekh liya. Milte hain agle lesson mein.

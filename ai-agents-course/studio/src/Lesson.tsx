@@ -3,6 +3,7 @@ import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame } from "remo
 import { Background } from "./chrome/Background";
 import { Footer, Header } from "./chrome/Chrome";
 import { loadFonts } from "./fonts";
+import { applyTheme } from "./theme";
 import { SceneBase } from "./ui/anim";
 import { SceneFrame } from "./scenes/SceneFrame";
 import { TitleScene } from "./scenes/TitleScene";
@@ -59,6 +60,7 @@ const SCENES: Record<string, React.FC<{ scene: SceneBase }>> = {
 
 
 export const Lesson: React.FC<{ data: LessonData }> = ({ data }) => {
+  applyTheme(data.module);
   const frame = useCurrentFrame();
   const t = frame / data.fps;
   const chapter = [...data.chapters].reverse().find((c) => c.t <= t + 0.01)?.title;

@@ -13,6 +13,45 @@ ROOT = Path(__file__).resolve().parent.parent
 REPO = "https://github.com/PRiNCeKUsHW/ai-agents-python-2026/tree/main/ai-agents-course"
 
 MODULES = {
+    0: {
+        "title": "Your Developer Setup",
+        "language": "hinglish",
+        "project": "Your First GitHub Repository",
+        "project_dir": "my-first-repo",
+        "project_blurb": "a first repository with a setup checker that confirms Python 3.11+, an active "
+                         "virtual environment, pinned packages, a complete .env, a .gitignore that keeps "
+                         ".env and .venv out of git, and a git repository, with 26 pytest tests.",
+        "prereq": "None: this is where the course starts. Install Python 3.11+ and Git (on Windows, Git for "
+                  "Windows includes Git Bash).",
+        "style": "Explained in Hinglish (Hindi + English) with Hinglish captions. Every command is run for real "
+                 "on screen, with real-life analogies, comparison tables, an interview corner and practice "
+                 "questions (answers in quiz.md).",
+        "closing": "Every lesson ends with quick-check questions and a recap. Lesson 3 adds the project wrap-up "
+                   "and an extension challenge.",
+        "terms": ["terminal for beginners", "command line basics hindi", "python virtual environment",
+                  "venv pip requirements.txt", "python dotenv env file", "git and github for beginners",
+                  "git tutorial hindi", "git commit push pull", "gitignore env", "first github repository"],
+        "tags": "#Git #GitHub #Python #Terminal #AIAgents",
+        "docs": "docs.python.org/3/library/venv.html · pip.pypa.io · git-scm.com/book · docs.github.com",
+        "parts": [
+            {"lessons": [1, 2],
+             "title": "Terminal, venv, pip and .env",
+             "blurb": "the terminal from zero (folders, paths, files, running Python, exit codes, PATH and "
+                      "the two most common errors), then virtual environments, pip, requirements.txt, "
+                      "environment variables and a .env file, and the project's setup checker (5 of 6).",
+             "tags": ["terminal for beginners", "command line basics", "bash commands", "python venv",
+                      "pip install requirements", "python dotenv", "env file python", "environment variables",
+                      "hinglish coding tutorial", "python setup"]},
+            {"lessons": [3],
+             "title": "Git and GitHub + Your First Repository",
+             "blurb": "Git from zero: commits, the staging area, .gitignore, diff, restore, branches and "
+                      "merge; then remotes the way GitHub works (push, clone, pull), what to do if a secret "
+                      "is pushed, and the project: {project_blurb}",
+             "tags": ["git tutorial", "github for beginners", "git commit push pull", "git branch merge",
+                      "gitignore", "git restore", "github repository", "git hindi", "first github project",
+                      "version control"]},
+        ],
+    },
     1: {
         "title": "Python for AI Engineering",
         "project": "Python AI Toolkit",
@@ -168,13 +207,14 @@ def two_parts(m, info, lessons, datas, src):
                     last = t + c["t"]
             t += d["durationInFrames"] / d["fps"]
         first, final = part["lessons"][0], part["lessons"][-1]
+        span = f"Lesson {first}" if first == final else f"Lessons {first}–{final}"
         title = f"AI Agents with Python 2026 · Module {m} (Part {k}/{len(parts)}): {part['title']}"
         assert len(title) <= 100, (len(title), title)
         others = [f"Part {j} ({part['other'] if len(parts) == 2 and 'other' in part else p['title']}): "
                   "https://youtu.be/XXXX" for j, p in enumerate(parts, 1) if j != k]
         blurb = part["blurb"].format(project_blurb=info["project_blurb"])
         text = [f"Module {m} of \"AI Agents with Python: Beginner to Production (2026)\": {info['title']}. "
-                f"Part {k} of {len(parts)} (Lessons {first}–{final}).", "",
+                f"Part {k} of {len(parts)} ({span}).", "",
                 f"In this part: {blurb}", "",
                 *others, "",
                 "Every lesson explains the concept, shows real code on the left with its real output on the "
@@ -186,7 +226,7 @@ def two_parts(m, info, lessons, datas, src):
                 "Chapters", *yt, "", f"Official docs: {info['docs']}", "", info["tags"]]
         body = "\n".join(text)
         assert "<" not in body and ">" not in body.replace("->", ""), "YouTube rejects angle brackets"
-        out += [f"### Part {k}: Lessons {first}–{final} ({stamp(t)})", "", f"**Title:** {title}", "",
+        out += [f"### Part {k}: {span} ({stamp(t)})", "", f"**Title:** {title}", "",
                 "```text", body, "```", "", "**Tags:** " + ", ".join(part["tags"]), ""]
     return out
 
@@ -225,11 +265,13 @@ def main(m):
             "",
             f"Prerequisites: {info['prereq']} You need Python 3.11+ and a code editor.",
             "",
-            *(["Explained in Hinglish (Hindi + English) with Hinglish captions. Every concept goes What → Why → How "
-                "→ Where → Practice, with real-life analogies, code on the left and its real output on the right, "
-                "dry-run tables, an interview corner and practice questions (answers in quiz.md).", ""] if hinglish else []),
-            "Every lesson explains the concept, shows real code with real output, covers common errors, "
-            "and ends with a quick check. The module closes with a recap, a 5-question quiz and an extension challenge.",
+            *([info.get("style", "Explained in Hinglish (Hindi + English) with Hinglish captions. Every concept "
+                "goes What → Why → How → Where → Practice, with real-life analogies, code on the left and its real "
+                "output on the right, dry-run tables, an interview corner and practice questions (answers in "
+                "quiz.md)."), ""] if hinglish else []),
+            info.get("closing", "Every lesson explains the concept, shows real code with real output, covers common "
+                     "errors, and ends with a quick check. The module closes with a recap, a 5-question quiz and "
+                     "an extension challenge."),
             "",
             f"Source code + README: {src}",
             "",
@@ -248,8 +290,14 @@ def main(m):
             if c["t"] - last >= 10:
                 lines.append(f"{stamp(c['t'])} {c['title']}")
                 last = c["t"]
+        title = f"{d['title']} | AI Agents with Python, Module {m} Lesson {n}"
+        if len(title) > 100:                   # YouTube's limit: drop the series name first
+            title = f"{d['title']} | Module {m} Lesson {n}"
+        if len(title) > 100:
+            title = f"{d['title'].split(':')[0]} | AI Agents with Python, Module {m} Lesson {n}"
+        assert len(title) <= 100, (len(title), title)
         out += [f"### Lesson {n} ({stamp(dur)})", "",
-                f"**Title:** {d['title']} | AI Agents with Python, Module {m} Lesson {n}", "",
+                f"**Title:** {title}", "",
                 "```text",
                 f"Lesson {n} of Module {m} ({info['title']}) in \"AI Agents with Python: Beginner to Production (2026)\".",
                 "",

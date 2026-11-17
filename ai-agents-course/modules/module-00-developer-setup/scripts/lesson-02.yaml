@@ -1,0 +1,487 @@
+module_title: Your Developer Setup
+title: "Virtual Environments, pip and the .env File: Why Every Project Gets Its Own"
+narration: hinglish
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 0 · Lesson 2
+    title: Virtual environments, pip and .env
+    subtitle: Every project gets its own Python packages, and its own settings outside the code.
+    say: >
+      Lesson do mein swagat hai. Pichle lesson mein humne terminal seekha. Aaj hum har project ko uska apna Python environment denge, packages install karenge, aur settings aur secrets ko code se bahar rakhenge.
+      Yeh teen cheezein har professional Python project mein hoti hain, aur iss course ke har module mein bhi.
+
+  - type: objectives
+    items:
+      - {text: "Explain the problem virtual environments solve", say: "Iss lesson ke baad aap explain kar paoge ki virtual environment kaunsi problem solve karta hai."}
+      - {text: "Create, activate and deactivate a `.venv`", say: "Dot venv banana, activate karna, aur deactivate karna."}
+      - {text: "Install pinned packages with pip and `requirements.txt`", say: "pip aur requirements dot txt se exact versions install karna."}
+      - {text: "Use environment variables and a `.env` file for settings and secrets", say: "Environment variables aur dot env file mein settings aur secrets rakhna."}
+      - {text: "Run the project's setup checker", say: "Aur hamare project ka setup checker chalana."}
+
+  - type: callout
+    chapter: The problem
+    kind: scenario
+    title: "One laptop, two projects, one clash"
+    body: "Project A was built with **library v1**. Project B needs **library v2**. Without isolation, Python keeps **one copy** of each library for the whole computer: installing v2 for B silently breaks A. This is where \"but it works on my machine!\" comes from."
+    say: >
+      Pehle problem dekhte hain. Aapke laptop par do projects hain. Project A ek library ke version one par bana tha. Project B ko usi library ka version two chahiye.
+      Agar sab kuch poore computer ke liye ek hi jagah install hota hai, toh B ke liye version two install karte hi, A chupchaap toot jaata hai. Koi error nahi aata jab tak aap A chalate nahi.
+    items:
+      - {text: "Projects need different versions of the same package", say: "Alag projects ko same package ke alag versions chahiye hote hain."}
+      - {text: "A global install changes every project at once", say: "Global install ek saath har project ko badal deta hai."}
+      - {text: "Your teammate's computer has different versions than yours", say: "Aur aapke teammate ke computer par versions aapse alag hote hain. Wahi famous line: mere machine par toh chal raha tha."}
+
+  - type: diagram
+    heading: "Without and with virtual environments"
+    nodes:
+      - {id: a, label: "Project A", sub: "needs library v1", x: 250, y: 150, w: 330, h: 100, tone: blue}
+      - {id: b, label: "Project B", sub: "needs library v2", x: 250, y: 400, w: 330, h: 100, tone: blue}
+      - {id: global, label: "One shared Python", sub: "library v2 only: A breaks", x: 760, y: 275, w: 420, h: 110, tone: coral}
+      - {id: va, label: "A/.venv", sub: "library v1", x: 1380, y: 150, w: 330, h: 100, tone: teal}
+      - {id: vb, label: "B/.venv", sub: "library v2", x: 1380, y: 400, w: 330, h: 100, tone: teal}
+    edges:
+      - {from: a, to: global}
+      - {from: b, to: global}
+      - {from: a, to: va}
+      - {from: b, to: vb}
+    say: >
+      Ab picture mein dekhte hain.
+    steps:
+      - show: [a, b, global, "a->global", "b->global"]
+        flow: ["a->global", "b->global"]
+        focus: [global]
+        say: >
+          Bina virtual environment ke, dono projects ek hi shared Python use karte hain. Usme library ka sirf ek version reh sakta hai. Jo baad mein install hua, woh jeet gaya, aur doosra project toot gaya.
+      - show: [va, vb, "a->va", "b->vb"]
+        flow: ["a->va", "b->vb"]
+        focus: [va, vb]
+        say: >
+          Virtual environment ke saath, har project ka apna folder hota hai, dot venv, jisme uske apne packages hote hain. A ke paas version one, B ke paas version two. Dono ek doosre ko chhoote bhi nahi.
+
+  - type: callout
+    kind: analogy
+    title: "A virtual environment is each project's own toolbox"
+    body: "Two carpenters sharing one toolbox keep swapping each other's tools. Give each one **their own box**, and nobody's work breaks. `.venv` is that box: its own Python, its own `pip`, its own packages, inside the project folder."
+    say: >
+      Isse aise socho. Do carpenters ek hi toolbox share karte hain. Ek apna hathoda badal deta hai, aur doosre ka kaam bigad jaata hai.
+      Har carpenter ko apna toolbox de do, problem khatam. Dot venv wahi toolbox hai: project folder ke andar, uska apna Python, apna pip, aur apne packages.
+
+  - type: terminal
+    chapter: Create a venv
+    heading: "Create a virtual environment"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: python3 -c "import sys; print(sys.prefix != sys.base_prefix)"
+        run: mkdir -p my-first-repo && cd my-first-repo && PATH=/usr/local/bin:/usr/bin:/bin python3 -c "import sys; print(sys.prefix != sys.base_prefix)"
+        say: >
+          Ab how. Hum my first repo folder mein hain. Pehle ek chhota sa check: kya hum abhi virtual environment ke andar hain? Yeh one line Python program True ya False print karta hai. False, yaani abhi hum computer ke shared Python par hain.
+      - cmd: python3 -m venv .venv
+        run: cd my-first-repo && PATH=/usr/local/bin:/usr/bin:/bin python3 -m venv .venv
+        say: >
+          Virtual environment banane ki command: python three dash m venv dot venv. Dash m ka matlab hai: Python ka ek built in module chalao, jiska naam venv hai. Aur aakhri dot venv folder ka naam hai. Yeh naam convention hai, aur har tool isse pehchanta hai.
+      - cmd: ls -a
+        run: cd my-first-repo && ls -aC -T 0
+        say: >
+          ls dash a se dekho. Ek naya hidden folder ban gaya: dot venv.
+      - cmd: ls .venv/bin
+        run: cd my-first-repo && ls -C -T 0 .venv/bin
+        say: >
+          Uske andar bin folder mein, iss project ka apna python aur apna pip hai, aur activate naam ki scripts. Windows par yeh folder bin nahi, Scripts kehlata hai.
+
+  - type: table
+    chapter: Activate
+    heading: "Activate it: one command per shell"
+    columns: [Your shell, Activate, Leave]
+    widths: [1.2, 2.2, 0.9]
+    rows:
+      - {cells: ["bash / zsh (macOS, Linux)", "`source .venv/bin/activate`", "`deactivate`"], say: "Ab activate karna. Mac aur Linux par: source dot venv slash bin slash activate."}
+      - {cells: ["Git Bash (Windows)", "`source .venv/Scripts/activate`", "`deactivate`"], say: "Windows ke Git Bash mein bin ki jagah Scripts."}
+      - {cells: ["PowerShell (Windows)", "`.venv\\Scripts\\Activate.ps1`", "`deactivate`"], say: "PowerShell mein dot venv, Scripts, Activate dot ps one. Agar PowerShell kahe ki scripts disabled hain, toh ek baar Set Execution Policy, RemoteSigned, scope CurrentUser chalao."}
+      - {cells: ["Command Prompt (cmd)", "`.venv\\Scripts\\activate.bat`", "`deactivate`"], say: "Aur purane Command Prompt mein activate dot bat."}
+      - {cells: ["VS Code", "Select Interpreter → `.venv`", "close the terminal"], say: "VS Code aksar dot venv khud pehchan leta hai. Na pehchane, toh Python Select Interpreter mein dot venv chuno.", tone: teal}
+
+  - type: terminal
+    heading: "Inside the venv"
+    title: terminal — bash · ~/projects/my-first-repo
+    prompt: "(.venv) $"
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: source .venv/bin/activate
+        run: cd my-first-repo && . .venv/bin/activate
+        say: >
+          Activate karte hain. Dhyan do, prompt ke aage ab bracket mein dot venv likha aa gaya. Yeh shell ka tareeka hai batane ka ki virtual environment active hai.
+      - cmd: which python
+        run: cd my-first-repo && . .venv/bin/activate && which python
+        say: >
+          which python ab project ke andar ka python dikhata hai: my first repo slash dot venv slash bin slash python.
+      - cmd: python -c "import sys; print(sys.prefix != sys.base_prefix)"
+        run: cd my-first-repo && . .venv/bin/activate && python -c "import sys; print(sys.prefix != sys.base_prefix)"
+        say: >
+          Wahi check dobara: ab True. Venv ke andar Python ka prefix dot venv folder hota hai, aur base prefix asli installation. Dono alag hain, isliye True. Hamara setup checker bhi yahi check use karta hai.
+      - cmd: pip list
+        run: cd my-first-repo && . .venv/bin/activate && PIP_DISABLE_PIP_VERSION_CHECK=1 pip list
+        say: >
+          Aur pip list. Bilkul khaali toolbox, sirf pip khud. Computer par jo bhi globally installed hai, woh yahan nahi dikhta. Yahi isolation hai.
+
+  - type: steps
+    heading: "What `activate` really does"
+    items:
+      - {text: "It puts `.venv/bin` at the **front of PATH**", sub: "remember Lesson 1: the shell searches PATH in order", say: "Activate actually kya karta hai? Koi jaadu nahi. Lesson ek yaad karo: shell PATH ke folders mein order se program dhoondhta hai. Activate bas dot venv slash bin ko PATH ke sabse aage rakh deta hai."}
+      - {text: "So `python` and `pip` now mean the project's own copies", sub: "`which python` proves it", say: "Isliye ab python aur pip likhne par project wale chalte hain. Which python isse prove karta hai."}
+      - {text: "It changes only **this** terminal window", sub: "a new window starts un-activated: activate again", say: "Yeh sirf iss terminal window ke liye hai. Naya terminal khologe, toh dobara activate karna padega. Beginners yahan sabse zyada atakte hain."}
+      - {text: "You can skip it: `.venv/bin/python app.py` uses the venv directly", sub: "handy in scripts and scheduled jobs", tone: teal, say: "Aur activate zaroori bhi nahi hai. Aap seedhe dot venv slash bin slash python likh sakte ho. Scripts aur scheduled jobs mein yahi tareeka use hota hai."}
+
+  - type: callout
+    chapter: Installing packages with pip
+    kind: analogy
+    title: "pip is the app store for Python"
+    body: "**PyPI** (pypi.org) is the store: hundreds of thousands of packages. **pip** is the app that downloads and installs them, into the active environment. `pip install name==version` = \"install exactly this version\"."
+    say: >
+      Ab pip. Isse phone ke app store ki tarah socho. PyPI, yaani pie P I dot org, store hai, jahan lakhon Python packages hain. Aur pip woh app hai jo package download karke install karta hai, active environment ke andar.
+
+  - type: terminal
+    heading: "Install a package, then record it"
+    title: terminal — bash · ~/projects/my-first-repo
+    prompt: "(.venv) $"
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: pip install python-dotenv==1.2.4
+        run: cd my-first-repo && . .venv/bin/activate && PIP_DISABLE_PIP_VERSION_CHECK=1 pip install python-dotenv==1.2.4
+        say: >
+          Hum python dotenv install karte hain. Yeh package dot env file padhta hai, jo iss lesson mein aage aayegi. Do equal signs ke baad exact version: one point two point four. pip ne download kiya aur install kiya.
+      - cmd: pip list
+        run: cd my-first-repo && . .venv/bin/activate && PIP_DISABLE_PIP_VERSION_CHECK=1 pip list
+        say: >
+          pip list mein ab python dotenv dikh raha hai, sirf iss project ke venv mein.
+      - cmd: pip freeze > requirements.txt
+        run: cd my-first-repo && . .venv/bin/activate && pip freeze > requirements.txt
+        say: >
+          Ab sabse important step. pip freeze har installed package ka exact version print karta hai, aur greater than sign, jo aapne lesson ek mein seekha, usse requirements dot txt file mein likh deta hai.
+      - cmd: cat requirements.txt
+        run: cd my-first-repo && cat requirements.txt
+        say: >
+          Yeh rahi file. Ek line, package ka naam aur exact version. Yeh file aapke project ki recipe hai.
+
+  - type: table
+    heading: "Version pins in requirements.txt"
+    columns: [Write, Means, Use it when]
+    widths: [1.2, 1.8, 1.8]
+    rows:
+      - {cells: ["`python-dotenv==1.2.4`", "exactly 1.2.4", "apps: same result on every machine"], say: "Version likhne ke tareeke. Do equal signs matlab exactly yahi version. Apps ke liye yahi best hai, kyunki har machine par same result."}
+      - {cells: ["`python-dotenv>=1.2`", "1.2 or anything newer", "libraries that others install"], say: "Greater than equal matlab yeh ya naya. Libraries ke liye, jo doosre log install karte hain."}
+      - {cells: ["`python-dotenv~=1.2.4`", "1.2.4 up to (not incl.) 1.3", "bug fixes yes, new features no"], say: "Tilde equal matlab compatible version: bug fixes aa sakte hain, lekin bade changes nahi."}
+      - {cells: ["`python-dotenv`", "the newest today", "quick experiments only", ], tone: coral, say: "Aur bina version ke matlab aaj ka newest. Kal kuch aur install hoga. Isliye sirf quick experiments mein."}
+    outro: >
+      Iss course ke saare projects exact pins use karte hain. Isliye jo output aap video mein dekhte ho, wahi aapke computer par aayega.
+
+  - type: callout
+    kind: analogy
+    title: "requirements.txt is the recipe; .venv is the cooked dish"
+    body: "You share a **recipe**, not a plate of food. `requirements.txt` is tiny and goes into git. `.venv` is big, machine-specific and disposable: delete it any time and cook it again from the recipe."
+    say: >
+      Ek aur analogy. Aap kisi ko recipe bhejte ho, khane ki plate nahi. Requirements dot txt recipe hai: chhoti si file, jo git mein jaati hai.
+      Dot venv bana hua khana hai: bada, aapki machine ke liye bana hua, aur kabhi bhi phenk kar recipe se dobara banaya ja sakta hai. Chalo yahi karke dekhte hain.
+
+  - type: terminal
+    chapter: Rebuild from requirements
+    heading: "Delete the venv and rebuild it from the recipe"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: deactivate
+        run: "true"
+        prompt: "(.venv) $"
+        say: >
+          Pehle deactivate. Prompt se dot venv hat gaya.
+      - cmd: rm -rf .venv
+        run: cd my-first-repo && rm -rf .venv
+        say: >
+          Ab poora dot venv delete. Ghabrao mat, recipe hamare paas hai.
+      - cmd: python3 -m venv .venv && source .venv/bin/activate
+        run: cd my-first-repo && PATH=/usr/local/bin:/usr/bin:/bin python3 -m venv .venv
+        say: >
+          Naya venv banaya aur activate kiya. Do ampersand se dono ek line mein.
+      - cmd: pip install -r requirements.txt
+        prompt: "(.venv) $"
+        run: cd my-first-repo && . .venv/bin/activate && PIP_DISABLE_PIP_VERSION_CHECK=1 pip install -r requirements.txt
+        keep: "-1"
+        say: >
+          Aur pip install dash r requirements dot txt. Dash r matlab: iss file mein likhe sab packages install karo. Last line dekho: wahi exact version wapas aa gaya. Aapka teammate bhi yahi teen commands chalayega, aur usse bilkul same setup milega.
+
+  - type: compare
+    heading: "What goes into git, and what never does"
+    left:
+      title: "Commit these"
+      tone: teal
+      label: Share
+      items:
+        - "Your code: `hello.py`, `check_setup.py`"
+        - "`requirements.txt`: the recipe"
+        - "`.env.example`: setting names, no real values"
+        - "`README.md`: how to set up and run"
+    right:
+      title: "Never commit these"
+      tone: coral
+      label: Keep out
+      items:
+        - "`.venv/`: big, machine-specific, rebuildable"
+        - "`.env`: your real settings and secrets"
+        - "`__pycache__/`: files Python makes itself"
+        - "Any API key, password or token, anywhere"
+    steps:
+      - show: left
+        say: >
+          Toh git mein kya jaata hai? Aapka code, requirements dot txt, dot env dot example, jiske baare mein abhi baat karenge, aur README.
+      - show: right
+        say: >
+          Aur kya kabhi nahi jaata? Dot venv, dot env, pycache, aur koi bhi API key, password, ya token. Kahin bhi. Lesson teen mein dot gitignore file yeh rule automatic bana degi.
+
+  - type: callout
+    kind: info
+    label: Good to know
+    title: "`python -m pip`, and a faster tool called uv"
+    body: "`python -m pip install ...` runs the pip that belongs to **that exact Python**: the safest form when several Pythons are installed. **uv** is a newer, much faster tool that does venv + pip in one; Module 7 uses it. Learn pip first: every tool builds on the same ideas."
+    say: >
+      Do cheezein jaanna achha hai. Pehli: python dash m pip install. Yeh usi Python ka pip chalata hai jo aap likh rahe ho. Jab computer par kai Pythons hon, toh yeh sabse safe tareeka hai.
+      Doosri: uv naam ka ek naya tool, jo venv aur pip ka kaam ek saath, bahut tezi se karta hai. Module saat mein hum usse use karenge. Lekin pehle pip seekho, kyunki har tool inhi ideas par bana hai.
+
+  - type: callout
+    chapter: Environment variables
+    kind: analogy
+    title: "Settings belong outside the code"
+    body: "Your ATM PIN is not printed on your card. In the same way, **settings that change per machine** (debug mode, a database address) and **secrets** (API keys) don't belong in your code. The code reads them from the **environment** when it runs."
+    say: >
+      Ab environment variables. Aapka ATM PIN card par chhapa nahi hota. Waise hi, jo settings har machine par alag hoti hain, jaise debug mode, aur jo secrets hote hain, jaise API keys, woh code mein nahi likhe jaate.
+      Code chalte waqt unhe environment se padhta hai. Environment matlab woh variables jo shell har program ko deta hai.
+    items:
+      - {text: "Same code runs on your laptop, a teammate's, and a server", say: "Isse same code aapke laptop, teammate ke laptop, aur server, teeno par chalta hai, bas settings alag."}
+      - {text: "Secrets never land in git or screenshots", say: "Aur secrets kabhi git ya screenshot mein nahi pahunchte."}
+
+  - type: terminal
+    heading: "Environment variables in the terminal"
+    title: terminal — bash
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: export APP_NAME=demo
+        say: >
+          export ek environment variable set karta hai. Naam bade letters mein likhna convention hai. Equal sign ke aas paas space nahi.
+      - cmd: echo $APP_NAME
+        run: export APP_NAME=demo; echo $APP_NAME
+        say: >
+          Dollar laga kar uski value padhte hain: demo.
+      - cmd: python3 -c "import os; print(os.environ.get('APP_NAME'))"
+        run: export APP_NAME=demo; python3 -c "import os; print(os.environ.get('APP_NAME'))"
+        say: >
+          Python mein os dot environ dot get se wahi value milti hai. Program ko variable shell se mila.
+      - cmd: python3 -c "import os; print(os.environ.get('DEBUG', 'false'))"
+        say: >
+          Aur jo variable set hi nahi hai, uske liye get ka doosra argument default value deta hai. DEBUG set nahi, toh false.
+    outro: >
+      Lekin export ki ek kamzori hai. Terminal band kiya, aur variable gayab. Har baar sab kuch dobara type karna, aur galti se command history mein key chhod dena, dono bure hain. Iska solution hai dot env file.
+
+  - type: code
+    chapter: The .env file
+    heading: "`.env.example` is committed; `.env` is your private copy"
+    title: .env.example
+    file: project/my-first-repo/.env.example
+    lang: bash
+    say: >
+      Dot env ek simple text file hai. Har line par ek setting: naam, equal sign, value. Hum do files rakhte hain.
+    steps:
+      - lines: "1-2"
+        note: "The example file explains itself."
+        say: >
+          Pehli, dot env dot example. Yeh git mein jaati hai. Isme setting ke naam hote hain, real values nahi. Yeh teammates ko batati hai ki kaunsi settings chahiye.
+      - lines: "3-5"
+        note: "Names + harmless placeholders. Never a real key."
+        say: >
+          Yahan teen settings hain: app name, debug, aur API key. API key ki jagah placeholder hai, paste your key here.
+      - lines: "1"
+        note: "`cp .env.example .env`, then edit `.env` in your editor."
+        say: >
+          Doosri file, dot env, aap khud banate ho: dot env dot example ko copy karo, aur editor mein apni real values bharo. Yeh file aapke computer se kabhi bahar nahi jaati. Real key kabhi screen par mat dikhao, recording ya screenshot mein bhi nahi.
+
+  - type: run
+    heading: "show_config.py: read .env, and never print the secret"
+    title: show_config.py
+    file: project/my-first-repo/show_config.py
+    cwd: project/my-first-repo
+    cmd: python show_config.py
+    run: cp .env.example .env && python show_config.py; s=$?; rm -f .env; exit $s
+    say: >
+      Ab Python se dot env padhte hain. Iss demo mein dot env, example file ki copy hai, yaani placeholder values ke saath.
+    steps:
+      - lines: "5-7"
+        note: "`load_dotenv()` copies `KEY=value` lines from `.env` into `os.environ`."
+        say: >
+          load dotenv function dot env file ki har line ko environment variables mein daal deta hai. Baaki code ko pata bhi nahi chalta ki value file se aayi ya terminal se.
+      - lines: "9-11"
+        note: "Read with defaults. Everything from the environment is a **string**."
+        say: >
+          Phir os dot environ dot get se padho, defaults ke saath. Dhyan do: environment ki har value string hoti hai. Isliye debug ko lower case karke true string se compare kiya, taaki asli True ya False mile.
+      - lines: "13-14"
+        out: "1-2"
+        note: "App name from `.env`; debug is a real boolean."
+        say: >
+          Output mein app name my first repo, aur debug False.
+      - lines: "15-19"
+        out: "3"
+        note: "Prove the key is there. Never show it."
+        say: >
+          Aur key? Hum key print nahi karte. Sirf itna batate hain ki set hai, aur kitne characters ki hai. Logs aur screen par secrets kabhi nahi aane chahiye.
+
+  - type: callout
+    kind: warn
+    title: "If a key ever leaks"
+    body: "If a real key lands in git, a chat, a screenshot or a video: **revoke it immediately** in the provider's console and create a new one. Deleting the file afterwards is not enough: copies already exist."
+    say: >
+      Ek zaroori rule. Agar kabhi real key git mein, chat mein, screenshot mein, ya video mein chali jaaye, toh turant provider ke console mein usse revoke karo, aur nayi key banao. Baad mein file delete karna kaafi nahi hai, kyunki copies pehle hi ban chuki hoti hain.
+
+  - type: code
+    chapter: The setup checker
+    heading: "check_setup.py: six checks, one function each"
+    title: check_setup.py
+    file: project/my-first-repo/check_setup.py
+    say: >
+      Ab hamare project ki main file: check setup dot py. Yeh check karta hai ki project sahi tareeke se set up hai ya nahi. Har check ek chhota function hai.
+    steps:
+      - lines: "24-28"
+        note: "Every check returns a `Check`: name, ok, detail."
+        say: >
+          Har check ek Check object return karta hai: naam, ok yaani pass ya fail, aur detail. Dataclass ek chhota class banane ka shortcut hai, Module ek mein detail mein aayega.
+      - lines: "39-48"
+        note: "The venv check you ran by hand: `sys.prefix != sys.base_prefix`."
+        say: >
+          Yeh venv check hai. Wahi line jo humne terminal mein haath se chalayi thi: prefix aur base prefix alag hain ya nahi.
+      - lines: "65-80"
+        note: "Each pinned package: installed? the right version?"
+        say: >
+          Packages check, requirements dot txt ki har line ke liye: package installed hai? Aur version wahi hai jo pin kiya? metadata dot version installed version batata hai.
+      - lines: "93-102"
+        note: "`.env` must have every name in `.env.example`. Values are never shown."
+        say: >
+          Dot env check: file hai ya nahi, aur kya isme woh saare naam hain jo dot env dot example mein hain. Values kabhi print nahi hoti, sirf ginti.
+      - lines: "105-118"
+        note: "`.gitignore` and `.git/`: Lesson 3."
+        say: >
+          Aur aakhri do checks, dot gitignore aur git repository, lesson teen ke liye hain.
+
+  - type: run
+    heading: "Run the checker: 5 of 6"
+    title: check_setup.py
+    file: project/my-first-repo/check_setup.py
+    lines: "121-143"
+    cwd: project/my-first-repo
+    cmd: python check_setup.py
+    run: cp .env.example .env && python check_setup.py; s=$?; rm -f .env; exit $s
+    exit: 1
+    steps:
+      - lines: "121-129"
+        note: "`run_checks` runs all six, in order."
+        say: >
+          run checks saare chhe checks order mein chalata hai, aur main har result ki ek line print karta hai.
+      - lines: "134-136"
+        out: "1-5"
+        note: "Python, venv, packages, `.env`, `.gitignore`: OK."
+        say: >
+          Output dekho. Python version theek, venv active, package installed aur version match, dot env mein teeno settings, aur gitignore bhi theek.
+      - lines: "134-136"
+        out: "6"
+        note: "Not a git repository yet."
+        say: >
+          Lekin ek check fail: Git repository. Folder abhi git repo nahi hai. Checker hi bata raha hai ki fix kya hai: git init.
+      - lines: "137-139"
+        out: "7"
+        note: "5/6 → exit code 1, so scripts can tell something is wrong."
+        say: >
+          Paanch mein se paanch nahi, chhe mein se paanch. Isliye exit code one, failure. Lesson teen ke end tak hum isse chhe mein se chhe banayenge.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "Why do Python projects use virtual environments?"
+        a: "To **isolate** each project's packages and versions, so projects don't break each other, and so the setup can be **reproduced** exactly from `requirements.txt` on any machine."
+        trap: "\"To make Python faster.\" A venv changes which packages are used, not speed."
+        say_q: "Interview corner. Pehla question: Python projects virtual environments kyun use karte hain?"
+        say_a: "Answer: har project ke packages aur versions ko isolate karne ke liye, taaki projects ek doosre ko na todein. Aur taaki requirements dot txt se kisi bhi machine par exact same setup ban sake. Trap: yeh bolna ki venv Python ko fast banata hai. Venv sirf yeh badalta hai ki kaunse packages use honge."
+      - q: "Do you commit the `.venv` folder?"
+        a: "No. Commit `requirements.txt` (the recipe) and ignore `.venv` (it is big, machine-specific and rebuildable with `pip install -r requirements.txt`)."
+        trap: "Committing `.venv` \"so teammates don't need to install\". It breaks on other operating systems and Python versions."
+        say_q: "Doosra: kya aap dot venv folder commit karte ho?"
+        say_a: "Answer: nahi. Recipe commit karo, yaani requirements dot txt. Dot venv ko ignore karo, kyunki woh bada hai, machine specific hai, aur dobara ban sakta hai. Trap: yeh sochna ki dot venv commit karne se teammates ka time bachega. Doosre operating system ya Python version par woh toot jaata hai."
+      - q: "How do you handle API keys in a Python project?"
+        a: "Read them from **environment variables**, loaded from a git-ignored `.env` in development or a secrets manager in production. Commit only `.env.example` with names and placeholders. Never print or log the value; revoke a key if it leaks."
+        trap: "Hard-coding the key \"just for now\". It ends up in git history."
+        say_q: "Teesra: Python project mein API keys kaise handle karte ho?"
+        say_a: "Answer: environment variables se padhte hain. Development mein ek git ignored dot env file se, aur production mein secrets manager se. Git mein sirf dot env dot example jaati hai, naam aur placeholders ke saath. Key ki value kabhi print ya log nahi karte, aur leak ho toh revoke. Trap: bas abhi ke liye key code mein likh dena. Woh git history mein reh jaati hai."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Pause karo aur khud try karo.
+    items:
+      - {text: "Open a NEW terminal. Is your venv still active? How do you check?", say: "Pehla: ek naya terminal kholo. Kya venv ab bhi active hai? Kaise check karoge?"}
+      - {text: "Install `requests` at an exact version, then update `requirements.txt`", say: "Doosra: requests package ko exact version ke saath install karo, aur requirements dot txt update karo."}
+      - {text: "Add a setting `GREETING` to `.env.example` and `.env`; make `hello.py` read it", say: "Teesra: dot env dot example aur dot env mein GREETING naam ki setting jodo, aur hello dot py se use padho."}
+      - {text: "Scenario: your app works, but crashes on a teammate's laptop with `ModuleNotFoundError`. Explain why, and the fix.", say: "Aur scenario: aapka app chalta hai, lekin teammate ke laptop par module not found error aata hai. Kyun, aur fix kya hai?", pause: 6}
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "Which file should you commit so a teammate can rebuild your environment?"
+    options:
+      - "`.venv/`"
+      - "`.env`"
+      - "`requirements.txt`"
+      - "`__pycache__/`"
+    answer: 2
+    explain: "`requirements.txt` is the recipe. `.venv` is rebuilt from it, `.env` holds private values, and `__pycache__` is generated."
+    say_question: >
+      Quick check. Teammate ko aapka environment dobara banane ke liye kaunsi file commit karni chahiye?
+    say_answer: >
+      C, requirements dot txt. Woh recipe hai. Dot venv usi se banta hai, dot env private hai, aur pycache Python khud banata hai.
+
+  - type: quiz
+    number: 2
+    question: "`os.environ.get(\"DEBUG\")` returns `\"False\"`. What is `bool(\"False\")`?"
+    options:
+      - "`False`"
+      - "`True`"
+      - "`None`"
+      - "an error"
+    answer: 1
+    explain: "Any non-empty string is truthy. Compare the text instead: `value.lower() == \"true\"`, as `show_config.py` does."
+    say_question: >
+      Doosra question, thoda tricky. Environment se DEBUG ki value string False aayi. bool of string False kya hoga?
+    say_answer: >
+      True! Koi bhi non empty string True hoti hai. Isliye show config dot py text ko true se compare karta hai.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 2 recap
+    items:
+      - {text: "`.venv` = each project's own Python and packages", say: "Recap. Dot venv har project ka apna Python aur packages hai."}
+      - {text: "`python3 -m venv .venv` → `source .venv/bin/activate` → `deactivate`", say: "Banao, activate karo, aur kaam ke baad deactivate."}
+      - {text: "`pip install pkg==x.y.z` · `pip freeze > requirements.txt` · `pip install -r`", say: "pip se exact versions install karo, freeze se recipe likho, aur dash r se dobara banao."}
+      - {text: "Settings and secrets: environment variables, loaded from `.env`", say: "Settings aur secrets environment variables mein, dot env file se."}
+      - {text: "Commit `.env.example`, never `.env`; revoke a key that leaks", say: "Dot env dot example commit hoti hai, dot env kabhi nahi. Aur leak hui key turant revoke."}
+    outro: >
+      Agle lesson mein Git aur GitHub. Hum project ko save karenge, uski history dekhenge, GitHub par bhejenge, aur setup checker ko chhe mein se chhe tak le jaayenge.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 0 · Lesson 3
+    title: Git and GitHub
+    subtitle: Save, commit, push and share your work. Your first GitHub repository.
+    say: >
+      Lesson do complete. Ab aapka har project apne toolbox ke saath, aur secrets code se bahar. Milte hain lesson teen mein.

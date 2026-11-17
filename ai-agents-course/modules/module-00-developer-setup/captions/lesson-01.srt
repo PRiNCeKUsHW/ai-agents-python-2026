@@ -1,0 +1,1314 @@
+1
+00:00:00,700 --> 00:00:04,879
+Namaste, aur swagat hai AI
+Agents with Python course mein.
+
+2
+00:00:05,099 --> 00:00:09,360
+Yeh Module zero hai, yaani
+shuruaat se bhi pehle ki tayyari.
+
+3
+00:00:09,580 --> 00:00:15,374
+Iss module mein hum woh teen cheezein
+seekhenge jo har AI engineer roz use karta
+
+4
+00:00:15,374 --> 00:00:19,719
+hai: terminal, virtual
+environment, aur Git ke saath GitHub.
+
+5
+00:00:19,939 --> 00:00:25,027
+Aur module ke end tak aapka
+pehla GitHub repository ready hoga.
+
+6
+00:00:25,247 --> 00:00:28,454
+Chalo, pehle lesson se
+shuru karte hain: terminal.
+
+7
+00:00:29,754 --> 00:00:34,866
+Iss lesson ke baad aap explain kar
+paoge ki terminal aur shell kya hote hain.
+
+8
+00:00:35,216 --> 00:00:40,107
+Folders mein aana jaana
+seekhoge: pwd, ls, cd, aur paths.
+
+9
+00:00:40,457 --> 00:00:44,945
+Files banana, padhna, copy
+karna, move karna, aur delete karna.
+
+10
+00:00:45,295 --> 00:00:50,503
+Python file ko arguments ke saath
+chalana, aur uska exit code padhna.
+
+11
+00:00:50,853 --> 00:00:56,228
+Aur do sabse common errors theek
+karna: galat folder, aur command not found.
+
+12
+00:00:57,528 --> 00:00:59,412
+Pehle what: terminal kya hai?
+
+13
+00:00:59,632 --> 00:01:01,285
+Ek restaurant socho.
+
+14
+00:01:01,505 --> 00:01:07,549
+Aap menu mein photo par ungli rakh
+sakte ho, ya waiter ko exact bata sakte ho: ek
+
+15
+00:01:07,549 --> 00:01:10,385
+masala dosa, kam spicy, bina pyaaz ke.
+
+16
+00:01:10,605 --> 00:01:14,533
+Mouse se click karna photo
+par ungli rakhne jaisa hai.
+
+17
+00:01:14,753 --> 00:01:18,169
+Terminal mein type
+karna exact batane jaisa hai.
+
+18
+00:01:18,519 --> 00:01:21,722
+Terminal woh window hai
+jisme aap type karte ho.
+
+19
+00:01:22,072 --> 00:01:27,119
+Shell uske andar ka program hai, jo
+aapki command padhta hai aur chalata hai.
+
+20
+00:01:27,339 --> 00:01:29,979
+Jaise bash, zsh, ya PowerShell.
+
+21
+00:01:30,329 --> 00:01:35,192
+Aur command ek instruction hai,
+jaise ls, ya python hello dot py.
+
+22
+00:01:35,542 --> 00:01:40,700
+Log aksar terminal aur shell ko ek hi
+cheez bolte hain, aur roz ki baat mein yeh
+
+23
+00:01:40,700 --> 00:01:41,344
+theek hai.
+
+24
+00:01:41,564 --> 00:01:47,045
+Lekin interview mein farak pata hona
+achha lagta hai: terminal window hai, shell
+
+25
+00:01:47,045 --> 00:01:48,483
+andar ka program hai.
+
+26
+00:01:49,783 --> 00:01:51,506
+Ab why: terminal kyun?
+
+27
+00:01:51,726 --> 00:01:56,931
+Mouse aur windows wala tareeka,
+yaani GUI, shuru karne ke liye aasaan hai.
+
+28
+00:01:57,151 --> 00:02:02,861
+Lekin same steps exact repeat karna
+mushkil hai, aur kisi ko samjhana bhi mushkil:
+
+29
+00:02:02,861 --> 00:02:04,880
+yahan click karo, phir wahan.
+
+30
+00:02:05,230 --> 00:02:07,925
+Terminal mein har
+step text ki ek line hai.
+
+31
+00:02:08,145 --> 00:02:13,758
+Aap usse copy kar sakte ho, kal phir
+chala sakte ho, ya script mein daal sakte ho.
+
+32
+00:02:13,978 --> 00:02:19,987
+Aur jab aapka AI agent kisi server ya
+cloud par chalega, wahan mouse hota hi nahi.
+
+33
+00:02:19,987 --> 00:02:24,970
+pip, git, Python, aur zyaadatar
+AI tools terminal se hi chalte hain.
+
+34
+00:02:25,190 --> 00:02:28,031
+Isliye yeh course
+terminal se shuru hota hai.
+
+35
+00:02:29,331 --> 00:02:31,055
+Ab terminal kholte hain.
+
+36
+00:02:31,275 --> 00:02:33,966
+Windows par Git for Windows install karo.
+
+37
+00:02:34,186 --> 00:02:36,390
+Uske saath Git Bash aata hai.
+
+38
+00:02:36,610 --> 00:02:41,690
+Iss course ki commands bash ki hain,
+isliye Windows par Git Bash sabse aasaan hai.
+
+39
+00:02:41,910 --> 00:02:46,429
+PowerShell bhi chalega, uske alag
+commands mai table mein dikhaungi.
+
+40
+00:02:46,779 --> 00:02:48,787
+Mac par Terminal app kholo.
+
+41
+00:02:49,007 --> 00:02:51,879
+Command space dabao
+aur Terminal type karo.
+
+42
+00:02:52,099 --> 00:02:55,435
+Mac ka shell zsh
+hai, jo bash jaisa hi hai.
+
+43
+00:02:55,785 --> 00:02:57,756
+Linux par Terminal kholo.
+
+44
+00:02:57,976 --> 00:03:00,145
+Ubuntu par control, alt, T.
+
+45
+00:03:00,495 --> 00:03:03,488
+Aur VS Code ke andar
+bhi terminal hota hai.
+
+46
+00:03:03,708 --> 00:03:05,387
+View menu mein Terminal.
+
+47
+00:03:05,607 --> 00:03:08,617
+Coding karte waqt
+yahi sabse comfortable hai.
+
+48
+00:03:09,917 --> 00:03:11,947
+Ab how: ek command ke parts.
+
+49
+00:03:12,167 --> 00:03:14,920
+Har command ek hi
+pattern follow karti hai.
+
+50
+00:03:15,270 --> 00:03:17,051
+Sabse pehle prompt.
+
+51
+00:03:17,271 --> 00:03:21,674
+Dollar sign ka matlab hai: shell
+ready hai, aap type kar sakte ho.
+
+52
+00:03:21,894 --> 00:03:24,422
+Dollar khud type nahi karna hota.
+
+53
+00:03:24,772 --> 00:03:27,363
+Pehla word program ka naam hota hai.
+
+54
+00:03:27,583 --> 00:03:29,060
+Yahan python three.
+
+55
+00:03:29,410 --> 00:03:33,304
+Uske baad arguments,
+yaani program ko kya dena hai.
+
+56
+00:03:33,524 --> 00:03:37,031
+Yahan file ka naam hello
+dot py, aur ek naam, Riya.
+
+57
+00:03:37,251 --> 00:03:39,353
+Har word ke beech space hota hai.
+
+58
+00:03:39,703 --> 00:03:42,540
+Enter dabate hi shell program chalata hai.
+
+59
+00:03:42,760 --> 00:03:47,344
+Program output print karta hai,
+aur end mein ek exit code deta hai.
+
+60
+00:03:47,564 --> 00:03:49,464
+Zero ka matlab success.
+
+61
+00:03:49,684 --> 00:03:53,138
+Exit code abhi thodi
+der mein real mein dekhenge.
+
+62
+00:03:54,438 --> 00:03:59,845
+Chalo, pehli commands. echo jo bhi aap
+likhte ho, wahi wapas print kar deta hai.
+
+63
+00:04:00,065 --> 00:04:04,582
+Simple hai, lekin yeh confirm
+karta hai ki terminal kaam kar raha hai.
+
+64
+00:04:04,932 --> 00:04:08,000
+Doosri command: python
+three dash dash version.
+
+65
+00:04:08,220 --> 00:04:12,150
+Yeh batata hai ki Python
+install hai, aur kaunsa version.
+
+66
+00:04:12,370 --> 00:04:15,955
+Iss course ke liye three
+point eleven ya usse naya chahiye.
+
+67
+00:04:16,175 --> 00:04:18,178
+Yahan three point thirteen hai.
+
+68
+00:04:18,528 --> 00:04:20,337
+Aur git dash dash version.
+
+69
+00:04:20,557 --> 00:04:23,053
+Git hum lesson teen mein use karenge.
+
+70
+00:04:23,273 --> 00:04:29,179
+Agar aapke computer par command not found
+aaye, toh git scm dot com se install karo.
+
+71
+00:04:29,529 --> 00:04:34,585
+Windows par python three ki jagah
+aksar python ya py likhna padta hai.
+
+72
+00:04:34,805 --> 00:04:39,476
+Agar python three se error aaye,
+toh python dash dash version try karo.
+
+73
+00:04:40,776 --> 00:04:42,444
+Ab folders aur paths.
+
+74
+00:04:42,664 --> 00:04:44,922
+Isse ek building ki tarah socho.
+
+75
+00:04:45,142 --> 00:04:47,966
+Building mein floors
+hain, floors mein rooms hain.
+
+76
+00:04:48,186 --> 00:04:51,287
+Waise hi folders ke
+andar folders hote hain.
+
+77
+00:04:51,507 --> 00:04:53,756
+Path ek room ka poora address hai.
+
+78
+00:04:53,976 --> 00:04:57,695
+Aur working directory woh
+room hai jisme aap abhi khade ho.
+
+79
+00:04:57,915 --> 00:05:03,261
+Terminal hamesha kisi ek folder mein
+khada hota hai, aur commands wahin chalti hain.
+
+80
+00:05:04,561 --> 00:05:06,557
+Yeh dekho ek folder tree.
+
+81
+00:05:06,907 --> 00:05:09,889
+Sabse upar slash
+hai, jise root kehte hain.
+
+82
+00:05:10,109 --> 00:05:14,771
+Uske andar home, aur uske andar
+aapka apna folder, yahan student.
+
+83
+00:05:14,991 --> 00:05:19,478
+Isse home directory kehte hain,
+aur iska shortcut hai tilde sign.
+
+84
+00:05:19,828 --> 00:05:24,956
+Home ke andar projects, aur uske
+andar hamara project, my first repo.
+
+85
+00:05:25,176 --> 00:05:31,194
+Iska absolute path hai: slash home slash
+student slash projects slash my first repo.
+
+86
+00:05:31,414 --> 00:05:35,185
+Absolute matlab root se
+shuru hone wala poora address.
+
+87
+00:05:35,535 --> 00:05:41,184
+Aur agar aap pehle se my first repo ke
+andar khade ho, toh file ka relative path bas
+
+88
+00:05:41,184 --> 00:05:42,328
+hello dot py hai.
+
+89
+00:05:42,548 --> 00:05:46,090
+Relative matlab jahan aap
+abhi ho, wahan se address.
+
+90
+00:05:46,310 --> 00:05:51,673
+Yeh farak bahut important hai, aur
+zyaadatar beginner errors yahin se aate hain.
+
+91
+00:05:52,973 --> 00:05:57,669
+Ab real mein chalte hain. pwd
+ka matlab print working directory.
+
+92
+00:05:57,889 --> 00:06:00,733
+Yeh batata hai ki aap
+abhi kis folder mein ho.
+
+93
+00:06:00,953 --> 00:06:03,008
+Hum projects folder mein hain.
+
+94
+00:06:03,358 --> 00:06:07,718
+mkdir ka matlab make
+directory, yaani naya folder banao.
+
+95
+00:06:07,938 --> 00:06:12,152
+Hum apne project ka folder
+bana rahe hain: my first repo.
+
+96
+00:06:12,372 --> 00:06:13,975
+Kuch print nahi hua.
+
+97
+00:06:14,195 --> 00:06:18,154
+Terminal mein, kuch print na
+hona aksar success ka matlab hai.
+
+98
+00:06:18,504 --> 00:06:20,281
+ls ka matlab list.
+
+99
+00:06:20,501 --> 00:06:23,255
+Yeh current folder
+ki cheezein dikhata hai.
+
+100
+00:06:23,475 --> 00:06:25,419
+Hamara naya folder yahan hai.
+
+101
+00:06:25,769 --> 00:06:30,372
+cd ka matlab change
+directory, yaani folder ke andar jao.
+
+102
+00:06:30,592 --> 00:06:32,970
+Ab hum my first repo ke andar hain.
+
+103
+00:06:33,320 --> 00:06:35,596
+pwd se confirm karte hain.
+
+104
+00:06:35,816 --> 00:06:38,526
+Haan, ab path ke end
+mein my first repo hai.
+
+105
+00:06:38,876 --> 00:06:42,155
+Aur wapas bahar kaise jaayein? cd dot dot.
+
+106
+00:06:42,375 --> 00:06:46,634
+Do dots ka matlab hai
+parent folder, yaani ek level upar.
+
+107
+00:06:46,984 --> 00:06:49,116
+Aur hum wapas projects mein hain.
+
+108
+00:06:50,416 --> 00:06:53,210
+Kuch shortcuts jo aap roz type karoge.
+
+109
+00:06:53,430 --> 00:06:55,779
+Ek dot ka matlab yahi folder.
+
+110
+00:06:56,129 --> 00:06:59,543
+Do dots matlab parent
+folder, ek level upar.
+
+111
+00:06:59,893 --> 00:07:05,867
+Tilde matlab aapka home folder. cd tilde
+slash projects, aap kahin se bhi ho, seedhe
+
+112
+00:07:05,867 --> 00:07:07,930
+projects mein pahunch jaaoge.
+
+113
+00:07:08,280 --> 00:07:10,061
+Slash do kaam karta hai.
+
+114
+00:07:10,281 --> 00:07:14,879
+Shuru mein ho toh root, aur beech
+mein ho toh folder names ko alag karta hai.
+
+115
+00:07:15,229 --> 00:07:19,554
+Aur sirf cd likho, bina kisi
+naam ke, toh seedhe home folder.
+
+116
+00:07:20,854 --> 00:07:21,987
+Ab files.
+
+117
+00:07:22,207 --> 00:07:27,520
+Hum my first repo ke andar hain. echo
+ke saath greater than sign ka matlab hai:
+
+118
+00:07:27,520 --> 00:07:30,748
+output screen par mat
+dikhao, file mein likh do.
+
+119
+00:07:30,968 --> 00:07:33,659
+Yeh README dot md file banata hai.
+
+120
+00:07:33,879 --> 00:07:39,923
+Dhyan rahe, ek greater than sign file ko
+overwrite karta hai, yaani purana content
+
+121
+00:07:39,923 --> 00:07:40,955
+mita deta hai.
+
+122
+00:07:41,305 --> 00:07:43,706
+cat file ka content print karta hai.
+
+123
+00:07:43,926 --> 00:07:45,749
+Hamari ek line wahan hai.
+
+124
+00:07:46,099 --> 00:07:51,848
+Do greater than signs ka matlab hai
+append, yaani file ke end mein jodo, purana
+
+125
+00:07:51,848 --> 00:07:53,303
+content mitaye bina.
+
+126
+00:07:53,653 --> 00:07:55,199
+Ab dono lines hain.
+
+127
+00:07:55,549 --> 00:07:57,790
+touch ek khaali file banata hai.
+
+128
+00:07:58,010 --> 00:08:00,778
+Jab bas file chahiye, content baad mein.
+
+129
+00:08:01,128 --> 00:08:07,149
+wc dash c har file ke bytes ginta hai.
+notes dot txt zero bytes ki hai, kyunki
+
+130
+00:08:07,149 --> 00:08:07,998
+khaali hai.
+
+131
+00:08:08,218 --> 00:08:09,688
+Aur end mein total.
+
+132
+00:08:10,988 --> 00:08:12,686
+cp matlab copy.
+
+133
+00:08:12,906 --> 00:08:15,258
+Pehle source file, phir naya naam.
+
+134
+00:08:15,478 --> 00:08:18,647
+Ab README ki ek copy
+backup dot md mein hai.
+
+135
+00:08:18,997 --> 00:08:20,546
+mv matlab move.
+
+136
+00:08:20,766 --> 00:08:27,280
+Same folder mein move karna rename karne
+jaisa hai. notes dot txt ab ideas dot txt
+
+137
+00:08:27,280 --> 00:08:27,597
+hai.
+
+138
+00:08:27,947 --> 00:08:32,147
+Aur kisi doosre folder mein
+bhejna ho toh folder ka naam do.
+
+139
+00:08:32,367 --> 00:08:37,848
+Do ampersand ka matlab hai: pehli
+command successful ho, tabhi doosri chalao.
+
+140
+00:08:38,198 --> 00:08:44,876
+ls dash capital R har folder ke andar ka
+bhi dikhata hai. ideas dot txt ab docs ke
+
+141
+00:08:44,876 --> 00:08:45,690
+andar hai.
+
+142
+00:08:46,040 --> 00:08:48,810
+Aur rm matlab remove, yaani delete.
+
+143
+00:08:49,030 --> 00:08:50,542
+Backup chala gaya.
+
+144
+00:08:50,892 --> 00:08:57,156
+Folder delete karne ke liye rm dash r
+chahiye. r matlab recursive, yaani folder aur
+
+145
+00:08:57,156 --> 00:08:58,666
+uske andar sab kuch.
+
+146
+00:08:59,016 --> 00:09:00,901
+Ab sirf README bacha hai.
+
+147
+00:09:02,201 --> 00:09:07,463
+Ek zaroori warning. rm se delete
+hui file Recycle Bin mein nahi jaati.
+
+148
+00:09:07,683 --> 00:09:08,963
+Seedhe gayab.
+
+149
+00:09:09,183 --> 00:09:10,533
+Koi undo nahi.
+
+150
+00:09:10,753 --> 00:09:15,372
+Isliye har rm command do
+baar padho, khaaskar rm dash r.
+
+151
+00:09:15,592 --> 00:09:21,218
+Aur internet se koi command copy karke
+tab tak mat chalao, jab tak samajh na aaye ki
+
+152
+00:09:21,218 --> 00:09:26,844
+woh kya karti hai. sudo wali commands par
+aur bhi dhyan do, kyunki woh administrator
+
+153
+00:09:26,844 --> 00:09:28,251
+ki tarah chalti hain.
+
+154
+00:09:29,551 --> 00:09:31,606
+Ab ek special type ki file.
+
+155
+00:09:31,826 --> 00:09:35,849
+Jis file ka naam dot se shuru
+hota hai, woh hidden hoti hai.
+
+156
+00:09:36,069 --> 00:09:38,319
+Hum ek dot env file banate hain.
+
+157
+00:09:38,539 --> 00:09:41,984
+Lesson do mein isme
+settings aur secrets rakhenge.
+
+158
+00:09:42,334 --> 00:09:45,145
+Normal ls mein dot env dikhti hi nahi.
+
+159
+00:09:45,495 --> 00:09:49,796
+ls dash a, yaani all, sab
+kuch dikhata hai, hidden files bhi.
+
+160
+00:09:50,016 --> 00:09:56,084
+Yahan dot env hai, aur ek dot aur do dots
+bhi, jo aapne abhi seekhe: yeh folder, aur
+
+161
+00:09:56,084 --> 00:09:57,095
+parent folder.
+
+162
+00:09:57,445 --> 00:10:03,660
+Developer tools aksar apni settings
+hidden files mein rakhte hain: dot env, dot git,
+
+163
+00:10:03,660 --> 00:10:05,436
+dot venv, dot gitignore.
+
+164
+00:10:05,656 --> 00:10:08,214
+Agle do lessons mein yeh chaaron aayengi.
+
+165
+00:10:08,434 --> 00:10:10,715
+Toh ls dash a yaad rakhna.
+
+166
+00:10:12,015 --> 00:10:14,153
+Ab Python programs chalate hain.
+
+167
+00:10:14,373 --> 00:10:18,085
+Yeh hamare project ki
+pehli file hai, hello dot py.
+
+168
+00:10:18,305 --> 00:10:22,096
+Left side par code, right
+side par uska real output.
+
+169
+00:10:22,446 --> 00:10:26,859
+greet function ek naam leta hai
+aur greeting ka text banata hai.
+
+170
+00:10:27,079 --> 00:10:30,620
+Yeh print nahi karta,
+sirf text return karta hai.
+
+171
+00:10:30,840 --> 00:10:34,201
+Aise functions ko
+test karna aasaan hota hai.
+
+172
+00:10:34,421 --> 00:10:37,114
+Lesson teen mein iske tests chalayenge.
+
+173
+00:10:37,464 --> 00:10:43,318
+main function ko argv milta hai. argv
+command ke words ki list hai. python ke baad
+
+174
+00:10:43,318 --> 00:10:44,889
+jo bhi likha, woh sab.
+
+175
+00:10:45,109 --> 00:10:50,832
+Yahan hello dot py aur Riya. argv one
+se aage ka matlab: file ka naam chhod do,
+
+176
+00:10:50,832 --> 00:10:51,918
+baaki words lo.
+
+177
+00:10:52,138 --> 00:10:54,577
+Agar koi naam nahi diya, toh world.
+
+178
+00:10:54,927 --> 00:10:56,832
+Phir greeting print hoti hai.
+
+179
+00:10:57,052 --> 00:10:59,361
+Right side par output: Hello, Riya.
+
+180
+00:10:59,711 --> 00:11:05,081
+Aur main zero return karta hai, jo sys
+dot exit ke through shell tak jaata hai.
+
+181
+00:11:05,301 --> 00:11:07,124
+Zero matlab sab theek.
+
+182
+00:11:07,344 --> 00:11:13,324
+If name equals main wali line ka matlab:
+yeh code tabhi chalega jab file seedhe run
+
+183
+00:11:13,324 --> 00:11:15,126
+ho, import hone par nahi.
+
+184
+00:11:16,426 --> 00:11:18,104
+Exit code dekhte hain.
+
+185
+00:11:18,324 --> 00:11:22,369
+Dollar question mark pichli
+command ka exit code rakhta hai.
+
+186
+00:11:22,589 --> 00:11:25,873
+Bina naam ke, Hello
+world, aur exit code zero.
+
+187
+00:11:26,223 --> 00:11:28,567
+Naam mein space ho, toh quotes lagao.
+
+188
+00:11:28,787 --> 00:11:32,174
+Warna shell usse do
+alag arguments samjhega.
+
+189
+00:11:32,394 --> 00:11:37,950
+Hamara program dono words jodta hai,
+isliye yahan dono tareeke chalenge, lekin
+
+190
+00:11:37,950 --> 00:11:39,518
+quotes ki aadat daalo.
+
+191
+00:11:39,868 --> 00:11:41,546
+Ab pehla common error.
+
+192
+00:11:41,766 --> 00:11:45,379
+File ka naam galat
+likha: helo, ek l ke saath.
+
+193
+00:11:45,599 --> 00:11:49,877
+Python kehta hai: can't open
+file, no such file or directory.
+
+194
+00:11:50,097 --> 00:11:52,510
+Aur exit code do, yaani failure.
+
+195
+00:11:52,730 --> 00:11:58,629
+Iska fix: ls chalao aur dekho ki file
+sach mein yahan hai, aur naam exactly kya hai.
+
+196
+00:11:58,849 --> 00:12:01,322
+Aksar aap galat folder mein hote ho.
+
+197
+00:12:01,542 --> 00:12:03,702
+Tab pwd se check karo.
+
+198
+00:12:04,052 --> 00:12:06,829
+Doosra common error: command not found.
+
+199
+00:12:07,049 --> 00:12:09,308
+Yahan python ki spelling galat hai.
+
+200
+00:12:09,528 --> 00:12:15,256
+Shell ko iss naam ka koi program mila
+hi nahi, aur exit code ek sau sattaees aata
+
+201
+00:12:15,256 --> 00:12:15,539
+hai.
+
+202
+00:12:15,759 --> 00:12:20,906
+Iska matlab: ya toh spelling galat hai,
+ya program install nahi hai, ya woh PATH
+
+203
+00:12:20,906 --> 00:12:21,806
+mein nahi hai.
+
+204
+00:12:22,156 --> 00:12:27,718
+PATH ek list hai folders ki, jahan
+shell programs dhoondhta hai, ek ke baad ek.
+
+205
+00:12:27,938 --> 00:12:32,551
+Mai yahan bas ginti dikha rahi
+hoon: iss machine par itne folders hain.
+
+206
+00:12:32,771 --> 00:12:37,117
+Aap echo dollar PATH chala
+kar apni poori list dekh sakte ho.
+
+207
+00:12:37,467 --> 00:12:41,850
+Aur which command batati hai ki
+ek program kis folder se aa raha hai.
+
+208
+00:12:42,070 --> 00:12:44,223
+Git yahan user bin mein mila.
+
+209
+00:12:44,443 --> 00:12:48,996
+Jab bhi lage ki galat Python chal
+raha hai, which python three chalao.
+
+210
+00:12:50,296 --> 00:12:55,827
+Agar aap Windows par PowerShell use
+karte ho, toh zyaadatar commands same hain,
+
+211
+00:12:55,827 --> 00:13:00,027
+kyunki PowerShell ne inke
+aliases banaye hain. pwd same hai.
+
+212
+00:13:00,377 --> 00:13:02,346
+ls aur cd bhi same.
+
+213
+00:13:02,696 --> 00:13:04,157
+mkdir same hai.
+
+214
+00:13:04,377 --> 00:13:06,368
+Lekin touch nahi hota.
+
+215
+00:13:06,588 --> 00:13:08,283
+Uski jagah New Item.
+
+216
+00:13:08,633 --> 00:13:11,198
+Hidden files ke liye ls dash Force.
+
+217
+00:13:11,548 --> 00:13:16,087
+rm dash r chalta hai, bas
+PowerShell pehle confirm karta hai.
+
+218
+00:13:16,437 --> 00:13:18,582
+Python ke liye python ya py.
+
+219
+00:13:18,932 --> 00:13:21,756
+Aur exit code ke liye dollar LASTEXITCODE.
+
+220
+00:13:22,106 --> 00:13:27,700
+Iss course ki saari videos bash commands
+dikhati hain, jo Mac, Linux, aur Windows ke
+
+221
+00:13:27,700 --> 00:13:29,765
+Git Bash teeno par chalti hain.
+
+222
+00:13:29,985 --> 00:13:33,194
+Jahan Windows par
+kuch alag ho, mai bataungi.
+
+223
+00:13:34,494 --> 00:13:37,688
+Ab kuch aadatein jo
+terminal ko fast banati hain.
+
+224
+00:13:37,908 --> 00:13:41,946
+Pehli: Tab key. hel likho aur
+Tab dabao, poora naam aa jaayega.
+
+225
+00:13:42,166 --> 00:13:46,092
+Typos kam, aur pata bhi chal
+jaata hai ki file sach mein hai.
+
+226
+00:13:46,442 --> 00:13:48,333
+Doosri: upar wala arrow.
+
+227
+00:13:48,553 --> 00:13:51,051
+Pichli commands wapas aa jaati hain.
+
+228
+00:13:51,271 --> 00:13:54,304
+Dobara type mat karo, edit karke chalao.
+
+229
+00:13:54,654 --> 00:13:56,244
+Teesri: control C.
+
+230
+00:13:56,464 --> 00:14:01,734
+Koi command atak jaaye ya rukti hi
+na ho, toh control C usse rok deta hai.
+
+231
+00:14:01,954 --> 00:14:04,887
+Yeh copy nahi hai
+terminal mein, yeh stop hai.
+
+232
+00:14:05,237 --> 00:14:07,353
+Chauthi: clear, ya control L.
+
+233
+00:14:07,573 --> 00:14:09,342
+Screen saaf ho jaati hai.
+
+234
+00:14:09,692 --> 00:14:13,675
+Aur paanchvi: kisi bhi
+command ke aage dash dash help lagao.
+
+235
+00:14:13,895 --> 00:14:16,996
+Command khud bata degi
+ki woh kya kar sakti hai.
+
+236
+00:14:18,296 --> 00:14:19,755
+Interview corner.
+
+237
+00:14:19,975 --> 00:14:23,970
+Pehla question: absolute aur
+relative path mein kya farak hai?
+
+238
+00:14:26,320 --> 00:14:31,483
+Answer: absolute path root se shuru
+hota hai, aur kahin se bhi kaam karta hai.
+
+239
+00:14:31,703 --> 00:14:37,382
+Relative path current folder se shuru
+hota hai, isliye woh iss baat par depend karta
+
+240
+00:14:37,382 --> 00:14:39,410
+hai ki command kahan se chali.
+
+241
+00:14:39,630 --> 00:14:44,883
+Trap: aapke code mein data dot csv
+likha hai, aapki machine par chalta hai, aur
+
+242
+00:14:44,883 --> 00:14:50,002
+production mein fail hota hai, kyunki
+wahan program kisi aur folder se chala.
+
+243
+00:14:50,352 --> 00:14:53,595
+Doosra question: exit code kya batata hai?
+
+244
+00:14:55,945 --> 00:14:58,397
+Answer: command successful hui ya nahi.
+
+245
+00:14:58,617 --> 00:15:02,945
+Zero matlab success, aur
+baaki koi bhi number matlab failure.
+
+246
+00:15:03,165 --> 00:15:08,896
+Scripts, CI pipelines, aur do
+ampersand isi se decide karte hain ki aage kya
+
+247
+00:15:08,896 --> 00:15:09,500
+chalega.
+
+248
+00:15:09,720 --> 00:15:12,070
+Trap: sirf print hua text dekhna.
+
+249
+00:15:12,290 --> 00:15:15,290
+Program done print
+karke bhi fail ho sakta hai.
+
+250
+00:15:15,640 --> 00:15:19,453
+Teesra: python three type
+kiya aur command not found aaya.
+
+251
+00:15:19,673 --> 00:15:21,272
+Aap kya check karoge?
+
+252
+00:15:23,622 --> 00:15:25,281
+Answer: pehle spelling.
+
+253
+00:15:25,501 --> 00:15:27,919
+Phir ki Python install hai ya nahi.
+
+254
+00:15:28,139 --> 00:15:32,800
+Phir ki uska folder PATH mein hai
+ya nahi, which aur echo dollar PATH se.
+
+255
+00:15:33,020 --> 00:15:35,689
+Windows par python ya py try karo.
+
+256
+00:15:35,909 --> 00:15:39,578
+Trap: error padhe bina
+sab kuch reinstall kar dena.
+
+257
+00:15:40,878 --> 00:15:42,135
+Practice time.
+
+258
+00:15:42,355 --> 00:15:45,546
+Video pause karo aur
+apne terminal mein khud karo.
+
+259
+00:15:45,896 --> 00:15:51,550
+Pehla: ek hi command mein projects ke
+andar practice, aur uske andar notes folder
+
+260
+00:15:51,550 --> 00:15:51,969
+banao.
+
+261
+00:15:52,189 --> 00:15:53,893
+Hint: mkdir dash p.
+
+262
+00:15:54,243 --> 00:16:00,555
+Doosra: todo dot txt mein do lines
+likho, phir wc dash l se sirf lines ki ginti
+
+263
+00:16:00,555 --> 00:16:01,114
+dikhao.
+
+264
+00:16:01,464 --> 00:16:04,730
+Teesra: hello dot py ko
+parent folder se chalao.
+
+265
+00:16:04,950 --> 00:16:07,016
+Kaunsa path dena padega?
+
+266
+00:16:07,366 --> 00:16:12,747
+Aur scenario: ek script aapke folder
+mein chalti hai, lekin teammate ke yahan fail
+
+267
+00:16:12,747 --> 00:16:13,337
+hoti hai.
+
+268
+00:16:13,557 --> 00:16:15,682
+Teen possible reasons socho.
+
+269
+00:16:22,982 --> 00:16:23,911
+Quick check.
+
+270
+00:16:24,131 --> 00:16:28,880
+Aap my first repo ke
+andar ho. cd dot dot, phir pwd.
+
+271
+00:16:29,100 --> 00:16:30,457
+Kya print hoga?
+
+272
+00:16:36,157 --> 00:16:38,881
+Slash home slash student slash projects.
+
+273
+00:16:39,101 --> 00:16:41,508
+Do dots matlab ek level upar.
+
+274
+00:16:42,808 --> 00:16:44,253
+Doosra question.
+
+275
+00:16:44,473 --> 00:16:50,738
+Kaunsi command notes dot txt ke end mein
+line jodti hai, purana content mitaye bina?
+
+276
+00:16:56,438 --> 00:16:58,351
+B, do greater than signs.
+
+277
+00:16:58,571 --> 00:17:02,571
+Ek greater than sign poori
+file ko overwrite kar deta hai.
+
+278
+00:17:03,871 --> 00:17:04,710
+Recap.
+
+279
+00:17:04,930 --> 00:17:09,295
+Terminal window hai, shell andar ka
+program hai jo commands chalata hai.
+
+280
+00:17:09,645 --> 00:17:15,201
+pwd, ls, cd, dot dot, aur tilde
+se aap kahin bhi aa ja sakte ho.
+
+281
+00:17:15,551 --> 00:17:21,355
+mkdir, touch, cat, cp, mv, aur rm
+se files aur folders sambhalte ho.
+
+282
+00:17:21,575 --> 00:17:25,090
+Aur ek greater than
+overwrite karta hai, do append.
+
+283
+00:17:25,440 --> 00:17:30,622
+Dot se shuru hone wali files hidden
+hoti hain, ls dash a se dikhti hain.
+
+284
+00:17:30,972 --> 00:17:33,296
+Exit code zero matlab success.
+
+285
+00:17:33,516 --> 00:17:37,324
+Aur command not found
+matlab spelling, install, ya PATH.
+
+286
+00:17:37,674 --> 00:17:43,444
+Agle lesson mein hum har project ko
+uska apna Python environment denge, packages
+
+287
+00:17:43,444 --> 00:17:48,782
+install karenge, aur secrets ko code
+se bahar rakhenge, dot env file mein.
+
+288
+00:17:50,082 --> 00:17:51,822
+Lesson ek complete.
+
+289
+00:17:52,042 --> 00:17:57,113
+Aapne terminal mein folders,
+files, aur programs sambhalna seekh liya.
+
+290
+00:17:57,333 --> 00:17:59,364
+Milte hain agle lesson mein.

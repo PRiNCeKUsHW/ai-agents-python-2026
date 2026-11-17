@@ -1,0 +1,1585 @@
+1
+00:00:00,700 --> 00:00:05,002
+Lesson teen mein swagat hai,
+Module zero ka aakhri lesson.
+
+2
+00:00:05,222 --> 00:00:07,630
+Aaj hum Git aur GitHub seekhenge.
+
+3
+00:00:07,850 --> 00:00:13,916
+Git se aap apne project ki har version
+save karte ho, purani history dekhte ho, aur
+
+4
+00:00:13,916 --> 00:00:15,378
+galti undo karte ho.
+
+5
+00:00:15,598 --> 00:00:21,606
+GitHub par aap apna project share karte
+ho, aur doosre computers par le jaate ho.
+
+6
+00:00:21,826 --> 00:00:27,635
+Lesson ke end mein aapka pehla
+repository poora ready hoga, aur setup checker chhe
+
+7
+00:00:27,635 --> 00:00:29,264
+mein se chhe dikhayega.
+
+8
+00:00:30,565 --> 00:00:36,308
+Iss lesson ke baad aap version control
+explain kar paoge, aur Git aur GitHub ka
+
+9
+00:00:36,308 --> 00:00:36,745
+farak.
+
+10
+00:00:37,095 --> 00:00:40,597
+Commits banana: init,
+status, add, commit, aur log.
+
+11
+00:00:40,947 --> 00:00:45,018
+Dot gitignore se dot env
+aur dot venv ko bahar rakhna.
+
+12
+00:00:45,368 --> 00:00:49,743
+Changes dekhna aur undo
+karna, aur ek branch par kaam karna.
+
+13
+00:00:50,093 --> 00:00:54,669
+Aur remote ke saath push, clone,
+aur pull, bilkul GitHub ki tarah.
+
+14
+00:00:55,969 --> 00:00:57,041
+Pehle what.
+
+15
+00:00:57,261 --> 00:00:59,105
+Version control kya hai?
+
+16
+00:00:59,325 --> 00:01:00,851
+Video game socho.
+
+17
+00:01:01,071 --> 00:01:04,281
+Mushkil level se pehle
+aap game save karte ho.
+
+18
+00:01:04,501 --> 00:01:07,272
+Kuch galat hua, toh wapas save point par.
+
+19
+00:01:07,492 --> 00:01:10,113
+Git mein save point ko commit kehte hain.
+
+20
+00:01:10,333 --> 00:01:16,159
+Commit aapke project ki har file ki ek
+photo hai, ek message ke saath ki kya badla.
+
+21
+00:01:16,379 --> 00:01:20,174
+Aur aap kabhi bhi kisi bhi
+commit par wapas ja sakte ho.
+
+22
+00:01:21,474 --> 00:01:22,305
+Ab why.
+
+23
+00:01:22,525 --> 00:01:28,214
+Bina Git ke kya hota hai? app final,
+app final real, app final real version two.
+
+24
+00:01:28,434 --> 00:01:32,007
+Kal kaunsa version chal
+raha tha, kisi ko yaad nahi.
+
+25
+00:01:32,227 --> 00:01:35,151
+Ek line delete hui,
+toh hamesha ke liye gayi.
+
+26
+00:01:35,371 --> 00:01:38,598
+Aur share karna
+matlab zip file email karna.
+
+27
+00:01:38,948 --> 00:01:44,283
+Git ke saath ek hi file, aur uski
+poori history dot git folder ke andar.
+
+28
+00:01:44,503 --> 00:01:47,012
+Har change ki date, author, aur reason.
+
+29
+00:01:47,232 --> 00:01:49,659
+Koi bhi change undo ho sakta hai.
+
+30
+00:01:49,879 --> 00:01:51,762
+Aur sharing push aur pull se.
+
+31
+00:01:51,982 --> 00:01:57,955
+Har company, har open source project, aur
+har AI engineering team Git use karti hai.
+
+32
+00:01:59,255 --> 00:02:01,243
+Ek bahut common confusion.
+
+33
+00:02:01,463 --> 00:02:05,252
+Git ek program hai jo
+aapke computer par chalta hai.
+
+34
+00:02:05,602 --> 00:02:11,758
+GitHub ek website hai jo Git
+repositories ko online store karti hai, aur unhe share
+
+35
+00:02:11,758 --> 00:02:13,538
+karna aasaan banati hai.
+
+36
+00:02:13,888 --> 00:02:17,057
+Git bina internet ke poora kaam karta hai.
+
+37
+00:02:17,277 --> 00:02:19,715
+GitHub ke liye internet chahiye.
+
+38
+00:02:20,065 --> 00:02:24,396
+GitHub ke alternatives bhi
+hain, jaise GitLab aur Bitbucket.
+
+39
+00:02:24,616 --> 00:02:27,337
+Lekin commands sab jagah Git ki hi hain.
+
+40
+00:02:28,637 --> 00:02:29,533
+Ab how.
+
+41
+00:02:29,753 --> 00:02:33,648
+Git mein aapke changes teen
+jagah se hokar guzarte hain.
+
+42
+00:02:33,868 --> 00:02:37,246
+Isse ek parcel bhejne
+ki tarah samjhati hoon.
+
+43
+00:02:37,596 --> 00:02:39,683
+Pehli jagah, working folder.
+
+44
+00:02:39,903 --> 00:02:42,134
+Yahan aap files edit karte ho.
+
+45
+00:02:42,354 --> 00:02:45,580
+Yeh aapka table hai,
+jahan saaman bikhra hai.
+
+46
+00:02:45,930 --> 00:02:51,645
+Doosri, staging area. git add se aap
+chunte ho ki kaunsi changes agle commit mein
+
+47
+00:02:51,645 --> 00:02:52,280
+jaayengi.
+
+48
+00:02:52,500 --> 00:02:54,901
+Yeh box mein saaman pack karna hai.
+
+49
+00:02:55,121 --> 00:02:57,506
+Jo pack nahi kiya, woh nahi jaayega.
+
+50
+00:02:57,856 --> 00:03:03,910
+Teesri, repository. git commit box ko
+seal karta hai, label lagata hai, aur history
+
+51
+00:03:03,910 --> 00:03:05,296
+mein rakh deta hai.
+
+52
+00:03:05,516 --> 00:03:09,655
+Yeh sab dot git folder mein
+hota hai, aapke computer par.
+
+53
+00:03:10,005 --> 00:03:15,705
+Aur chauthi jagah, remote, jaise
+GitHub. git push aapke commits wahan bhejta hai,
+
+54
+00:03:15,705 --> 00:03:19,576
+taaki doosre log, ya aapka
+doosra laptop, unhe le sake.
+
+55
+00:03:20,876 --> 00:03:24,360
+Shuru karne se pehle,
+Git ko batao ki aap kaun ho.
+
+56
+00:03:24,580 --> 00:03:26,982
+Har commit par yeh naam likha jaayega.
+
+57
+00:03:27,202 --> 00:03:31,218
+Yeh setting ek computer par
+sirf ek baar karni hoti hai.
+
+58
+00:03:31,438 --> 00:03:34,262
+Iss video mein demo
+ka naam hai Riya Sharma.
+
+59
+00:03:34,482 --> 00:03:36,219
+Aap apna naam likhna.
+
+60
+00:03:36,569 --> 00:03:37,556
+Aur email.
+
+61
+00:03:37,776 --> 00:03:42,296
+GitHub par wahi email use karo
+jo aapke GitHub account mein hai.
+
+62
+00:03:42,516 --> 00:03:47,819
+Privacy chahiye, toh GitHub settings
+mein ek no reply email milta hai, woh bhi
+
+63
+00:03:47,819 --> 00:03:48,363
+chalega.
+
+64
+00:03:48,583 --> 00:03:51,401
+Yahan example dot com ka demo email hai.
+
+65
+00:03:51,751 --> 00:03:57,308
+Aur yeh setting naye repositories ki
+pehli branch ka naam main rakhti hai, jo aaj ka
+
+66
+00:03:57,308 --> 00:03:58,168
+standard hai.
+
+67
+00:03:58,388 --> 00:04:00,798
+Branch kya hoti hai, thodi der mein.
+
+68
+00:04:01,148 --> 00:04:02,826
+Aur list se check karo.
+
+69
+00:04:03,046 --> 00:04:04,914
+Teeno settings save ho gayi.
+
+70
+00:04:06,214 --> 00:04:08,314
+Ab hamara project folder.
+
+71
+00:04:08,534 --> 00:04:14,709
+Isme woh sab hai jo pichle do lessons
+mein bana: code, requirements dot txt, dot
+
+72
+00:04:14,709 --> 00:04:16,099
+env, aur dot venv.
+
+73
+00:04:16,449 --> 00:04:18,395
+ls dash a se dekho.
+
+74
+00:04:18,615 --> 00:04:24,556
+Code files, tests folder, dot env, dot
+env dot example, dot gitignore, aur dot venv.
+
+75
+00:04:24,776 --> 00:04:28,612
+Dot gitignore ke andar kya
+hai, ek minute mein dekhenge.
+
+76
+00:04:28,962 --> 00:04:32,898
+git init iss folder ko
+Git repository bana deta hai.
+
+77
+00:04:33,118 --> 00:04:35,519
+Isne ek dot git folder banaya.
+
+78
+00:04:35,739 --> 00:04:37,927
+Poori history isi mein rahegi.
+
+79
+00:04:38,147 --> 00:04:40,972
+Iss folder ko kabhi haath se mat chhedna.
+
+80
+00:04:41,322 --> 00:04:45,146
+git status, sabse zyaada
+use hone wali Git command.
+
+81
+00:04:45,366 --> 00:04:47,793
+Yeh batati hai ki abhi kya haal hai.
+
+82
+00:04:48,013 --> 00:04:53,793
+Branch main, abhi tak koi commit nahi,
+aur yeh rahi untracked files, yaani woh files
+
+83
+00:04:53,793 --> 00:04:56,064
+jo Git ne abhi tak track nahi ki.
+
+84
+00:04:56,284 --> 00:04:59,351
+Ab dhyan se dekho, aur
+bataao kya missing hai.
+
+85
+00:04:59,571 --> 00:05:01,349
+Dot env yahan nahi hai.
+
+86
+00:05:01,569 --> 00:05:03,326
+Dot venv bhi nahi hai.
+
+87
+00:05:03,546 --> 00:05:04,260
+Kyun?
+
+88
+00:05:04,480 --> 00:05:06,525
+Dot gitignore ki wajah se.
+
+89
+00:05:07,825 --> 00:05:09,584
+Yeh hai dot gitignore.
+
+90
+00:05:09,804 --> 00:05:15,875
+Ek simple text file, jisme har line ek
+naam ya pattern hai jise Git ignore kare.
+
+91
+00:05:16,095 --> 00:05:20,131
+Pehla aur sabse
+important: dot env, hamare secrets.
+
+92
+00:05:20,481 --> 00:05:22,570
+Doosra, dot venv folder.
+
+93
+00:05:22,790 --> 00:05:27,981
+Lesson do yaad karo: yeh recipe se
+dobara banta hai, git mein nahi jaata.
+
+94
+00:05:28,201 --> 00:05:30,929
+Slash ka matlab hai: yeh ek folder hai.
+
+95
+00:05:31,279 --> 00:05:33,139
+Aur Python ki cache files.
+
+96
+00:05:33,359 --> 00:05:35,235
+Star ka matlab kuch bhi.
+
+97
+00:05:35,455 --> 00:05:40,121
+Star dot pyc matlab har woh file
+jiska naam dot pyc par khatam ho.
+
+98
+00:05:40,471 --> 00:05:44,437
+Golden rule: dot gitignore
+pehle commit se pehle banao.
+
+99
+00:05:44,657 --> 00:05:49,960
+Agar secret ek baar commit ho gaya, toh
+woh history mein reh jaata hai, chahe baad
+
+100
+00:05:49,960 --> 00:05:51,060
+mein delete karo.
+
+101
+00:05:52,360 --> 00:05:57,164
+git check ignore dash v batata hai
+ki koi file kyun ignore ho rahi hai.
+
+102
+00:05:57,384 --> 00:06:03,339
+Dot env, gitignore ki line do ki wajah
+se, aur dot venv, line paanch ki wajah se.
+
+103
+00:06:03,559 --> 00:06:06,167
+Jab bhi doubt ho, yahi command chalao.
+
+104
+00:06:06,517 --> 00:06:07,900
+Ab git add dot.
+
+105
+00:06:08,120 --> 00:06:12,721
+Dot matlab yeh folder, yaani
+saari changes, staging area mein.
+
+106
+00:06:12,941 --> 00:06:15,888
+Ignored files apne
+aap bahar reh jaati hain.
+
+107
+00:06:16,238 --> 00:06:19,330
+git status dash dash
+short, chhota version.
+
+108
+00:06:19,550 --> 00:06:21,875
+A matlab added, yaani staged.
+
+109
+00:06:22,095 --> 00:06:24,442
+Har file commit ke liye pack ho gayi.
+
+110
+00:06:24,662 --> 00:06:27,962
+Aur ek baar phir: na dot env, na dot venv.
+
+111
+00:06:28,312 --> 00:06:29,362
+Aur commit.
+
+112
+00:06:29,582 --> 00:06:33,962
+Dash m ke baad message, jo
+batata hai ki iss commit mein kya hai.
+
+113
+00:06:34,182 --> 00:06:39,287
+Output mein branch, commit ka
+chhota ID, message, aur kitni files aayi.
+
+114
+00:06:39,637 --> 00:06:41,830
+git log history dikhata hai.
+
+115
+00:06:42,050 --> 00:06:46,499
+Dash dash oneline, har
+commit ek line mein: ID aur message.
+
+116
+00:06:46,719 --> 00:06:49,189
+Hamari history mein ek save point hai.
+
+117
+00:06:50,489 --> 00:06:52,587
+Commit message kaise likhein?
+
+118
+00:06:52,807 --> 00:06:55,715
+Update jaisa message kuch nahi batata.
+
+119
+00:06:55,935 --> 00:06:57,490
+Batao kya badla.
+
+120
+00:06:57,840 --> 00:06:59,289
+Sirf fix nahi.
+
+121
+00:06:59,509 --> 00:07:01,934
+Kaunsi problem fix hui, woh likho.
+
+122
+00:07:02,284 --> 00:07:05,133
+Aur ek commit mein ek chhota, saaf change.
+
+123
+00:07:05,353 --> 00:07:07,862
+Isse review aur undo dono aasaan.
+
+124
+00:07:08,212 --> 00:07:14,060
+Convention hai ki message order ki tarah
+likho, jaise Add, Fix, Remove, aur chhota
+
+125
+00:07:14,060 --> 00:07:14,488
+rakho.
+
+126
+00:07:15,788 --> 00:07:17,564
+Ab ek change karte hain.
+
+127
+00:07:17,784 --> 00:07:19,681
+README mein ek line jodi.
+
+128
+00:07:20,031 --> 00:07:24,774
+git status ab README ke aage
+M dikhata hai, matlab modified.
+
+129
+00:07:24,994 --> 00:07:27,487
+Git ko pata hai ki file badli hai.
+
+130
+00:07:27,837 --> 00:07:30,759
+Aur kya badla? git diff exact batata hai.
+
+131
+00:07:30,979 --> 00:07:32,706
+Plus wali line nayi hai.
+
+132
+00:07:32,926 --> 00:07:35,390
+Minus hoti toh hatai gayi hoti.
+
+133
+00:07:35,610 --> 00:07:38,858
+Commit se pehle diff
+dekhna ek achhi aadat hai.
+
+134
+00:07:39,208 --> 00:07:40,660
+Commit dash a m.
+
+135
+00:07:40,880 --> 00:07:45,533
+Dash a pehle se tracked files ki
+changes ko khud add kar deta hai.
+
+136
+00:07:45,753 --> 00:07:48,566
+Nayi files ke liye
+git add phir bhi chahiye.
+
+137
+00:07:48,916 --> 00:07:50,791
+Ab history mein do commits.
+
+138
+00:07:51,011 --> 00:07:52,946
+Naya commit sabse upar.
+
+139
+00:07:54,246 --> 00:07:55,983
+Ab ek asli galti.
+
+140
+00:07:56,203 --> 00:07:57,858
+Lesson ek yaad hai?
+
+141
+00:07:58,078 --> 00:08:01,529
+Ek greater than sign
+file ko overwrite karta hai.
+
+142
+00:08:01,749 --> 00:08:07,720
+Do ki jagah ek likh diya, aur hello dot
+py ka poora code gayab, bas ek adhoori line
+
+143
+00:08:07,720 --> 00:08:08,152
+bachi.
+
+144
+00:08:08,502 --> 00:08:09,877
+Chalao, aur error.
+
+145
+00:08:10,097 --> 00:08:13,189
+Syntax error: bracket
+kabhi band hi nahi hua.
+
+146
+00:08:13,409 --> 00:08:16,591
+Bina Git ke, poora
+code dobara likhna padta.
+
+147
+00:08:16,941 --> 00:08:22,791
+Git ke saath koi tension nahi. git
+restore file ko aakhri commit wali haalat mein
+
+148
+00:08:22,791 --> 00:08:24,092
+wapas le aata hai.
+
+149
+00:08:24,312 --> 00:08:29,034
+Dhyan rahe, jo changes abhi tak
+commit nahi hue, woh chale jaate hain.
+
+150
+00:08:29,254 --> 00:08:31,259
+Isliye pehle diff dekh lo.
+
+151
+00:08:31,609 --> 00:08:36,865
+Program phir se theek chalta hai, aur
+git status kehta hai: working tree clean,
+
+152
+00:08:36,865 --> 00:08:39,393
+yaani koi bhi uncommitted change nahi.
+
+153
+00:08:40,693 --> 00:08:41,928
+Ab branches.
+
+154
+00:08:42,148 --> 00:08:44,352
+Branch kaam ki ek alag line hai.
+
+155
+00:08:44,702 --> 00:08:49,789
+main branch mein hamare do commits
+hain. main woh version hai jo hamesha chalna
+
+156
+00:08:49,789 --> 00:08:50,304
+chahiye.
+
+157
+00:08:50,654 --> 00:08:55,063
+Naya kaam, jaise ek naya
+feature, ek alag branch par hota hai.
+
+158
+00:08:55,283 --> 00:08:59,111
+Wahan aap kuch bhi try kar
+sakte ho, main ko chhuye bina.
+
+159
+00:08:59,461 --> 00:09:03,712
+Kaam poora aur test ho gaya, toh
+merge karke main mein le aate ho.
+
+160
+00:09:03,932 --> 00:09:09,326
+Teams mein yeh merge GitHub ke pull
+request se hota hai, jahan pehle koi aur code
+
+161
+00:09:09,326 --> 00:09:10,458
+review karta hai.
+
+162
+00:09:11,758 --> 00:09:16,367
+git switch dash c nayi branch
+banata hai aur usme chala jaata hai.
+
+163
+00:09:16,587 --> 00:09:17,915
+Naam: add notes.
+
+164
+00:09:18,265 --> 00:09:23,546
+Ek nayi file banayi: CONTRIBUTING
+dot md, contributors ke liye ek note.
+
+165
+00:09:23,896 --> 00:09:27,276
+Nayi file hai, isliye
+pehle git add, phir commit.
+
+166
+00:09:27,496 --> 00:09:30,057
+Yeh commit sirf add notes branch par hai.
+
+167
+00:09:30,407 --> 00:09:36,383
+Wapas main par switch kiya. ls dekho:
+CONTRIBUTING file yahan hai hi nahi. main abhi
+
+168
+00:09:36,383 --> 00:09:37,877
+bhi purane jaisa hai.
+
+169
+00:09:38,227 --> 00:09:39,281
+Ab merge.
+
+170
+00:09:39,501 --> 00:09:44,823
+Fast forward ka matlab: main mein beech
+mein koi naya commit nahi tha, toh Git ne
+
+171
+00:09:44,823 --> 00:09:46,663
+bas main ko aage badha diya.
+
+172
+00:09:46,883 --> 00:09:48,060
+File aa gayi.
+
+173
+00:09:48,410 --> 00:09:50,439
+History mein ab teen commits.
+
+174
+00:09:50,659 --> 00:09:53,941
+Aur HEAD batata hai ki
+aap abhi kahan ho: main par.
+
+175
+00:09:55,241 --> 00:09:56,353
+Ab GitHub.
+
+176
+00:09:56,573 --> 00:09:59,501
+Pehle github dot com
+par free account banao.
+
+177
+00:09:59,721 --> 00:10:04,582
+Username soch kar chuno, kyunki
+yeh aapke portfolio ka link banega.
+
+178
+00:10:04,932 --> 00:10:08,844
+Phir New repository par
+click karo, naam do my first repo.
+
+179
+00:10:09,064 --> 00:10:14,559
+README, gitignore, aur license ke box
+khaali chhodo, kyunki yeh files aapke paas
+
+180
+00:10:14,559 --> 00:10:15,521
+pehle se hain.
+
+181
+00:10:15,871 --> 00:10:19,214
+GitHub aapko repository ka URL dega.
+
+182
+00:10:19,434 --> 00:10:20,948
+Usse copy karo.
+
+183
+00:10:21,298 --> 00:10:25,187
+Phir terminal mein git
+remote add origin aur woh URL.
+
+184
+00:10:25,407 --> 00:10:28,587
+Origin bas ek naam
+hai, remote ka nickname.
+
+185
+00:10:28,807 --> 00:10:30,000
+Phir git push.
+
+186
+00:10:30,350 --> 00:10:33,156
+Pehli baar push par sign in karna hoga.
+
+187
+00:10:33,376 --> 00:10:36,974
+GitHub git ke liye aapka
+account password nahi leta.
+
+188
+00:10:37,194 --> 00:10:43,136
+Windows aur Mac par Git Credential
+Manager browser kholkar sign in kara deta hai.
+
+189
+00:10:43,356 --> 00:10:48,139
+Ya GitHub CLI ki gh auth
+login command, ya SSH key.
+
+190
+00:10:48,359 --> 00:10:51,200
+Aur token ko kabhi
+bhi code mein mat rakhna.
+
+191
+00:10:52,500 --> 00:10:54,010
+Ek honest note.
+
+192
+00:10:54,230 --> 00:10:58,776
+Iss video mein mai aapko apna koi
+account ya password nahi dikhaungi.
+
+193
+00:10:58,996 --> 00:11:04,772
+Isliye demo mein remote ek local folder
+hai, fake github, jisme ek bare repository
+
+194
+00:11:04,772 --> 00:11:05,054
+hai.
+
+195
+00:11:05,274 --> 00:11:11,338
+Bare matlab sirf history, bina working
+files ke, bilkul jaise GitHub ke server par
+
+196
+00:11:11,338 --> 00:11:12,004
+hota hai.
+
+197
+00:11:12,224 --> 00:11:16,214
+Git iske saath bilkul
+GitHub jaisa behave karta hai.
+
+198
+00:11:16,434 --> 00:11:19,264
+Remote, push, clone,
+pull, sab same commands.
+
+199
+00:11:19,484 --> 00:11:21,491
+Farak sirf URL ka hai.
+
+200
+00:11:21,711 --> 00:11:25,948
+Aap apne computer par
+GitHub wala URL use karna.
+
+201
+00:11:27,248 --> 00:11:31,011
+Pehle fake GitHub par
+khaali repository banate hain.
+
+202
+00:11:31,231 --> 00:11:34,780
+GitHub par yeh New
+repository button wala step tha.
+
+203
+00:11:35,130 --> 00:11:37,236
+Remote jodo, naam origin.
+
+204
+00:11:37,456 --> 00:11:42,488
+GitHub ke saath yahan
+aapka https wala URL hoga.
+
+205
+00:11:42,838 --> 00:11:46,056
+git remote dash v
+remotes ki list dikhata hai.
+
+206
+00:11:46,276 --> 00:11:50,053
+Fetch matlab yahan se
+laana, push matlab yahan bhejna.
+
+207
+00:11:50,403 --> 00:11:53,218
+Aur push. main branch origin par bhej di.
+
+208
+00:11:53,438 --> 00:11:58,313
+Dash u ek baar lagta hai: yeh
+main ko origin ke main se jod deta hai.
+
+209
+00:11:58,533 --> 00:12:01,617
+Iske baad sirf git
+push aur git pull kaafi hai.
+
+210
+00:12:01,837 --> 00:12:05,734
+GitHub par yahan aapka
+code website par dikhne lagta.
+
+211
+00:12:07,034 --> 00:12:10,805
+Ab socho aapka ek doosra
+laptop hai, ya ek teammate.
+
+212
+00:12:11,025 --> 00:12:13,021
+Woh project kaise lega?
+
+213
+00:12:13,371 --> 00:12:19,367
+git clone poora repository, poori
+history ke saath, ek naye folder mein copy karta
+
+214
+00:12:19,367 --> 00:12:19,659
+hai.
+
+215
+00:12:19,879 --> 00:12:25,076
+GitHub par clone ka URL repository
+page ke Code button mein milta hai.
+
+216
+00:12:25,426 --> 00:12:26,883
+Clone mein kya aaya?
+
+217
+00:12:27,103 --> 00:12:31,384
+Code, tests, requirements, dot
+env dot example, dot gitignore.
+
+218
+00:12:31,604 --> 00:12:33,015
+Aur kya nahi aaya?
+
+219
+00:12:33,235 --> 00:12:35,476
+Na dot env, na dot venv.
+
+220
+00:12:35,696 --> 00:12:36,936
+Bilkul sahi.
+
+221
+00:12:37,156 --> 00:12:42,905
+Secrets kabhi share nahi hue, aur venv
+har machine apna banati hai, README ke steps
+
+222
+00:12:42,905 --> 00:12:43,113
+se.
+
+223
+00:12:43,463 --> 00:12:45,635
+Doosre laptop par ek change.
+
+224
+00:12:45,985 --> 00:12:47,251
+Commit aur push.
+
+225
+00:12:47,471 --> 00:12:51,708
+Clone mein origin pehle se
+set hota hai, isliye bas git push.
+
+226
+00:12:53,008 --> 00:12:58,421
+Pehle laptop par wapas. git pull remote
+se naye commits laata hai aur aapki branch
+
+227
+00:12:58,421 --> 00:12:59,609
+mein jod deta hai.
+
+228
+00:12:59,829 --> 00:13:01,587
+README mein ek line aayi.
+
+229
+00:13:01,937 --> 00:13:05,585
+Aur history mein chaar
+commits, doosre laptop wala bhi.
+
+230
+00:13:05,805 --> 00:13:10,891
+Origin slash main aur aapka main ek
+hi commit par hain, yaani dono barabar.
+
+231
+00:13:11,241 --> 00:13:13,187
+Roz ka workflow yahi hai.
+
+232
+00:13:13,407 --> 00:13:15,902
+Kaam shuru karne se pehle git pull.
+
+233
+00:13:16,122 --> 00:13:18,398
+Kaam ke baad add, commit, aur push.
+
+234
+00:13:18,618 --> 00:13:22,042
+Ek line yaad rakho:
+pull, kaam, add, commit, push.
+
+235
+00:13:23,342 --> 00:13:25,983
+Aur agar galti se secret push ho gaya?
+
+236
+00:13:26,203 --> 00:13:28,692
+Pehla step, abhi, key revoke karo.
+
+237
+00:13:28,912 --> 00:13:32,321
+Doosra, nayi key banao
+aur sirf dot env mein rakho.
+
+238
+00:13:32,541 --> 00:13:35,610
+Teesra, file hatao
+aur gitignore mein jodo.
+
+239
+00:13:35,830 --> 00:13:41,087
+Naye commit mein delete karna kaafi nahi
+hai, kyunki key history mein abhi bhi hai.
+
+240
+00:13:41,307 --> 00:13:45,175
+Aur bots kuch hi minutes mein
+GitHub par keys dhoondh lete hain.
+
+241
+00:13:46,475 --> 00:13:48,505
+Ab project ka final test.
+
+242
+00:13:48,725 --> 00:13:54,011
+Hum my first repo mein hain, venv
+activate karte hain, aur setup checker chalate
+
+243
+00:13:54,011 --> 00:13:54,341
+hain.
+
+244
+00:13:54,691 --> 00:13:56,234
+Pehle activate.
+
+245
+00:13:56,584 --> 00:13:57,841
+Aur check setup.
+
+246
+00:13:58,061 --> 00:14:04,214
+Dekho: Python, venv, packages, dot env,
+dot gitignore, aur ab Git repository bhi.
+
+247
+00:14:04,434 --> 00:14:05,788
+Chhe mein se chhe!
+
+248
+00:14:06,008 --> 00:14:08,287
+Lesson do mein sirf paanch pass hue.
+
+249
+00:14:08,507 --> 00:14:11,041
+Aakhri check git init se theek hua.
+
+250
+00:14:11,391 --> 00:14:13,463
+Aur exit code zero, success.
+
+251
+00:14:13,813 --> 00:14:16,001
+Project ke saath tests bhi hain.
+
+252
+00:14:16,221 --> 00:14:19,404
+Tests chalane ke liye
+pytest install karte hain.
+
+253
+00:14:19,754 --> 00:14:21,307
+Aur pytest chalao.
+
+254
+00:14:21,527 --> 00:14:23,454
+Chhabbees tests, sab pass.
+
+255
+00:14:23,674 --> 00:14:29,257
+Yeh tests hello dot py aur setup checker
+ke har check ko, pass aur fail dono cases
+
+256
+00:14:29,257 --> 00:14:30,755
+mein, test karte hain.
+
+257
+00:14:30,975 --> 00:14:33,551
+Testing par poora Module chaudah hai.
+
+258
+00:14:34,851 --> 00:14:36,574
+Aakhri cheez: README.
+
+259
+00:14:36,794 --> 00:14:41,421
+GitHub par repository kholte
+hi sabse pehle yahi dikhta hai.
+
+260
+00:14:41,641 --> 00:14:44,257
+Yeh aapke project ka front page hai.
+
+261
+00:14:44,607 --> 00:14:47,597
+Pehle, project kya
+hai, simple shabdon mein.
+
+262
+00:14:47,947 --> 00:14:49,934
+Phir setup ke exact steps.
+
+263
+00:14:50,154 --> 00:14:56,126
+Itne saaf ki koi bhi anjaan insaan, ya
+aap khud chhe mahine baad, usse follow kar
+
+264
+00:14:56,126 --> 00:14:56,494
+sake.
+
+265
+00:14:56,844 --> 00:14:59,427
+Phir run aur test karne ki commands.
+
+266
+00:14:59,777 --> 00:15:02,004
+Aur kya git mein nahi hai, aur kyun.
+
+267
+00:15:02,224 --> 00:15:05,766
+Recruiters aur
+interviewers aapka GitHub dekhte hain.
+
+268
+00:15:05,986 --> 00:15:09,317
+Achha README aapke
+kaam ko serious dikhata hai.
+
+269
+00:15:10,617 --> 00:15:13,314
+Toh yeh raha aapka pehla repository.
+
+270
+00:15:13,534 --> 00:15:15,348
+Code, aur chhabbees tests.
+
+271
+00:15:15,698 --> 00:15:19,375
+Exact versions ke
+saath requirements dot txt.
+
+272
+00:15:19,725 --> 00:15:23,283
+Dot env dot example
+commit, dot env ignored.
+
+273
+00:15:23,633 --> 00:15:26,360
+Pehle commit se pehle dot gitignore.
+
+274
+00:15:26,710 --> 00:15:30,127
+Saaf commits, ek merged
+branch, aur remote par push.
+
+275
+00:15:30,478 --> 00:15:32,847
+Aur setup checker: chhe mein se chhe.
+
+276
+00:15:33,067 --> 00:15:37,476
+Ab apne computer par yahi
+karo, aur asli GitHub par push karo.
+
+277
+00:15:38,776 --> 00:15:40,235
+Interview corner.
+
+278
+00:15:40,455 --> 00:15:44,761
+Pehla, sabse common question:
+Git aur GitHub mein kya farak hai?
+
+279
+00:15:47,111 --> 00:15:52,473
+Answer: Git version control tool hai
+jo aapke computer par chalta hai: commits,
+
+280
+00:15:52,473 --> 00:15:53,695
+history, branches.
+
+281
+00:15:53,915 --> 00:15:59,931
+GitHub ek website hai jo Git
+repositories host karti hai, aur collaboration jodti
+
+282
+00:15:59,931 --> 00:16:02,680
+hai, jaise pull requests aur reviews.
+
+283
+00:16:02,900 --> 00:16:08,553
+Trap: dono ko ek hi cheez bolna, ya yeh
+kehna ki Git ke liye GitHub zaroori hai.
+
+284
+00:16:08,903 --> 00:16:12,342
+Doosra: git add, git
+commit, aur git push explain karo.
+
+285
+00:16:14,692 --> 00:16:20,143
+Answer: add changes ko staging area mein
+le jaata hai, yaani chunna ki kya jaayega.
+
+286
+00:16:20,363 --> 00:16:25,721
+Commit staged snapshot ko local
+history mein message ke saath save karta hai.
+
+287
+00:16:25,941 --> 00:16:29,719
+Aur push commits ko remote
+par bhejta hai, jaise GitHub.
+
+288
+00:16:29,939 --> 00:16:33,003
+Trap: sochna ki commit
+se kaam upload ho gaya.
+
+289
+00:16:33,223 --> 00:16:36,055
+Push ke bina woh
+sirf aapke laptop par hai.
+
+290
+00:16:36,405 --> 00:16:39,799
+Teesra: aapne API key
+commit karke push kar di.
+
+291
+00:16:40,019 --> 00:16:41,422
+Ab kya karoge?
+
+292
+00:16:43,772 --> 00:16:47,800
+Answer: sabse pehle key
+turant revoke karo aur nayi banao.
+
+293
+00:16:48,020 --> 00:16:53,264
+Phir file hatao, gitignore mein jodo,
+aur zaroorat ho toh history saaf karo.
+
+294
+00:16:53,484 --> 00:16:57,531
+Revoke pehle, kyunki key ko
+chori hui maan kar chalna chahiye.
+
+295
+00:16:57,751 --> 00:17:01,207
+Trap: bolna ki agle
+commit mein file delete kar di.
+
+296
+00:17:01,427 --> 00:17:03,333
+Key history mein abhi bhi hai.
+
+297
+00:17:03,683 --> 00:17:06,306
+Aur chautha: merge conflict kya hota hai?
+
+298
+00:17:08,656 --> 00:17:14,405
+Answer: jab do branches same lines ko
+alag alag tareeke se badalti hain, Git khud
+
+299
+00:17:14,405 --> 00:17:15,966
+decide nahi kar sakta.
+
+300
+00:17:16,186 --> 00:17:19,272
+Woh file mein dono
+versions mark kar deta hai.
+
+301
+00:17:19,492 --> 00:17:23,963
+Aap file ko sahi result tak
+edit karte ho, phir add aur commit.
+
+302
+00:17:24,183 --> 00:17:28,443
+Trap: ghabra jaana, ya sab
+delete karke dobara clone karna.
+
+303
+00:17:28,663 --> 00:17:30,305
+Conflict normal hai.
+
+304
+00:17:31,605 --> 00:17:32,862
+Practice time.
+
+305
+00:17:33,082 --> 00:17:35,206
+Pause karo aur khud try karo.
+
+306
+00:17:35,556 --> 00:17:41,254
+Pehla: kaunsi command dikhati hai ki ek
+file mein kya badla, jo abhi stage nahi hui?
+
+307
+00:17:41,604 --> 00:17:47,082
+Doosra: add greeting branch banao, greet
+function badlo, commit karo, aur main mein
+
+308
+00:17:47,082 --> 00:17:47,808
+merge karo.
+
+309
+00:17:48,158 --> 00:17:52,018
+Teesra: galti se git add
+secrets dot txt chala diya.
+
+310
+00:17:52,238 --> 00:17:54,001
+Usse unstage karo.
+
+311
+00:17:54,221 --> 00:17:56,503
+Hint: git restore dash dash staged.
+
+312
+00:17:56,853 --> 00:18:00,453
+Aur scenario: do teammates
+ne README ki same line badli.
+
+313
+00:18:00,673 --> 00:18:03,734
+Git pull par kya hoga, step by step batao.
+
+314
+00:18:11,034 --> 00:18:13,193
+Aur aapka extension challenge.
+
+315
+00:18:13,413 --> 00:18:18,972
+Ek ya zyaada chuno, aur har ek ko
+apne asli GitHub repository par push karo.
+
+316
+00:18:19,322 --> 00:18:23,892
+Setup checker mein saatvan check
+jodo: kya koi uncommitted changes hain?
+
+317
+00:18:24,112 --> 00:18:26,635
+Hint: git status dash dash porcelain.
+
+318
+00:18:26,985 --> 00:18:31,234
+Ek dash dash quiet flag
+jodo, jo sirf failures print kare.
+
+319
+00:18:31,584 --> 00:18:34,121
+Apna GitHub profile README banao.
+
+320
+00:18:34,341 --> 00:18:39,108
+Yeh ek repository hoti hai
+jiska naam aapka username hota hai.
+
+321
+00:18:39,458 --> 00:18:44,315
+Ya SSH key set up karo, aur
+git at github URL se push karo.
+
+322
+00:18:45,615 --> 00:18:46,544
+Quick check.
+
+323
+00:18:46,764 --> 00:18:48,740
+Aapne app dot py edit ki.
+
+324
+00:18:48,960 --> 00:18:53,043
+GitHub tak pahunchane ke liye
+commands ka sahi order kya hai?
+
+325
+00:18:58,743 --> 00:18:59,298
+C.
+
+326
+00:18:59,518 --> 00:19:01,787
+Pehle add, phir commit, phir push.
+
+327
+00:19:02,007 --> 00:19:03,991
+Pack karo, seal karo, bhejo.
+
+328
+00:19:05,291 --> 00:19:06,737
+Doosra question.
+
+329
+00:19:06,957 --> 00:19:09,027
+Dot env gitignore mein hai.
+
+330
+00:19:09,247 --> 00:19:12,258
+Git status uske baare mein kya dikhayega?
+
+331
+00:19:17,958 --> 00:19:19,182
+C, kuch nahi.
+
+332
+00:19:19,402 --> 00:19:22,009
+Ignored files status mein dikhti hi nahi.
+
+333
+00:19:22,229 --> 00:19:25,846
+Kyun ignored hai, yeh git
+check ignore dash v batata hai.
+
+334
+00:19:27,146 --> 00:19:28,055
+Teesra.
+
+335
+00:19:28,275 --> 00:19:30,417
+Teammate ne naye commits push kiye.
+
+336
+00:19:30,637 --> 00:19:33,458
+Aapke local main mein
+kaunsi command laayegi?
+
+337
+00:19:39,158 --> 00:19:40,388
+B, git pull.
+
+338
+00:19:40,608 --> 00:19:44,475
+Clone sirf pehli baar
+repository lene ke liye hota hai.
+
+339
+00:19:45,775 --> 00:19:51,813
+Yeh official documentation pages hain:
+venv, pip, python dotenv, free Pro Git book,
+
+340
+00:19:51,813 --> 00:19:53,340
+aur GitHub ki guides.
+
+341
+00:19:53,560 --> 00:19:58,149
+Links description mein hain, poore
+source code aur question bank ke saath.
+
+342
+00:20:02,249 --> 00:20:03,089
+Recap.
+
+343
+00:20:03,309 --> 00:20:05,081
+Commit ek save point hai.
+
+344
+00:20:05,301 --> 00:20:07,514
+Git tool hai, GitHub website.
+
+345
+00:20:07,864 --> 00:20:11,803
+Status, add, commit, log,
+diff, aur restore: roz ki commands.
+
+346
+00:20:12,153 --> 00:20:16,941
+Pehle commit se pehle
+gitignore, dot env aur dot venv ke saath.
+
+347
+00:20:17,291 --> 00:20:19,605
+Naya kaam branch par, phir merge.
+
+348
+00:20:19,955 --> 00:20:22,372
+Aur remote ke saath: push, clone, pull.
+
+349
+00:20:22,592 --> 00:20:25,519
+Roz ka mantra: pull,
+kaam, add, commit, push.
+
+350
+00:20:26,819 --> 00:20:28,690
+Module zero complete!
+
+351
+00:20:28,910 --> 00:20:35,174
+Aapke paas ab ek terminal hai jise aap
+samajhte ho, har project ka apna environment,
+
+352
+00:20:35,174 --> 00:20:40,245
+secrets code se bahar, aur aapka
+pehla repository, history ke saath.
+
+353
+00:20:40,465 --> 00:20:46,374
+Agle Module mein hum woh Python
+seekhenge jo AI agents banane ke liye chahiye.
+
+354
+00:20:46,594 --> 00:20:48,695
+Milte hain Module one mein.

@@ -1,0 +1,614 @@
+module_title: Your Developer Setup
+title: "Git and GitHub: Save, Commit, Push and Share Your Work"
+narration: hinglish
+scenes:
+  - type: title
+    chapter: Introduction
+    kicker: Module 0 · Lesson 3
+    title: Git and GitHub
+    subtitle: Save your work, see its history, undo mistakes, and share it. Your first GitHub repository.
+    say: >
+      Lesson teen mein swagat hai, Module zero ka aakhri lesson. Aaj hum Git aur GitHub seekhenge.
+      Git se aap apne project ki har version save karte ho, purani history dekhte ho, aur galti undo karte ho. GitHub par aap apna project share karte ho, aur doosre computers par le jaate ho.
+      Lesson ke end mein aapka pehla repository poora ready hoga, aur setup checker chhe mein se chhe dikhayega.
+
+  - type: objectives
+    items:
+      - {text: "Explain version control, and Git vs GitHub", say: "Iss lesson ke baad aap version control explain kar paoge, aur Git aur GitHub ka farak."}
+      - {text: "Make commits: `init`, `status`, `add`, `commit`, `log`", say: "Commits banana: init, status, add, commit, aur log."}
+      - {text: "Keep `.env` and `.venv` out with `.gitignore`", say: "Dot gitignore se dot env aur dot venv ko bahar rakhna."}
+      - {text: "See and undo changes: `diff`, `restore`; work on a branch", say: "Changes dekhna aur undo karna, aur ek branch par kaam karna."}
+      - {text: "Push, clone and pull with a remote, the way GitHub works", say: "Aur remote ke saath push, clone, aur pull, bilkul GitHub ki tarah."}
+
+  - type: callout
+    chapter: What is version control?
+    kind: analogy
+    title: "Git is save points in a video game"
+    body: "Before a hard level, you **save the game**. If things go wrong, you go back to the save point. A **commit** is a save point for your project: a snapshot of every file, with a message saying what changed, that you can always return to."
+    say: >
+      Pehle what. Version control kya hai? Video game socho. Mushkil level se pehle aap game save karte ho. Kuch galat hua, toh wapas save point par.
+      Git mein save point ko commit kehte hain. Commit aapke project ki har file ki ek photo hai, ek message ke saath ki kya badla. Aur aap kabhi bhi kisi bhi commit par wapas ja sakte ho.
+
+  - type: compare
+    heading: "Why version control?"
+    left:
+      title: "Without Git"
+      tone: coral
+      label: Chaos
+      items:
+        - "`app.py`, `app_v2.py`, `app_final.py`, `app_final_REAL.py`"
+        - "\"Which version worked yesterday?\" Nobody knows"
+        - "One deleted line, and it's gone forever"
+        - "Sharing = emailing zip files"
+    right:
+      title: "With Git"
+      tone: teal
+      label: Calm
+      items:
+        - "One `app.py`, with its full history inside `.git`"
+        - "Every change has a date, an author and a reason"
+        - "Undo any change, or go back to any commit"
+        - "Share with `push`; teammates get it with `pull`"
+    steps:
+      - show: left
+        say: >
+          Ab why. Bina Git ke kya hota hai? app final, app final real, app final real version two. Kal kaunsa version chal raha tha, kisi ko yaad nahi. Ek line delete hui, toh hamesha ke liye gayi. Aur share karna matlab zip file email karna.
+      - show: right
+        say: >
+          Git ke saath ek hi file, aur uski poori history dot git folder ke andar. Har change ki date, author, aur reason. Koi bhi change undo ho sakta hai. Aur sharing push aur pull se. Har company, har open source project, aur har AI engineering team Git use karti hai.
+
+  - type: table
+    heading: "Git is not GitHub"
+    columns: ["", Git, GitHub]
+    widths: [1, 2, 2]
+    rows:
+      - {cells: ["What", "A program on **your computer**", "A **website** that stores Git repositories"], say: "Ek bahut common confusion. Git ek program hai jo aapke computer par chalta hai."}
+      - {cells: ["Does", "Commits, history, branches, undo", "Hosting, sharing, pull requests, portfolio"], say: "GitHub ek website hai jo Git repositories ko online store karti hai, aur unhe share karna aasaan banati hai."}
+      - {cells: ["Needs internet?", "No", "Yes"], say: "Git bina internet ke poora kaam karta hai. GitHub ke liye internet chahiye."}
+      - {cells: ["Alternatives", "(Git is the standard)", "GitLab, Bitbucket, Azure DevOps"], say: "GitHub ke alternatives bhi hain, jaise GitLab aur Bitbucket. Lekin commands sab jagah Git ki hi hain.", tone: teal}
+
+  - type: diagram
+    chapter: How Git works
+    heading: "Three places your changes travel through"
+    nodes:
+      - {id: work, label: "Working folder", sub: "files you edit", x: 170, y: 200, w: 300, h: 120, tone: blue}
+      - {id: stage, label: "Staging area", sub: "the next commit", x: 760, y: 200, w: 300, h: 120, tone: amber}
+      - {id: repo, label: "Repository", sub: ".git: the history", x: 1350, y: 200, w: 300, h: 120, tone: teal}
+      - {id: remote, label: "Remote (GitHub)", sub: "others can reach it", x: 1350, y: 560, w: 300, h: 120, tone: violet}
+    edges:
+      - {from: work, to: stage, label: "git add"}
+      - {from: stage, to: repo, label: "git commit"}
+      - {from: repo, to: remote, label: "git push"}
+    say: >
+      Ab how. Git mein aapke changes teen jagah se hokar guzarte hain. Isse ek parcel bhejne ki tarah samjhati hoon.
+    steps:
+      - show: [work]
+        say: >
+          Pehli jagah, working folder. Yahan aap files edit karte ho. Yeh aapka table hai, jahan saaman bikhra hai.
+      - show: [stage, "work->stage"]
+        flow: ["work->stage"]
+        say: >
+          Doosri, staging area. git add se aap chunte ho ki kaunsi changes agle commit mein jaayengi. Yeh box mein saaman pack karna hai. Jo pack nahi kiya, woh nahi jaayega.
+      - show: [repo, "stage->repo"]
+        flow: ["stage->repo"]
+        say: >
+          Teesri, repository. git commit box ko seal karta hai, label lagata hai, aur history mein rakh deta hai. Yeh sab dot git folder mein hota hai, aapke computer par.
+      - show: [remote, "repo->remote"]
+        flow: ["repo->remote"]
+        focus: [remote]
+        say: >
+          Aur chauthi jagah, remote, jaise GitHub. git push aapke commits wahan bhejta hai, taaki doosre log, ya aapka doosra laptop, unhe le sake.
+
+  - type: terminal
+    chapter: One-time setup
+    heading: "Tell Git who you are (once per computer)"
+    title: terminal — bash
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: git config --global user.name "Riya Sharma"
+        run: >-
+          mkdir -p my-first-repo && cd my-first-repo
+          && cp -a "$MODULE_DIR/project/my-first-repo/." .
+          && rm -rf __pycache__ tests/__pycache__ .pytest_cache .mypy_cache
+          && cp .env.example .env
+          && PATH=/usr/local/bin:/usr/bin:/bin python3 -m venv .venv
+          && .venv/bin/pip install -q --disable-pip-version-check -r requirements.txt
+          && git config --global user.name "Riya Sharma"
+        say: >
+          Shuru karne se pehle, Git ko batao ki aap kaun ho. Har commit par yeh naam likha jaayega. Yeh setting ek computer par sirf ek baar karni hoti hai. Iss video mein demo ka naam hai Riya Sharma. Aap apna naam likhna.
+      - cmd: git config --global user.email "riya@example.com"
+        say: >
+          Aur email. GitHub par wahi email use karo jo aapke GitHub account mein hai. Privacy chahiye, toh GitHub settings mein ek no reply email milta hai, woh bhi chalega. Yahan example dot com ka demo email hai.
+      - cmd: git config --global init.defaultBranch main
+        say: >
+          Aur yeh setting naye repositories ki pehli branch ka naam main rakhti hai, jo aaj ka standard hai. Branch kya hoti hai, thodi der mein.
+      - cmd: git config --global --list
+        say: >
+          Aur list se check karo. Teeno settings save ho gayi.
+
+  - type: terminal
+    chapter: Your first commit
+    heading: "git init and git status"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    say: >
+      Ab hamara project folder. Isme woh sab hai jo pichle do lessons mein bana: code, requirements dot txt, dot env, aur dot venv.
+    steps:
+      - cmd: ls -a
+        run: cd my-first-repo && ls -aC -T 0
+        say: >
+          ls dash a se dekho. Code files, tests folder, dot env, dot env dot example, dot gitignore, aur dot venv. Dot gitignore ke andar kya hai, ek minute mein dekhenge.
+      - cmd: git init
+        run: cd my-first-repo && git init
+        say: >
+          git init iss folder ko Git repository bana deta hai. Isne ek dot git folder banaya. Poori history isi mein rahegi. Iss folder ko kabhi haath se mat chhedna.
+      - cmd: git status
+        run: cd my-first-repo && git status
+        say: >
+          git status, sabse zyaada use hone wali Git command. Yeh batati hai ki abhi kya haal hai. Branch main, abhi tak koi commit nahi, aur yeh rahi untracked files, yaani woh files jo Git ne abhi tak track nahi ki.
+          Ab dhyan se dekho, aur bataao kya missing hai. Dot env yahan nahi hai. Dot venv bhi nahi hai. Kyun? Dot gitignore ki wajah se.
+
+  - type: code
+    heading: "`.gitignore`: files Git must never track"
+    title: .gitignore
+    file: project/my-first-repo/.gitignore
+    lang: bash
+    steps:
+      - lines: "1-2"
+        note: "Secrets: `.env` never enters git."
+        say: >
+          Yeh hai dot gitignore. Ek simple text file, jisme har line ek naam ya pattern hai jise Git ignore kare. Pehla aur sabse important: dot env, hamare secrets.
+      - lines: "4-5"
+        note: "The venv: rebuilt from `requirements.txt`."
+        say: >
+          Doosra, dot venv folder. Lesson do yaad karo: yeh recipe se dobara banta hai, git mein nahi jaata. Slash ka matlab hai: yeh ek folder hai.
+      - lines: "7-11"
+        note: "`*` matches anything: `*.pyc` = every file ending in `.pyc`."
+        say: >
+          Aur Python ki cache files. Star ka matlab kuch bhi. Star dot pyc matlab har woh file jiska naam dot pyc par khatam ho.
+    outro: >
+      Golden rule: dot gitignore pehle commit se pehle banao. Agar secret ek baar commit ho gaya, toh woh history mein reh jaata hai, chahe baad mein delete karo.
+
+  - type: terminal
+    heading: "Prove it, then stage and commit"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: git check-ignore -v .env .venv
+        run: cd my-first-repo && git check-ignore -v .env .venv
+        say: >
+          git check ignore dash v batata hai ki koi file kyun ignore ho rahi hai. Dot env, gitignore ki line do ki wajah se, aur dot venv, line paanch ki wajah se. Jab bhi doubt ho, yahi command chalao.
+      - cmd: git add .
+        run: cd my-first-repo && git add .
+        say: >
+          Ab git add dot. Dot matlab yeh folder, yaani saari changes, staging area mein. Ignored files apne aap bahar reh jaati hain.
+      - cmd: git status --short
+        run: cd my-first-repo && git status --short
+        say: >
+          git status dash dash short, chhota version. A matlab added, yaani staged. Har file commit ke liye pack ho gayi. Aur ek baar phir: na dot env, na dot venv.
+      - cmd: 'git commit -m "First commit: hello.py and a setup checker"'
+        run: 'cd my-first-repo && git commit -m "First commit: hello.py and a setup checker"'
+        keep: "1-2"
+        say: >
+          Aur commit. Dash m ke baad message, jo batata hai ki iss commit mein kya hai. Output mein branch, commit ka chhota ID, message, aur kitni files aayi.
+      - cmd: git log --oneline
+        run: cd my-first-repo && git log --oneline --decorate
+        say: >
+          git log history dikhata hai. Dash dash oneline, har commit ek line mein: ID aur message. Hamari history mein ek save point hai.
+
+  - type: table
+    heading: "Good commit messages"
+    columns: [Avoid, Prefer, Why]
+    widths: [1.3, 2.2, 1.5]
+    rows:
+      - {cells: ["`update`", "`Add a .env check to the setup checker`", "says **what** changed"], say: "Commit message kaise likhein? Update jaisa message kuch nahi batata. Batao kya badla."}
+      - {cells: ["`fix`", "`Fix crash when requirements.txt is missing`", "says **which** problem"], say: "Sirf fix nahi. Kaunsi problem fix hui, woh likho."}
+      - {cells: ["`asdf`, `final`, `changes`", "One small change per commit", "easy to review and undo"], say: "Aur ek commit mein ek chhota, saaf change. Isse review aur undo dono aasaan."}
+      - {cells: ["", "Imperative, under ~60 characters", "the Git convention"], say: "Convention hai ki message order ki tarah likho, jaise Add, Fix, Remove, aur chhota rakho.", tone: teal}
+
+  - type: terminal
+    chapter: Seeing changes
+    heading: "Change a file: status, diff, commit again"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: echo "Built in Module 0 of AI Agents with Python." >> README.md
+        run: cd my-first-repo && echo "Built in Module 0 of AI Agents with Python." >> README.md
+        say: >
+          Ab ek change karte hain. README mein ek line jodi.
+      - cmd: git status --short
+        run: cd my-first-repo && git status --short
+        say: >
+          git status ab README ke aage M dikhata hai, matlab modified. Git ko pata hai ki file badli hai.
+      - cmd: git diff
+        run: cd my-first-repo && git diff
+        say: >
+          Aur kya badla? git diff exact batata hai. Plus wali line nayi hai. Minus hoti toh hatai gayi hoti. Commit se pehle diff dekhna ek achhi aadat hai.
+      - cmd: git commit -am "Say where the project comes from"
+        run: cd my-first-repo && git commit -am "Say where the project comes from"
+        say: >
+          Commit dash a m. Dash a pehle se tracked files ki changes ko khud add kar deta hai. Nayi files ke liye git add phir bhi chahiye.
+      - cmd: git log --oneline
+        run: cd my-first-repo && git log --oneline --decorate
+        say: >
+          Ab history mein do commits. Naya commit sabse upar.
+
+  - type: terminal
+    chapter: Undo
+    heading: "Undo a mistake with git restore"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: echo "print('oops'" > hello.py
+        run: cd my-first-repo && echo "print('oops'" > hello.py
+        say: >
+          Ab ek asli galti. Lesson ek yaad hai? Ek greater than sign file ko overwrite karta hai. Do ki jagah ek likh diya, aur hello dot py ka poora code gayab, bas ek adhoori line bachi.
+      - cmd: python hello.py
+        run: cd my-first-repo && python hello.py
+        exit: 1
+        keep: "-1"
+        say: >
+          Chalao, aur error. Syntax error: bracket kabhi band hi nahi hua. Bina Git ke, poora code dobara likhna padta.
+      - cmd: git restore hello.py
+        run: cd my-first-repo && git restore hello.py
+        say: >
+          Git ke saath koi tension nahi. git restore file ko aakhri commit wali haalat mein wapas le aata hai. Dhyan rahe, jo changes abhi tak commit nahi hue, woh chale jaate hain. Isliye pehle diff dekh lo.
+      - cmd: python hello.py && git status
+        run: cd my-first-repo && python hello.py && git status
+        say: >
+          Program phir se theek chalta hai, aur git status kehta hai: working tree clean, yaani koi bhi uncommitted change nahi.
+
+  - type: diagram
+    chapter: Branches
+    heading: "A branch is a separate line of work"
+    nodes:
+      - {id: c1, label: "First commit", x: 240, y: 220, w: 280, h: 96, tone: teal}
+      - {id: c2, label: "Say where...", x: 600, y: 220, w: 280, h: 96, tone: teal}
+      - {id: c3, label: "Add CONTRIBUTING", sub: "branch: add-notes", x: 1000, y: 480, w: 420, h: 110, tone: amber}
+      - {id: main, label: "main", sub: "after merge", x: 1440, y: 220, w: 300, h: 96, tone: violet}
+    edges:
+      - {from: c1, to: c2}
+      - {from: c2, to: c3}
+      - {from: c3, to: main}
+    say: >
+      Ab branches. Branch kaam ki ek alag line hai.
+    steps:
+      - show: [c1, c2, "c1->c2"]
+        say: >
+          main branch mein hamare do commits hain. main woh version hai jo hamesha chalna chahiye.
+      - show: [c3, "c2->c3"]
+        flow: ["c2->c3"]
+        say: >
+          Naya kaam, jaise ek naya feature, ek alag branch par hota hai. Wahan aap kuch bhi try kar sakte ho, main ko chhuye bina.
+      - show: [main, "c3->main"]
+        flow: ["c3->main"]
+        focus: [main]
+        say: >
+          Kaam poora aur test ho gaya, toh merge karke main mein le aate ho. Teams mein yeh merge GitHub ke pull request se hota hai, jahan pehle koi aur code review karta hai.
+
+  - type: terminal
+    heading: "switch -c, commit, switch back, merge"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: git switch -c add-notes
+        run: cd my-first-repo && git switch -c add-notes
+        say: >
+          git switch dash c nayi branch banata hai aur usme chala jaata hai. Naam: add notes.
+      - cmd: echo "Run python check_setup.py before every commit." > CONTRIBUTING.md
+        run: cd my-first-repo && echo "Run python check_setup.py before every commit." > CONTRIBUTING.md
+        say: >
+          Ek nayi file banayi: CONTRIBUTING dot md, contributors ke liye ek note.
+      - cmd: git add CONTRIBUTING.md && git commit -m "Add a CONTRIBUTING note"
+        run: cd my-first-repo && git add CONTRIBUTING.md && git commit -m "Add a CONTRIBUTING note"
+        say: >
+          Nayi file hai, isliye pehle git add, phir commit. Yeh commit sirf add notes branch par hai.
+      - cmd: git switch main && ls
+        run: cd my-first-repo && git switch main && ls -C -T 0
+        say: >
+          Wapas main par switch kiya. ls dekho: CONTRIBUTING file yahan hai hi nahi. main abhi bhi purane jaisa hai.
+      - cmd: git merge add-notes
+        run: cd my-first-repo && git merge add-notes
+        say: >
+          Ab merge. Fast forward ka matlab: main mein beech mein koi naya commit nahi tha, toh Git ne bas main ko aage badha diya. File aa gayi.
+      - cmd: git log --oneline
+        run: cd my-first-repo && git log --oneline --decorate
+        say: >
+          History mein ab teen commits. Aur HEAD batata hai ki aap abhi kahan ho: main par.
+
+  - type: steps
+    chapter: GitHub
+    heading: "Put your repository on GitHub"
+    items:
+      - {text: "Create a free account at **github.com**", sub: "pick a professional username: it becomes your portfolio link", say: "Ab GitHub. Pehle github dot com par free account banao. Username soch kar chuno, kyunki yeh aapke portfolio ka link banega."}
+      - {text: "Click **New repository** → name it `my-first-repo`", sub: "leave README, .gitignore and license unticked: you already have them", say: "Phir New repository par click karo, naam do my first repo. README, gitignore, aur license ke box khaali chhodo, kyunki yeh files aapke paas pehle se hain."}
+      - {text: "Copy its URL: `https://github.com/your-name/my-first-repo.git`", sub: "your-name = your GitHub username", say: "GitHub aapko repository ka URL dega. Usse copy karo."}
+      - {text: "`git remote add origin <URL>` then `git push -u origin main`", sub: "origin = the usual name for \"my main remote\"", say: "Phir terminal mein git remote add origin aur woh URL. Origin bas ek naam hai, remote ka nickname. Phir git push."}
+      - {text: "Sign in: Git Credential Manager, `gh auth login`, or an SSH key", sub: "GitHub doesn't accept your account password for git; never commit a token", tone: amber, say: "Pehli baar push par sign in karna hoga. GitHub git ke liye aapka account password nahi leta. Windows aur Mac par Git Credential Manager browser kholkar sign in kara deta hai. Ya GitHub CLI ki gh auth login command, ya SSH key. Aur token ko kabhi bhi code mein mat rakhna."}
+
+  - type: callout
+    kind: info
+    label: About the demo
+    title: "In this video, \"GitHub\" is a folder"
+    body: "So the demo needs no account and no password, the remote below is a **bare repository in a local folder** (`fake-github/`). Git treats it exactly like GitHub: the same `remote`, `push`, `clone` and `pull` commands. With GitHub, the only difference is the URL."
+    say: >
+      Ek honest note. Iss video mein mai aapko apna koi account ya password nahi dikhaungi. Isliye demo mein remote ek local folder hai, fake github, jisme ek bare repository hai. Bare matlab sirf history, bina working files ke, bilkul jaise GitHub ke server par hota hai.
+      Git iske saath bilkul GitHub jaisa behave karta hai. Remote, push, clone, pull, sab same commands. Farak sirf URL ka hai. Aap apne computer par GitHub wala URL use karna.
+
+  - type: terminal
+    chapter: Push
+    heading: "Add a remote and push"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: git init --bare ../fake-github/my-first-repo.git
+        run: cd my-first-repo && git init --bare ../fake-github/my-first-repo.git
+        say: >
+          Pehle fake GitHub par khaali repository banate hain. GitHub par yeh New repository button wala step tha.
+      - cmd: git remote add origin ../fake-github/my-first-repo.git
+        run: cd my-first-repo && git remote add origin ../fake-github/my-first-repo.git
+        say: >
+          Remote jodo, naam origin. GitHub ke saath yahan aapka https wala URL hoga.
+      - cmd: git remote -v
+        run: cd my-first-repo && git remote -v
+        say: >
+          git remote dash v remotes ki list dikhata hai. Fetch matlab yahan se laana, push matlab yahan bhejna.
+      - cmd: git push -u origin main
+        run: cd my-first-repo && git push -u origin main
+        say: >
+          Aur push. main branch origin par bhej di. Dash u ek baar lagta hai: yeh main ko origin ke main se jod deta hai. Iske baad sirf git push aur git pull kaafi hai. GitHub par yahan aapka code website par dikhne lagta.
+
+  - type: terminal
+    chapter: Clone and pull
+    heading: "A second laptop: clone, change, push"
+    title: terminal — bash · ~/projects
+    cwd: tmp:projects
+    alias: /home/student/projects
+    say: >
+      Ab socho aapka ek doosra laptop hai, ya ek teammate. Woh project kaise lega?
+    steps:
+      - cmd: git clone fake-github/my-first-repo.git laptop-2
+        say: >
+          git clone poora repository, poori history ke saath, ek naye folder mein copy karta hai. GitHub par clone ka URL repository page ke Code button mein milta hai.
+      - cmd: ls -a laptop-2
+        run: ls -aC -T 0 laptop-2
+        say: >
+          Clone mein kya aaya? Code, tests, requirements, dot env dot example, dot gitignore. Aur kya nahi aaya? Na dot env, na dot venv. Bilkul sahi. Secrets kabhi share nahi hue, aur venv har machine apna banati hai, README ke steps se.
+      - cmd: cd laptop-2 && echo "- Tested on a second laptop." >> README.md
+        run: cd laptop-2 && echo "- Tested on a second laptop." >> README.md
+        say: >
+          Doosre laptop par ek change.
+      - cmd: git commit -am "Note the second-laptop test" && git push
+        run: cd laptop-2 && git commit -am "Note the second-laptop test" && git push
+        say: >
+          Commit aur push. Clone mein origin pehle se set hota hai, isliye bas git push.
+
+  - type: terminal
+    heading: "Back on the first laptop: git pull"
+    title: terminal — bash · ~/projects/my-first-repo
+    cwd: tmp:projects
+    alias: /home/student/projects
+    steps:
+      - cmd: git pull
+        run: cd my-first-repo && git pull
+        say: >
+          Pehle laptop par wapas. git pull remote se naye commits laata hai aur aapki branch mein jod deta hai. README mein ek line aayi.
+      - cmd: git log --oneline
+        run: cd my-first-repo && git log --oneline --decorate
+        say: >
+          Aur history mein chaar commits, doosre laptop wala bhi. Origin slash main aur aapka main ek hi commit par hain, yaani dono barabar.
+    outro: >
+      Roz ka workflow yahi hai. Kaam shuru karne se pehle git pull. Kaam ke baad add, commit, aur push. Ek line yaad rakho: pull, kaam, add, commit, push.
+
+  - type: callout
+    kind: warn
+    title: "Pushed a secret by mistake?"
+    body: "1) **Revoke the key now** in the provider's console. 2) Create a new key in your `.env`. 3) Remove the file and add it to `.gitignore`. Deleting it in a new commit is **not** enough: it is still in the history, and bots scan GitHub for keys within minutes."
+    say: >
+      Aur agar galti se secret push ho gaya? Pehla step, abhi, key revoke karo. Doosra, nayi key banao aur sirf dot env mein rakho. Teesra, file hatao aur gitignore mein jodo.
+      Naye commit mein delete karna kaafi nahi hai, kyunki key history mein abhi bhi hai. Aur bots kuch hi minutes mein GitHub par keys dhoondh lete hain.
+
+  - type: terminal
+    chapter: "Project: Your First GitHub Repository"
+    heading: "The setup checker, inside the finished repo"
+    title: terminal — bash · ~/projects/my-first-repo
+    prompt: "(.venv) $"
+    cwd: tmp:projects
+    alias: /home/student/projects
+    say: >
+      Ab project ka final test. Hum my first repo mein hain, venv activate karte hain, aur setup checker chalate hain.
+    steps:
+      - cmd: source .venv/bin/activate
+        run: cd my-first-repo && . .venv/bin/activate
+        say: >
+          Pehle activate.
+      - cmd: python check_setup.py
+        run: cd my-first-repo && . .venv/bin/activate && python check_setup.py
+        say: >
+          Aur check setup. Dekho: Python, venv, packages, dot env, dot gitignore, aur ab Git repository bhi. Chhe mein se chhe! Lesson do mein sirf paanch pass hue. Aakhri check git init se theek hua.
+      - cmd: echo $?
+        run: cd my-first-repo && . .venv/bin/activate && python check_setup.py > /dev/null; echo $?
+        say: >
+          Aur exit code zero, success.
+      - cmd: pip install pytest
+        run: cd my-first-repo && . .venv/bin/activate && PIP_DISABLE_PIP_VERSION_CHECK=1 pip install pytest
+        keep: "-1"
+        say: >
+          Project ke saath tests bhi hain. Tests chalane ke liye pytest install karte hain.
+      - cmd: python -m pytest -q
+        run: cd my-first-repo && . .venv/bin/activate && python -m pytest -q -p no:cacheprovider
+        keep: "-1"
+        say: >
+          Aur pytest chalao. Chhabbees tests, sab pass. Yeh tests hello dot py aur setup checker ke har check ko, pass aur fail dono cases mein, test karte hain. Testing par poora Module chaudah hai.
+
+  - type: code
+    heading: "README.md: the front page of your repository"
+    title: README.md
+    file: project/my-first-repo/README.md
+    lang: markdown
+    say: >
+      Aakhri cheez: README. GitHub par repository kholte hi sabse pehle yahi dikhta hai. Yeh aapke project ka front page hai.
+    steps:
+      - lines: "1-13"
+        note: "What it is, in plain words."
+        say: >
+          Pehle, project kya hai, simple shabdon mein.
+      - lines: "15-22"
+        note: "Exact setup steps: a stranger can follow them."
+        say: >
+          Phir setup ke exact steps. Itne saaf ki koi bhi anjaan insaan, ya aap khud chhe mahine baad, usse follow kar sake.
+      - lines: "24-37"
+        note: "How to run and test it."
+        say: >
+          Phir run aur test karne ki commands.
+      - lines: "39-45"
+        note: "What is not in git, and why."
+        say: >
+          Aur kya git mein nahi hai, aur kyun. Recruiters aur interviewers aapka GitHub dekhte hain. Achha README aapke kaam ko serious dikhata hai.
+
+  - type: steps
+    heading: "Your first GitHub repository: the checklist"
+    items:
+      - {text: "Code: `hello.py`, `check_setup.py`, `show_config.py` + 26 tests", say: "Toh yeh raha aapka pehla repository. Code, aur chhabbees tests."}
+      - {text: "`requirements.txt` with exact pins", say: "Exact versions ke saath requirements dot txt."}
+      - {text: "`.env.example` committed; `.env` ignored", say: "Dot env dot example commit, dot env ignored."}
+      - {text: "`.gitignore` written before the first commit", say: "Pehle commit se pehle dot gitignore."}
+      - {text: "Clear commits, a merged branch, pushed to a remote", say: "Saaf commits, ek merged branch, aur remote par push."}
+      - {text: "`python check_setup.py` → 6/6 checks passed", tone: teal, say: "Aur setup checker: chhe mein se chhe. Ab apne computer par yahi karo, aur asli GitHub par push karo."}
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is the difference between Git and GitHub?"
+        a: "**Git** is the version control tool that runs on your computer: commits, history, branches. **GitHub** is a website that hosts Git repositories and adds collaboration: pull requests, reviews, issues."
+        trap: "Saying they are the same thing, or that you need GitHub to use Git."
+        say_q: "Interview corner. Pehla, sabse common question: Git aur GitHub mein kya farak hai?"
+        say_a: "Answer: Git version control tool hai jo aapke computer par chalta hai: commits, history, branches. GitHub ek website hai jo Git repositories host karti hai, aur collaboration jodti hai, jaise pull requests aur reviews. Trap: dono ko ek hi cheez bolna, ya yeh kehna ki Git ke liye GitHub zaroori hai."
+      - q: "Explain `git add`, `git commit` and `git push`."
+        a: "`add` moves changes into the **staging area** (choose what goes in). `commit` saves the staged snapshot in the **local** history with a message. `push` sends your commits to the **remote**, like GitHub."
+        trap: "Thinking `commit` uploads your work. Until you push, it exists only on your laptop."
+        say_q: "Doosra: git add, git commit, aur git push explain karo."
+        say_a: "Answer: add changes ko staging area mein le jaata hai, yaani chunna ki kya jaayega. Commit staged snapshot ko local history mein message ke saath save karta hai. Aur push commits ko remote par bhejta hai, jaise GitHub. Trap: sochna ki commit se kaam upload ho gaya. Push ke bina woh sirf aapke laptop par hai."
+      - q: "You committed an API key and pushed it. What do you do?"
+        a: "**Revoke the key immediately** and issue a new one; then remove the file, add it to `.gitignore`, and if needed clean the history. Revoking comes first because the key must be treated as already stolen."
+        trap: "\"I deleted the file in the next commit.\" The key is still in the history."
+        say_q: "Teesra: aapne API key commit karke push kar di. Ab kya karoge?"
+        say_a: "Answer: sabse pehle key turant revoke karo aur nayi banao. Phir file hatao, gitignore mein jodo, aur zaroorat ho toh history saaf karo. Revoke pehle, kyunki key ko chori hui maan kar chalna chahiye. Trap: bolna ki agle commit mein file delete kar di. Key history mein abhi bhi hai."
+      - q: "What is a merge conflict?"
+        a: "When two branches change **the same lines** differently, Git can't choose for you. It marks both versions in the file; you edit it to the right result, then `add` and `commit`."
+        trap: "Panicking, or deleting and re-cloning. A conflict is normal: read both sides, keep the right code."
+        say_q: "Aur chautha: merge conflict kya hota hai?"
+        say_a: "Answer: jab do branches same lines ko alag alag tareeke se badalti hain, Git khud decide nahi kar sakta. Woh file mein dono versions mark kar deta hai. Aap file ko sahi result tak edit karte ho, phir add aur commit. Trap: ghabra jaana, ya sab delete karke dobara clone karna. Conflict normal hai."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Practice questions"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Pause karo aur khud try karo.
+    items:
+      - {text: "Which command shows what changed in a file that you have not staged yet?", say: "Pehla: kaunsi command dikhati hai ki ek file mein kya badla, jo abhi stage nahi hui?"}
+      - {text: "Make a branch `add-greeting`, change `greet()`, commit, merge into `main`", say: "Doosra: add greeting branch banao, greet function badlo, commit karo, aur main mein merge karo."}
+      - {text: "You ran `git add secrets.txt` by mistake. Unstage it (hint: `git restore --staged`)", say: "Teesra: galti se git add secrets dot txt chala diya. Usse unstage karo. Hint: git restore dash dash staged."}
+      - {text: "Scenario: two teammates edit the same line of README. Walk through what happens on `git pull`.", say: "Aur scenario: do teammates ne README ki same line badli. Git pull par kya hoga, step by step batao.", pause: 6}
+
+  - type: callout
+    chapter: Extension challenge
+    kind: challenge
+    title: "Make the repository yours"
+    body: "Pick one or more. Push each to your real GitHub repository."
+    say: >
+      Aur aapka extension challenge. Ek ya zyaada chuno, aur har ek ko apne asli GitHub repository par push karo.
+    items:
+      - {text: "Add a 7th check: warn about uncommitted changes (`git status --porcelain`)", say: "Setup checker mein saatvan check jodo: kya koi uncommitted changes hain? Hint: git status dash dash porcelain."}
+      - {text: "Add a `--quiet` flag that prints only failures", say: "Ek dash dash quiet flag jodo, jo sirf failures print kare."}
+      - {text: "Write a profile README on GitHub (a repo named after your username)", say: "Apna GitHub profile README banao. Yeh ek repository hoti hai jiska naam aapka username hota hai."}
+      - {text: "Set up an SSH key and push with an `git@github.com:` URL", say: "Ya SSH key set up karo, aur git at github URL se push karo."}
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "You edited `app.py`. In which order do these commands put it on GitHub?"
+    options:
+      - "`git push` → `git commit` → `git add`"
+      - "`git commit` → `git add` → `git push`"
+      - "`git add` → `git commit` → `git push`"
+      - "`git add` → `git push` → `git commit`"
+    answer: 2
+    explain: "Stage the change (`add`), save it in the local history (`commit`), then send the commits to the remote (`push`)."
+    say_question: >
+      Quick check. Aapne app dot py edit ki. GitHub tak pahunchane ke liye commands ka sahi order kya hai?
+    say_answer: >
+      C. Pehle add, phir commit, phir push. Pack karo, seal karo, bhejo.
+
+  - type: quiz
+    number: 2
+    question: "`.env` is listed in `.gitignore`. What does `git status` show for it?"
+    options:
+      - "`modified: .env`"
+      - "`new file: .env`"
+      - "Nothing: ignored files are not listed"
+      - "An error"
+    answer: 2
+    explain: "Ignored files don't appear in `git status`. Check why a file is ignored with `git check-ignore -v .env`."
+    say_question: >
+      Doosra question. Dot env gitignore mein hai. Git status uske baare mein kya dikhayega?
+    say_answer: >
+      C, kuch nahi. Ignored files status mein dikhti hi nahi. Kyun ignored hai, yeh git check ignore dash v batata hai.
+
+  - type: quiz
+    number: 3
+    question: "A teammate pushed new commits. Which command brings them into your local `main`?"
+    options:
+      - "`git clone`"
+      - "`git pull`"
+      - "`git push`"
+      - "`git init`"
+    answer: 1
+    explain: "`pull` fetches new commits from the remote and merges them. `clone` is only for getting a repository the first time."
+    say_question: >
+      Teesra. Teammate ne naye commits push kiye. Aapke local main mein kaunsi command laayegi?
+    say_answer: >
+      B, git pull. Clone sirf pehli baar repository lene ke liye hota hai.
+
+  - type: links
+    chapter: Documentation
+    heading: Official documentation
+    items:
+      - {title: "Python: venv", url: docs.python.org/3/library/venv.html}
+      - {title: "Python packaging: installing packages", url: packaging.python.org/en/latest/tutorials/installing-packages}
+      - {title: "pip: requirements files", url: pip.pypa.io/en/stable/user_guide}
+      - {title: "python-dotenv", url: pypi.org/project/python-dotenv}
+      - {title: "Pro Git book (free)", url: git-scm.com/book}
+      - {title: "GitHub: create a repository", url: docs.github.com/en/repositories}
+      - {title: "GitHub: authentication", url: docs.github.com/en/authentication}
+      - {title: "GitHub: ignoring files", url: docs.github.com/en/get-started/git-basics/ignoring-files}
+    say: >
+      Yeh official documentation pages hain: venv, pip, python dotenv, free Pro Git book, aur GitHub ki guides. Links description mein hain, poore source code aur question bank ke saath.
+
+  - type: recap
+    chapter: Recap
+    heading: Lesson 3 recap
+    items:
+      - {text: "A commit is a save point; Git is the tool, GitHub the website", say: "Recap. Commit ek save point hai. Git tool hai, GitHub website."}
+      - {text: "`status` · `add` · `commit -m` · `log --oneline` · `diff` · `restore`", say: "Status, add, commit, log, diff, aur restore: roz ki commands."}
+      - {text: "`.gitignore` before the first commit: `.env`, `.venv/`", say: "Pehle commit se pehle gitignore, dot env aur dot venv ke saath."}
+      - {text: "Branch → commit → merge; `switch -c` to start one", say: "Naya kaam branch par, phir merge."}
+      - {text: "`remote add` · `push -u` · `clone` · `pull`: pull, work, add, commit, push", say: "Aur remote ke saath: push, clone, pull. Roz ka mantra: pull, kaam, add, commit, push."}
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 1
+    title: Python for AI Engineering
+    subtitle: "The Python you need for AI agents: data, functions, classes, files, JSON, type hints, HTTP and async. Project: a Python AI Toolkit."
+    say: >
+      Module zero complete! Aapke paas ab ek terminal hai jise aap samajhte ho, har project ka apna environment, secrets code se bahar, aur aapka pehla repository, history ke saath.
+      Agle Module mein hum woh Python seekhenge jo AI agents banane ke liye chahiye. Milte hain Module one mein.

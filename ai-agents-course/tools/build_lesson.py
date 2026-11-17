@@ -83,6 +83,9 @@ SAY_AS = {
     "UsageRecord": "usage record", "mypy": "my-pie", "Pydantic": "pie-dantic", "LangGraph": "lang graph",
     "FastAPI": "fast A P I", "isinstance": "is instance", "enumerate": "ee-numerate", "init": "init",
     "OOP": "O O P", "resume": "résumé", "resumes": "résumés", "XML": "X M L",
+    ".env.example": "dot env dot example", ".env": "dot env", ".gitignore": "dot git-ignore",
+    "gitignore": "git-ignore", "git log": "git lawg", "pwd": "P W D", "mkdir": "make-dir", "ls": "L S",
+    "cd": "C D", "rm": "R M", "cp": "C P", "mv": "M V", "sudo": "soo-doo", "PowerShell": "power shell",
     "eval": "ee-val", "evals": "ee-vals", "k8s": "K eights", "COBOL": "co-ball", "AST": "A S T", "PATH": "path", "env": "env", "CPU": "C P U", "I/O": "I O", "GPU": "G P U",
 }
 
@@ -261,6 +264,9 @@ def run_repl(steps, cwd, env):
             step["pairs"].append({"cmd": line, "out": pick_lines(lines, step.get("keep"))})
 
 
+SHARED_TMP: dict[str, Path] = {}  # `cwd: tmp:<name>` folders, fresh for every lesson build
+
+
 # ---------------------------------------------------------------- scene -> beats
 def scene_beats(scene):
     """Every scene becomes an ordered list of beats; beat i drives the i-th visual step."""
@@ -344,6 +350,10 @@ def build_scene(scene, module_dir, env):
         cwd = module_dir / scene.get("cwd", ".")
         if scene.get("cwd") == "tmp":           # a fresh, empty folder shown to viewers as `alias`
             cwd = Path(tempfile.mkdtemp(prefix="term-"))
+        elif str(scene.get("cwd", "")).startswith("tmp:"):  # one folder shared by every scene that names it
+            if scene["cwd"] not in SHARED_TMP:
+                SHARED_TMP[scene["cwd"]] = Path(tempfile.mkdtemp(prefix="term-"))
+            cwd = SHARED_TMP[scene["cwd"]]
         alias = scene.get("alias")
         if scene.get("repl"):
             run_repl(props["steps"], cwd, env)
@@ -485,6 +495,15 @@ def build(module, lesson, allow_new=True):
     env = dict(os.environ, PATH=f"{VENV_BIN}{os.pathsep}{os.environ['PATH']}", PYTHONDONTWRITEBYTECODE="1",
                VIRTUAL_ENV=str(ROOT / ".venv"), COLUMNS="88", NO_COLOR="1")
     env = shell_env(env)
+    # Git demos get their own empty config: a made-up demo identity, never the machine's own name,
+    # email or signing setup. `git config --global` in a demo writes to this throwaway file.
+    SHARED_TMP.clear()
+    git_home = Path(tempfile.mkdtemp(prefix="git-home-"))
+    for name in [k for k in env if k.startswith(("GIT_CONFIG_", "GIT_AUTHOR_", "GIT_COMMITTER_"))
+                 or k in ("GIT_ASKPASS", "GIT_EDITOR", "EMAIL")]:
+        env.pop(name)
+    env.update(GIT_CONFIG_GLOBAL=str(git_home / "gitconfig"), GIT_CONFIG_NOSYSTEM="1",
+               MODULE_DIR=str(mdir), GIT_TERMINAL_PROMPT="0")
     # recordings must be reproducible and never use a real key or proxy
     for name in ("TOOLKIT_CURRENCY", "TOOLKIT_PRICES_FILE", "ANTHROPIC_API_KEY",
                  "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_BASE_URL", "STUDY_MODEL",

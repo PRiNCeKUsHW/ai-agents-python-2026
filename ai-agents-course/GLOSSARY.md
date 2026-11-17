@@ -3,6 +3,35 @@
 Every technical term used in the course, in plain words. The module where a term first appears is
 in brackets. New terms are added with each module.
 
+## Developer setup: terminal, environments and Git
+
+| Term | Meaning |
+|---|---|
+| **shell** [0] | The program inside the terminal that reads and runs your commands: bash, zsh or PowerShell. |
+| **prompt** [0] | The `$` (or `(.venv) $`) the shell shows when it is ready for a command. You don't type it. |
+| **working directory** [0] | The folder the terminal is "standing in"; commands and relative paths start from here (`pwd` shows it). |
+| **absolute / relative path** [0] | Absolute starts at the root (`/home/student/app.py`) and works anywhere; relative starts from the working directory (`app.py`, `../data`). |
+| **PATH** [0] | The list of folders the shell searches, in order, for a program's name. "command not found" means no folder on PATH has it. |
+| **hidden file (dotfile)** [0] | A file whose name starts with a dot (`.env`, `.gitignore`); `ls -a` shows it. |
+| **PyPI** [0] | The Python Package Index (pypi.org): the online store `pip` installs from. |
+| **requirements.txt** [0] | The list of a project's packages with exact versions (`python-dotenv==1.2.4`); rebuild a venv with `pip install -r requirements.txt`. |
+| **activate** [0] | `source .venv/bin/activate`: puts the venv's `bin` folder first on PATH for this terminal window. |
+| **.env file** [0] | A git-ignored text file of `NAME=value` settings and secrets, loaded into environment variables (python-dotenv). |
+| **.env.example** [0] | The committed template of a `.env`: setting names and harmless placeholders, never real values. |
+| **Git** [0] | The version control tool on your computer: saves snapshots (commits) of a project and its whole history. |
+| **GitHub** [0] | A website that hosts Git repositories and adds sharing and collaboration (pull requests, reviews). |
+| **repository (repo)** [0] | A project folder tracked by Git; its history lives in the hidden `.git` folder. |
+| **commit** [0] | A saved snapshot of the project with a message, an author and a date: a save point. |
+| **staging area** [0] | Where `git add` puts the changes that will go into the next commit. |
+| **.gitignore** [0] | A file listing names and patterns Git must never track, such as `.env` and `.venv/`. |
+| **branch** [0] | A separate line of commits for new work; `main` is the line that should always work. |
+| **merge** [0] | Bringing one branch's commits into another; a fast-forward just moves the branch pointer ahead. |
+| **merge conflict** [0] | Two branches changed the same lines differently; you choose the right text, then `add` and `commit`. |
+| **remote / origin** [0] | Another copy of the repository, such as one on GitHub; `origin` is the usual name of the main one. |
+| **push / pull / clone** [0] | Send your commits to a remote / bring new commits from it / copy a whole repository the first time. |
+| **bare repository** [0] | A repository with only the history and no working files, as on a server; Module 0's demo uses one as its stand-in for GitHub. |
+| **README** [0] | The front page of a repository (`README.md`): what the project is and how to set it up, run and test it. |
+
 ## Python and tools
 
 | Term | Meaning |

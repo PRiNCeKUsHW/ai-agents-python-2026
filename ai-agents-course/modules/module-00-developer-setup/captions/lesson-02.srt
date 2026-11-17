@@ -1,0 +1,1294 @@
+1
+00:00:00,700 --> 00:00:02,570
+Lesson do mein swagat hai.
+
+2
+00:00:02,790 --> 00:00:05,436
+Pichle lesson mein humne terminal seekha.
+
+3
+00:00:05,656 --> 00:00:11,957
+Aaj hum har project ko uska apna Python
+environment denge, packages install karenge,
+
+4
+00:00:11,957 --> 00:00:15,783
+aur settings aur secrets
+ko code se bahar rakhenge.
+
+5
+00:00:16,003 --> 00:00:21,294
+Yeh teen cheezein har professional
+Python project mein hoti hain, aur iss course ke
+
+6
+00:00:21,294 --> 00:00:22,569
+har module mein bhi.
+
+7
+00:00:23,869 --> 00:00:30,021
+Iss lesson ke baad aap explain kar paoge
+ki virtual environment kaunsi problem solve
+
+8
+00:00:30,021 --> 00:00:30,753
+karta hai.
+
+9
+00:00:31,103 --> 00:00:35,266
+Dot venv banana, activate
+karna, aur deactivate karna.
+
+10
+00:00:35,616 --> 00:00:40,456
+pip aur requirements dot txt
+se exact versions install karna.
+
+11
+00:00:40,806 --> 00:00:45,746
+Environment variables aur dot env
+file mein settings aur secrets rakhna.
+
+12
+00:00:46,096 --> 00:00:49,230
+Aur hamare project ka
+setup checker chalana.
+
+13
+00:00:50,530 --> 00:00:52,444
+Pehle problem dekhte hain.
+
+14
+00:00:52,664 --> 00:00:54,939
+Aapke laptop par do projects hain.
+
+15
+00:00:55,159 --> 00:00:58,646
+Project A ek library ke
+version one par bana tha.
+
+16
+00:00:58,866 --> 00:01:02,322
+Project B ko usi
+library ka version two chahiye.
+
+17
+00:01:02,542 --> 00:01:07,890
+Agar sab kuch poore computer ke liye ek
+hi jagah install hota hai, toh B ke liye
+
+18
+00:01:07,890 --> 00:01:11,700
+version two install karte
+hi, A chupchaap toot jaata hai.
+
+19
+00:01:11,920 --> 00:01:15,077
+Koi error nahi aata
+jab tak aap A chalate nahi.
+
+20
+00:01:15,427 --> 00:01:19,786
+Alag projects ko same package
+ke alag versions chahiye hote hain.
+
+21
+00:01:20,136 --> 00:01:24,003
+Global install ek saath
+har project ko badal deta hai.
+
+22
+00:01:24,353 --> 00:01:28,707
+Aur aapke teammate ke computer
+par versions aapse alag hote hain.
+
+23
+00:01:28,927 --> 00:01:32,591
+Wahi famous line: mere
+machine par toh chal raha tha.
+
+24
+00:01:33,891 --> 00:01:35,678
+Ab picture mein dekhte hain.
+
+25
+00:01:36,028 --> 00:01:41,775
+Bina virtual environment ke, dono
+projects ek hi shared Python use karte hain.
+
+26
+00:01:41,995 --> 00:01:45,191
+Usme library ka sirf
+ek version reh sakta hai.
+
+27
+00:01:45,411 --> 00:01:50,409
+Jo baad mein install hua, woh jeet
+gaya, aur doosra project toot gaya.
+
+28
+00:01:50,759 --> 00:01:57,208
+Virtual environment ke saath, har
+project ka apna folder hota hai, dot venv, jisme
+
+29
+00:01:57,208 --> 00:01:59,488
+uske apne packages hote hain.
+
+30
+00:01:59,708 --> 00:02:02,866
+A ke paas version
+one, B ke paas version two.
+
+31
+00:02:03,086 --> 00:02:05,572
+Dono ek doosre ko chhoote bhi nahi.
+
+32
+00:02:06,872 --> 00:02:08,508
+Isse aise socho.
+
+33
+00:02:08,728 --> 00:02:11,935
+Do carpenters ek hi
+toolbox share karte hain.
+
+34
+00:02:12,155 --> 00:02:16,892
+Ek apna hathoda badal deta hai,
+aur doosre ka kaam bigad jaata hai.
+
+35
+00:02:17,112 --> 00:02:21,035
+Har carpenter ko apna
+toolbox de do, problem khatam.
+
+36
+00:02:21,255 --> 00:02:28,010
+Dot venv wahi toolbox hai: project
+folder ke andar, uska apna Python, apna pip, aur
+
+37
+00:02:28,010 --> 00:02:29,149
+apne packages.
+
+38
+00:02:30,449 --> 00:02:31,345
+Ab how.
+
+39
+00:02:31,565 --> 00:02:33,887
+Hum my first repo folder mein hain.
+
+40
+00:02:34,107 --> 00:02:39,230
+Pehle ek chhota sa check: kya hum
+abhi virtual environment ke andar hain?
+
+41
+00:02:39,450 --> 00:02:43,504
+Yeh one line Python program
+True ya False print karta hai.
+
+42
+00:02:43,724 --> 00:02:47,411
+False, yaani abhi hum
+computer ke shared Python par hain.
+
+43
+00:02:47,761 --> 00:02:53,474
+Virtual environment banane ki
+command: python three dash m venv dot venv.
+
+44
+00:02:53,694 --> 00:02:59,534
+Dash m ka matlab hai: Python ka ek
+built in module chalao, jiska naam venv hai.
+
+45
+00:02:59,754 --> 00:03:02,580
+Aur aakhri dot venv folder ka naam hai.
+
+46
+00:03:02,800 --> 00:03:06,720
+Yeh naam convention hai,
+aur har tool isse pehchanta hai.
+
+47
+00:03:07,070 --> 00:03:09,016
+ls dash a se dekho.
+
+48
+00:03:09,236 --> 00:03:12,357
+Ek naya hidden folder ban gaya: dot venv.
+
+49
+00:03:12,707 --> 00:03:18,047
+Uske andar bin folder mein, iss
+project ka apna python aur apna pip hai, aur
+
+50
+00:03:18,047 --> 00:03:19,804
+activate naam ki scripts.
+
+51
+00:03:20,024 --> 00:03:23,691
+Windows par yeh folder
+bin nahi, Scripts kehlata hai.
+
+52
+00:03:24,991 --> 00:03:26,599
+Ab activate karna.
+
+53
+00:03:26,819 --> 00:03:31,295
+Mac aur Linux par: source dot
+venv slash bin slash activate.
+
+54
+00:03:31,645 --> 00:03:34,557
+Windows ke Git Bash
+mein bin ki jagah Scripts.
+
+55
+00:03:34,907 --> 00:03:39,067
+PowerShell mein dot venv,
+Scripts, Activate dot ps one.
+
+56
+00:03:39,287 --> 00:03:44,911
+Agar PowerShell kahe ki scripts
+disabled hain, toh ek baar Set Execution Policy,
+
+57
+00:03:44,911 --> 00:03:47,652
+RemoteSigned, scope CurrentUser chalao.
+
+58
+00:03:48,002 --> 00:03:51,168
+Aur purane Command
+Prompt mein activate dot bat.
+
+59
+00:03:51,518 --> 00:03:55,142
+VS Code aksar dot
+venv khud pehchan leta hai.
+
+60
+00:03:55,362 --> 00:04:00,094
+Na pehchane, toh Python Select
+Interpreter mein dot venv chuno.
+
+61
+00:04:01,394 --> 00:04:03,064
+Activate karte hain.
+
+62
+00:04:03,284 --> 00:04:07,777
+Dhyan do, prompt ke aage ab
+bracket mein dot venv likha aa gaya.
+
+63
+00:04:07,997 --> 00:04:12,791
+Yeh shell ka tareeka hai batane
+ka ki virtual environment active hai.
+
+64
+00:04:13,141 --> 00:04:19,513
+which python ab project ke andar ka
+python dikhata hai: my first repo slash dot venv
+
+65
+00:04:19,513 --> 00:04:21,258
+slash bin slash python.
+
+66
+00:04:21,608 --> 00:04:23,707
+Wahi check dobara: ab True.
+
+67
+00:04:23,927 --> 00:04:29,842
+Venv ke andar Python ka prefix dot
+venv folder hota hai, aur base prefix asli
+
+68
+00:04:29,842 --> 00:04:30,840
+installation.
+
+69
+00:04:31,060 --> 00:04:33,087
+Dono alag hain, isliye True.
+
+70
+00:04:33,307 --> 00:04:36,599
+Hamara setup checker bhi
+yahi check use karta hai.
+
+71
+00:04:36,949 --> 00:04:38,085
+Aur pip list.
+
+72
+00:04:38,305 --> 00:04:40,989
+Bilkul khaali toolbox, sirf pip khud.
+
+73
+00:04:41,209 --> 00:04:45,599
+Computer par jo bhi globally
+installed hai, woh yahan nahi dikhta.
+
+74
+00:04:45,819 --> 00:04:47,583
+Yahi isolation hai.
+
+75
+00:04:48,883 --> 00:04:51,215
+Activate actually kya karta hai?
+
+76
+00:04:51,435 --> 00:04:52,807
+Koi jaadu nahi.
+
+77
+00:04:53,027 --> 00:04:58,328
+Lesson ek yaad karo: shell PATH ke
+folders mein order se program dhoondhta hai.
+
+78
+00:04:58,548 --> 00:05:03,591
+Activate bas dot venv slash bin
+ko PATH ke sabse aage rakh deta hai.
+
+79
+00:05:03,941 --> 00:05:08,153
+Isliye ab python aur pip
+likhne par project wale chalte hain.
+
+80
+00:05:08,373 --> 00:05:10,875
+Which python isse prove karta hai.
+
+81
+00:05:11,225 --> 00:05:13,749
+Yeh sirf iss terminal window ke liye hai.
+
+82
+00:05:13,969 --> 00:05:18,147
+Naya terminal khologe, toh
+dobara activate karna padega.
+
+83
+00:05:18,367 --> 00:05:21,231
+Beginners yahan sabse zyada atakte hain.
+
+84
+00:05:21,581 --> 00:05:23,741
+Aur activate zaroori bhi nahi hai.
+
+85
+00:05:23,961 --> 00:05:28,261
+Aap seedhe dot venv slash
+bin slash python likh sakte ho.
+
+86
+00:05:28,481 --> 00:05:32,456
+Scripts aur scheduled jobs
+mein yahi tareeka use hota hai.
+
+87
+00:05:33,756 --> 00:05:34,630
+Ab pip.
+
+88
+00:05:34,850 --> 00:05:37,321
+Isse phone ke app store ki tarah socho.
+
+89
+00:05:37,541 --> 00:05:42,954
+PyPI, yaani pie P I dot org, store
+hai, jahan lakhon Python packages hain.
+
+90
+00:05:43,174 --> 00:05:48,881
+Aur pip woh app hai jo package download
+karke install karta hai, active environment
+
+91
+00:05:48,881 --> 00:05:49,500
+ke andar.
+
+92
+00:05:50,800 --> 00:05:53,458
+Hum python dotenv install karte hain.
+
+93
+00:05:53,678 --> 00:05:58,462
+Yeh package dot env file padhta
+hai, jo iss lesson mein aage aayegi.
+
+94
+00:05:58,682 --> 00:06:04,627
+Do equal signs ke baad exact version: one
+point two point four. pip ne download kiya
+
+95
+00:06:04,627 --> 00:06:05,830
+aur install kiya.
+
+96
+00:06:06,180 --> 00:06:11,299
+pip list mein ab python dotenv dikh
+raha hai, sirf iss project ke venv mein.
+
+97
+00:06:11,649 --> 00:06:17,194
+Ab sabse important step. pip freeze har
+installed package ka exact version print
+
+98
+00:06:17,194 --> 00:06:22,946
+karta hai, aur greater than sign, jo
+aapne lesson ek mein seekha, usse requirements
+
+99
+00:06:22,946 --> 00:06:25,164
+dot txt file mein likh deta hai.
+
+100
+00:06:25,514 --> 00:06:26,839
+Yeh rahi file.
+
+101
+00:06:27,059 --> 00:06:30,058
+Ek line, package ka
+naam aur exact version.
+
+102
+00:06:30,278 --> 00:06:33,133
+Yeh file aapke project ki recipe hai.
+
+103
+00:06:34,433 --> 00:06:36,502
+Version likhne ke tareeke.
+
+104
+00:06:36,722 --> 00:06:40,465
+Do equal signs
+matlab exactly yahi version.
+
+105
+00:06:40,685 --> 00:06:44,716
+Apps ke liye yahi best hai,
+kyunki har machine par same result.
+
+106
+00:06:45,066 --> 00:06:47,829
+Greater than equal matlab yeh ya naya.
+
+107
+00:06:48,049 --> 00:06:51,599
+Libraries ke liye, jo
+doosre log install karte hain.
+
+108
+00:06:51,949 --> 00:06:58,066
+Tilde equal matlab compatible version:
+bug fixes aa sakte hain, lekin bade changes
+
+109
+00:06:58,066 --> 00:06:58,439
+nahi.
+
+110
+00:06:58,789 --> 00:07:01,531
+Aur bina version ke matlab aaj ka newest.
+
+111
+00:07:01,751 --> 00:07:03,725
+Kal kuch aur install hoga.
+
+112
+00:07:03,945 --> 00:07:06,330
+Isliye sirf quick experiments mein.
+
+113
+00:07:06,680 --> 00:07:10,539
+Iss course ke saare
+projects exact pins use karte hain.
+
+114
+00:07:10,759 --> 00:07:15,909
+Isliye jo output aap video mein
+dekhte ho, wahi aapke computer par aayega.
+
+115
+00:07:17,209 --> 00:07:18,656
+Ek aur analogy.
+
+116
+00:07:18,876 --> 00:07:22,514
+Aap kisi ko recipe
+bhejte ho, khane ki plate nahi.
+
+117
+00:07:22,734 --> 00:07:28,130
+Requirements dot txt recipe hai:
+chhoti si file, jo git mein jaati hai.
+
+118
+00:07:28,350 --> 00:07:34,152
+Dot venv bana hua khana hai: bada,
+aapki machine ke liye bana hua, aur kabhi bhi
+
+119
+00:07:34,152 --> 00:07:37,561
+phenk kar recipe se
+dobara banaya ja sakta hai.
+
+120
+00:07:37,781 --> 00:07:39,867
+Chalo yahi karke dekhte hain.
+
+121
+00:07:41,167 --> 00:07:42,847
+Pehle deactivate.
+
+122
+00:07:43,067 --> 00:07:45,229
+Prompt se dot venv hat gaya.
+
+123
+00:07:45,579 --> 00:07:47,735
+Ab poora dot venv delete.
+
+124
+00:07:47,955 --> 00:07:50,515
+Ghabrao mat, recipe hamare paas hai.
+
+125
+00:07:50,865 --> 00:07:53,557
+Naya venv banaya aur activate kiya.
+
+126
+00:07:53,777 --> 00:07:56,364
+Do ampersand se dono ek line mein.
+
+127
+00:07:56,714 --> 00:08:00,083
+Aur pip install dash
+r requirements dot txt.
+
+128
+00:08:00,303 --> 00:08:04,541
+Dash r matlab: iss file mein
+likhe sab packages install karo.
+
+129
+00:08:04,761 --> 00:08:08,621
+Last line dekho: wahi
+exact version wapas aa gaya.
+
+130
+00:08:08,841 --> 00:08:14,579
+Aapka teammate bhi yahi teen commands
+chalayega, aur usse bilkul same setup milega.
+
+131
+00:08:15,879 --> 00:08:17,708
+Toh git mein kya jaata hai?
+
+132
+00:08:17,928 --> 00:08:24,060
+Aapka code, requirements dot txt, dot
+env dot example, jiske baare mein abhi baat
+
+133
+00:08:24,060 --> 00:08:25,574
+karenge, aur README.
+
+134
+00:08:25,924 --> 00:08:27,810
+Aur kya kabhi nahi jaata?
+
+135
+00:08:28,030 --> 00:08:33,128
+Dot venv, dot env, pycache, aur
+koi bhi API key, password, ya token.
+
+136
+00:08:33,348 --> 00:08:34,315
+Kahin bhi.
+
+137
+00:08:34,535 --> 00:08:39,102
+Lesson teen mein dot gitignore
+file yeh rule automatic bana degi.
+
+138
+00:08:40,402 --> 00:08:42,618
+Do cheezein jaanna achha hai.
+
+139
+00:08:42,838 --> 00:08:45,132
+Pehli: python dash m pip install.
+
+140
+00:08:45,352 --> 00:08:49,094
+Yeh usi Python ka pip
+chalata hai jo aap likh rahe ho.
+
+141
+00:08:49,314 --> 00:08:53,677
+Jab computer par kai Pythons
+hon, toh yeh sabse safe tareeka hai.
+
+142
+00:08:53,897 --> 00:09:00,086
+Doosri: uv naam ka ek naya tool, jo
+venv aur pip ka kaam ek saath, bahut tezi se
+
+143
+00:09:00,086 --> 00:09:00,860
+karta hai.
+
+144
+00:09:01,080 --> 00:09:03,808
+Module saat mein hum usse use karenge.
+
+145
+00:09:04,028 --> 00:09:08,524
+Lekin pehle pip seekho, kyunki
+har tool inhi ideas par bana hai.
+
+146
+00:09:09,824 --> 00:09:11,853
+Ab environment variables.
+
+147
+00:09:12,073 --> 00:09:15,517
+Aapka ATM PIN card par chhapa nahi hota.
+
+148
+00:09:15,737 --> 00:09:21,186
+Waise hi, jo settings har machine par
+alag hoti hain, jaise debug mode, aur jo
+
+149
+00:09:21,186 --> 00:09:25,797
+secrets hote hain, jaise API
+keys, woh code mein nahi likhe jaate.
+
+150
+00:09:26,017 --> 00:09:29,478
+Code chalte waqt unhe
+environment se padhta hai.
+
+151
+00:09:29,698 --> 00:09:34,410
+Environment matlab woh variables
+jo shell har program ko deta hai.
+
+152
+00:09:34,760 --> 00:09:40,598
+Isse same code aapke laptop, teammate ke
+laptop, aur server, teeno par chalta hai,
+
+153
+00:09:40,598 --> 00:09:41,880
+bas settings alag.
+
+154
+00:09:42,230 --> 00:09:45,958
+Aur secrets kabhi git ya
+screenshot mein nahi pahunchte.
+
+155
+00:09:47,258 --> 00:09:50,600
+export ek environment
+variable set karta hai.
+
+156
+00:09:50,820 --> 00:09:53,749
+Naam bade letters
+mein likhna convention hai.
+
+157
+00:09:53,969 --> 00:09:56,362
+Equal sign ke aas paas space nahi.
+
+158
+00:09:56,712 --> 00:09:59,911
+Dollar laga kar uski
+value padhte hain: demo.
+
+159
+00:10:00,261 --> 00:10:04,771
+Python mein os dot environ
+dot get se wahi value milti hai.
+
+160
+00:10:04,991 --> 00:10:07,203
+Program ko variable shell se mila.
+
+161
+00:10:07,553 --> 00:10:13,404
+Aur jo variable set hi nahi hai, uske
+liye get ka doosra argument default value deta
+
+162
+00:10:13,404 --> 00:10:13,682
+hai.
+
+163
+00:10:13,902 --> 00:10:15,864
+DEBUG set nahi, toh false.
+
+164
+00:10:16,214 --> 00:10:18,671
+Lekin export ki ek kamzori hai.
+
+165
+00:10:18,891 --> 00:10:21,655
+Terminal band kiya, aur variable gayab.
+
+166
+00:10:21,875 --> 00:10:27,392
+Har baar sab kuch dobara type karna,
+aur galti se command history mein key chhod
+
+167
+00:10:27,392 --> 00:10:28,840
+dena, dono bure hain.
+
+168
+00:10:29,060 --> 00:10:31,482
+Iska solution hai dot env file.
+
+169
+00:10:32,782 --> 00:10:35,173
+Dot env ek simple text file hai.
+
+170
+00:10:35,393 --> 00:10:38,873
+Har line par ek
+setting: naam, equal sign, value.
+
+171
+00:10:39,093 --> 00:10:40,823
+Hum do files rakhte hain.
+
+172
+00:10:41,173 --> 00:10:43,316
+Pehli, dot env dot example.
+
+173
+00:10:43,536 --> 00:10:45,193
+Yeh git mein jaati hai.
+
+174
+00:10:45,413 --> 00:10:48,829
+Isme setting ke naam
+hote hain, real values nahi.
+
+175
+00:10:49,049 --> 00:10:52,686
+Yeh teammates ko batati
+hai ki kaunsi settings chahiye.
+
+176
+00:10:53,036 --> 00:10:57,189
+Yahan teen settings hain:
+app name, debug, aur API key.
+
+177
+00:10:57,409 --> 00:11:01,331
+API key ki jagah
+placeholder hai, paste your key here.
+
+178
+00:11:01,681 --> 00:11:07,670
+Doosri file, dot env, aap khud banate
+ho: dot env dot example ko copy karo, aur
+
+179
+00:11:07,670 --> 00:11:10,323
+editor mein apni real values bharo.
+
+180
+00:11:10,543 --> 00:11:14,280
+Yeh file aapke computer
+se kabhi bahar nahi jaati.
+
+181
+00:11:14,500 --> 00:11:19,784
+Real key kabhi screen par mat dikhao,
+recording ya screenshot mein bhi nahi.
+
+182
+00:11:21,084 --> 00:11:23,483
+Ab Python se dot env padhte hain.
+
+183
+00:11:23,703 --> 00:11:29,728
+Iss demo mein dot env, example file ki
+copy hai, yaani placeholder values ke saath.
+
+184
+00:11:30,078 --> 00:11:35,944
+load dotenv function dot env file ki
+har line ko environment variables mein daal
+
+185
+00:11:35,944 --> 00:11:36,604
+deta hai.
+
+186
+00:11:36,824 --> 00:11:41,979
+Baaki code ko pata bhi nahi chalta
+ki value file se aayi ya terminal se.
+
+187
+00:11:42,329 --> 00:11:46,694
+Phir os dot environ dot get
+se padho, defaults ke saath.
+
+188
+00:11:46,914 --> 00:11:50,305
+Dhyan do: environment ki
+har value string hoti hai.
+
+189
+00:11:50,525 --> 00:11:56,029
+Isliye debug ko lower case karke true
+string se compare kiya, taaki asli True ya
+
+190
+00:11:56,029 --> 00:11:56,785
+False mile.
+
+191
+00:11:57,135 --> 00:12:00,811
+Output mein app name my
+first repo, aur debug False.
+
+192
+00:12:01,161 --> 00:12:02,026
+Aur key?
+
+193
+00:12:02,246 --> 00:12:04,162
+Hum key print nahi karte.
+
+194
+00:12:04,382 --> 00:12:08,458
+Sirf itna batate hain ki set
+hai, aur kitne characters ki hai.
+
+195
+00:12:08,678 --> 00:12:12,206
+Logs aur screen par
+secrets kabhi nahi aane chahiye.
+
+196
+00:12:13,506 --> 00:12:14,970
+Ek zaroori rule.
+
+197
+00:12:15,190 --> 00:12:20,643
+Agar kabhi real key git mein, chat mein,
+screenshot mein, ya video mein chali jaaye,
+
+198
+00:12:20,643 --> 00:12:25,382
+toh turant provider ke console mein
+usse revoke karo, aur nayi key banao.
+
+199
+00:12:25,602 --> 00:12:31,065
+Baad mein file delete karna kaafi nahi
+hai, kyunki copies pehle hi ban chuki hoti
+
+200
+00:12:31,065 --> 00:12:31,402
+hain.
+
+201
+00:12:32,702 --> 00:12:36,459
+Ab hamare project ki
+main file: check setup dot py.
+
+202
+00:12:36,679 --> 00:12:41,363
+Yeh check karta hai ki project
+sahi tareeke se set up hai ya nahi.
+
+203
+00:12:41,584 --> 00:12:43,714
+Har check ek chhota function hai.
+
+204
+00:12:44,064 --> 00:12:50,257
+Har check ek Check object return karta
+hai: naam, ok yaani pass ya fail, aur detail.
+
+205
+00:12:50,477 --> 00:12:56,267
+Dataclass ek chhota class banane ka
+shortcut hai, Module ek mein detail mein aayega.
+
+206
+00:12:56,617 --> 00:12:58,122
+Yeh venv check hai.
+
+207
+00:12:58,342 --> 00:13:03,982
+Wahi line jo humne terminal mein haath
+se chalayi thi: prefix aur base prefix alag
+
+208
+00:13:03,982 --> 00:13:04,876
+hain ya nahi.
+
+209
+00:13:05,226 --> 00:13:11,168
+Packages check, requirements dot txt ki
+har line ke liye: package installed hai?
+
+210
+00:13:11,387 --> 00:13:16,898
+Aur version wahi hai jo pin kiya?
+metadata dot version installed version batata hai.
+
+211
+00:13:17,248 --> 00:13:22,780
+Dot env check: file hai ya nahi, aur
+kya isme woh saare naam hain jo dot env dot
+
+212
+00:13:22,780 --> 00:13:24,025
+example mein hain.
+
+213
+00:13:24,245 --> 00:13:27,267
+Values kabhi print nahi hoti, sirf ginti.
+
+214
+00:13:27,617 --> 00:13:33,158
+Aur aakhri do checks, dot gitignore aur
+git repository, lesson teen ke liye hain.
+
+215
+00:13:34,458 --> 00:13:39,794
+run checks saare chhe checks order mein
+chalata hai, aur main har result ki ek line
+
+216
+00:13:39,794 --> 00:13:40,823
+print karta hai.
+
+217
+00:13:41,173 --> 00:13:42,538
+Output dekho.
+
+218
+00:13:42,758 --> 00:13:48,598
+Python version theek, venv active,
+package installed aur version match, dot env mein
+
+219
+00:13:48,598 --> 00:13:51,380
+teeno settings, aur gitignore bhi theek.
+
+220
+00:13:51,730 --> 00:13:54,445
+Lekin ek check fail: Git repository.
+
+221
+00:13:54,665 --> 00:13:56,842
+Folder abhi git repo nahi hai.
+
+222
+00:13:57,062 --> 00:14:00,401
+Checker hi bata raha hai
+ki fix kya hai: git init.
+
+223
+00:14:00,751 --> 00:14:03,531
+Paanch mein se paanch
+nahi, chhe mein se paanch.
+
+224
+00:14:03,751 --> 00:14:06,048
+Isliye exit code one, failure.
+
+225
+00:14:06,268 --> 00:14:10,262
+Lesson teen ke end tak hum
+isse chhe mein se chhe banayenge.
+
+226
+00:14:11,562 --> 00:14:13,021
+Interview corner.
+
+227
+00:14:13,241 --> 00:14:18,443
+Pehla question: Python projects
+virtual environments kyun use karte hain?
+
+228
+00:14:20,793 --> 00:14:26,360
+Answer: har project ke packages aur
+versions ko isolate karne ke liye, taaki
+
+229
+00:14:26,360 --> 00:14:28,705
+projects ek doosre ko na todein.
+
+230
+00:14:28,925 --> 00:14:35,374
+Aur taaki requirements dot txt se kisi
+bhi machine par exact same setup ban sake.
+
+231
+00:14:35,594 --> 00:14:39,283
+Trap: yeh bolna ki venv
+Python ko fast banata hai.
+
+232
+00:14:39,503 --> 00:14:43,489
+Venv sirf yeh badalta hai
+ki kaunse packages use honge.
+
+233
+00:14:43,839 --> 00:14:47,242
+Doosra: kya aap dot
+venv folder commit karte ho?
+
+234
+00:14:49,592 --> 00:14:50,875
+Answer: nahi.
+
+235
+00:14:51,095 --> 00:14:54,925
+Recipe commit karo,
+yaani requirements dot txt.
+
+236
+00:14:55,145 --> 00:15:00,994
+Dot venv ko ignore karo, kyunki woh bada
+hai, machine specific hai, aur dobara ban
+
+237
+00:15:00,994 --> 00:15:01,707
+sakta hai.
+
+238
+00:15:01,927 --> 00:15:07,078
+Trap: yeh sochna ki dot venv
+commit karne se teammates ka time bachega.
+
+239
+00:15:07,298 --> 00:15:12,118
+Doosre operating system ya
+Python version par woh toot jaata hai.
+
+240
+00:15:12,468 --> 00:15:16,863
+Teesra: Python project mein
+API keys kaise handle karte ho?
+
+241
+00:15:19,213 --> 00:15:22,186
+Answer: environment
+variables se padhte hain.
+
+242
+00:15:22,406 --> 00:15:28,351
+Development mein ek git ignored dot env
+file se, aur production mein secrets manager
+
+243
+00:15:28,351 --> 00:15:28,563
+se.
+
+244
+00:15:28,783 --> 00:15:34,210
+Git mein sirf dot env dot example
+jaati hai, naam aur placeholders ke saath.
+
+245
+00:15:34,430 --> 00:15:38,835
+Key ki value kabhi print ya log
+nahi karte, aur leak ho toh revoke.
+
+246
+00:15:39,055 --> 00:15:41,951
+Trap: bas abhi ke liye
+key code mein likh dena.
+
+247
+00:15:42,171 --> 00:15:44,436
+Woh git history mein reh jaati hai.
+
+248
+00:15:45,736 --> 00:15:46,993
+Practice time.
+
+249
+00:15:47,213 --> 00:15:49,337
+Pause karo aur khud try karo.
+
+250
+00:15:49,687 --> 00:15:51,812
+Pehla: ek naya terminal kholo.
+
+251
+00:15:52,032 --> 00:15:54,001
+Kya venv ab bhi active hai?
+
+252
+00:15:54,221 --> 00:15:55,805
+Kaise check karoge?
+
+253
+00:15:56,155 --> 00:16:02,332
+Doosra: requests package ko exact
+version ke saath install karo, aur requirements
+
+254
+00:16:02,332 --> 00:16:03,857
+dot txt update karo.
+
+255
+00:16:04,207 --> 00:16:09,766
+Teesra: dot env dot example aur dot
+env mein GREETING naam ki setting jodo, aur
+
+256
+00:16:09,766 --> 00:16:11,595
+hello dot py se use padho.
+
+257
+00:16:11,945 --> 00:16:17,395
+Aur scenario: aapka app chalta hai,
+lekin teammate ke laptop par module not found
+
+258
+00:16:17,395 --> 00:16:18,404
+error aata hai.
+
+259
+00:16:18,624 --> 00:16:20,139
+Kyun, aur fix kya hai?
+
+260
+00:16:27,439 --> 00:16:28,368
+Quick check.
+
+261
+00:16:28,588 --> 00:16:34,002
+Teammate ko aapka environment dobara
+banane ke liye kaunsi file commit karni
+
+262
+00:16:34,002 --> 00:16:34,572
+chahiye?
+
+263
+00:16:40,272 --> 00:16:42,549
+C, requirements dot txt.
+
+264
+00:16:42,769 --> 00:16:44,196
+Woh recipe hai.
+
+265
+00:16:44,416 --> 00:16:50,482
+Dot venv usi se banta hai, dot env
+private hai, aur pycache Python khud banata hai.
+
+266
+00:16:51,782 --> 00:16:54,053
+Doosra question, thoda tricky.
+
+267
+00:16:54,273 --> 00:16:59,562
+Environment se DEBUG ki value string
+False aayi. bool of string False kya hoga?
+
+268
+00:17:05,262 --> 00:17:05,997
+True!
+
+269
+00:17:06,217 --> 00:17:08,806
+Koi bhi non empty string True hoti hai.
+
+270
+00:17:09,026 --> 00:17:13,309
+Isliye show config dot py
+text ko true se compare karta hai.
+
+271
+00:17:14,609 --> 00:17:15,449
+Recap.
+
+272
+00:17:15,669 --> 00:17:19,839
+Dot venv har project ka
+apna Python aur packages hai.
+
+273
+00:17:20,189 --> 00:17:23,800
+Banao, activate karo,
+aur kaam ke baad deactivate.
+
+274
+00:17:24,150 --> 00:17:30,135
+pip se exact versions install karo,
+freeze se recipe likho, aur dash r se dobara
+
+275
+00:17:30,135 --> 00:17:30,584
+banao.
+
+276
+00:17:30,934 --> 00:17:35,492
+Settings aur secrets
+environment variables mein, dot env file se.
+
+277
+00:17:35,842 --> 00:17:40,152
+Dot env dot example commit
+hoti hai, dot env kabhi nahi.
+
+278
+00:17:40,372 --> 00:17:42,462
+Aur leak hui key turant revoke.
+
+279
+00:17:42,812 --> 00:17:45,079
+Agle lesson mein Git aur GitHub.
+
+280
+00:17:45,299 --> 00:17:51,001
+Hum project ko save karenge, uski
+history dekhenge, GitHub par bhejenge, aur setup
+
+281
+00:17:51,001 --> 00:17:54,130
+checker ko chhe mein
+se chhe tak le jaayenge.
+
+282
+00:17:55,430 --> 00:17:57,134
+Lesson do complete.
+
+283
+00:17:57,354 --> 00:18:02,501
+Ab aapka har project apne toolbox
+ke saath, aur secrets code se bahar.
+
+284
+00:18:02,721 --> 00:18:04,609
+Milte hain lesson teen mein.

@@ -130,7 +130,28 @@ def assemble(m):
 
 # ---------------------------------------------------------------- validate
 # documented commands each project must pass from a fresh install ({bin} = the venv's bin folder)
+# extra install steps a project's README asks for, run after `pip install -r requirements.txt`
+PROJECT_SETUP = {
+    # Module 0 keeps requirements.txt to the app's own package (as `pip freeze` showed in the lesson);
+    # its README installs the test runner separately.
+    "my-first-repo": [("pip install pytest (README)",
+                       "{bin}/pip install -q --disable-pip-version-check pytest==9.2.0")],
+}
+
 PROJECT_CHECKS = {
+    "my-first-repo": [
+        ("hello.py Riya", "{bin}/python hello.py Riya | grep -qx 'Hello, Riya!'"),
+        ("check_setup before git init (5/6, exit 1)",
+         "cp .env.example .env && . {bin}/activate && out=$(python check_setup.py); code=$?; "
+         "echo \"$out\" | grep -q '5/6 checks passed' && test $code -eq 1"),
+        ("check_setup after git init (6/6, exit 0)",
+         "git init -q && . {bin}/activate && python check_setup.py | grep -q '6/6 checks passed'"),
+        ("show_config hides the key",
+         "{bin}/python show_config.py | grep -q 'value hidden' "
+         "&& ! {bin}/python show_config.py | grep -q paste-your"),
+        (".gitignore keeps .env and .venv out of a commit",
+         r"git check-ignore -q .env && git check-ignore -q .venv && git add -A && ! git diff --cached --name-only | grep -qE '^\.env$|^\.venv/'"),
+    ],
     "python-ai-toolkit": [
         ("mypy", "{bin}/mypy --no-incremental toolkit"),
         ("validate sample (exit 0)", "{bin}/python -m toolkit validate data/usage_sample.json"),
@@ -280,6 +301,7 @@ def validate(m):
             steps = [
                 ("venv + pip install -r requirements.txt",
                  f"python3 -m venv .venv && {VENV_BIN}/pip install -q --disable-pip-version-check -r requirements.txt"),
+            ] + [(name, cmd.format(bin=VENV_BIN)) for name, cmd in PROJECT_SETUP.get(proj.name, [])] + [
                 ("pytest", f"{VENV_BIN}/python -m pytest -q -p no:cacheprovider"),
             ] + [(name, cmd.format(bin=VENV_BIN)) for name, cmd in PROJECT_CHECKS.get(proj.name, [])]
             for name, cmd in steps:

@@ -111,7 +111,7 @@ Official docs: platform.claude.com/docs/en/build-with-claude/context-windows · 
 
 ### Lesson 1 (07:46)
 
-**Title:** Why Agents Forget: Stateless APIs and Conversation History | AI Agents with Python, Module 6 Lesson 1
+**Title:** Why Agents Forget: Stateless APIs and Conversation History | Module 6 Lesson 1
 
 ```text
 Lesson 1 of Module 6 (Agent Memory and Conversation State) in "AI Agents with Python: Beginner to Production (2026)".
@@ -202,7 +202,7 @@ Source code: https://github.com/PRiNCeKUsHW/ai-agents-python-2026/tree/main/ai-a
 
 ### Lesson 5 (08:41)
 
-**Title:** Saving Memory in SQLite: Sessions, Users, Retention and Deletion | AI Agents with Python, Module 6 Lesson 5
+**Title:** Saving Memory in SQLite: Sessions, Users, Retention and Deletion | Module 6 Lesson 5
 
 ```text
 Lesson 5 of Module 6 (Agent Memory and Conversation State) in "AI Agents with Python: Beginner to Production (2026)".
@@ -250,7 +250,7 @@ Source code: https://github.com/PRiNCeKUsHW/ai-agents-python-2026/tree/main/ai-a
 
 ### Lesson 7 (10:18)
 
-**Title:** Project, Part 2: One Turn, a Two-Day Demo, Privacy, Tests and Wrap-up | AI Agents with Python, Module 6 Lesson 7
+**Title:** Project, Part 2: One Turn, a Two-Day Demo, Privacy, Tests and Wrap-up | Module 6 Lesson 7
 
 ```text
 Lesson 7 of Module 6 (Agent Memory and Conversation State) in "AI Agents with Python: Beginner to Production (2026)".

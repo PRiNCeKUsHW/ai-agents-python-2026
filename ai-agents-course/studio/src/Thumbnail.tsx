@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
-import { C, FONT, MONO, alpha } from "./theme";
+import { C, FONT, MONO, alpha, applyTheme } from "./theme";
 import { loadFonts } from "./fonts";
 import { AgentLoop } from "./ui/AgentLoop";
 
@@ -10,6 +10,14 @@ export type ThumbProps = { id: string; module: number; lines: string[]; accentLi
 
 // one entry per finished module; rendered with `npx remotion still <id>`
 export const THUMBS: ThumbProps[] = [
+  {
+    id: "thumb-m00",
+    module: 0,
+    lines: ["TERMINAL,", "VENV + GIT", "FROM ZERO"],
+    accentLine: 1,
+    tagline: "Hinglish mein · your first GitHub repo",
+    code: ["$ python check_setup.py", "[OK] .gitignore", "[OK] Git repository", "6/6 checks passed"],
+  },
   {
     id: "thumb-m01",
     module: 1,
@@ -60,7 +68,9 @@ export const THUMBS: ThumbProps[] = [
   },
 ];
 
-export const Thumbnail: React.FC<ThumbProps> = ({ module, lines, accentLine, tagline, code }) => (
+export const Thumbnail: React.FC<ThumbProps> = ({ module, lines, accentLine, tagline, code }) => {
+  applyTheme(module);
+  return (
   <AbsoluteFill style={{ background: C.ink, overflow: "hidden", fontVariantLigatures: "none" }}>
     <AbsoluteFill style={{ backgroundImage: `radial-gradient(${alpha(C.faint, 0.2)} 1.5px, transparent 1.5px)`, backgroundSize: "28px 28px" }} />
     <AbsoluteFill style={{ background: `radial-gradient(700px 500px at 1050px 300px, ${alpha(C.teal, 0.12)}, transparent 70%)` }} />
@@ -88,3 +98,4 @@ export const Thumbnail: React.FC<ThumbProps> = ({ module, lines, accentLine, tag
     </div>
   </AbsoluteFill>
 );
+};
