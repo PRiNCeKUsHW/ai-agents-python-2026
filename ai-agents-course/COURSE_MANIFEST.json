@@ -14,7 +14,8 @@
     "fps": 60,
     "codec": "h264",
     "audio": "aac",
-    "length_rule": "No length limit. Each module is as long as it needs to cover its full syllabus (every lesson and every sub-topic). Long modules are uploaded in as many parts as needed; a lesson is never cut between parts, and every lesson is in exactly one part."
+    "length_rule": "No length limit. Each module is as long as it needs to cover its full syllabus (every lesson and every sub-topic). Long modules are uploaded in as many parts as needed; a lesson is never cut between parts, and every lesson is in exactly one part.",
+    "theme_rule": "Every module gets its own theme and style that fits its syllabus and differs from all earlier modules. Register: COURSE_DESIGN_SYSTEM.md; values: studio/src/theme.ts THEMES."
   },
   "design_system": "COURSE_DESIGN_SYSTEM.md",
   "next_module": 0,

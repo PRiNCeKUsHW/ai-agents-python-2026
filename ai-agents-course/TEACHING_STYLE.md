@@ -71,3 +71,8 @@ Skip the analogy when a direct explanation is clearer.
 - Never cut a topic short to save time.
 - For YouTube, a long module is split into as many parts as needed (2, 3, 4 or more). Each part holds whole lessons, its chapters start at 00:00, and it links to every other part.
 - Every lesson is in exactly one part, in order. `tools/youtube.py` checks this and stops if a lesson is missing.
+
+## A new theme and style for every module (rule from 2026-11-17)
+- Each module gets its **own visual theme and style**, chosen to fit its syllabus, and it must **not look like any earlier module**: a new colour palette, a new background, a new code/terminal look, and a different feel.
+- Before building a module, check the theme register in `COURSE_DESIGN_SYSTEM.md` and pick something not used before; then add the new theme to the register.
+- Themes live in `studio/src/theme.ts` (`THEMES`, keyed by module number). `applyTheme(module)` switches the whole video and the thumbnail.

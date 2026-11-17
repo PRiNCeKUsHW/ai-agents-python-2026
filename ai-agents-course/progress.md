@@ -142,3 +142,8 @@ Notes for the next modules, learned in Module 1:
 - Each module is as long as its full syllabus needs. Nothing is cut to fit a time.
 - Long modules are uploaded in as many parts as needed, not only two. `tools/youtube.py` now supports any number of parts and checks that every lesson is covered exactly once. Module 6's packaging is unchanged.
 - The "19–20 hours" in the plan is an estimate, not a cap.
+
+## Rule added 2026-11-17: a new theme and style per module
+- Each module gets a theme and style chosen from its syllabus, never repeating an earlier module.
+- `studio/src/theme.ts` now has per-module `THEMES` and `applyTheme(module)`; the register is in `COURSE_DESIGN_SYSTEM.md`.
+- Module 0 uses **Terminal Night** (dark, terminal green, Git orange).

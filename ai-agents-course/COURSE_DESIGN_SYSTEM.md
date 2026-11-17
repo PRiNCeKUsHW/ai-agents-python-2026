@@ -1,5 +1,18 @@
 # Course Design System — "Agent Console"
 
+> **Rule from 2026-11-17: every module has its own theme and style.** A new module must not reuse the
+> look of any earlier module. Pick a theme that fits the module's syllabus, add it to `THEMES` in
+> `studio/src/theme.ts`, and record it in the register below. Layout, fonts and scene types stay shared
+> so the course still feels like one series.
+
+## Theme register
+
+| Module | Theme | Look | Why it fits |
+|---|---|---|---|
+| 1–6 | Paper (Modules 2–6), Agent Console (Module 1 original) | warm off-white page, dark ink; Module 1 dark navy | made before the per-module rule |
+| 0 | Terminal Night | GitHub-dark page, terminal green prompt, Git orange highlights | the module teaches the terminal, venv and Git |
+| next | (new, not yet chosen) | must differ from everything above | chosen from the module's syllabus |
+
 Chosen for an international developer audience watching long technical lessons: a calm, dark,
 high-contrast developer look where **code and diagrams are the hero**. Decoration is limited to a
 faint dot grid, two slow ambient glows and one signature motif. Source of truth for values:
