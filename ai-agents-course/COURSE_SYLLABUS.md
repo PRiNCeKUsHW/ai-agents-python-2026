@@ -39,8 +39,23 @@ Canonical syllabus. Modules are produced in order, one per request. Every module
 *Project: Your First GitHub Repository*
 
 1. The Terminal: Folders, Files and Running Commands
+   - terminal vs shell vs command; why developers use the terminal; opening it on Windows (Git Bash, PowerShell), macOS, Linux and VS Code
+   - anatomy of a command; the folder tree; absolute vs relative paths; pwd, ls, cd, .., ~
+   - files: echo with > and >>, cat, touch, wc, cp, mv, rm, rm -r (and why rm has no undo); hidden dotfiles and ls -a
+   - running Python with arguments (sys.argv); exit codes and $?; "No such file" and "command not found"; PATH and which
+   - PowerShell equivalents; speed habits: Tab, up arrow, Ctrl+C, clear, --help
 2. Virtual Environments, pip and the .env File: Why Every Project Gets Its Own
+   - the version-clash problem; isolation; python3 -m venv .venv; activating on every shell; what activate does to PATH
+   - pip and PyPI; exact pins (==, >=, ~=); pip freeze > requirements.txt; rebuilding a venv from requirements.txt
+   - what to commit and what never to commit; python -m pip; uv (used from Module 7)
+   - environment variables (export, os.environ.get); .env and .env.example; python-dotenv; never printing secrets; revoking a leaked key
+   - project: the setup checker (5 of 6 checks before Git)
 3. Git and GitHub: Save, Commit, Push and Share Your Work
+   - version control; Git vs GitHub; working folder, staging area, repository, remote
+   - git config; init, status, .gitignore and check-ignore, add, commit, log; good commit messages
+   - diff and restore; branches with switch -c, merge and fast-forward
+   - GitHub: new repository, signing in (Credential Manager, gh auth login, SSH); remote add, push -u, clone, pull; a pushed secret
+   - project: Your First GitHub Repository (6 of 6 checks, 26 tests, README)
 
 ## Part I — Foundations
 
