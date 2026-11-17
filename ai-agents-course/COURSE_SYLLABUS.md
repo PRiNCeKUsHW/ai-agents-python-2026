@@ -10,7 +10,7 @@ Canonical syllabus. Modules are produced in order, one per request. Every module
 
 | Module | Title | Project | Lessons | Status |
 |---:|---|---|---:|---|
-| 0 | Your Developer Setup | Your First GitHub Repository | 3 | Planned |
+| 0 | Your Developer Setup | Your First GitHub Repository | 3 | Completed |
 | 1 | Python for AI Engineering | Python AI Toolkit | 7 | Completed |
 | 2 | LLM Fundamentals and API Integration | AI Study Assistant | 7 | Completed |
 | 3 | Prompt Engineering and Structured Outputs | AI Resume Analyzer | 6 | Completed |

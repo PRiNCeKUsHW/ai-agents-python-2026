@@ -12,6 +12,7 @@ Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, a
 - Modules 1–6 are unchanged and stay COMPLETED.
 - Full lesson list with sub-topics: `COURSE_SYLLABUS.md`; per-lesson titles and topics also in the manifest.
 - Done: 6 of 20 modules, 40 of 153 lessons. Remaining: Module 0 and Modules 7–19 (113 lessons).
+  Update 2026-11-17: Module 0 done, so 7 of 20 modules, 43 of 153 lessons; remaining Modules 7–19 (110 lessons).
 
 ## Module 1: Python for AI Engineering: COMPLETED
 
@@ -97,6 +98,19 @@ Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, a
 - 2026-11-01: videos downloaded by the learner for the two-part upload; local video files and studio
   audio deleted to free space (rebuild with `python tools/build_lesson.py 6 all` and
   `python tools/module.py render 6`; the voice cache is kept, so rebuilding needs no new narration).
+
+## Module 0: Your Developer Setup: COMPLETED (2026-11-17)
+
+- **Hinglish** narration (Kokoro `hf_beta`), Roman-script captions, on-screen text in English.
+- First module with its own theme: **Terminal Night** (GitHub-dark, terminal green, Git orange); see the
+  theme register in `COURSE_DESIGN_SYSTEM.md`. First module made under the no-length-limit rule.
+- 3 lessons (17:59, 18:05, 20:49); full video 56:54, 50 chapters, 928 captions. Validation 38/38.
+- Project: Your First GitHub Repository (`hello.py`, `show_config.py`, `check_setup.py` with six checks:
+  5/6 before `git init`, 6/6 after). 26 tests, mypy --strict clean.
+- Git demos use the made-up identity Riya Sharma <riya@example.com> in a throwaway global config; the
+  "GitHub" remote is a local bare repository, and the video says so.
+- Ready for a two-part upload: Part 1 lessons 1-2 (36:05), Part 2 lesson 3 (20:49); packaging in
+  `modules/module-00-developer-setup/youtube.md`.
 
 ## Next: Module 7: Reliable and Efficient Agents (project: Resilient API Agent)
 

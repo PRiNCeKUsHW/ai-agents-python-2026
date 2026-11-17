@@ -38,7 +38,7 @@ Bash). New terms are in the course [glossary](../../GLOSSARY.md).
 | 2 | Virtual Environments, pip and the .env File: Why Every Project Gets Its Own | 18:05 | `scripts/lesson-02.yaml` |
 | 3 | Git and GitHub: Save, Commit, Push and Share Your Work | 20:49 | `scripts/lesson-03.yaml` |
 
-Full module: **56:53**. All runnable code is in the project folder. Plan:
+Full module: **56:54**. All runnable code is in the project folder. Plan:
 [lesson-plan.md](lesson-plan.md). Every lesson follows the course teaching style
 ([TEACHING_STYLE.md](../../TEACHING_STYLE.md)): an analogy, What → Why → How → Where, real terminal
 output, a comparison or table, practice questions, an interview corner, a quick check and a recap.

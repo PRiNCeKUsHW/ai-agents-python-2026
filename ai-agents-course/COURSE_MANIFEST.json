@@ -18,14 +18,14 @@
     "theme_rule": "Every module gets its own theme and style that fits its syllabus and differs from all earlier modules. Register: COURSE_DESIGN_SYSTEM.md; values: studio/src/theme.ts THEMES."
   },
   "design_system": "COURSE_DESIGN_SYSTEM.md",
-  "next_module": 0,
+  "next_module": 7,
   "modules": [
     {
       "number": 0,
       "title": "Your Developer Setup",
       "part": "Start here",
       "project": "Your First GitHub Repository",
-      "status": "NOT_STARTED",
+      "status": "COMPLETED",
       "lessons": [
         "The Terminal: Folders, Files and Running Commands",
         "Virtual Environments, pip and the .env File: Why Every Project Gets Its Own",
@@ -54,9 +54,29 @@
           "project: Your First GitHub Repository (6 of 6 checks, 26 tests, README)"
         ]
       },
-      "paths": {},
-      "validation": null,
-      "render": null,
+      "paths": {
+        "module": "modules/module-00-developer-setup",
+        "project": "modules/module-00-developer-setup/project/my-first-repo"
+      },
+      "validation": {
+        "report": "modules/module-00-developer-setup/validation-report.md",
+        "checks_passed": 38,
+        "checks_total": 38
+      },
+      "render": {
+        "lessons": 3,
+        "full_module": "renders/module-00-full.mp4",
+        "duration": "56:54",
+        "format": "1920x1080 60fps H.264 + AAC",
+        "language": "Hinglish",
+        "voice": "hf_beta",
+        "theme": "Terminal Night",
+        "parts": [
+          "Part 1: lessons 1-2 (36:05)",
+          "Part 2: lesson 3 (20:49)"
+        ],
+        "sound_effects": "recorded (shared/sfx, tools/sfx.py)"
+      },
       "blockers": []
     },
     {
@@ -690,5 +710,5 @@
     }
   ],
   "capstone_deliverables": "a public GitHub repository, a professional README, an architecture diagram, setup instructions, automated tests, a short demo video, a deployed demo where feasible, and known limitations",
-  "updated": "2026-11-16T00:00:00Z"
+  "updated": "2026-11-17T06:16:38Z"
 }
