@@ -1,5 +1,8 @@
 # Module 1 lesson plan: Python for AI Engineering
 
+Language: Hinglish narration (Roman script captions), on-screen text in English; voice `hf_beta` at 0.95.
+Remade 2026-11-18; every lesson adds an analogy, an interview corner, practice questions and quick checks.
+
 Audience: beginners with little or no Python. Target level at the end of the module: comfortable
 writing a small, tested, multi-module Python CLI that reads JSON, talks HTTP, and uses async.
 
@@ -9,7 +12,7 @@ shapes Module 2 sends to real model APIs.
 
 | # | Lesson | Concepts | Runnable source |
 |---|---|---|---|
-| 1 | Welcome, the agent loop, and setup | what an agent is (decide/act/observe/repeat), 18-module roadmap, module format, prerequisites, `python3 --version`, `venv`, activation (macOS/Linux/Windows), `pip install` with pinned versions, `pip freeze`, project layout | project preview (real `validate` / `report` output) |
+| 1 | Welcome, the agent loop, and setup | what an agent is (intern analogy, decide/act/observe/repeat), chatbot vs agent, where agents are used, a 30-line agent loop with a labelled fake model, 20-module map in 7 parts, why Python for AI, module format, prerequisites, `python3 --version`, `venv`, activation (macOS/Linux/Windows), `pip install` with pinned versions, `pip freeze`, project layout | `source/lesson-01/agent_loop.py`, project preview |
 | 2 | Core data | variables and types (`str`, `int`, `float`, `bool`, `None`), `type()`, f-strings and format specs, `TypeError` str + int, lists (index, negative index, slice, append, `enumerate`), dicts (`[]`, `.get`, chat message shape, list of dicts = conversation), `KeyError`, sets (dedupe, membership, difference = tool allowlist), list/dict comprehensions, generator in `sum`, choosing list/dict/set/tuple | `source/lesson-02/*.py` |
 | 3 | Functions, classes, exceptions | `def`, parameters, `return`, docstrings, keyword and default arguments, function habits, **mutable default argument bug**, classes (`__init__`, `self`, methods, `__len__`), dataclasses (`field(default_factory=...)`), `try/except/else/finally`, custom exception hierarchy, `raise`, catching specific vs bare `except`, reading tracebacks bottom-up | `source/lesson-03/*.py` |
 | 4 | Modules, packages, files, JSON, env vars | modules vs packages, `__init__.py`, `__all__`, import styles, standard library vs pip packages, `if __name__ == "__main__"`, `ModuleNotFoundError`, `pathlib` read/write/append, `encoding="utf-8"`, `with`, JSON ↔ Python mapping, `json.dumps/loads`, `JSONDecodeError`, `os.environ.get`, setting variables (bash/PowerShell), `.env`, `.env.example`, `.gitignore` | `source/lesson-04/` |

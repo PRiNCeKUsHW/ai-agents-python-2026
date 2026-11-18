@@ -1,6 +1,11 @@
 # Module 1: Python for AI Engineering
 
-Part I, Foundations · **AI Agents with Python: Beginner to Production (2026)**
+Part I, Foundations · **AI Agents with Python: Beginner to Production (2026)** · narrated in **Hinglish**
+
+> **Remade in Hinglish on 2026-11-18** (learner's request), with a new look (theme "Python Notebook")
+> and the teaching style of the newer modules: an analogy, What → Why → How → Where, code next to its
+> real output, an interview corner, practice questions (answers in [quiz.md](quiz.md)) and quick
+> checks in every lesson. The first, English version is in git history.
 
 The Python that AI engineering actually uses, taught through one running example: LLM usage
 data (chat messages, model settings, request logs). It ends with a complete, tested CLI project.
@@ -20,21 +25,21 @@ data (chat messages, model settings, request logs). It ends with a complete, tes
 ## Prerequisites and setup
 
 Windows, macOS or Linux; Python 3.11+ (recorded with 3.13.17); a code editor (e.g. VS Code
-with the Python extension). No AI experience required. Setup is taught in lesson 1.
+with the Python extension). No AI experience required. Setup (terminal, venv, Git) is taught in Module 0; lesson 1 checks it.
 
 ## Lessons
 
 | # | Video | Length | Script | Runnable code |
 |---|---|---|---|---|
-| 1 | Welcome, the Agent Loop, and Your Python Setup | 7:10 | `scripts/lesson-01.yaml` | project preview |
-| 2 | Python Core Data: Variables, Lists, Dictionaries and Sets | 7:20 | `scripts/lesson-02.yaml` | `source/lesson-02/` |
-| 3 | Functions, Classes and Exceptions | 8:25 | `scripts/lesson-03.yaml` | `source/lesson-03/` |
-| 4 | Modules, Packages, Files, JSON and Environment Variables | 7:31 | `scripts/lesson-04.yaml` | `source/lesson-04/` |
-| 5 | Type Hints, HTTP Requests and Async | 7:20 | `scripts/lesson-05.yaml` | `source/lesson-05/` |
-| 6 | Project, Part 1: Plan, Data Model and Validation | 8:27 | `scripts/lesson-06.yaml` | `project/python-ai-toolkit/` |
-| 7 | Project, Part 2: Reports, CLI, Tests and Wrap-up | 10:42 | `scripts/lesson-07.yaml` | `project/python-ai-toolkit/` |
+| 1 | Welcome, the Agent Loop, and Your Python Setup | 14:38 | `scripts/lesson-01.yaml` | `source/lesson-01/agent_loop.py`, project preview |
+| 2 | Python Core Data: Variables, Lists, Dictionaries and Sets | 10:09 | `scripts/lesson-02.yaml` | `source/lesson-02/` |
+| 3 | Functions, Classes and Exceptions | 11:05 | `scripts/lesson-03.yaml` | `source/lesson-03/` |
+| 4 | Modules, Packages, Files, JSON and Environment Variables | 10:39 | `scripts/lesson-04.yaml` | `source/lesson-04/` |
+| 5 | Type Hints, HTTP Requests and Async | 10:12 | `scripts/lesson-05.yaml` | `source/lesson-05/` |
+| 6 | Project, Part 1: Plan, Data Model and Validation | 11:32 | `scripts/lesson-06.yaml` | `project/python-ai-toolkit/` |
+| 7 | Project, Part 2: Reports, CLI, Tests and Wrap-up | 12:28 | `scripts/lesson-07.yaml` | `project/python-ai-toolkit/` |
 
-Total: about 57 minutes. Detailed plan: [lesson-plan.md](lesson-plan.md).
+Total: 1:20:48 (full module video, 84 chapters). YouTube: two parts, lessons 1–4 (46:33) and 5–7 (34:14); see [youtube.md](youtube.md). Detailed plan: [lesson-plan.md](lesson-plan.md).
 
 ## Project: Python AI Toolkit
 
@@ -89,4 +94,4 @@ Add `--top N`, p95 latency, a per-day breakdown or `--format csv`, each with a t
 
 ## Versions used
 
-Python 3.13.17 · httpx 0.28.1 · pytest 9.2.0 · mypy 2.4.1 · Remotion 4.0.538 · Kokoro v1.0 (voice `am_michael`).
+Python 3.13.17 · httpx 0.28.1 · pytest 9.2.0 · mypy 2.4.1 · Remotion 4.0.538 · Kokoro v1.0 (Hinglish, Indian female voice `hf_beta` at 0.95; the English first version used `am_michael`).

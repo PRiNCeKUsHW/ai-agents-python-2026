@@ -1,4083 +1,6058 @@
 1
-00:00:00,700 --> 00:00:04,561
-Welcome to AI Agents with
-Python, Beginner to Production.
+00:00:00,700 --> 00:00:03,178
+Namaste, aur swagat hai Module ek mein.
 
 2
-00:00:04,781 --> 00:00:10,293
-Over this course you will go from
-writing your first Python data structures to
+00:00:03,398 --> 00:00:08,078
+Module zero mein humne terminal,
+virtual environment, aur Git seekha.
 
 3
-00:00:10,293 --> 00:00:16,159
-deploying a full AI agent application
-with authentication, retrieval, tools, tests,
+00:00:08,298 --> 00:00:10,321
+Ab asli safar shuru hota hai.
 
 4
-00:00:16,159 --> 00:00:17,219
-and monitoring.
+00:00:10,541 --> 00:00:15,808
+Iss course mein aap Python ke basic
+data structures se lekar, ek poora AI agent
 
 5
-00:00:17,439 --> 00:00:22,879
-This first lesson explains what an agent
-actually is, how the course works, and then
+00:00:15,808 --> 00:00:21,342
+application production tak le jaoge:
+tools, memory, retrieval, tests, security, aur
 
 6
-00:00:22,879 --> 00:00:25,145
-gets your Python environment ready.
+00:00:21,342 --> 00:00:22,675
+deployment ke saath.
 
 7
-00:00:26,445 --> 00:00:31,417
-Let's start with a precise definition,
-because the word agent is used loosely.
+00:00:22,895 --> 00:00:27,918
+Aur yeh pehla lesson batata hai ki AI
+agent asal mein hota kya hai, course kaise
 
 8
-00:00:31,767 --> 00:00:36,360
-An AI agent is a program that is
-given a goal, not a fixed script.
+00:00:27,918 --> 00:00:31,057
+chalega, aur aapka
+Python setup ready hai ya nahi.
 
 9
-00:00:36,580 --> 00:00:41,478
-You describe what you want, for example,
-research this topic and write me a brief.
+00:00:32,357 --> 00:00:37,923
+Iss lesson ke baad aap explain kar paoge
+ki AI agent kya hai, aur chatbot se kaise
 
 10
-00:00:41,828 --> 00:00:45,971
-The program asks a language
-model to decide what to do next.
+00:00:37,923 --> 00:00:38,534
+alag hai.
 
 11
-00:00:46,191 --> 00:00:48,874
-The model does not run anything by itself.
+00:00:38,884 --> 00:00:42,569
+Agent loop samjhoge:
+decide, act, observe, aur repeat.
 
 12
-00:00:49,094 --> 00:00:53,936
-It only returns a decision, as
-text or as a structured tool request.
+00:00:42,919 --> 00:00:46,617
+Plain Python mein likha ek
+chhota sa agent loop chalaoge.
 
 13
-00:00:54,286 --> 00:00:59,809
-Your Python code then performs that
-action with a tool, such as a web search, a
+00:00:46,967 --> 00:00:51,117
+Poore course ka map, aur har
+module kaise chalta hai, woh jaanoge.
 
 14
-00:00:59,809 --> 00:01:04,842
-database query, or a calculator,
-and feeds the result back to the model.
+00:00:51,467 --> 00:00:55,067
+Aur iss module ke liye
+apna Python setup check karoge.
 
 15
-00:01:05,192 --> 00:01:06,644
-This repeats in a loop.
+00:00:56,367 --> 00:00:58,388
+Pehle what: AI agent kya hai?
 
 16
-00:01:06,864 --> 00:01:12,338
-Decide, act, observe, and continue,
-until the goal is reached or a safety limit
+00:00:58,608 --> 00:01:00,644
+Ek naya, smart intern socho.
 
 17
-00:01:12,338 --> 00:01:12,962
-stops it.
+00:01:00,864 --> 00:01:03,296
+Aap usse step by step script nahi dete.
 
 18
-00:01:13,182 --> 00:01:17,983
-That loop is the heart of every agent
-in this course, and you will build it from
+00:01:03,516 --> 00:01:08,076
+Aap ek goal dete ho: agle Friday
+Goa ki sabse sasti flight dhoondo.
 
 19
-00:01:17,983 --> 00:01:19,183
-scratch in Module 4.
+00:01:08,426 --> 00:01:10,678
+Intern hai aapka Python program.
 
 20
-00:01:20,483 --> 00:01:23,106
-Here is how the
-eighteen modules fit together.
+00:01:11,028 --> 00:01:15,094
+Senior, jo batata hai ki agla
+step kya ho, woh hai language model.
 
 21
-00:01:23,456 --> 00:01:29,447
-Part one builds your foundations: Python
-for AI work, calling language model APIs,
+00:01:15,444 --> 00:01:18,239
+Browser, phone, aur
+spreadsheet, yeh sab tools hain.
 
 22
-00:01:29,447 --> 00:01:33,612
-and prompt engineering with
-validated, structured output.
+00:01:18,589 --> 00:01:22,957
+Aur aapka instruction, bees minute
+mein ruk jaana, woh hai safety limit.
 
 23
-00:01:33,962 --> 00:01:39,863
-Part two builds agents from scratch, with
-no framework hiding the details: the loop,
+00:01:23,307 --> 00:01:26,021
+Yaad rakhna: senior khud kuch nahi karta.
 
 24
-00:01:39,863 --> 00:01:43,305
-tool calling, memory,
-and making agents reliable.
+00:01:26,241 --> 00:01:27,740
+Woh sirf bataata hai.
 
 25
-00:01:43,655 --> 00:01:49,412
-Part three connects agents to knowledge
-and tools, with the Model Context Protocol,
+00:01:27,960 --> 00:01:29,526
+Kaam intern karta hai.
 
 26
-00:01:49,412 --> 00:01:52,672
-embeddings, and
-retrieval-augmented generation.
+00:01:29,746 --> 00:01:35,433
+AI agent mein bhi model sirf decide karta
+hai, aur kaam aapka Python code karta hai.
 
 27
-00:01:53,022 --> 00:01:59,170
-Part four covers orchestration:
-LangGraph workflows, multi-agent systems, and web
+00:01:36,733 --> 00:01:38,637
+Ab yahi baat ek diagram mein.
 
 28
-00:01:59,170 --> 00:02:00,384
-research agents.
+00:01:38,987 --> 00:01:43,250
+AI agent ek program hai jise
+goal milta hai, fixed script nahi.
 
 29
-00:02:00,734 --> 00:02:05,818
-Part five is about quality and
-security: testing and evaluating agents, and
+00:01:43,470 --> 00:01:48,686
+Aap batate ho ki kya chahiye, jaise:
+iss topic par research karo aur ek chhota
 
 30
-00:02:05,818 --> 00:02:09,546
-defending them against
-prompt injection and data leaks.
+00:01:48,686 --> 00:01:49,622
+summary likho.
 
 31
-00:02:09,896 --> 00:02:16,072
-And part six takes everything to
-production, with FastAPI, Docker, monitoring, and a
+00:01:49,972 --> 00:01:53,256
+Program language model se
+poochta hai: ab kya karun?
 
 32
-00:02:16,072 --> 00:02:19,381
-full-stack AI
-workspace as the final project.
+00:01:53,476 --> 00:01:55,603
+Model khud kuch run nahi karta.
 
 33
-00:02:20,681 --> 00:02:25,149
-Every module follows the same
-rhythm, so you always know where you are.
+00:01:55,823 --> 00:02:00,763
+Woh sirf ek decision wapas bhejta hai,
+text ke roop mein, ya ek structured tool
 
 34
-00:02:25,499 --> 00:02:30,453
-First, the concepts, explained from
-zero, with small examples you can run.
+00:02:00,763 --> 00:02:02,077
+request ke roop mein.
 
 35
-00:02:30,803 --> 00:02:33,471
-Then a real project, built step by step.
+00:02:02,426 --> 00:02:05,901
+Phir aapka Python code woh
+action ek tool se karta hai.
 
 36
-00:02:33,691 --> 00:02:34,702
-Not a teaser.
+00:02:06,121 --> 00:02:09,339
+Jaise web search,
+database query, ya calculator.
 
 37
-00:02:34,922 --> 00:02:38,733
-Complete code, tests, and a
-README you can run yourself.
+00:02:09,559 --> 00:02:11,956
+Aur result wapas model ko bhejta hai.
 
 38
-00:02:39,083 --> 00:02:42,632
-Next, the errors people
-actually hit, and how to fix them.
+00:02:12,306 --> 00:02:14,009
+Yeh ek loop mein chalta hai.
 
 39
-00:02:42,982 --> 00:02:47,953
-And finally, a recap, a short quiz
-with explained answers, and an extension
+00:02:14,229 --> 00:02:16,339
+Decide, act, observe, aur phir se.
 
 40
-00:02:47,953 --> 00:02:50,338
-challenge if you want to go further.
+00:02:16,559 --> 00:02:20,212
+Jab tak goal poora na ho,
+ya koi safety limit na rok de.
 
 41
-00:02:51,638 --> 00:02:52,858
-Now, Module 1.
+00:02:20,432 --> 00:02:23,048
+Yahi loop iss course
+ke har agent ka dil hai.
 
 42
-00:02:53,078 --> 00:02:58,898
-Agents are software, so before we touch
-a language model, you need the Python that
+00:02:23,268 --> 00:02:26,492
+Module chaar mein aap
+isse bilkul shuru se banaoge.
 
 43
-00:02:58,898 --> 00:03:00,956
-AI engineering actually uses.
+00:02:27,792 --> 00:02:30,697
+Ab ek important farak: chatbot aur agent.
 
 44
-00:03:01,306 --> 00:03:06,996
-You will work with the core data types,
-lists, dictionaries, and sets, in the shapes
+00:02:30,917 --> 00:02:34,487
+Chatbot ek sawaal leta hai
+aur ek text jawaab deta hai.
 
 45
-00:03:06,996 --> 00:03:09,028
-AI applications use every day.
+00:02:34,707 --> 00:02:39,743
+Jo uski training mein tha, bas wahi
+jaanta hai, aur chat ke bahar kuch nahi kar
 
 46
-00:03:09,378 --> 00:03:13,670
-You will write functions and
-classes, and handle errors with exceptions.
+00:02:39,743 --> 00:02:40,125
+sakta.
 
 47
-00:03:14,020 --> 00:03:19,966
-You will organise code into modules and
-packages, read and write files and JSON, and
+00:02:40,475 --> 00:02:43,723
+Agent ko goal milta hai,
+aur woh kai steps leta hai.
 
 48
-00:03:19,966 --> 00:03:22,726
-keep settings in environment variables.
+00:02:43,943 --> 00:02:48,656
+Tools se cheezein dhoondhta hai,
+files padhta hai, APIs call karta hai.
 
 49
-00:03:23,076 --> 00:03:28,795
-And you will add type hints, make HTTP
-requests, and get a first, practical look at
+00:02:48,876 --> 00:02:51,579
+Chatbot bataata hai
+ki refund policy kya hai.
 
 50
-00:03:28,795 --> 00:03:29,897
-async and await.
+00:02:51,799 --> 00:02:55,526
+Agent aapka order dhoondh
+kar refund shuru kar deta hai.
 
 51
-00:03:31,197 --> 00:03:35,982
-Everything comes together in this
-module's project, the Python AI Toolkit.
+00:02:56,826 --> 00:02:59,076
+Ab where: agents kahan use hote hain?
 
 52
-00:03:36,202 --> 00:03:42,348
-It is a command line tool that reads a
-log of language model API calls, validates
+00:02:59,296 --> 00:03:04,708
+Customer support mein: ticket solve
+karna, order database aur refund API ke saath.
 
 53
-00:03:42,348 --> 00:03:45,079
-every record, and produces a report.
+00:03:05,058 --> 00:03:07,450
+Coding mein: ek failing test theek karna.
 
 54
-00:03:45,429 --> 00:03:46,871
-Here is the finished tool.
+00:03:07,670 --> 00:03:12,048
+Agent files padhta hai, tests
+chalata hai, aur code edit karta hai.
 
 55
-00:03:47,091 --> 00:03:52,806
-The validate command checks every record
-and explains exactly what is wrong, like a
+00:03:12,398 --> 00:03:17,228
+Research mein: ek chhota brief
+likhna, web search aur PDF reader ke saath.
 
 56
-00:03:52,806 --> 00:03:55,422
-negative token count, or a missing id.
+00:03:17,578 --> 00:03:22,779
+Aur data mein: business ka koi sawaal
+answer karna, SQL queries aur charts se.
 
 57
-00:03:55,772 --> 00:04:01,587
-And the report command summarises a
-clean log: requests, success rate, tokens,
+00:03:23,129 --> 00:03:28,464
+Inn sab mein pattern ek hi hai: goal,
+model ka decision, tool ka action, aur result.
 
 58
-00:04:01,587 --> 00:04:03,674
-estimated cost, and latency.
+00:03:28,684 --> 00:03:31,808
+Iss course mein aap inme
+se kai agents khud banaoge.
 
 59
-00:04:03,894 --> 00:04:07,353
-By the end of this module, you
-will have written every line of it.
+00:03:33,108 --> 00:03:35,509
+Ab how: loop asal mein dikhta kaisa hai?
 
 60
-00:04:08,653 --> 00:04:13,712
-To follow along you need a
-computer running Windows, macOS, or Linux.
+00:03:35,729 --> 00:03:38,154
+Yeh tees lines ka Python program hai.
 
 61
-00:04:14,062 --> 00:04:16,690
-You need Python 3.11 or newer.
+00:03:38,374 --> 00:03:42,269
+Goal hai: twenty three into
+nineteen, plus seven, kitna hota hai?
 
 62
-00:04:16,910 --> 00:04:19,598
-I am recording with Python 3.13.
+00:03:42,489 --> 00:03:44,682
+Dhyaan do: yahan model ek fake hai.
 
 63
-00:04:19,948 --> 00:04:21,012
-A code editor.
+00:03:44,902 --> 00:03:47,759
+Do fixed rules, real language model nahi.
 
 64
-00:04:21,232 --> 00:04:25,829
-VS Code with the official
-Python extension is a good free choice.
+00:03:47,979 --> 00:03:50,120
+Real model Module do mein aayega.
 
 65
-00:04:26,179 --> 00:04:28,161
-And no AI experience at all.
+00:03:50,340 --> 00:03:52,131
+Abhi sirf loop samajhna hai.
 
 66
-00:04:28,381 --> 00:04:33,450
-If you have written a little code in any
-language, that helps, but every concept is
+00:03:52,481 --> 00:03:54,376
+Pehla function, fake model.
 
 67
-00:04:33,450 --> 00:04:34,610
-explained as we go.
+00:03:54,596 --> 00:03:57,229
+Yeh decide karta hai ki agla step kya ho.
 
 68
-00:04:35,910 --> 00:04:37,782
-Let's set up a clean workspace.
+00:03:57,449 --> 00:04:02,398
+Agar abhi tak koi note nahi hai, toh
+calculator se twenty three into nineteen
 
 69
-00:04:38,002 --> 00:04:40,354
-Open a terminal in an empty folder.
+00:04:02,398 --> 00:04:02,847
+karwao.
 
 70
-00:04:40,704 --> 00:04:42,518
-First, check your Python version.
+00:04:03,067 --> 00:04:05,154
+Ek note hai, toh usme saat jodo.
 
 71
-00:04:42,738 --> 00:04:46,356
-On Windows the command is
-usually just python, or py.
+00:04:05,374 --> 00:04:06,495
+Warna finish.
 
 72
-00:04:46,576 --> 00:04:49,160
-Anything from 3.11 up is fine.
+00:04:06,845 --> 00:04:08,923
+Doosra function, calculator.
 
 73
-00:04:49,510 --> 00:04:51,668
-Next, create a virtual environment.
+00:04:09,143 --> 00:04:10,214
+Yeh tool hai.
 
 74
-00:04:51,888 --> 00:04:57,473
-This makes a private folder, called dot
-venv, with its own copy of Python and its
+00:04:10,434 --> 00:04:15,351
+Kaam yahi karta hai: do numbers aur ek
+operator leta hai, aur result deta hai.
 
 75
-00:04:57,473 --> 00:04:59,059
-own installed packages.
+00:04:15,701 --> 00:04:17,557
+Ab asli cheez, run agent.
 
 76
-00:04:59,279 --> 00:05:04,530
-Every project gets one, so the
-libraries of one project can never break another.
+00:04:17,777 --> 00:04:20,321
+Ek for loop, zyaada
+se zyaada paanch steps.
 
 77
-00:05:04,880 --> 00:05:05,728
-Activate it.
+00:04:20,541 --> 00:04:24,632
+Har step mein pehle decide:
+model se poocho ki ab kya karna hai.
 
 78
-00:05:05,948 --> 00:05:11,313
-On macOS and Linux, use source,
-dot venv, slash bin, slash activate.
+00:04:24,982 --> 00:04:26,691
+Phir act: tool ko call karo.
 
 79
-00:05:11,533 --> 00:05:15,974
-On Windows, run dot venv,
-backslash Scripts, backslash activate.
+00:04:26,911 --> 00:04:31,936
+Aur observe: result ko notes mein rakh
+lo, taaki agli baar model use dekh sake.
 
 80
-00:05:16,194 --> 00:05:19,884
-Now, the python command
-points inside your project folder.
+00:04:32,156 --> 00:04:37,345
+Right side par dekho: step ek mein four
+thirty seven, step do mein four forty four.
 
 81
-00:05:20,234 --> 00:05:24,125
-With the environment active,
-pip installs packages into it.
+00:04:37,695 --> 00:04:40,049
+Step teen mein model kehta hai finish.
 
 82
-00:05:24,345 --> 00:05:31,368
-We install httpx, the HTTP library we
-will use later in this module, and we pin the
+00:04:40,269 --> 00:04:43,306
+Loop answer return
+karta hai: four forty four.
 
 83
-00:05:31,368 --> 00:05:35,345
-exact version, so that
-your results match mine.
+00:04:43,656 --> 00:04:45,920
+Aur aakhri line bahut important hai.
 
 84
-00:05:35,695 --> 00:05:40,956
-Finally, pip freeze records the exact
-versions you installed into a requirements
+00:04:46,140 --> 00:04:49,710
+Agar paanch steps mein kaam
+poora na ho, toh loop ruk jaata hai.
 
 85
-00:05:40,956 --> 00:05:41,285
-file.
+00:04:49,930 --> 00:04:55,277
+Real agents mein yeh safety limit
+zaroori hai, warna galti se ek agent hamesha
 
 86
-00:05:41,505 --> 00:05:47,507
-Anyone can rebuild the same environment
-with pip install, dash r, requirements dot
+00:04:55,277 --> 00:04:58,843
+chalta reh sakta hai, aur
+API ka bill badhta rahega.
 
 87
-00:05:47,507 --> 00:05:47,873
-text.
+00:05:00,143 --> 00:05:05,159
+Pause and try. fake model mein numbers
+badlo, jaise twelve into twelve, plus ek.
 
 88
-00:05:49,173 --> 00:05:50,137
-One warning.
+00:05:05,379 --> 00:05:08,054
+Enter dabane se pehle output guess karo.
 
 89
-00:05:50,357 --> 00:05:55,730
-If pip complains about an externally
-managed environment, or packages seem to
+00:05:08,404 --> 00:05:10,289
+Phir max steps ko do kar do.
 
 90
-00:05:55,730 --> 00:06:00,335
-vanish, you are almost certainly
-outside your virtual environment.
+00:05:10,509 --> 00:05:11,464
+Kya hoga?
 
 91
-00:06:00,555 --> 00:06:05,895
-Activate it again, and check that which
-python, or where python on Windows, points
+00:05:11,684 --> 00:05:13,474
+Socho, phir chala ke dekho.
 
 92
-00:06:05,895 --> 00:06:07,523
-into your project folder.
+00:05:19,774 --> 00:05:21,643
+Ab poora course ek nazar mein.
 
 93
-00:06:08,823 --> 00:06:13,567
-This is the project layout we will
-grow into by the end of the module.
+00:05:21,863 --> 00:05:26,541
+Bees modules, Module zero se
+Module unnees tak, saat parts mein.
 
 94
-00:06:13,917 --> 00:06:18,944
-At the top: the virtual environment,
-which is never committed to git, a settings
+00:05:26,891 --> 00:05:29,673
+Start here: Module zero, developer setup.
 
 95
-00:06:18,944 --> 00:06:21,331
-template, and the pinned requirements.
+00:05:29,893 --> 00:05:31,375
+Woh aap kar chuke ho.
 
 96
-00:06:21,681 --> 00:06:25,552
-Configuration and sample
-data live in their own folders.
+00:05:31,725 --> 00:05:36,799
+Part ek, foundations: Python,
+language model APIs, aur prompt engineering.
 
 97
-00:06:25,902 --> 00:06:28,978
-The real code lives in
-a package called toolkit.
+00:05:37,019 --> 00:05:38,401
+Hum abhi yahin hain.
 
 98
-00:06:29,198 --> 00:06:34,232
-The special file dunder main lets us
-run the whole package with python dash m
+00:05:38,751 --> 00:05:42,473
+Part do: agents bilkul
+shuru se, bina kisi framework ke.
 
 99
-00:06:34,232 --> 00:06:34,755
-toolkit.
+00:05:42,693 --> 00:05:45,002
+Loop, tools, memory, aur reliability.
 
 100
-00:06:35,105 --> 00:06:37,080
-And tests live in their own folder.
+00:05:45,352 --> 00:05:47,234
+Part teen: knowledge aur tools.
 
 101
-00:06:37,300 --> 00:06:43,226
-Keeping code, data, configuration, and
-tests separate is a habit that pays off in
+00:05:47,454 --> 00:05:49,381
+MCP, embeddings, aur RAG.
 
 102
-00:06:43,226 --> 00:06:45,201
-every AI project you build.
+00:05:49,731 --> 00:05:51,420
+Part chaar: orchestration.
 
 103
-00:06:46,501 --> 00:06:52,190
-An agent is a program that decides,
-acts, observes, and repeats, working towards a
+00:05:51,640 --> 00:05:55,636
+LangGraph, multi agent
+systems, aur web research agents.
 
 104
-00:06:52,190 --> 00:06:52,537
-goal.
+00:05:55,986 --> 00:05:58,195
+Part paanch: quality aur security.
 
 105
-00:06:52,887 --> 00:06:54,558
-The model only decides.
+00:05:58,415 --> 00:06:02,998
+Agents ko test aur evaluate
+karna, aur prompt injection se bachana.
 
 106
-00:06:54,778 --> 00:06:57,171
-Your Python code performs the actions.
+00:06:03,348 --> 00:06:04,748
+Part chhe: production.
 
 107
-00:06:57,521 --> 00:07:02,090
-Every project gets its own
-virtual environment, with pinned versions.
+00:06:04,968 --> 00:06:09,444
+FastAPI, Docker, monitoring,
+aur ek full stack AI application.
 
 108
-00:07:02,440 --> 00:07:08,058
-In the next lesson, we write real
-Python: the data types that every AI application
+00:06:09,794 --> 00:06:11,289
+Aur part saat: career.
 
 109
-00:07:08,058 --> 00:07:09,017
-is built from.
+00:06:11,509 --> 00:06:15,341
+Aapka AI engineer
+portfolio, aur interviews ki tayyari.
 
 110
-00:07:09,237 --> 00:07:10,100
-See you there.
+00:06:16,641 --> 00:06:22,004
+Har module ek hi rhythm follow karta hai,
+taaki aapko hamesha pata rahe ki aap kahan
 
 111
-00:07:11,420 --> 00:07:17,511
-Every AI application, from a simple
-chatbot to a team of agents, moves the same few
+00:06:22,004 --> 00:06:22,196
+ho.
 
 112
-00:07:17,511 --> 00:07:19,052
-kinds of data around.
+00:06:22,546 --> 00:06:26,173
+Pehle concepts, bilkul zero
+se: what, why, how, aur where.
 
 113
-00:07:19,272 --> 00:07:23,297
-Text, numbers, lists of
-messages, and dictionaries of settings.
+00:06:26,393 --> 00:06:31,500
+Ek real life analogy ke saath, aur
+chhote examples jo aap khud chala sako.
 
 114
-00:07:23,517 --> 00:07:29,128
-In this lesson you will learn those
-building blocks properly, using the exact shapes
+00:06:31,850 --> 00:06:34,248
+Phir ek real project, step by step.
 
 115
-00:07:29,128 --> 00:07:31,065
-that language model APIs use.
+00:06:34,468 --> 00:06:35,794
+Sirf teaser nahi.
 
 116
-00:07:32,365 --> 00:07:36,454
-You will create variables and
-recognise Python's basic types.
+00:06:36,014 --> 00:06:37,859
+Poora code, tests, aur README.
 
 117
-00:07:36,804 --> 00:07:39,018
-Format text cleanly with f-strings.
+00:06:38,209 --> 00:06:42,448
+Phir woh errors jo log sach mein
+dekhte hain, aur unhe theek kaise karein.
 
 118
-00:07:39,368 --> 00:07:43,225
-Use lists, dictionaries, and
-sets, and know when to pick each one.
+00:06:42,798 --> 00:06:47,629
+Aur end mein interview corner,
+practice questions, quick quiz, aur ek extension
 
 119
-00:07:43,575 --> 00:07:49,018
-And build a chat conversation as a list
-of dictionaries, which is exactly the format
+00:06:47,629 --> 00:06:48,241
+challenge.
 
 120
-00:07:49,018 --> 00:07:51,415
-you will send to a model in Module 2.
+00:06:48,461 --> 00:06:51,395
+Answers module ki
+quiz dot md file mein hain.
 
 121
-00:07:52,715 --> 00:07:55,379
-A variable is a name
-that points at a value.
+00:06:52,695 --> 00:06:53,913
+Ab why Python?
 
 122
-00:07:55,599 --> 00:07:59,664
-Every value has a type, and the
-type decides what you can do with it.
+00:06:54,133 --> 00:06:58,938
+Ek bade office ke baare mein socho,
+jahan log alag alag bhaashaayein bolte hain,
 
 123
-00:08:00,014 --> 00:08:02,257
-A string, s t r, holds text.
+00:06:58,938 --> 00:07:03,683
+lekin meeting ek common bhaasha mein
+hoti hai, taaki sab saath kaam kar sakein.
 
 124
-00:08:02,477 --> 00:08:05,598
-Prompts, model names,
-and replies are all strings.
+00:07:03,903 --> 00:07:06,771
+AI ki duniya mein woh
+common bhaasha Python hai.
 
 125
-00:08:05,948 --> 00:08:08,954
-An int is a whole
-number, like a token count.
+00:07:08,071 --> 00:07:11,629
+Language model ko call
+karna, official SDKs se.
 
 126
-00:08:09,304 --> 00:08:13,591
-A float is a decimal number,
-like a temperature setting or a price.
+00:07:11,849 --> 00:07:12,925
+Module do.
 
 127
-00:08:13,941 --> 00:08:17,799
-A bool is either True or
-False, with a capital T and F.
+00:07:13,275 --> 00:07:17,183
+Model ke structured output
+ko validate karna, Pydantic se.
 
 128
-00:08:18,149 --> 00:08:20,034
-And None means no value at all.
+00:07:17,403 --> 00:07:18,559
+Module teen.
 
 129
-00:08:20,254 --> 00:08:24,492
-It's often used for something
-that is optional, or not loaded yet.
+00:07:18,909 --> 00:07:21,436
+Agent workflows banana, LangGraph se.
 
 130
-00:08:25,792 --> 00:08:27,536
-Here they are in a small script.
+00:07:21,656 --> 00:07:22,933
+Module gyaarah.
 
 131
-00:08:27,886 --> 00:08:30,987
-Each line creates a
-variable with the equals sign.
+00:07:23,283 --> 00:07:27,136
+Agent ko ek API ki
+tarah chalana, FastAPI se.
 
 132
-00:08:31,207 --> 00:08:33,309
-You do not declare the type yourself.
+00:07:27,356 --> 00:07:28,555
+Module solah.
 
 133
-00:08:33,529 --> 00:08:35,480
-Python works it out from the value.
+00:07:28,905 --> 00:07:32,214
+Aur sab kuch test karna,
+pytest se, har module mein.
 
 134
-00:08:35,830 --> 00:08:39,499
-The built-in type function
-tells you what kind of value you have.
+00:07:32,564 --> 00:07:37,806
+Inn sab ki neev wahi Python hai jo
+iss module mein seekhoge: data, functions,
 
 135
-00:08:39,719 --> 00:08:43,313
-That is very handy when
-something behaves unexpectedly.
+00:07:37,806 --> 00:07:40,937
+classes, files, type
+hints, aur HTTP requests.
 
 136
-00:08:43,663 --> 00:08:45,008
-This is an f-string.
+00:07:42,237 --> 00:07:44,276
+Toh Module ek mein kya seekhenge?
 
 137
-00:08:45,228 --> 00:08:50,862
-Put the letter f before the quotes, and
-anything inside curly braces is evaluated
+00:07:44,496 --> 00:07:46,113
+Agents software hi hain.
 
 138
-00:08:50,862 --> 00:08:52,740
-and inserted into the text.
+00:07:46,333 --> 00:07:51,456
+Isliye language model ko chhoone se
+pehle, aapko woh Python aani chahiye jo AI
 
 139
-00:08:52,960 --> 00:08:55,438
-You will build
-prompts this way all the time.
+00:07:51,456 --> 00:07:54,083
+engineering mein sach mein use hoti hai.
 
 140
-00:08:55,788 --> 00:08:58,893
-A name can be pointed
-at a new value at any time.
+00:07:54,433 --> 00:07:57,254
+Core data types:
+lists, dictionaries, aur sets.
 
 141
-00:08:59,113 --> 00:09:01,373
-And f-strings can format values too.
+00:07:57,474 --> 00:08:01,080
+Usi shape mein jaise AI
+applications roz use karti hain.
 
 142
-00:09:01,593 --> 00:09:04,183
-Colon comma adds thousands separators.
+00:08:01,430 --> 00:08:05,702
+Functions aur classes likhna, aur
+exceptions se errors handle karna.
 
 143
-00:09:05,483 --> 00:09:10,487
-Run it, and you see the three types,
-the formatted sentence, and the new limit of
+00:08:06,052 --> 00:08:11,596
+Code ko modules aur packages mein
+organise karna, files aur JSON padhna likhna, aur
 
 144
-00:09:10,487 --> 00:09:11,723
-two thousand tokens.
+00:08:11,596 --> 00:08:14,468
+settings environment
+variables mein rakhna.
 
 145
-00:09:12,073 --> 00:09:13,531
-Now a classic mistake.
+00:08:14,818 --> 00:08:20,112
+Aur type hints, HTTP requests, aur
+async await ki pehli practical jhalak.
 
 146
-00:09:13,751 --> 00:09:18,951
-Joining a string and a number with plus
-fails with a type error, because Python will
+00:08:21,412 --> 00:08:26,013
+Yeh sab iss module ke project
+mein judta hai: Python AI Toolkit.
 
 147
-00:09:18,951 --> 00:09:21,675
-not guess how to
-combine text with a number.
+00:08:26,233 --> 00:08:31,612
+Yeh ek command line tool hai jo
+language model API calls ka log padhta hai, har
 
 148
-00:09:22,025 --> 00:09:26,425
-The fix is an f-string, or
-converting the number with s t r first.
+00:08:31,612 --> 00:08:35,153
+record validate karta
+hai, aur ek report banata hai.
 
 149
-00:09:26,645 --> 00:09:28,932
-Read the last line of any error first.
+00:08:35,503 --> 00:08:36,996
+Yeh raha finished tool.
 
 150
-00:09:29,152 --> 00:09:31,004
-It names the problem precisely.
+00:08:37,216 --> 00:08:42,117
+Validate command har record check karta
+hai aur saaf batata hai ki kya galat hai.
 
 151
-00:09:32,304 --> 00:09:33,300
-Next, lists.
+00:08:42,337 --> 00:08:45,290
+Jaise negative token count, ya missing id.
 
 152
-00:09:33,520 --> 00:09:37,711
-A list keeps items in order, and
-you can change it after creating it.
+00:08:45,510 --> 00:08:47,845
+Aur galti milne par exit code ek.
 
 153
-00:09:38,061 --> 00:09:39,778
-Square brackets create a list.
+00:08:48,195 --> 00:08:53,889
+Aur report command ek clean log ka
+summary deta hai: kitni requests, success rate,
 
 154
-00:09:39,998 --> 00:09:41,808
-Here, three user messages.
+00:08:53,889 --> 00:08:56,389
+tokens, estimated cost, aur latency.
 
 155
-00:09:42,158 --> 00:09:45,371
-You read an item by its
-position, called its index.
+00:08:56,609 --> 00:09:00,494
+Module ke end tak iski har
+line aap khud likh chuke hoge.
 
 156
-00:09:45,591 --> 00:09:51,166
-Indexes start at zero, so zero is the
-first item, and minus one is the last.
+00:09:01,794 --> 00:09:03,758
+Iss module ke liye kya chahiye?
 
 157
-00:09:51,386 --> 00:09:54,373
-The len function gives
-you the number of items.
+00:09:03,978 --> 00:09:07,184
+Pehla, Module zero:
+terminal, Python, aur Git.
 
 158
-00:09:54,723 --> 00:09:56,230
-Append adds to the end.
+00:09:07,404 --> 00:09:09,133
+Ya yahi skills kahin aur se.
 
 159
-00:09:56,450 --> 00:09:57,983
-A slice takes a range.
+00:09:09,483 --> 00:09:11,901
+Python three point eleven ya usse naya.
 
 160
-00:09:58,203 --> 00:10:03,016
-One colon three means start at
-index one and stop before index three.
+00:09:12,121 --> 00:09:15,399
+Mai three point thirteen
+ke saath record kar rahi hoon.
 
 161
-00:10:03,366 --> 00:10:05,199
-A for loop visits every item.
+00:09:15,749 --> 00:09:16,944
+Ek code editor.
 
 162
-00:10:05,419 --> 00:10:10,580
-Wrapping the list in enumerate gives you
-a running number as well, starting wherever
+00:09:17,164 --> 00:09:22,038
+VS Code, official Python extension
+ke saath, ek achha free option hai.
 
 163
-00:10:10,580 --> 00:10:11,256
-you choose.
+00:09:22,388 --> 00:09:24,922
+Aur AI ka koi experience nahi chahiye.
 
 164
-00:10:12,556 --> 00:10:17,687
-The output shows the first and last
-message, the count of three, the slice, and then
+00:09:25,142 --> 00:09:27,691
+Har concept saath saath samjhaya jaayega.
 
 165
-00:10:17,687 --> 00:10:20,191
-the numbered list after Bye was appended.
+00:09:28,991 --> 00:09:30,638
+Ab ek quick setup check.
 
 166
-00:10:21,491 --> 00:10:25,213
-Dictionaries are the most
-important structure in this whole course.
+00:09:30,858 --> 00:09:35,211
+Yeh sab Module zero mein detail
+mein kiya tha, isliye yahan jaldi se.
 
 167
-00:10:25,433 --> 00:10:30,397
-A dictionary maps keys to values, so
-you look things up by name instead of by
+00:09:35,431 --> 00:09:37,750
+Ek khaali folder mein terminal kholo.
 
 168
-00:10:30,397 --> 00:10:30,977
-position.
+00:09:38,100 --> 00:09:39,881
+Pehle Python ka version.
 
 169
-00:10:31,327 --> 00:10:33,466
-This dictionary is a chat message.
+00:09:40,101 --> 00:09:42,644
+Windows par aksar sirf python, ya py.
 
 170
-00:10:33,686 --> 00:10:37,948
-It has a role, saying who is
-speaking, and the content, which is the text.
+00:09:42,864 --> 00:09:45,605
+Three point eleven se
+upar kuch bhi chalega.
 
 171
-00:10:38,168 --> 00:10:40,896
-This is the same shape real chat APIs use.
+00:09:45,955 --> 00:09:47,739
+Phir virtual environment.
 
 172
-00:10:41,246 --> 00:10:45,851
-Square brackets with a key read a
-value, and assigning to a new key adds it.
+00:09:47,959 --> 00:09:52,999
+Har project ka apna, taaki ek project
+ki libraries doosre ko kabhi na todein.
 
 173
-00:10:46,201 --> 00:10:48,615
-The get method is the safe way to read.
+00:09:53,349 --> 00:09:54,532
+Activate karo.
 
 174
-00:10:48,835 --> 00:10:52,544
-If the key is missing, you get
-the default instead of an error.
+00:09:54,752 --> 00:09:58,776
+Mac aur Linux par source dot
+venv slash bin slash activate.
 
 175
-00:10:52,894 --> 00:10:54,230
-Now combine the two.
+00:09:58,996 --> 00:10:02,653
+Windows par dot venv
+backslash Scripts backslash activate.
 
 176
-00:10:54,450 --> 00:10:59,771
-A list of message dictionaries is a
-whole conversation: a system instruction, the
+00:10:02,873 --> 00:10:07,316
+Ab python command aapke project
+folder ke andar wala Python hai.
 
 177
-00:10:59,771 --> 00:11:02,661
-user's question, and
-the assistant's answer.
+00:10:07,666 --> 00:10:11,654
+Environment active hai, toh pip
+packages isi mein install karega.
 
 178
-00:11:02,881 --> 00:11:07,569
-When you call a model in Module 2,
-this is precisely what you will send.
+00:10:11,874 --> 00:10:17,489
+Hum httpx install karte hain, HTTP
+library jo lesson paanch mein use hogi.
 
 179
-00:11:07,919 --> 00:11:13,486
-Looping over it, the f-string pads each
-role to nine characters, so the output lines
+00:10:17,709 --> 00:10:22,212
+Aur exact version pin karte hain,
+taaki aapka result mere jaisa hi aaye.
 
 180
-00:11:13,486 --> 00:11:14,149
-up neatly.
+00:10:22,562 --> 00:10:26,874
+Aur pip freeze exact versions ko
+requirements file mein likh deta hai.
 
 181
-00:11:15,449 --> 00:11:19,710
-Here is the result, including
-the aligned conversation at the end.
+00:10:27,094 --> 00:10:32,736
+Koi bhi pip install dash r
+requirements dot txt se wahi environment dobara bana
 
 182
-00:11:20,060 --> 00:11:23,624
-And here is the error you
-will meet most often: a key error.
+00:10:32,736 --> 00:10:33,450
+sakta hai.
 
 183
-00:11:23,844 --> 00:11:26,930
-The key content does not
-exist in this dictionary.
+00:10:34,750 --> 00:10:35,690
+Ek warning.
 
 184
-00:11:27,280 --> 00:11:30,971
-When a key might be missing,
-use get with a sensible default.
+00:10:35,910 --> 00:10:41,461
+Agar pip externally managed environment
+ki shikayat kare, ya packages gaayab lagein,
 
 185
-00:11:31,191 --> 00:11:35,046
-When it must exist, check it
-explicitly and give a clear message.
+00:10:41,461 --> 00:10:45,030
+toh aap lagbhag pakka
+virtual environment ke bahar ho.
 
 186
-00:11:35,266 --> 00:11:38,191
-You will do exactly that
-in this module's project.
+00:10:45,250 --> 00:10:50,476
+Dobara activate karo, aur which python,
+ya Windows par where python, se check karo
 
 187
-00:11:39,491 --> 00:11:41,212
-The third collection is the set.
+00:10:50,476 --> 00:10:53,663
+ki woh project folder ke
+andar point kar raha hai.
 
 188
-00:11:41,432 --> 00:11:46,175
-A set holds unique items, with no
-duplicates and no particular order.
+00:10:54,963 --> 00:10:59,361
+Yeh project ka layout hai,
+jismein hum module ke end tak pahunchenge.
 
 189
-00:11:46,525 --> 00:11:50,267
-Turning a list of tags into
-a set removes the duplicates.
+00:10:59,711 --> 00:11:03,249
+Upar: virtual
+environment, jo kabhi commit nahi hota.
 
 190
-00:11:50,487 --> 00:11:55,539
-Because sets have no order, we sort the
-set before printing it, so the output is
+00:11:03,469 --> 00:11:05,882
+Settings ka template, bina secrets ke.
 
 191
-00:11:55,539 --> 00:11:56,297
-predictable.
+00:11:06,102 --> 00:11:07,609
+Aur pinned requirements.
 
 192
-00:11:56,647 --> 00:12:02,049
-The in operator checks membership, and
-on a set it stays fast however large the set
+00:11:07,959 --> 00:11:11,511
+Configuration aur sample
+data apne alag folders mein.
 
 193
-00:12:02,049 --> 00:12:02,440
-grows.
+00:11:11,861 --> 00:11:15,282
+Asli code ek package mein
+hai, jiska naam toolkit hai.
 
 194
-00:12:02,790 --> 00:12:05,651
-Sets also support maths-like operations.
+00:11:15,502 --> 00:11:20,803
+Special file dunder main ki wajah se hum
+poore package ko python dash m toolkit se
 
 195
-00:12:05,871 --> 00:12:11,417
-Here, the tools an agent requested,
-minus the tools it is allowed to use, gives
+00:11:20,803 --> 00:11:21,902
+chala sakte hain.
 
 196
-00:12:11,417 --> 00:12:13,524
-exactly the forbidden request.
+00:11:22,252 --> 00:11:24,157
+Aur tests apne folder mein.
 
 197
-00:12:13,744 --> 00:12:15,401
-Keep this idea in mind.
+00:11:24,377 --> 00:11:29,888
+Code, data, configuration, aur tests
+ko alag rakhna ek aisi aadat hai jo har AI
 
 198
-00:12:15,621 --> 00:12:18,568
-Tool allowlists come
-back in the security module.
+00:11:29,888 --> 00:11:31,772
+project mein kaam aati hai.
 
 199
-00:12:19,868 --> 00:12:25,252
-Three unique tags, membership is True,
-and delete files is flagged as not allowed.
+00:11:33,072 --> 00:11:34,366
+Interview corner.
 
 200
-00:12:26,552 --> 00:12:29,634
-One last tool for this
-lesson: comprehensions.
+00:11:34,586 --> 00:11:38,205
+Pehla question: chatbot aur
+AI agent mein kya farak hai?
 
 201
-00:12:29,854 --> 00:12:34,678
-They build a new list or dictionary
-from an existing collection, in a single
+00:11:40,555 --> 00:11:44,113
+Answer: chatbot ek message
+ka text mein jawaab deta hai.
 
 202
-00:12:34,678 --> 00:12:35,566
-readable line.
+00:11:44,333 --> 00:11:49,670
+Agent ek goal ki taraf loop mein kaam
+karta hai: model agla step decide karta hai,
 
 203
-00:12:35,916 --> 00:12:41,117
-Here are three request records, a list
-of dictionaries, just like a usage log.
+00:11:49,670 --> 00:11:53,705
+program tool chalata hai, aur
+result wapas model ko jaata hai.
 
 204
-00:12:41,467 --> 00:12:44,553
-This list comprehension
-reads almost like English.
+00:11:53,925 --> 00:11:57,035
+Trap: yeh kehna ki
+agent ek smarter model hai.
 
 205
-00:12:44,773 --> 00:12:49,367
-Take r's id, for each r in
-records, if r's status is ok.
+00:11:57,255 --> 00:11:58,913
+Model wahi ho sakta hai.
 
 206
-00:12:49,717 --> 00:12:55,933
-Curly braces with a key, colon, value
-build a dictionary instead, here mapping each
+00:11:59,133 --> 00:12:01,603
+Loop aur tools usse agent banate hain.
 
 207
-00:12:55,933 --> 00:12:57,206
-id to its tokens.
+00:12:01,953 --> 00:12:05,581
+Doosra question: kya
+language model tools khud chalata hai?
 
 208
-00:12:57,556 --> 00:13:02,350
-And without any brackets, the same
-pattern can feed straight into a function like
+00:12:07,931 --> 00:12:09,026
+Answer: nahi.
 
 209
-00:13:02,350 --> 00:13:02,586
-sum.
+00:12:09,246 --> 00:12:11,533
+Model sirf ek decision lautaata hai.
 
 210
-00:13:03,886 --> 00:13:09,623
-Two successful ids, a dictionary of
-tokens, and eight hundred and fifty tokens in
+00:12:11,753 --> 00:12:16,721
+Aapka code usse check karta hai, tool
+chalata hai, aur result wapas bhejta hai.
 
 211
-00:13:09,623 --> 00:13:10,048
-total.
+00:12:16,941 --> 00:12:20,685
+Trap: model ki request par
+aankh band karke bharosa karna.
 
 212
-00:13:11,348 --> 00:13:16,955
-Use a list when order matters, like the
-messages in a conversation, or the steps of
+00:12:20,905 --> 00:12:23,565
+Permissions aur checks
+aapke code mein hote hain.
 
 213
-00:13:16,955 --> 00:13:17,427
-a plan.
+00:12:23,915 --> 00:12:27,634
+Teesra question: har agent
+loop mein step limit kyun chahiye?
 
 214
-00:13:17,777 --> 00:13:23,530
-Use a dictionary when you look things up
-by name, like a message, a configuration,
+00:12:29,984 --> 00:12:34,494
+Answer: model khud ko repeat kar
+sakta hai, ya kabhi finish bole hi nahi.
 
 215
-00:13:23,530 --> 00:13:25,564
-or a record from a JSON file.
+00:12:34,714 --> 00:12:40,057
+Max steps ki limit, aur aksar time ya
+cost ki limit bhi, aise bhaagte loops aur
 
 216
-00:13:25,914 --> 00:13:31,196
-Use a set for uniqueness and fast
-membership checks, like allowed tools or IDs
+00:12:40,057 --> 00:12:42,154
+bhaagte API bills ko rokti hai.
 
 217
-00:13:31,196 --> 00:13:32,889
-you've already processed.
+00:12:42,374 --> 00:12:45,613
+Trap: model calls ke
+chaaron taraf while True likh dena.
 
 218
-00:13:33,239 --> 00:13:38,325
-And a tuple, written with parentheses,
-is a fixed group of values that will not
+00:12:46,913 --> 00:12:48,022
+Practice time.
 
 219
-00:13:38,325 --> 00:13:40,643
-change, such as a tag and its count.
+00:12:48,242 --> 00:12:50,486
+Video pause karo aur khud try karo.
 
 220
-00:13:41,943 --> 00:13:42,751
-Quick check.
+00:12:50,836 --> 00:12:54,423
+Pehla: agent loop ke chaar
+steps, sahi order mein, bolo.
 
 221
-00:13:42,971 --> 00:13:44,404
-What does this code print?
+00:12:54,773 --> 00:12:58,589
+Doosra: agent loop dot py
+mein max steps ko do karke chalao.
 
 222
-00:13:44,624 --> 00:13:46,682
-Pause the video if you need a moment.
+00:12:58,809 --> 00:13:00,881
+Output mein kya aata hai, aur kyun?
 
 223
-00:13:52,382 --> 00:13:53,852
-The answer is unknown.
+00:13:01,231 --> 00:13:04,413
+Teesra: roz ka koi kaam
+lo, jaise cab book karna.
 
 224
-00:13:54,072 --> 00:13:57,322
-The get method returns the
-default when the key is missing.
+00:13:04,633 --> 00:13:08,216
+Agent ke liye goal,
+decisions, aur tools ki list banao.
 
 225
-00:13:57,542 --> 00:14:00,488
-Only square-bracket
-access would raise a key error.
+00:13:08,566 --> 00:13:12,975
+Aur scenario: ek agent baar baar
+wahi search tool call karta ja raha hai.
 
 226
-00:14:01,788 --> 00:14:07,042
-Variables are names pointing at values,
-and the type function tells you what a value
+00:13:13,195 --> 00:13:14,512
+Do fixes batao.
 
 227
-00:14:07,042 --> 00:14:07,229
-is.
+00:13:21,812 --> 00:13:22,642
+Quick check.
 
 228
-00:14:07,579 --> 00:14:12,202
-F-strings are the clean way to build
-text, and they can format numbers too.
+00:13:22,862 --> 00:13:27,374
+AI agent mein tool, jaise
+calculator, asal mein kaun chalata hai?
 
 229
-00:14:12,552 --> 00:14:17,173
-Lists keep order, dictionaries look
-up by key, and sets keep things unique.
+00:13:33,074 --> 00:13:34,769
+B, aapka Python code.
 
 230
-00:14:17,523 --> 00:14:22,379
-And a conversation is a list of
-dictionaries, each with a role and some content.
+00:13:34,989 --> 00:13:36,951
+Model sirf decide karta hai.
 
 231
-00:14:22,729 --> 00:14:28,771
-Next lesson: functions, classes, and
-exceptions, so you can organise this data into
+00:13:38,251 --> 00:13:39,538
+Doosra question.
 
 232
-00:14:28,771 --> 00:14:30,518
-reusable, reliable code.
+00:13:39,758 --> 00:13:44,369
+Kaunsi command aapke venv ke
+exact package versions record karti hai?
 
 233
-00:14:31,825 --> 00:14:34,824
-In the last lesson you
-learned how to hold data.
+00:13:50,069 --> 00:13:52,939
+B, pip freeze, requirements dot txt mein.
 
 234
-00:14:35,044 --> 00:14:38,569
-Now you will learn how to
-organise the code that works on it.
+00:13:53,159 --> 00:13:58,714
+Aur pip install dash r ulta kaam karta
+hai: file se environment dobara banata hai.
 
 235
-00:14:38,789 --> 00:14:44,407
-Functions give logic a name, classes
-bundle data with behaviour, and exceptions let
+00:14:00,014 --> 00:14:00,740
+Recap.
 
 236
-00:14:44,407 --> 00:14:47,453
-your program fail
-clearly and recover safely.
+00:14:00,960 --> 00:14:05,996
+Agent ek goal ki taraf kaam karta
+hai: decide, act, observe, aur repeat.
 
 237
-00:14:47,673 --> 00:14:52,675
-Agents call tools that fail all the
-time, so this last part matters a lot.
+00:14:06,346 --> 00:14:08,309
+Model sirf decide karta hai.
 
 238
-00:14:53,975 --> 00:14:58,819
-You will write functions with
-parameters, default values, and return values.
+00:14:08,529 --> 00:14:10,734
+Kaam aapka Python code karta hai.
 
 239
-00:14:59,169 --> 00:15:02,849
-Avoid a classic bug that
-can leak data between users.
+00:14:11,084 --> 00:14:13,479
+Har loop mein ek safety limit zaroori hai.
 
 240
-00:15:03,199 --> 00:15:06,528
-Create your own classes,
-and the shorter dataclasses.
+00:14:13,829 --> 00:14:15,661
+Bees modules, saat parts.
 
 241
-00:15:06,878 --> 00:15:11,810
-And handle, raise, and define your own
-exceptions, and read a traceback calmly.
+00:14:15,881 --> 00:14:18,134
+Aur Python AI ki common bhaasha hai.
 
 242
-00:15:13,110 --> 00:15:16,431
-A function is a named,
-reusable block of code.
+00:14:18,484 --> 00:14:22,872
+Har project ka apna virtual
+environment, pinned versions ke saath.
 
 243
-00:15:16,651 --> 00:15:19,912
-You define it once, and
-call it as often as you like.
+00:14:23,222 --> 00:14:28,681
+Agle lesson mein hum asli Python
+likhenge: woh data types jinse har AI application
 
 244
-00:15:20,262 --> 00:15:22,185
-The def keyword starts a function.
+00:14:28,681 --> 00:14:29,612
+bani hoti hai.
 
 245
-00:15:22,405 --> 00:15:25,870
-Inside the parentheses are
-its parameters, the inputs.
+00:14:30,912 --> 00:14:32,449
+Lesson ek complete.
 
 246
-00:15:26,090 --> 00:15:30,160
-The text in triple quotes is a
-docstring, describing what it does.
+00:14:32,669 --> 00:14:36,320
+Aapne agent loop samjha,
+aur apna setup check kar liya.
 
 247
-00:15:30,380 --> 00:15:33,418
-And return sends the
-result back to whoever called it.
+00:14:36,540 --> 00:14:38,387
+Milte hain agle lesson mein.
 
 248
-00:15:33,768 --> 00:15:38,557
-You can pass arguments by
-position, or by name, as keyword arguments.
+00:14:39,697 --> 00:14:45,306
+Har AI application, ek simple chatbot se
+lekar agents ki poori team tak, wahi kuch
 
 249
-00:15:38,777 --> 00:15:42,394
-Keywords make calls with
-several numbers much easier to read.
+00:14:45,306 --> 00:14:47,769
+tarah ka data idhar udhar karti hai.
 
 250
-00:15:42,614 --> 00:15:44,769
-Notice the underscores in two million.
+00:14:47,989 --> 00:14:51,839
+Text, numbers, messages ki
+lists, aur settings ki dictionaries.
 
 251
-00:15:44,989 --> 00:15:46,287
-Python ignores them.
+00:14:52,059 --> 00:14:57,344
+Iss lesson mein aap yeh building blocks
+theek se seekhoge, bilkul usi shape mein jo
 
 252
-00:15:46,507 --> 00:15:48,319
-They are just there for readability.
+00:14:57,344 --> 00:14:59,573
+language model APIs use karti hain.
 
 253
-00:15:48,669 --> 00:15:51,415
-This second function has a default value.
+00:15:00,873 --> 00:15:06,186
+Iss lesson ke baad aap variables bana
+paoge, aur Python ke basic types pehchaan
 
 254
-00:15:51,635 --> 00:15:55,045
-If the caller does not
-pass max words, it uses eight.
+00:15:06,186 --> 00:15:06,589
+paoge.
 
 255
-00:15:55,265 --> 00:15:58,294
-It returns early when the
-text is already short enough.
+00:15:06,939 --> 00:15:09,044
+f strings se saaf text banaoge.
 
 256
-00:15:58,514 --> 00:16:01,957
-Otherwise it keeps the
-first words and adds an ellipsis.
+00:15:09,394 --> 00:15:14,647
+Lists, dictionaries, aur sets use
+karoge, aur jaanoge ki kab kaunsa chunna hai.
 
 257
-00:16:02,307 --> 00:16:07,805
-Here we call it three times: once with a
-long sentence, once with a short one, and
+00:15:14,997 --> 00:15:19,156
+Aur ek chat conversation ko
+dictionaries ki list ki tarah banaoge.
 
 258
-00:16:07,805 --> 00:16:09,682
-once overriding the default.
+00:15:19,376 --> 00:15:22,697
+Yahi format Module do
+mein model ko bheja jaayega.
 
 259
-00:16:10,982 --> 00:16:16,379
-The costs come back as plain numbers,
-the long sentence is shortened, and the last
+00:15:23,997 --> 00:15:25,712
+Pehle what: variable kya hai?
 
 260
-00:16:16,379 --> 00:16:18,091
-call keeps only two words.
+00:15:25,932 --> 00:15:27,575
+Rasoi ke dabbe socho.
 
 261
-00:16:19,391 --> 00:16:24,639
-Give each function one job, and name
-it with a verb, like estimate cost or load
+00:15:27,795 --> 00:15:31,332
+Har dabbe par label hota
+hai: cheeni, namak, chai patti.
 
 262
-00:16:24,639 --> 00:16:25,170
-records.
+00:15:31,552 --> 00:15:33,445
+Label variable ka naam hai.
 
 263
-00:16:25,520 --> 00:16:27,916
-Return results instead of printing them.
+00:15:33,665 --> 00:15:35,420
+Andar jo hai, woh value hai.
 
 264
-00:16:28,136 --> 00:16:32,620
-Then the caller decides what to do,
-and you can test the function easily.
+00:15:35,640 --> 00:15:38,269
+Aur andar kis tarah ki
+cheez hai, woh type hai.
 
 265
-00:16:32,970 --> 00:16:38,384
-Use keyword arguments whenever a call
-would otherwise be a mystery list of numbers.
+00:15:38,489 --> 00:15:41,936
+Aur label ko aap kabhi bhi
+naye dabbe par chipka sakte ho.
 
 266
-00:16:38,734 --> 00:16:42,185
-And never use a mutable
-default, like an empty list.
+00:15:43,236 --> 00:15:48,333
+Python mein har value ka ek type hota
+hai, aur type decide karta hai ki aap uske
 
 267
-00:16:42,405 --> 00:16:43,628
-Let me show you why.
+00:15:48,333 --> 00:15:49,798
+saath kya kar sakte ho.
 
 268
-00:16:44,928 --> 00:16:46,820
-This function stores chat history.
+00:15:50,148 --> 00:15:52,599
+String, yaani s t r, text rakhta hai.
 
 269
-00:16:47,040 --> 00:16:52,432
-The default empty list looks harmless,
-but Python creates it only once, when the
+00:15:52,819 --> 00:15:55,934
+Prompts, model ke naam,
+aur replies, sab strings hain.
 
 270
-00:16:52,432 --> 00:16:53,781
-function is defined.
+00:15:56,284 --> 00:15:59,088
+int ek poora number
+hai, jaise token count.
 
 271
-00:16:54,001 --> 00:16:57,446
-Every call that uses the
-default shares that same list.
+00:15:59,438 --> 00:16:03,275
+float decimal number hai,
+jaise temperature setting, ya price.
 
 272
-00:16:57,796 --> 00:17:03,477
-So Alice sends a message, then Bob
-sends one, and Bob's history contains Alice's
+00:16:03,625 --> 00:16:05,909
+bool ya toh True hota hai, ya False.
 
 273
-00:17:03,477 --> 00:17:04,045
-message.
+00:16:06,129 --> 00:16:08,450
+Capital T aur capital F ke saath.
 
 274
-00:17:04,265 --> 00:17:10,229
-In an AI app, that is a privacy bug: one
-user's conversation leaking into another's.
+00:16:08,800 --> 00:16:11,400
+Aur None ka matlab: abhi koi value nahi.
 
 275
-00:17:10,579 --> 00:17:13,051
-The fix is the standard Python pattern.
+00:16:11,620 --> 00:16:14,870
+Optional cheezon ke
+liye, ya jo abhi load nahi hui.
 
 276
-00:17:13,271 --> 00:17:17,013
-Default to None, and create a
-fresh list inside the function.
+00:16:16,170 --> 00:16:17,952
+Ab how: ek chhoti script.
 
 277
-00:17:18,313 --> 00:17:19,564
-The output proves it.
+00:16:18,172 --> 00:16:20,968
+Left mein code, right
+mein uska real output.
 
 278
-00:17:19,784 --> 00:17:22,943
-With the buggy version,
-Bob sees Alice's message.
+00:16:21,318 --> 00:16:24,608
+Har line equals sign
+se ek variable banati hai.
 
 279
-00:17:23,163 --> 00:17:25,977
-With the fixed
-version, each call starts clean.
+00:16:24,828 --> 00:16:27,206
+Type aapko khud nahi batana padta.
 
 280
-00:17:27,277 --> 00:17:28,365
-Now, classes.
+00:16:27,426 --> 00:16:29,820
+Python value dekh kar samajh leta hai.
 
 281
-00:17:28,585 --> 00:17:30,581
-Functions organise behaviour.
+00:16:30,170 --> 00:16:33,761
+Built in type function
+batata hai ki value kis type ki hai.
 
 282
-00:17:30,801 --> 00:17:35,165
-Classes organise data together
-with the behaviour that belongs to it.
+00:16:33,981 --> 00:16:37,499
+Jab kuch ajeeb behave kare,
+tab yeh bahut kaam aata hai.
 
 283
-00:17:35,515 --> 00:17:37,021
-A class is a blueprint.
+00:16:37,719 --> 00:16:40,065
+Output mein: str, int, aur float.
 
 284
-00:17:37,241 --> 00:17:41,578
-It describes what every object of
-that kind has, and what it can do.
+00:16:40,415 --> 00:16:41,681
+Yeh f string hai.
 
 285
-00:17:41,928 --> 00:17:47,322
-An object, also called an instance, is
-one real thing built from that blueprint.
+00:16:41,901 --> 00:16:47,223
+Quotes se pehle f lagao, aur curly
+braces ke andar jo bhi hai, uski value text mein
 
 286
-00:17:47,542 --> 00:17:49,671
-You can create as many as you like.
+00:16:47,223 --> 00:16:48,057
+aa jaati hai.
 
 287
-00:17:50,021 --> 00:17:52,986
-Attributes are the
-data stored on each object.
+00:16:48,277 --> 00:16:50,628
+Prompts aap hamesha aise hi banaoge.
 
 288
-00:17:53,336 --> 00:17:58,421
-And methods are functions that belong to
-the class and work on that object's data.
+00:16:50,978 --> 00:16:53,999
+Variable ko kabhi bhi
+nayi value di ja sakti hai.
 
 289
-00:17:59,721 --> 00:18:01,681
-Here is a Conversation class.
+00:16:54,219 --> 00:16:56,495
+Yahan max tokens chaar guna ho gaya.
 
 290
-00:18:01,901 --> 00:18:06,470
-The special dunder init method
-runs whenever a new object is created.
+00:16:56,715 --> 00:17:02,111
+Aur braces ke andar colon comma lagane
+se hazaar ke baad comma aata hai: two comma
 
 291
-00:18:06,690 --> 00:18:12,556
-Its first parameter, self, is the object
-being built, so self dot messages stores a
+00:17:02,111 --> 00:17:03,098
+zero zero zero.
 
 292
-00:18:12,556 --> 00:18:14,746
-list on that particular object.
+00:17:04,398 --> 00:17:06,014
+Ab ek classic galti.
 
 293
-00:18:15,096 --> 00:18:16,705
-Add and last are methods.
+00:17:06,234 --> 00:17:08,449
+String aur number ko plus se jodna.
 
 294
-00:18:16,925 --> 00:18:22,096
-They also take self first, so they can
-read and change this object's messages.
+00:17:08,669 --> 00:17:13,799
+Python TypeError deta hai, kyunki woh
+guess nahi karta ki text aur number ko kaise
 
 295
-00:18:22,446 --> 00:18:26,683
-Methods with double underscores
-plug your class into Python itself.
+00:17:13,799 --> 00:17:14,549
+milaana hai.
 
 296
-00:18:26,903 --> 00:18:31,751
-Defining dunder len makes the
-built-in len function work on a conversation.
+00:17:14,899 --> 00:17:19,494
+Fix: f string use karo, ya
+number ko pehle s t r se text banao.
 
 297
-00:18:32,101 --> 00:18:34,889
-Creating an object
-looks like calling a function.
+00:17:19,714 --> 00:17:23,244
+Aur kisi bhi error ki
+aakhri line sabse pehle padho.
 
 298
-00:18:35,109 --> 00:18:38,928
-We add two messages, then print
-the length and the last message.
+00:17:23,464 --> 00:17:25,563
+Wahi problem ka naam batati hai.
 
 299
-00:18:39,278 --> 00:18:43,754
-A second conversation is a
-completely separate object, with its own list.
+00:17:26,863 --> 00:17:27,724
+Ab lists.
 
 300
-00:18:45,054 --> 00:18:50,057
-Three messages in the first
-conversation, and just the system message in the other.
+00:17:27,944 --> 00:17:30,360
+Railway ticket counter ki line socho.
 
 301
-00:18:51,357 --> 00:18:58,123
-Many classes in AI code mostly hold
-data: a model configuration, a usage record, a
+00:17:30,580 --> 00:17:33,839
+Logon ka ek order hota
+hai: pehla, doosra, teesra.
 
 302
-00:18:58,123 --> 00:18:59,113
-tool result.
+00:17:34,059 --> 00:17:36,587
+Naya aadmi line ke end mein judta hai.
 
 303
-00:18:59,333 --> 00:19:04,215
-For those, Python's dataclass
-decorator writes the boring parts for you.
+00:17:36,807 --> 00:17:40,726
+Aur aap pehle ya aakhri
+insaan ki taraf ishara kar sakte ho.
 
 304
-00:19:04,565 --> 00:19:08,353
-You just list the fields, with
-their types and optional defaults.
+00:17:40,946 --> 00:17:42,099
+Yahi list hai.
 
 305
-00:19:08,573 --> 00:19:13,635
-The decorator generates the init
-method, a readable print form, and equality
+00:17:43,399 --> 00:17:45,333
+Square brackets se list banti hai.
 
 306
-00:19:13,635 --> 00:19:14,368
-comparison.
+00:17:45,553 --> 00:17:47,477
+Yahan teen user messages.
 
 307
-00:19:14,718 --> 00:19:16,243
-Notice the stop field.
+00:17:47,827 --> 00:17:51,722
+Item ko uski position se
+padhte hain, jise index kehte hain.
 
 308
-00:19:16,463 --> 00:19:18,679
-Remember the mutable default bug?
+00:17:51,942 --> 00:17:57,600
+Index zero se shuru hota hai, toh zero
+pehla item hai, aur minus ek aakhri. len
 
 309
-00:19:18,899 --> 00:19:24,116
-Dataclasses protect you from it: for a
-list default, you must use field with a
+00:17:57,600 --> 00:18:00,393
+function items ki ginti deta hai: teen.
 
 310
-00:19:24,116 --> 00:19:25,186
-default factory.
+00:18:00,743 --> 00:18:02,441
+append end mein jodta hai.
 
 311
-00:19:25,536 --> 00:19:30,940
-Creating objects, printing one, and
-comparing two with the same values, which counts
+00:18:02,661 --> 00:18:04,583
+Aur slice ek range leta hai.
 
 312
-00:19:30,940 --> 00:19:31,519
-as equal.
+00:18:04,803 --> 00:18:10,072
+Ek colon teen ka matlab: index ek se
+shuru, aur index teen se pehle ruk jao.
 
 313
-00:19:32,819 --> 00:19:37,659
-The generated print form shows every
-field, and the equality check is True.
+00:18:10,422 --> 00:18:15,667
+for loop har item par jaata hai.
+enumerate saath mein ek ginti bhi deta hai, jahan
 
 314
-00:19:37,879 --> 00:19:41,224
-In the project, our
-usage record is a dataclass.
+00:18:15,667 --> 00:18:17,074
+se aap chaho wahan se.
 
 315
-00:19:42,524 --> 00:19:43,624
-Now, exceptions.
+00:18:17,294 --> 00:18:19,281
+Dekho, Bye bhi end mein aa gaya.
 
 316
-00:19:43,844 --> 00:19:47,118
-When something goes wrong,
-Python raises an exception.
+00:18:20,581 --> 00:18:21,814
+Ab dictionaries.
 
 317
-00:19:47,338 --> 00:19:49,829
-If nothing handles it, the program stops.
+00:18:22,034 --> 00:18:25,263
+Iss poore course mein yeh
+sabse important structure hai.
 
 318
-00:19:50,179 --> 00:19:52,915
-Put code that might
-fail inside a try block.
+00:18:25,483 --> 00:18:27,685
+Apne phone ki contact list socho.
 
 319
-00:19:53,135 --> 00:19:56,785
-Converting text to a number
-fails if the text isn't a number.
+00:18:27,905 --> 00:18:32,071
+Aap dost ko position se nahi
+dhoondhte, ki saintaalisvaan contact.
 
 320
-00:19:57,135 --> 00:20:00,734
-The except block runs only
-if that specific error happens.
+00:18:32,291 --> 00:18:35,383
+Naam se search karte ho,
+aur number mil jaata hai.
 
 321
-00:20:00,954 --> 00:20:05,084
-Here we handle a value error by
-reporting it and returning zero.
+00:18:35,603 --> 00:18:37,540
+Naam key hai, number value hai.
 
 322
-00:20:05,434 --> 00:20:08,760
-The else block runs only
-when the try block succeeded.
+00:18:38,840 --> 00:18:43,703
+Yeh dictionary ek chat message hai.
+role batata hai ki kaun bol raha hai, aur
 
 323
-00:20:09,110 --> 00:20:12,830
-And finally always runs,
-whether things went well or not.
+00:18:43,703 --> 00:18:44,776
+content text hai.
 
 324
-00:20:13,050 --> 00:20:16,785
-That makes it the right place for
-cleanup, like closing a connection.
+00:18:44,996 --> 00:18:48,214
+Real chat APIs bilkul
+yahi shape use karti hain.
 
 325
-00:20:18,085 --> 00:20:19,191
-Look at the order.
+00:18:48,434 --> 00:18:51,720
+Square brackets mein key
+likh kar value padhte hain: user.
 
 326
-00:20:19,411 --> 00:20:24,781
-For one twenty, the finally message
-prints before the value, because finally runs on
+00:18:52,070 --> 00:18:55,351
+Nayi key par value assign
+karne se woh jud jaati hai.
 
 327
-00:20:24,781 --> 00:20:26,571
-the way out of the function.
+00:18:55,571 --> 00:18:58,141
+Aur get method padhne ka safe tareeka hai.
 
 328
-00:20:26,791 --> 00:20:31,581
-For a b c, the error is handled,
-finally still runs, and we get zero.
+00:18:58,361 --> 00:19:01,800
+Key na mile, toh error ki
+jagah default milta hai: unknown.
 
 329
-00:20:32,881 --> 00:20:36,750
-You can define your own
-exceptions by inheriting from Exception.
+00:19:02,150 --> 00:19:03,531
+Ab dono ko milao.
 
 330
-00:20:36,970 --> 00:20:42,135
-A base class for your project, with more
-specific ones below it, is a great pattern.
+00:19:03,751 --> 00:19:09,397
+Message dictionaries ki ek list, ek poori
+conversation hai: system instruction, user
 
 331
-00:20:42,485 --> 00:20:47,213
-The raise statement stops the function
-immediately and hands the problem to the
+00:19:09,397 --> 00:19:11,750
+ka sawaal, aur assistant ka jawaab.
 
 332
-00:20:47,213 --> 00:20:47,632
-caller.
+00:19:11,970 --> 00:19:14,916
+Module do mein model
+ko bilkul yahi bhejoge.
 
 333
-00:20:47,852 --> 00:20:51,840
-A negative cost is a
-programming error, so that's a value error.
+00:19:15,266 --> 00:19:20,508
+Loop chalane par, f string har role ko
+nau characters tak right align karta hai, toh
 
 334
-00:20:52,060 --> 00:20:57,126
-Going over budget is a business rule,
-so it gets our own budget exceeded error.
+00:19:20,508 --> 00:19:22,630
+output ekdum line mein dikhta hai.
 
 335
-00:20:57,476 --> 00:21:01,372
-The caller catches only
-budget exceeded, and stops charging.
+00:19:23,930 --> 00:19:27,055
+Aur yeh error aap sabse
+zyaada dekhoge: KeyError.
 
 336
-00:21:01,592 --> 00:21:07,121
-Agents need exactly this kind of guard,
-a hard spending limit, which we'll build
+00:19:27,275 --> 00:19:29,639
+Iss dictionary mein
+content key hai hi nahi.
 
 337
-00:21:07,121 --> 00:21:08,572
-properly in Module 7.
+00:19:29,989 --> 00:19:34,769
+Jab key missing ho sakti hai, toh get
+ke saath ek sensible default use karo.
 
 338
-00:21:09,872 --> 00:21:14,762
-The first two charges succeed, and
-the third is refused with a clear message.
+00:19:34,989 --> 00:19:38,785
+Jab key honi hi chahiye, toh
+khud check karo aur saaf message do.
 
 339
-00:21:16,062 --> 00:21:18,391
-On the left is a pattern you must avoid.
+00:19:39,005 --> 00:19:40,964
+Project mein hum yahi karenge.
 
 340
-00:21:18,611 --> 00:21:23,453
-A bare except with pass hides every
-error, including bugs in your own code.
+00:19:42,264 --> 00:19:43,070
+Ab sets.
 
 341
-00:21:23,673 --> 00:21:27,980
-The program carries on with no
-result, and you have no idea why.
+00:19:43,290 --> 00:19:45,123
+Shaadi ki guest list socho.
 
 342
-00:21:28,330 --> 00:21:32,539
-On the right, you catch only the
-error you expect and know how to handle.
+00:19:45,343 --> 00:19:50,058
+Kitne bhi rishtedaar ek hi naam bolein,
+list mein woh naam ek hi baar likha jaata
 
 343
-00:21:32,759 --> 00:21:36,965
-Anything unexpected still
-surfaces, so you can see it and fix it.
+00:19:50,058 --> 00:19:50,290
+hai.
 
 344
-00:21:38,265 --> 00:21:41,779
-When an exception isn't
-handled, Python prints a traceback.
+00:19:50,510 --> 00:19:54,280
+Aur gate par sirf ek sawaal
+hota hai: kya yeh naam list mein hai?
 
 345
-00:21:41,999 --> 00:21:44,532
-It looks scary, but
-read it from the bottom up.
+00:19:54,500 --> 00:19:56,226
+Aur yeh check turant hota hai.
 
 346
-00:21:44,752 --> 00:21:48,423
-The last line is the error:
-a key error for the key model.
+00:19:57,526 --> 00:20:01,208
+Tags ki list ko set banane
+se duplicates hat jaate hain.
 
 347
-00:21:48,773 --> 00:21:53,910
-The lines above it show the path the
-program took, with the most recent call last.
+00:20:01,428 --> 00:20:06,901
+Set ka koi order nahi hota, isliye print
+karne se pehle sorted lagaate hain, taaki
 
 348
-00:21:54,130 --> 00:21:59,734
-Here, the failing line is config, model,
-inside get model, called from start agent.
+00:20:06,901 --> 00:20:08,837
+output hamesha ek jaisa aaye.
 
 349
-00:21:59,954 --> 00:22:05,185
-So the fix is to make sure the
-configuration contains a model, or to read it with
+00:20:09,057 --> 00:20:10,342
+Teen unique tags.
 
 350
-00:22:05,185 --> 00:22:06,348
-get and a default.
+00:20:10,692 --> 00:20:14,211
+in operator check karta hai
+ki item set mein hai ya nahi.
 
 351
-00:22:07,648 --> 00:22:08,456
-Quick check.
+00:20:14,431 --> 00:20:17,470
+Set kitna bhi bada ho,
+yeh check fast rehta hai.
 
 352
-00:22:08,676 --> 00:22:13,808
-Why is a function with history
-equals an empty list as a default dangerous?
+00:20:17,690 --> 00:20:18,714
+Answer: True.
 
 353
-00:22:19,508 --> 00:22:24,372
-Because the default list is created
-once and shared by every call that uses it.
+00:20:19,064 --> 00:20:21,861
+Sets ganit jaise
+operations bhi karte hain.
 
 354
-00:22:24,592 --> 00:22:28,302
-Default to None and create a
-fresh list inside the function.
+00:20:22,081 --> 00:20:27,490
+Agent ne jo tools maange, unme se
+allowed tools ghatao, toh bachta hai forbidden
 
 355
-00:22:29,602 --> 00:22:33,849
-Functions do one job, have a
-clear name, and return their result.
+00:20:27,490 --> 00:20:28,978
+request: delete files.
 
 356
-00:22:34,199 --> 00:22:36,267
-Default mutable arguments to None.
+00:20:29,198 --> 00:20:30,804
+Yeh idea yaad rakhna.
 
 357
-00:22:36,617 --> 00:22:41,998
-Classes bundle data and behaviour, and
-dataclasses make data-heavy classes short.
+00:20:31,024 --> 00:20:34,233
+Tool allowlists security
+module mein wapas aayengi.
 
 358
-00:22:42,348 --> 00:22:47,240
-Catch specific exceptions, raise
-meaningful ones, and read tracebacks from the
+00:20:35,533 --> 00:20:38,380
+Iss lesson ka aakhri tool: comprehensions.
 
 359
-00:22:47,240 --> 00:22:47,867
-bottom up.
+00:20:38,600 --> 00:20:43,543
+Yeh ek collection se nayi list ya
+dictionary, ek hi readable line mein banate hain.
 
 360
-00:22:48,217 --> 00:22:54,020
-Next, you will split code across files
-and packages, and work with files, JSON, and
+00:20:43,893 --> 00:20:45,736
+Yeh teen request records hain.
 
 361
-00:22:54,020 --> 00:22:55,559
-environment variables.
+00:20:45,956 --> 00:20:49,331
+Dictionaries ki list,
+bilkul ek usage log jaisi.
 
 362
-00:22:56,870 --> 00:22:59,918
-Real AI projects are never a single file.
+00:20:49,551 --> 00:20:51,634
+Project mein yahi data aayega.
 
 363
-00:23:00,138 --> 00:23:06,159
-They read prompts and documents from
-disk, exchange JSON with APIs, and need secret
+00:20:51,984 --> 00:20:57,809
+Yeh list comprehension lagbhag English
+jaisa padhta hai: r ka id lo, har r ke liye
 
 364
-00:23:06,159 --> 00:23:09,422
-API keys that must
-never end up in your code.
+00:20:57,809 --> 00:21:00,508
+records mein, agar r ka status ok hai.
 
 365
-00:23:09,642 --> 00:23:11,441
-This lesson covers all of that.
+00:21:00,728 --> 00:21:02,166
+Do ids milte hain.
 
 366
-00:23:12,741 --> 00:23:17,267
-You will split code into modules
-and packages, and import between them.
+00:21:02,516 --> 00:21:06,427
+Curly braces mein key, colon,
+value likho, toh dictionary banti hai.
 
 367
-00:23:17,617 --> 00:23:20,115
-Read and write files safely with pathlib.
+00:21:06,647 --> 00:21:08,809
+Yahan har id se uske tokens.
 
 368
-00:23:20,465 --> 00:23:25,183
-Convert between JSON and Python
-objects, and handle invalid JSON.
+00:21:09,159 --> 00:21:13,923
+Aur bina brackets ke, wahi pattern
+seedha sum jaise function mein ja sakta hai.
 
 369
-00:23:25,533 --> 00:23:29,659
-And keep configuration and
-secrets in environment variables.
+00:21:14,143 --> 00:21:16,330
+Total eight hundred fifty tokens.
 
 370
-00:23:30,959 --> 00:23:33,365
-First, how Python code is organised.
+00:21:17,630 --> 00:21:19,412
+Ab where: kab kya use karein?
 
 371
-00:23:33,715 --> 00:23:35,953
-A module is simply a Python file.
+00:21:19,632 --> 00:21:21,695
+List tab, jab order zaroori ho.
 
 372
-00:23:36,173 --> 00:23:41,878
-Anything defined in cleaning dot py,
-functions, classes, variables, can be imported
+00:21:21,915 --> 00:21:25,399
+Jaise conversation ke
+messages, ya plan ke steps.
 
 373
-00:23:41,878 --> 00:23:42,566
-elsewhere.
+00:21:25,749 --> 00:21:28,489
+Dictionary tab, jab naam se dhoondhna ho.
 
 374
-00:23:42,916 --> 00:23:48,034
-A package is a folder of modules
-with a file called dunder init dot py.
+00:21:28,709 --> 00:21:32,738
+Jaise ek message,
+configuration, ya JSON file ka record.
 
 375
-00:23:48,254 --> 00:23:53,862
-That file runs when the package is
-imported, and it often re-exports the most useful
+00:21:33,088 --> 00:21:37,119
+Set tab, jab unique items
+chahiye, ya fast membership check.
 
 376
-00:23:53,862 --> 00:23:54,263
-names.
+00:21:37,339 --> 00:21:41,158
+Jaise allowed tools, ya jo
+IDs pehle process ho chuke.
 
 377
-00:23:54,613 --> 00:24:00,013
-Your program imports the package by
-name, exactly like it imports anything else.
+00:21:41,508 --> 00:21:45,747
+Aur tuple, round brackets wala,
+ek fixed group hai jo badalta nahi.
 
 378
-00:24:00,363 --> 00:24:06,688
-And there are two other sources of
-modules: the standard library, which ships with
+00:21:45,967 --> 00:21:47,887
+Jaise ek tag aur uski ginti.
 
 379
-00:24:06,688 --> 00:24:13,012
-Python, like json, pathlib, and os, and
-third-party packages you install with pip,
+00:21:49,187 --> 00:21:50,482
+Interview corner.
 
 380
-00:24:13,012 --> 00:24:13,860
-like httpx.
+00:21:50,702 --> 00:21:53,743
+Pehla question: list aur
+tuple mein kya farak hai?
 
 381
-00:24:15,160 --> 00:24:16,475
-Here is the module.
+00:21:56,093 --> 00:22:00,432
+Answer: list mutable hai, aap
+items jod, hata, aur badal sakte ho.
 
 382
-00:24:16,695 --> 00:24:22,337
-Normalize collapses runs of whitespace
-by splitting the text into words and joining
+00:22:00,652 --> 00:22:04,219
+Tuple immutable hai, ek
+baar bana toh badal nahi sakta.
 
 383
-00:24:22,337 --> 00:24:24,309
-them back with single spaces.
+00:22:04,439 --> 00:22:07,808
+Isliye tuple dictionary ki
+key ban sakta hai, list nahi.
 
 384
-00:24:24,659 --> 00:24:26,965
-And word count reuses normalize.
+00:22:08,028 --> 00:22:10,410
+Trap: kehna ki tuple bas tez list hai.
 
 385
-00:24:27,185 --> 00:24:29,478
-Small functions that build on each other.
+00:22:10,630 --> 00:22:12,714
+Asli farak mutability ka hai.
 
 386
-00:24:30,778 --> 00:24:36,230
-The package's init file imports the two
-functions, so users can call them directly
+00:22:13,064 --> 00:22:16,736
+Doosra question: d square
+bracket k, ya d dot get k?
 
 387
-00:24:36,230 --> 00:24:36,962
-on textkit.
+00:22:16,956 --> 00:22:17,946
+Kab kaunsa?
 
 388
-00:24:37,312 --> 00:24:40,174
-And dunder all
-documents which names are public.
+00:22:20,296 --> 00:22:23,417
+Answer: jab key honi hi
+chahiye, tab square brackets.
 
 389
-00:24:41,474 --> 00:24:42,805
-Two import styles.
+00:22:23,637 --> 00:22:26,817
+Missing key ek bug hai,
+aur KeyError yahi batata hai.
 
 390
-00:24:43,025 --> 00:24:47,007
-Import textkit gives you the
-whole package, used with a prefix.
+00:22:27,037 --> 00:22:30,336
+Jab key optional ho,
+tab get ek default ke saath.
 
 391
-00:24:47,227 --> 00:24:51,616
-From textkit dot cleaning import
-word count brings in a single name.
+00:22:30,556 --> 00:22:32,280
+Trap: har jagah get lagana.
 
 392
-00:24:51,966 --> 00:24:53,810
-The main function does the work.
+00:22:32,500 --> 00:22:34,967
+Asli bugs None ke peeche chhup jaate hain.
 
 393
-00:24:54,160 --> 00:24:56,552
-This final check is a Python idiom.
+00:22:35,317 --> 00:22:38,366
+Teesra: x in set, x
+in list se fast kyun hai?
 
 394
-00:24:56,772 --> 00:25:01,823
-Dunder name equals dunder main is
-true only when the file is run directly.
+00:22:40,716 --> 00:22:45,993
+Answer: set hashing use karta hai, toh
+check ka time size par lagbhag depend nahi
 
 395
-00:25:02,043 --> 00:25:06,037
-If another file imports it,
-main does not run automatically.
+00:22:45,993 --> 00:22:46,384
+karta.
 
 396
-00:25:07,337 --> 00:25:10,634
-Running main gives the
-cleaned text and the word count.
+00:22:46,604 --> 00:22:51,087
+List mein ek ek item check hota hai,
+toh list badi hone par slow hota hai.
 
 397
-00:25:10,984 --> 00:25:16,073
-And because textkit is a proper package,
-any other code in this folder can import it
+00:22:51,307 --> 00:22:54,245
+Trap: loop ke andar har
+baar list ko set banana.
 
 398
-00:25:16,073 --> 00:25:16,315
-too.
+00:22:54,465 --> 00:22:56,114
+Wahi conversion slow hai.
 
 399
-00:25:17,615 --> 00:25:22,455
-If you see module not found error for
-your own package, you are almost always
+00:22:57,414 --> 00:22:58,523
+Practice time.
 
 400
-00:25:22,455 --> 00:25:24,781
-running Python from the wrong folder.
+00:22:58,743 --> 00:23:01,157
+Video pause karo, aur khud try karo.
 
 401
-00:25:25,001 --> 00:25:28,867
-Python looks for imports starting
-in the folder of the script you run.
+00:23:01,507 --> 00:23:06,827
+Pehla: ek hi f string se print karo:
+Model, model small, aur Tokens, one comma five
 
 402
-00:25:29,087 --> 00:25:33,222
-Run from the project root, and
-for packages, use python dash m.
+00:23:06,827 --> 00:23:07,468
+zero zero.
 
 403
-00:25:34,522 --> 00:25:35,594
-Next, files.
+00:23:07,818 --> 00:23:13,405
+Doosra: dicts dot py ki conversation
+mein chautha message jodo, aur sirf user wale
 
 404
-00:25:35,814 --> 00:25:39,659
-Prompts, documents, logs,
-and reports all live in files.
+00:23:13,405 --> 00:23:14,768
+messages print karo.
 
 405
-00:25:39,879 --> 00:25:42,440
-The modern way to
-work with them is pathlib.
+00:23:15,118 --> 00:23:18,779
+Teesra: records list se
+saare statuses ka ek set banao.
 
 406
-00:25:42,790 --> 00:25:45,364
-A Path object represents a file path.
+00:23:19,129 --> 00:23:23,947
+Aur scenario: tools ki ek list mein
+duplicates bhi hain aur ek unknown tool bhi.
 
 407
-00:25:45,584 --> 00:25:48,140
-Write text creates or overwrites the file.
+00:23:24,167 --> 00:23:25,747
+Sets se dono dhoondho.
 
 408
-00:25:48,360 --> 00:25:51,168
-Always pass encoding equals utf eight.
+00:23:33,047 --> 00:23:33,877
+Quick check.
 
 409
-00:25:51,388 --> 00:25:56,715
-The default encoding is different on
-Windows, and AI text is full of characters
+00:23:34,097 --> 00:23:35,847
+Yeh code kya print karega?
 
 410
-00:25:56,715 --> 00:25:58,198
-outside basic English.
+00:23:36,067 --> 00:23:38,007
+Zaroorat ho toh video pause karo.
 
 411
-00:25:58,548 --> 00:26:04,101
-Read text returns the whole file as one
-string, and splitlines turns it into a list
+00:23:43,707 --> 00:23:44,927
+Answer: unknown.
 
 412
-00:26:04,101 --> 00:26:04,703
-of lines.
+00:23:45,147 --> 00:23:47,568
+Key missing hai, toh
+get default lautaata hai.
 
 413
-00:26:05,053 --> 00:26:08,432
-For more control, open
-the file inside a with block.
+00:23:47,788 --> 00:23:49,933
+Sirf square brackets KeyError dete.
 
 414
-00:26:08,652 --> 00:26:11,477
-The mode a means
-append, so we add to the end.
+00:23:51,233 --> 00:23:56,834
+Doosra question. messages mein a, b, c,
+d hain. messages ek colon teen kya dega?
 
 415
-00:26:11,697 --> 00:26:16,353
-The with statement guarantees the
-file is closed, even if something fails.
+00:24:02,534 --> 00:24:03,716
+B: b aur c.
 
 416
-00:26:16,703 --> 00:26:21,849
-Finally, number the lines, and ask the
-path a few questions: does it exist, what is
+00:24:03,936 --> 00:24:08,514
+Slice index ek se shuru hota hai,
+aur index teen se pehle ruk jaata hai.
 
 417
-00:26:21,849 --> 00:26:24,143
-its suffix, and how many bytes is it.
+00:24:09,814 --> 00:24:10,539
+Recap.
 
 418
-00:26:25,443 --> 00:26:29,958
-Two lines written, a third
-appended, and the file is thirty-four bytes.
+00:24:10,759 --> 00:24:15,478
+Variables values par lage labels hain,
+aur type function batata hai ki value kya
 
 419
-00:26:31,258 --> 00:26:36,260
-JSON is a text format for data,
-and it is everywhere in AI engineering.
+00:24:15,478 --> 00:24:15,714
+hai.
 
 420
-00:26:36,480 --> 00:26:43,041
-Model APIs send and receive JSON, tool
-calls are described in JSON, and logs are
+00:24:16,064 --> 00:24:20,989
+f strings text banane ka saaf tareeka
+hain, aur numbers ko format bhi karte hain.
 
 421
-00:26:43,041 --> 00:26:43,943
-often JSON.
+00:24:21,339 --> 00:24:26,221
+List order rakhti hai, dictionary key
+se dhoondhti hai, aur set cheezon ko unique
 
 422
-00:26:44,293 --> 00:26:46,599
-JSON looks very similar to Python.
+00:24:26,221 --> 00:24:26,884
+rakhta hai.
 
 423
-00:26:46,819 --> 00:26:52,262
-Objects in curly braces, arrays in
-square brackets, strings, numbers, true, false,
+00:24:27,234 --> 00:24:31,713
+Aur ek conversation dictionaries ki
+list hai, har ek mein role aur content.
 
 424
-00:26:52,262 --> 00:26:52,859
-and null.
+00:24:32,063 --> 00:24:35,314
+Agle lesson mein:
+functions, classes, aur exceptions.
 
 425
-00:26:53,209 --> 00:26:56,320
-Python's json module maps them directly.
+00:24:35,534 --> 00:24:40,271
+Taaki iss data ko reusable aur
+reliable code mein organise kar sako.
 
 426
-00:26:56,540 --> 00:27:01,758
-Objects become dictionaries, arrays
-become lists, and true, false, and null become
+00:24:41,571 --> 00:24:43,092
+Lesson do complete.
 
 427
-00:27:01,758 --> 00:27:03,158
-True, False, and None.
+00:24:43,312 --> 00:24:45,905
+Ab aap AI apps ka core data samajhte ho.
 
 428
-00:27:03,378 --> 00:27:05,354
-But JSON is stricter than Python.
+00:24:46,125 --> 00:24:47,973
+Milte hain agle lesson mein.
 
 429
-00:27:05,574 --> 00:27:09,503
-Strings need double quotes, and
-trailing commas are not allowed.
+00:24:49,276 --> 00:24:51,499
+Pichle lesson mein humne data dekha.
 
 430
-00:27:10,803 --> 00:27:13,673
-We start from an
-ordinary Python dictionary.
+00:24:51,719 --> 00:24:53,905
+Ab hum code ko organise karenge.
 
 431
-00:27:14,023 --> 00:27:19,227
-json dot dumps, with an s for
-string, converts Python into JSON text.
+00:24:54,125 --> 00:24:59,299
+Functions logic ko naam dete hain,
+classes data aur behaviour ko saath rakhti hain,
 
 432
-00:27:19,447 --> 00:27:21,203
-Indent two makes it readable.
+00:24:59,299 --> 00:25:01,855
+aur exceptions errors ko sambhaalti hain.
 
 433
-00:27:21,423 --> 00:27:22,892
-Then we save it to a file.
+00:25:02,075 --> 00:25:07,159
+Har AI agent, chaahe chhota ho ya
+bada, inhi teen cheezon par khada hota hai.
 
 434
-00:27:23,242 --> 00:27:29,532
-json dot loads does the reverse, turning
-JSON text back into Python objects, so the
+00:25:08,459 --> 00:25:13,565
+Iss lesson ke baad aap parameters,
+default values, aur return values ke saath
 
 435
-00:27:29,532 --> 00:27:31,881
-tokens are a real number again.
+00:25:13,565 --> 00:25:14,957
+functions likh paoge.
 
 436
-00:27:32,231 --> 00:27:35,789
-And invalid JSON
-raises a JSON decode error.
+00:25:15,307 --> 00:25:19,851
+Ek classic bug se bachoge, jo
+users ke beech data leak kar sakta hai.
 
 437
-00:27:36,009 --> 00:27:37,483
-Here, a trailing comma.
+00:25:20,201 --> 00:25:23,174
+Apni classes, aur
+chhoti dataclasses banaoge.
 
 438
-00:27:37,703 --> 00:27:43,073
-Language models sometimes produce
-slightly broken JSON, so you will handle this
+00:25:23,525 --> 00:25:29,083
+Aur exceptions handle karoge, raise
+karoge, apni exceptions banaoge, aur traceback
 
 439
-00:27:43,073 --> 00:27:43,889
-error a lot.
+00:25:29,083 --> 00:25:30,236
+aaram se padhoge.
 
 440
-00:27:45,189 --> 00:27:50,620
-Notice true and null in the JSON text,
-the token count plus one, and the precise
+00:25:31,536 --> 00:25:33,226
+Pehle what: function kya hai?
 
 441
-00:27:50,620 --> 00:27:53,810
-error message, which
-even tells you the column.
+00:25:33,446 --> 00:25:35,339
+Chai ka recipe card socho.
 
 442
-00:27:55,110 --> 00:27:58,244
-Environment variables
-keep secrets out of your code.
+00:25:35,559 --> 00:25:37,887
+Usme inputs hain: paani, doodh, cheeni.
 
 443
-00:27:58,464 --> 00:28:04,266
-An API key written in a source file ends
-up in git history, in screenshots, and in
+00:25:38,107 --> 00:25:39,948
+Har baar wahi steps hote hain.
 
 444
-00:28:04,266 --> 00:28:04,620
-logs.
+00:25:40,168 --> 00:25:43,026
+Aur end mein ek cheez
+milti hai: ek cup chai.
 
 445
-00:28:04,970 --> 00:28:09,938
-They also let settings change without
-editing code, such as a different model on
+00:25:43,246 --> 00:25:46,103
+Card ek baar likho,
+aur roz subah use karo.
 
 446
-00:28:09,938 --> 00:28:11,801
-your laptop and in production.
+00:25:46,323 --> 00:25:51,497
+Function bhi yahi hai: inputs ko
+parameters kehte hain, aur jo wapas milta hai, woh
 
 447
-00:28:12,151 --> 00:28:17,527
-And every platform supports them:
-your terminal, Docker, cloud hosts, and CI
+00:25:51,497 --> 00:25:52,307
+return value.
 
 448
-00:28:17,527 --> 00:28:18,234
-pipelines.
+00:25:53,607 --> 00:25:55,921
+def keyword function shuru karta hai.
 
 449
-00:28:18,454 --> 00:28:21,405
-You'll use them all the way to Module 17.
+00:25:56,141 --> 00:25:58,928
+Brackets ke andar
+parameters, yaani inputs.
 
 450
-00:28:22,705 --> 00:28:28,858
-The os module exposes environment
-variables as a dictionary-like object called
+00:25:59,148 --> 00:26:04,039
+Teen quotes wala text docstring hai,
+jo batata hai ki function kya karta hai.
 
 451
-00:28:28,858 --> 00:28:29,489
-environ.
+00:26:04,259 --> 00:26:06,675
+Aur return result ko wapas bhejta hai.
 
 452
-00:28:29,709 --> 00:28:34,100
-Get returns None if the variable
-isn't set, or a default you choose.
+00:26:07,025 --> 00:26:12,640
+Arguments position se de sakte ho, ya
+naam se, jinhe keyword arguments kehte hain.
 
 453
-00:28:34,450 --> 00:28:39,604
-If the key is missing, say so clearly
-instead of failing later in a confusing way.
+00:26:12,860 --> 00:26:17,154
+Kai numbers wali call mein
+keywords padhna bahut aasaan bana dete hain.
 
 454
-00:28:39,824 --> 00:28:41,699
-And never print the secret itself.
+00:26:17,374 --> 00:26:19,589
+Aur two million mein underscores dekho.
 
 455
-00:28:41,919 --> 00:28:44,817
-Printing its length is
-enough to confirm it loaded.
+00:26:19,809 --> 00:26:23,916
+Python unhe ignore karta hai, woh
+sirf padhne mein madad ke liye hain.
 
 456
-00:28:46,117 --> 00:28:51,196
-With nothing set, the script refuses
-to continue and uses the default model.
+00:26:24,266 --> 00:26:26,833
+Doosre function mein ek default value hai.
 
 457
-00:28:51,546 --> 00:28:57,014
-On macOS or Linux, you can set
-variables for a single command like this.
+00:26:27,053 --> 00:26:30,785
+Agar call karne wala max
+words na de, toh aath use hoga.
 
 458
-00:28:57,234 --> 00:28:59,511
-This is a fake key, just for the demo.
+00:26:31,005 --> 00:26:33,684
+Text pehle se chhota ho, toh wahin return.
 
 459
-00:28:59,731 --> 00:29:05,555
-On Windows PowerShell, you'd first run
-dollar env, colon, DEMO API KEY, equals, and
+00:26:33,904 --> 00:26:37,491
+Warna pehle ke words rakh
+kar teen dots jod deta hai.
 
 460
-00:29:05,555 --> 00:29:06,959
-the value in quotes.
+00:26:37,841 --> 00:26:42,782
+Teen calls: ek lambi line, ek chhoti
+line, aur ek jisme default badal diya.
 
 461
-00:29:08,259 --> 00:29:13,888
-Typing variables every time gets tedious,
-so projects keep them in a file called dot
+00:26:43,002 --> 00:26:47,857
+Output mein lambi line chhoti ho gayi,
+aur aakhri call mein sirf do words bache.
 
 462
-00:29:13,888 --> 00:29:14,156
-env.
+00:26:49,157 --> 00:26:50,966
+Achhe functions ki aadatein.
 
 463
-00:29:14,376 --> 00:29:19,767
-You commit a template called dot env dot
-example, with fake values, so others know
+00:26:51,186 --> 00:26:56,384
+Har function ka ek hi kaam, aur naam
+ek verb se, jaise estimate cost, ya load
 
 464
-00:29:19,767 --> 00:29:20,556
-what to set.
+00:26:56,384 --> 00:26:56,924
+records.
 
 465
-00:29:20,906 --> 00:29:26,933
-The real dot env file holds your actual
-keys, and it is listed in dot gitignore, so
+00:26:57,274 --> 00:26:59,892
+Result return karo, andar print mat karo.
 
 466
-00:29:26,933 --> 00:29:28,458
-git never records it.
+00:27:00,112 --> 00:27:04,411
+Phir call karne wala decide
+karega, aur test karna aasaan hoga.
 
 467
-00:29:28,678 --> 00:29:33,807
-In the project, we'll write a tiny
-loader that reads dot env into the environment.
+00:27:04,761 --> 00:27:08,526
+Jahan call samajh na aaye,
+wahan keyword arguments use karo.
 
 468
-00:29:34,027 --> 00:29:36,773
-Real variables always win over the file.
+00:27:08,876 --> 00:27:12,299
+Aur kabhi bhi khaali list
+jaisa mutable default mat do.
 
 469
-00:29:38,073 --> 00:29:38,881
-Quick check.
+00:27:12,519 --> 00:27:13,173
+Kyun?
 
 470
-00:29:39,101 --> 00:29:42,817
-Which call turns this JSON
-text into a Python dictionary?
+00:27:13,393 --> 00:27:14,825
+Abhi dikhati hoon.
 
 471
-00:29:48,517 --> 00:29:50,042
-json dot loads.
+00:27:16,125 --> 00:27:18,429
+Yeh function chat history rakhta hai.
 
 472
-00:29:50,262 --> 00:29:51,734
-The s stands for string.
+00:27:18,649 --> 00:27:24,153
+Default khaali list masoom lagti hai,
+lekin Python usse sirf ek baar banata hai, jab
 
 473
-00:29:51,954 --> 00:29:57,344
-Dumps goes the other way, and load
-without an s reads from an open file object.
+00:27:24,153 --> 00:27:25,791
+function define hota hai.
 
 474
-00:29:58,644 --> 00:30:03,402
-A module is a file, and a package
-is a folder with a dunder init file.
+00:27:26,011 --> 00:27:29,836
+Default use karne wali har
+call wahi ek list share karti hai.
 
 475
-00:30:03,752 --> 00:30:07,303
-Use pathlib, and always
-set the encoding to utf eight.
+00:27:30,186 --> 00:27:32,715
+Toh Alice ne message bheja, phir Bob ne.
 
 476
-00:30:07,653 --> 00:30:12,292
-Convert with json loads and
-dumps, and catch JSON decode errors.
+00:27:32,935 --> 00:27:36,124
+Aur Bob ki history mein
+Alice ka message bhi aa gaya.
 
 477
-00:30:12,642 --> 00:30:17,846
-Secrets live in environment variables,
-and only the example file is committed.
+00:27:36,344 --> 00:27:41,635
+AI app mein yeh privacy bug hai: ek
+user ki conversation doosre user tak pahunch
 
 478
-00:30:18,196 --> 00:30:24,996
-In the next lesson, you'll add type
-hints, talk to web APIs over HTTP, and see why
+00:27:41,635 --> 00:27:41,965
+gayi.
 
 479
-00:30:24,996 --> 00:30:27,235
-async makes AI apps faster.
+00:27:42,315 --> 00:27:44,476
+Fix Python ka standard pattern hai.
 
 480
-00:30:28,539 --> 00:30:33,683
-Every language model you will use
-in this course lives behind a web API.
+00:27:44,696 --> 00:27:48,134
+Default None rakho, aur
+function ke andar nayi list banao.
 
 481
-00:30:33,903 --> 00:30:37,854
-You send an HTTP request,
-and you wait for the answer.
+00:27:48,354 --> 00:27:50,262
+Ab har call saaf shuru hoti hai.
 
 482
-00:30:38,074 --> 00:30:44,484
-This lesson gives you the three tools
-that make that work well: type hints, HTTP
+00:27:51,562 --> 00:27:52,575
+Ab classes.
 
 483
-00:30:44,484 --> 00:30:47,768
-requests with httpx, and async and await.
+00:27:52,795 --> 00:27:55,506
+Functions behaviour
+ko organise karte hain.
 
 484
-00:30:49,068 --> 00:30:53,569
-You will annotate functions with type
-hints, and check them with a type checker.
+00:27:55,726 --> 00:27:59,645
+Classes data ko uske
+behaviour ke saath organise karti hain.
 
 485
-00:30:53,919 --> 00:30:58,492
-Understand HTTP requests,
-responses, and status codes.
+00:27:59,865 --> 00:28:01,460
+Ek cookie cutter socho.
 
 486
-00:30:58,842 --> 00:31:04,041
-Call web APIs with httpx,
-including timeouts and error handling.
+00:28:01,680 --> 00:28:04,368
+Ek cutter se bahut
+saari cookies banti hain.
 
 487
-00:31:04,391 --> 00:31:08,184
-And run slow operations at the
-same time with async and await.
+00:28:04,588 --> 00:28:08,712
+Shape sabki same, lekin har
+cookie par apni topping ho sakti hai.
 
 488
-00:31:09,484 --> 00:31:12,937
-A type hint is a label
-saying what type a value should be.
+00:28:10,012 --> 00:28:12,134
+Class ek blueprint hai, cookie cutter.
 
 489
-00:31:13,157 --> 00:31:18,336
-After each parameter you write a colon
-and a type, and after the parentheses an
+00:28:12,354 --> 00:28:17,504
+Woh batati hai ki uss tarah ke har
+object ke paas kya hoga, aur woh kya kar sakta
 
 490
-00:31:18,336 --> 00:31:20,040
-arrow and the return type.
+00:28:17,504 --> 00:28:17,758
+hai.
 
 491
-00:31:20,260 --> 00:31:23,636
-This function takes a list
-of floats and returns a float.
+00:28:18,108 --> 00:28:22,990
+Object, jise instance bhi kehte hain,
+uss blueprint se bani ek asli cheez hai.
 
 492
-00:31:23,986 --> 00:31:28,538
-Here, the dictionary maps strings to
-floats, and the vertical bar means or.
+00:28:23,210 --> 00:28:25,461
+Jitne chaho utne bana sakte ho.
 
 493
-00:31:28,758 --> 00:31:32,728
-The function returns a float,
-or None when the model isn't found.
+00:28:25,811 --> 00:28:28,361
+Attributes har object par rakha data hain.
 
 494
-00:31:33,078 --> 00:31:36,072
-Called correctly,
-everything works as you'd expect.
+00:28:28,711 --> 00:28:33,451
+Aur methods woh functions hain jo class
+ke hain, aur uss object ke data par kaam
 
 495
-00:31:36,422 --> 00:31:38,102
-But here's the important part.
+00:28:33,451 --> 00:28:34,103
+karte hain.
 
 496
-00:31:38,322 --> 00:31:41,104
-Python does not enforce
-hints when the code runs.
+00:28:35,403 --> 00:28:37,105
+Yeh Conversation class hai.
 
 497
-00:31:41,324 --> 00:31:45,863
-Passing a string is allowed, and it
-only crashes deep inside the function.
+00:28:37,325 --> 00:28:41,745
+Special dunder init method tab
+chalta hai jab naya object banta hai.
 
 498
-00:31:47,163 --> 00:31:52,749
-Running it: two good results, and then a
-confusing type error from inside sum, far
+00:28:41,965 --> 00:28:45,825
+Uska pehla parameter, self,
+wahi object hai jo ban raha hai.
 
 499
-00:31:52,749 --> 00:31:54,588
-away from the real mistake.
+00:28:46,045 --> 00:28:50,381
+Isliye self dot messages ek
+list ko issi object par rakhta hai.
 
 500
-00:31:54,938 --> 00:31:59,973
-A type checker like mypy reads your
-hints without running the code, and points at
+00:28:50,731 --> 00:28:52,328
+add aur last methods hain.
 
 501
-00:31:59,973 --> 00:32:03,889
-the exact line with the wrong
-argument, before you ever run it.
+00:28:52,548 --> 00:28:57,816
+Yeh bhi pehle self lete hain, taaki issi
+object ke messages padh aur badal sakein.
 
 502
-00:32:04,109 --> 00:32:07,350
-Your editor uses the
-same hints for autocompletion.
+00:28:58,166 --> 00:29:03,415
+Do underscores wale methods aapki class
+ko Python se jodte hain. dunder len likhne
 
 503
-00:32:08,650 --> 00:32:11,957
-The simple types:
-str, int, float, and bool.
+00:29:03,415 --> 00:29:07,064
+se built in len function
+conversation par bhi chalta hai.
 
 504
-00:32:12,307 --> 00:32:17,607
-Collections say what's inside: a list
-of strings, or a dictionary from strings to
+00:29:07,414 --> 00:29:10,318
+Object banana
+function call jaisa dikhta hai.
 
 505
-00:32:17,607 --> 00:32:17,934
-ints.
+00:29:10,538 --> 00:29:14,387
+Do messages jode, phir length
+aur aakhri message print kiya.
 
 506
-00:32:18,284 --> 00:32:21,803
-A vertical bar with None
-means the value might be missing.
+00:29:14,607 --> 00:29:15,757
+Teen messages.
 
 507
-00:32:22,153 --> 00:32:25,938
-A tuple hint lists each
-position, like a string and an int.
+00:29:16,107 --> 00:29:20,997
+Doosri conversation ek bilkul alag
+object hai, apni alag list ke saath.
 
 508
-00:32:26,288 --> 00:32:32,538
-In Module 3, a library called Pydantic
-will use exactly these hints to validate real
+00:29:21,217 --> 00:29:23,105
+Usme sirf system message hai.
 
 509
-00:32:32,538 --> 00:32:33,729
-data at runtime.
+00:29:24,405 --> 00:29:30,265
+AI code ki bahut si classes zyaadatar
+sirf data rakhti hain: model ki configuration,
 
 510
-00:32:33,949 --> 00:32:36,115
-That's where hints become really powerful.
+00:29:30,265 --> 00:29:32,288
+usage record, tool ka result.
 
 511
-00:32:37,415 --> 00:32:42,830
-HTTP is the language of web
-APIs, and it is simpler than it sounds.
+00:29:32,508 --> 00:29:37,257
+Inke liye Python ka dataclass
+decorator boring hissa khud likh deta hai.
 
 512
-00:32:43,180 --> 00:32:48,901
-There are two sides: a client, which is
-your Python code, and a server, such as a
+00:29:37,607 --> 00:29:41,167
+Aap bas fields likho, unke
+types aur defaults ke saath.
 
 513
-00:32:48,901 --> 00:32:50,384
-model provider's API.
+00:29:41,387 --> 00:29:47,038
+Decorator init method, ek readable print
+form, aur barabari ka comparison khud bana
 
 514
-00:32:50,734 --> 00:32:52,351
-The client sends a request.
+00:29:47,038 --> 00:29:47,651
+deta hai.
 
 515
-00:32:52,571 --> 00:32:58,859
-It has a method, such as GET to read or
-POST to send data, a URL, headers with extra
+00:29:48,001 --> 00:29:49,337
+stop field dekho.
 
 516
-00:32:58,859 --> 00:33:02,752
-information like your API
-key, and sometimes a body.
+00:29:49,557 --> 00:29:51,815
+Mutable default wala bug yaad hai?
 
 517
-00:33:03,102 --> 00:33:09,351
-The server sends back a response: a
-status code saying how it went, headers, and a
+00:29:52,035 --> 00:29:54,404
+Dataclass aapko usse bachata hai.
 
 518
-00:33:09,351 --> 00:33:12,857
-body, which for AI
-APIs is almost always JSON.
+00:29:54,624 --> 00:29:58,952
+List default ke liye field aur
+default factory use karna zaroori hai.
 
 519
-00:33:14,157 --> 00:33:16,470
-Codes in the two hundreds mean success.
+00:29:59,302 --> 00:30:04,370
+Objects banaye, ek print kiya, aur
+same values wale do objects compare kiye.
 
 520
-00:33:16,690 --> 00:33:19,873
-Two hundred is OK, two oh one is created.
+00:30:04,590 --> 00:30:07,606
+Print mein har field
+dikhti hai, aur barabari True hai.
 
 521
-00:33:20,223 --> 00:33:23,191
-Four hundreds mean the
-problem is on your side.
+00:30:07,826 --> 00:30:11,461
+Project mein hamara usage
+record bhi ek dataclass hai.
 
 522
-00:33:23,411 --> 00:33:29,069
-Bad input, a missing or wrong
-API key, or a URL that doesn't exist.
+00:30:12,761 --> 00:30:13,856
+Ab exceptions.
 
 523
-00:33:29,289 --> 00:33:30,609
-Retrying won't help.
+00:30:14,076 --> 00:30:15,604
+Fire alarm socho.
 
 524
-00:33:30,829 --> 00:33:32,008
-Fix the request.
+00:30:15,824 --> 00:30:18,054
+Kuch galat hua, toh alarm bajta hai.
 
 525
-00:33:32,358 --> 00:33:34,896
-Four twenty-nine deserves its own card.
+00:30:18,274 --> 00:30:20,332
+Yaani exception raise hoti hai.
 
 526
-00:33:35,116 --> 00:33:36,846
-It means you hit a rate limit.
+00:30:20,552 --> 00:30:23,313
+Koi respond kare, toh
+kaam chalta rehta hai.
 
 527
-00:33:37,066 --> 00:33:42,556
-Every model API has them, and Module
-2 shows how to wait and retry properly.
+00:30:23,533 --> 00:30:25,638
+Koi na kare, toh sab ruk jaata hai.
 
 528
-00:33:42,906 --> 00:33:45,673
-And five hundreds mean
-the server had a problem.
+00:30:25,858 --> 00:30:27,706
+Python mein bhi yahi hota hai.
 
 529
-00:33:45,893 --> 00:33:49,764
-Those are often temporary,
-so a careful retry can succeed.
+00:30:29,006 --> 00:30:32,385
+Jo code fail ho sakta
+hai, usse try block mein rakho.
 
 530
-00:33:51,064 --> 00:33:52,919
-Now let's make real requests.
+00:30:32,605 --> 00:30:36,518
+Text ko number banana fail
+hoga, agar text number nahi hai.
 
 531
-00:33:53,139 --> 00:33:59,210
-So that this works offline, I'm serving
-the project's sample data from a small local
+00:30:36,868 --> 00:30:39,442
+except block sirf
+ussi error par chalta hai.
 
 532
-00:33:59,210 --> 00:34:02,969
-web server, using
-Python's built-in http dot server.
+00:30:39,662 --> 00:30:44,031
+Yahan ValueError ko handle kiya:
+message diya aur zero return kiya.
 
 533
-00:34:03,319 --> 00:34:09,065
-httpx dot get sends a GET
-request and returns a response object.
+00:30:44,381 --> 00:30:47,425
+else block tabhi
+chalta hai jab try safal raha.
 
 534
-00:34:09,285 --> 00:34:10,725
-Always pass a timeout.
+00:30:47,775 --> 00:30:50,889
+Aur finally hamesha
+chalta hai, kaam bane ya bigde.
 
 535
-00:34:10,945 --> 00:34:14,528
-A network call that hangs
-forever will freeze your agent.
+00:30:51,109 --> 00:30:55,141
+Cleanup ke liye, jaise
+connection band karna, yahi sahi jagah hai.
 
 536
-00:34:14,748 --> 00:34:18,545
-The response tells us the status
-code and the content type header.
+00:30:55,361 --> 00:31:00,721
+Output ka order dekho: one twenty ke liye
+checked wali line value se pehle aati hai,
 
 537
-00:34:18,895 --> 00:34:24,408
-Raise for status turns any error status
-into an exception, so failures can't slip by
+00:31:00,721 --> 00:31:03,975
+kyunki finally function
+se nikalte waqt chalta hai.
 
 538
-00:34:24,408 --> 00:34:25,064
-unnoticed.
+00:31:04,195 --> 00:31:09,016
+Aur a b c ke liye error handle hua,
+finally phir bhi chala, aur zero mila.
 
 539
-00:34:25,284 --> 00:34:29,287
-Then dot json parses the
-body into Python objects.
+00:31:10,316 --> 00:31:14,537
+Aap Exception se inherit
+karke apni exceptions bana sakte ho.
 
 540
-00:34:29,637 --> 00:34:35,388
-And here we request a file that doesn't
-exist, and catch the HTTP status error to
+00:31:14,757 --> 00:31:19,970
+Project ki ek base class, aur uske
+neeche specific errors, ek bahut achha pattern
 
 541
-00:34:35,388 --> 00:34:36,878
-read its status code.
+00:31:19,970 --> 00:31:20,228
+hai.
 
 542
-00:34:38,178 --> 00:34:40,851
-First, start the local
-server in the background.
+00:31:20,578 --> 00:31:25,396
+raise function ko turant rokta hai,
+aur problem call karne wale ko de deta hai.
 
 543
-00:34:41,071 --> 00:34:43,431
-It serves the files in the data folder.
+00:31:25,616 --> 00:31:29,275
+Negative cost programming ki
+galti hai, isliye ValueError.
 
 544
-00:34:43,781 --> 00:34:45,067
-Then run the script.
+00:31:29,495 --> 00:31:34,761
+Budget se zyaada kharcha business rule
+hai, isliye hamari apni BudgetExceeded error.
 
 545
-00:34:45,287 --> 00:34:50,815
-Status two hundred with a JSON content
-type, ten records loaded, and a clean four oh
+00:31:35,111 --> 00:31:39,748
+Caller sirf BudgetExceeded pakadta
+hai, aur charge karna rok deta hai.
 
 546
-00:34:50,815 --> 00:34:52,526
-four for the missing file.
+00:31:39,968 --> 00:31:44,508
+Pehle do charges chale, teesra
+mana ho gaya, saaf message ke saath.
 
 547
-00:34:53,826 --> 00:34:59,028
-A language model call can take several
-seconds, and during that time your program is
+00:31:44,728 --> 00:31:48,873
+Agents ko bilkul aisa hi guard
+chahiye, ek pakki spending limit.
 
 548
-00:34:59,028 --> 00:35:00,825
-just waiting for the network.
+00:31:49,093 --> 00:31:51,781
+Module saat mein isse theek se banayenge.
 
 549
-00:35:01,175 --> 00:35:06,582
-If an agent needs three independent
-answers and asks for them one by one, the waits
+00:31:53,081 --> 00:31:55,450
+Left wala pattern kabhi mat likhna.
 
 550
-00:35:06,582 --> 00:35:07,038
-add up.
+00:31:55,670 --> 00:32:00,699
+Khaali except ke saath pass har error
+chhupa deta hai, aapke apne code ke bugs bhi.
 
 551
-00:35:07,258 --> 00:35:10,438
-Three calls of one
-second each take three seconds.
+00:32:00,919 --> 00:32:05,555
+Program bina result ke chalta rehta
+hai, aur aapko pata hi nahi chalta kyun.
 
 552
-00:35:10,788 --> 00:35:15,741
-With async, you start all three, wait
-for them together, and finish in about one
+00:32:05,905 --> 00:32:11,182
+Right side par sirf woh error pakdo jo
+aap expect karte ho, aur jise handle karna
 
 553
-00:35:15,741 --> 00:35:16,174
-second.
+00:32:11,182 --> 00:32:11,769
+aata hai.
 
 554
-00:35:16,394 --> 00:35:18,235
-That's not more computing power.
+00:32:11,989 --> 00:32:17,169
+Baaki unexpected errors saamne aate
+hain, taaki aap unhe dekh kar theek kar sako.
 
 555
-00:35:18,455 --> 00:35:20,609
-It's simply not wasting time waiting.
+00:32:18,469 --> 00:32:22,648
+Jab exception handle nahi hoti,
+Python traceback print karta hai.
 
 556
-00:35:21,909 --> 00:35:25,984
-Async def defines a
-coroutine, a function that can pause.
+00:32:22,868 --> 00:32:26,324
+Darawna lagta hai, lekin
+usse neeche se upar padho.
 
 557
-00:35:26,204 --> 00:35:31,864
-Await means: pause here until this
-finishes, and let other work run meanwhile.
+00:32:26,544 --> 00:32:29,745
+Aakhri line error hai:
+model key ke liye KeyError.
 
 558
-00:35:31,864 --> 00:35:36,145
-asyncio dot sleep stands in
-for waiting on a network reply.
+00:32:30,095 --> 00:32:34,870
+Upar ki lines program ka raasta
+dikhati hain, sabse nayi call sabse neeche.
 
 559
-00:35:36,495 --> 00:35:41,257
-This version awaits each call in a
-loop, so they still run one after another.
+00:32:35,090 --> 00:32:40,619
+Galat line hai config model, get model
+ke andar, jise start agent ne call kiya.
 
 560
-00:35:41,607 --> 00:35:47,220
-This version passes all three to
-asyncio dot gather, which runs them concurrently
+00:32:40,839 --> 00:32:45,586
+Toh fix: configuration mein model
+zaroor ho, ya get aur default se padho.
 
 561
-00:35:47,220 --> 00:35:51,239
-and returns the results in
-the same order you passed them.
+00:32:46,886 --> 00:32:48,180
+Interview corner.
 
 562
-00:35:51,589 --> 00:35:56,955
-Finally, asyncio dot run starts
-the event loop that drives coroutines.
+00:32:48,400 --> 00:32:51,307
+Pehla question: Python
+method mein self kya hai?
 
 563
-00:35:57,175 --> 00:35:58,787
-We time both versions.
+00:32:53,657 --> 00:32:59,137
+Answer: woh object jis par method call
+hua. chat dot add, asal mein Conversation dot
 
 564
-00:36:00,087 --> 00:36:01,340
-A real measurement.
+00:32:59,137 --> 00:33:01,160
+add chalata hai, chat ke saath.
 
 565
-00:36:01,560 --> 00:36:05,001
-Three seconds one by
-one, one second concurrently.
+00:33:01,380 --> 00:33:05,184
+Isliye self chat hai, aur har
+object apna data rakh pata hai.
 
 566
-00:36:06,301 --> 00:36:09,072
-httpx has an async client too.
+00:33:05,404 --> 00:33:07,327
+Trap: self ko keyword samajhna.
 
 567
-00:36:09,292 --> 00:36:14,473
-The fetch coroutine awaits the request
-and returns how many records came back.
+00:33:07,547 --> 00:33:10,410
+Yeh bas pehle
+parameter ka rivaaji naam hai.
 
 568
-00:36:14,823 --> 00:36:19,475
-Async with opens one shared
-client, and closes it properly afterwards.
+00:33:10,760 --> 00:33:15,204
+Doosra question: def f, items
+equals khaali list, mein kya galat hai?
 
 569
-00:36:19,695 --> 00:36:22,878
-Gather fetches every URL at the same time.
+00:33:17,554 --> 00:33:22,113
+Answer: default list ek hi baar banti
+hai, aur har call use share karti hai.
 
 570
-00:36:23,098 --> 00:36:26,186
-This is exactly how the
-project's fetch command works.
+00:33:22,333 --> 00:33:27,257
+Data calls ke beech leak hota hai.
+items None rakho aur andar nayi list banao.
 
 571
-00:36:27,486 --> 00:36:31,973
-Both files downloaded
-concurrently: ten records and five records.
+00:33:27,477 --> 00:33:29,844
+Dataclass mein field default factory.
 
 572
-00:36:33,273 --> 00:36:36,008
-Await only works inside an async function.
+00:33:30,064 --> 00:33:32,616
+Trap: items equals list bracket likhna.
 
 573
-00:36:36,358 --> 00:36:41,301
-Start the event loop once, at the top
-of your program, with asyncio dot run.
+00:33:32,836 --> 00:33:34,740
+Woh bhi ek hi baar chalta hai.
 
 574
-00:36:41,651 --> 00:36:44,890
-Async speeds up waiting,
-for the network or the disk.
+00:33:35,090 --> 00:33:37,538
+Teesra: khaali except kab likhna chahiye?
 
 575
-00:36:45,110 --> 00:36:47,519
-It doesn't make heavy calculations faster.
+00:33:39,888 --> 00:33:41,856
+Answer: lagbhag kabhi nahi.
 
 576
-00:36:47,869 --> 00:36:52,541
-And never call blocking code, like
-time dot sleep, inside a coroutine.
+00:33:42,076 --> 00:33:45,385
+Specific exceptions pakdo
+jinhe handle kar sakte ho.
 
 577
-00:36:52,761 --> 00:36:54,546
-It freezes every other task.
+00:33:45,605 --> 00:33:50,854
+Agar broad pakadna hi pade, jaise
+server ke top par, toh Exception pakdo, use log
 
 578
-00:36:54,766 --> 00:36:56,844
-Use the async version instead.
+00:33:50,854 --> 00:33:52,280
+karo, aur chhupao mat.
 
 579
-00:36:58,144 --> 00:36:58,951
-Quick check.
+00:33:52,500 --> 00:33:53,802
+Trap: except pass.
 
 580
-00:36:59,171 --> 00:37:02,094
-An API replies with
-status four twenty-nine.
+00:33:54,022 --> 00:33:57,705
+Yeh control C ko bhi nigal
+jaata hai, aur aapke bugs ko bhi.
 
 581
-00:37:02,314 --> 00:37:04,671
-What does it mean, and
-what should your code do?
+00:33:59,005 --> 00:34:00,114
+Practice time.
 
 582
-00:37:10,371 --> 00:37:11,503
-Too many requests.
+00:34:00,334 --> 00:34:02,748
+Video pause karo, aur khud try karo.
 
 583
-00:37:11,723 --> 00:37:14,413
-You hit a rate limit, so wait, then retry.
+00:34:03,098 --> 00:34:08,145
+Pehla: word count naam ka function
+likho, jo text ke words ki ginti return kare.
 
 584
-00:37:14,633 --> 00:37:18,074
-You'll implement this
-properly, with backoff, in Module 2.
+00:34:08,495 --> 00:34:13,519
+Doosra: Conversation class mein clear
+method jodo, jo sirf system message rakhe.
 
 585
-00:37:19,374 --> 00:37:24,646
-Type hints document your intent, and a
-type checker verifies them before the code
+00:34:13,869 --> 00:34:18,451
+Teesra: ToolCall naam ki dataclass
+banao, name aur args fields ke saath.
 
 586
-00:37:24,646 --> 00:37:24,971
-runs.
+00:34:18,671 --> 00:34:21,380
+Dhyaan rahe, args ka default kaise doge?
 
 587
-00:37:25,321 --> 00:37:31,221
-HTTP is a request and a response, and
-the status code tells you how it went.
+00:34:21,730 --> 00:34:27,216
+Aur scenario: ek kharab tool result se
+agent crash ho gaya, aur poora run gaya. try
 
 588
-00:37:31,571 --> 00:37:35,640
-Use httpx with a
-timeout, and raise for status.
+00:34:27,216 --> 00:34:29,728
+except kahan lagaoge, aur kya pakdoge?
 
 589
-00:37:35,990 --> 00:37:40,462
-And use async, await, and
-gather to wait for many calls at once.
+00:34:37,028 --> 00:34:41,549
+Quick check. history equals khaali
+list wala default kyun khatarnaak hai?
 
 590
-00:37:40,812 --> 00:37:43,852
-You now have every
-Python skill the project needs.
+00:34:47,249 --> 00:34:47,752
+B.
 
 591
-00:37:44,072 --> 00:37:47,914
-In the next lesson, we start
-building the Python AI Toolkit.
+00:34:47,972 --> 00:34:53,142
+Default list ek baar banti hai, aur
+default use karne wali har call usse share karti
 
 592
-00:37:49,222 --> 00:37:50,185
-Time to build.
+00:34:53,142 --> 00:34:53,388
+hai.
 
 593
-00:37:50,405 --> 00:37:55,878
-Over the next two lessons, you'll write
-the Python AI Toolkit from an empty folder
+00:34:53,608 --> 00:34:56,327
+None default rakho,
+aur andar nayi list banao.
 
 594
-00:37:55,878 --> 00:37:57,881
-to a tested command line tool.
+00:34:57,627 --> 00:35:03,082
+Doosra question. try, except, else, aur
+finally mein se kaunsa block har baar chalta
 
 595
-00:37:58,101 --> 00:38:01,188
-Every concept from this
-module appears somewhere in it.
+00:35:03,082 --> 00:35:03,342
+hai?
 
 596
-00:38:01,408 --> 00:38:05,129
-In this lesson we plan it,
-model the data, and validate it.
+00:35:09,042 --> 00:35:14,084
+D, finally. else sirf success par
+chalta hai, aur except sirf matching error par.
 
 597
-00:38:06,429 --> 00:38:12,200
-Every AI team needs to answer simple
-questions about their language model usage.
+00:35:15,384 --> 00:35:16,109
+Recap.
 
 598
-00:38:12,420 --> 00:38:13,882
-How many requests failed?
+00:35:16,329 --> 00:35:19,543
+Function ka ek kaam,
+saaf naam, aur result return.
 
 599
-00:38:14,102 --> 00:38:15,980
-How many tokens did we use?
+00:35:19,893 --> 00:35:22,251
+Mutable arguments ka default None.
 
 600
-00:38:16,200 --> 00:38:17,660
-Roughly what did it cost?
+00:35:22,601 --> 00:35:27,831
+Classes data aur behaviour ko saath
+rakhti hain, aur dataclass data wali classes ko
 
 601
-00:38:17,880 --> 00:38:19,691
-Here is what our tool must do.
+00:35:27,831 --> 00:35:29,155
+chhota bana deti hai.
 
 602
-00:38:20,041 --> 00:38:24,973
-Read a JSON log of model API
-calls, with one record per request.
+00:35:29,505 --> 00:35:34,877
+Specific exceptions pakdo, meaningful
+exceptions raise karo, aur traceback neeche se
 
 603
-00:38:25,323 --> 00:38:31,116
-Validate every record, and explain each
-problem precisely, without crashing on bad
+00:35:34,877 --> 00:35:35,581
+upar padho.
 
 604
-00:38:31,116 --> 00:38:31,469
-data.
+00:35:35,931 --> 00:35:41,187
+Agle lesson mein code ko files aur
+packages mein baantenge, aur files, JSON, aur
 
 605
-00:38:31,819 --> 00:38:37,645
-Summarise the good records: success
-rate, tokens, estimated cost, latency, and the
+00:35:41,187 --> 00:35:44,078
+environment variables
+ke saath kaam karenge.
 
 606
-00:38:37,645 --> 00:38:38,853
-most common tags.
+00:35:45,378 --> 00:35:46,895
+Lesson teen complete.
 
 607
-00:38:39,203 --> 00:38:43,891
-Write that report as Markdown for
-people, or JSON for other programs.
+00:35:47,115 --> 00:35:51,067
+Ab aapka code organised bhi
+hai, aur errors ke liye taiyaar bhi.
 
 608
-00:38:44,241 --> 00:38:48,057
-Download logs from
-several URLs at the same time.
+00:35:51,287 --> 00:35:53,135
+Milte hain agle lesson mein.
 
 609
-00:38:48,407 --> 00:38:53,273
-And take its settings from environment
-variables, with automated tests for all of
+00:35:54,428 --> 00:35:57,623
+Asli AI projects
+kabhi ek file ke nahi hote.
 
 610
-00:38:53,273 --> 00:38:53,453
-it.
+00:35:57,843 --> 00:36:03,168
+Woh disk se prompts aur documents padhte
+hain, APIs ke saath JSON ka len den karte
 
 611
-00:38:54,753 --> 00:38:57,468
-Before writing code,
-decide how to split it.
+00:36:03,168 --> 00:36:08,233
+hain, aur unhe secret API keys chahiye
+hoti hain, jo kabhi code mein nahi honi
 
 612
-00:38:57,688 --> 00:38:59,433
-Each file gets one job.
+00:36:08,233 --> 00:36:08,753
+chahiye.
 
 613
-00:38:59,783 --> 00:39:04,732
-At the top, cli dot py reads the
-command line and calls everything else.
+00:36:08,973 --> 00:36:10,488
+Iss lesson mein yeh sab.
 
 614
-00:39:04,952 --> 00:39:08,479
-It's the only part that
-knows about arguments and printing.
+00:36:11,788 --> 00:36:17,311
+Iss lesson ke baad aap code ko modules
+aur packages mein baant paoge, aur import kar
 
 615
-00:39:08,829 --> 00:39:14,445
-The loader reads a file, and models turns
-each raw dictionary into a validated usage
+00:36:17,311 --> 00:36:17,705
+paoge.
 
 616
-00:39:14,445 --> 00:39:14,913
-record.
+00:36:18,055 --> 00:36:20,874
+pathlib se files
+safely padhoge aur likhoge.
 
 617
-00:39:15,263 --> 00:39:18,482
-Stats calculates the
-summary, and report formats it.
+00:36:21,224 --> 00:36:26,116
+JSON aur Python ke beech convert
+karoge, aur kharab JSON handle karoge.
 
 618
-00:39:18,702 --> 00:39:22,833
-Calculating and formatting are
-separate, so each is easy to test.
+00:36:26,466 --> 00:36:30,939
+Aur configuration aur secrets ko
+environment variables mein rakhoge.
 
 619
-00:39:23,183 --> 00:39:28,681
-Config reads settings and prices,
-and fetch downloads logs over HTTP.
+00:36:32,239 --> 00:36:34,741
+Pehle what: modules aur packages kya hain?
 
 620
-00:39:29,031 --> 00:39:31,690
-And errors defines our exception classes.
+00:36:34,961 --> 00:36:36,437
+Ek almirah socho.
 
 621
-00:39:31,910 --> 00:39:37,461
-Any module can raise a toolkit error, and
-the command line catches it in exactly one
+00:36:36,657 --> 00:36:39,287
+Aap saare kapde ek dher mein nahi phenkte.
 
 622
-00:39:37,461 --> 00:39:37,857
-place.
+00:36:39,507 --> 00:36:41,957
+Shirts ek shelf par, jeans doosri par.
 
 623
-00:39:39,157 --> 00:39:40,264
-Here's the input.
+00:36:42,177 --> 00:36:45,658
+Har shelf ek module hai,
+poori almirah ek package.
 
 624
-00:39:40,484 --> 00:39:43,647
-A JSON list, with one
-object per model call.
+00:36:45,879 --> 00:36:48,975
+Aur zaroorat ho toh sirf
+woh nikaalte ho jo chahiye.
 
 625
-00:39:43,997 --> 00:39:49,358
-Each record has an id, the model
-used, and the prompt and completion tokens.
+00:36:50,275 --> 00:36:53,494
+Ab dekhte hain Python
+code organise kaise hota hai.
 
 626
-00:39:49,578 --> 00:39:55,018
-Prompt tokens are what you sent, and
-completion tokens are what the model generated.
+00:36:53,844 --> 00:36:59,099
+Module bas ek Python file hai. cleaning
+dot py mein jo bhi define hai, functions,
 
 627
-00:39:55,238 --> 00:39:57,765
-Providers usually price them differently.
+00:36:59,099 --> 00:37:02,601
+classes, variables, sab
+kahin aur import ho sakta hai.
 
 628
-00:39:58,115 --> 00:40:05,535
-It also has the latency in
-milliseconds, a status of ok or error, a list of tags
+00:37:02,951 --> 00:37:08,438
+Package modules ka ek folder hai, jisme
+dunder init dot py naam ki file hoti hai.
 
 629
-00:40:05,535 --> 00:40:10,730
-describing the task, and a
-timestamp in ISO 8601 format.
+00:37:08,658 --> 00:37:14,068
+Package import hote hi yeh file chalti
+hai, aur aksar sabse kaam ke naam aage export
 
 630
-00:40:10,950 --> 00:40:16,204
-Elsewhere in this file, request four
-failed after thirty seconds, which looks like a
+00:37:14,068 --> 00:37:14,712
+karti hai.
 
 631
-00:40:16,204 --> 00:40:16,704
-timeout.
+00:37:15,062 --> 00:37:20,222
+Aapka program package ko naam se import
+karta hai, bilkul baaki cheezon ki tarah.
 
 632
-00:40:16,924 --> 00:40:19,778
-Real logs contain
-exactly this kind of mess.
+00:37:20,572 --> 00:37:22,449
+Modules ke do aur source hain.
 
 633
-00:40:21,078 --> 00:40:25,031
-We start with the errors,
-because every other module uses them.
+00:37:22,669 --> 00:37:27,975
+Standard library, jo Python ke saath
+aati hai, jaise json, pathlib, aur os.
 
 634
-00:40:25,251 --> 00:40:29,571
-Toolkit error is the base class
-for anything we raise on purpose.
+00:37:28,195 --> 00:37:33,025
+Aur third party packages jo pip
+se install hote hain, jaise httpx.
 
 635
-00:40:29,921 --> 00:40:32,804
-Validation error is a more specific kind.
+00:37:34,325 --> 00:37:39,588
+Yeh module hai. normalize text ko words
+mein todta hai, aur ek ek space se wapas
 
 636
-00:40:33,024 --> 00:40:38,052
-It calls the parent's init with a
-readable message, and also stores which field
+00:37:39,588 --> 00:37:40,246
+jodta hai.
 
 637
-00:40:38,052 --> 00:40:39,961
-failed, so tests can check it.
+00:37:40,466 --> 00:37:42,702
+Isse faaltu spaces hat jaate hain.
 
 638
-00:40:41,261 --> 00:40:42,582
-Now the data model.
+00:37:43,052 --> 00:37:46,563
+Aur word count normalize
+ko hi dobara use karta hai.
 
 639
-00:40:42,802 --> 00:40:47,476
-Allowed status is a set, because we
-only ever ask, is this status in the set?
+00:37:46,783 --> 00:37:49,575
+Chhote functions, jo
+ek doosre par khade hain.
 
 640
-00:40:47,826 --> 00:40:49,484
-Require is a small helper.
+00:37:50,875 --> 00:37:55,754
+Package ki init file dono functions
+import karti hai, taaki users unhe seedha
 
 641
-00:40:49,704 --> 00:40:55,108
-It returns a field's value, or raises
-a validation error saying the field is
+00:37:55,754 --> 00:37:57,529
+textkit par call kar sakein.
 
 642
-00:40:55,108 --> 00:40:58,165
-required, instead of
-a confusing key error.
+00:37:57,879 --> 00:38:00,912
+Aur dunder all batata hai
+ki kaunse naam public hain.
 
 643
-00:40:58,515 --> 00:41:01,230
-This helper checks for
-a non-negative integer.
+00:38:02,212 --> 00:38:07,817
+Import ke do tareeke. import textkit
+poora package laata hai, jise prefix ke saath
 
 644
-00:41:01,450 --> 00:41:03,022
-There's one subtle trap here.
+00:38:07,817 --> 00:38:08,705
+use karte ho.
 
 645
-00:41:03,242 --> 00:41:08,371
-In Python, True and False are a kind
-of int, so we reject bools explicitly.
+00:38:08,925 --> 00:38:13,469
+Aur from textkit dot cleaning
+import word count, sirf ek naam laata hai.
 
 646
-00:41:08,721 --> 00:41:13,113
-The record itself is a
-dataclass, with a type hint for every field.
+00:38:13,819 --> 00:38:15,732
+main function kaam karta hai.
 
 647
-00:41:13,333 --> 00:41:19,108
-Frozen equals True makes it read-only,
-so nothing can quietly modify a record after
+00:38:15,952 --> 00:38:19,108
+Output mein saaf kiya
+hua text, aur teen words.
 
 648
-00:41:19,108 --> 00:41:19,873
-validation.
+00:38:19,458 --> 00:38:24,684
+Aakhri check Python ka ek idiom hai.
+dunder name equals dunder main tabhi true hota
 
 649
-00:41:20,223 --> 00:41:22,107
-Total tokens is a property.
+00:38:24,684 --> 00:38:26,825
+hai jab file seedhe chalayi jaaye.
 
 650
-00:41:22,327 --> 00:41:27,450
-It's calculated from the other fields,
-but you use it like a normal attribute,
+00:38:27,045 --> 00:38:31,267
+Koi doosri file isse import
+kare, toh main apne aap nahi chalta.
 
 651
-00:41:27,450 --> 00:41:28,764
-without parentheses.
+00:38:32,567 --> 00:38:38,168
+Agar apne hi package ke liye
+ModuleNotFoundError aaye, toh lagbhag hamesha aap galat
 
 652
-00:41:30,064 --> 00:41:33,762
-From dict is a class
-method, an alternative constructor.
+00:38:38,168 --> 00:38:40,235
+folder se Python chala rahe ho.
 
 653
-00:41:33,982 --> 00:41:39,394
-It receives the class itself as cls,
-and builds a record from a raw dictionary.
+00:38:40,455 --> 00:38:45,437
+Python imports ko uss script ke
+folder se dhoondhna shuru karta hai jo aapne
 
 654
-00:41:39,614 --> 00:41:42,775
-First, it checks that the
-item is a dictionary at all.
+00:38:45,437 --> 00:38:45,961
+chalayi.
 
 655
-00:41:43,125 --> 00:41:44,705
-Then each field gets checked.
+00:38:46,181 --> 00:38:50,100
+Project root se chalao, aur
+packages ke liye python dash m.
 
 656
-00:41:44,925 --> 00:41:48,140
-The id and the model
-must be non-empty strings.
+00:38:51,400 --> 00:38:52,306
+Ab files.
 
 657
-00:41:48,490 --> 00:41:54,341
-Latency must be a non-negative number,
-either an int or a float, but again, not a
+00:38:52,526 --> 00:38:56,670
+Prompts, documents, logs, aur
+reports, sab files mein rehte hain.
 
 658
-00:41:54,341 --> 00:41:54,702
-bool.
+00:38:56,890 --> 00:39:00,339
+Inke saath kaam karne ka
+modern tareeka hai pathlib.
 
 659
-00:41:55,052 --> 00:41:57,013
-The status must be in the allowed set.
+00:39:00,689 --> 00:39:06,282
+Path object ek file ka path hai. write
+text file banata hai, ya overwrite karta hai.
 
 660
-00:41:57,233 --> 00:42:01,623
-The message lists the valid
-options, which makes the error easy to fix.
+00:39:06,502 --> 00:39:09,275
+Aur hamesha encoding equals utf eight do.
 
 661
-00:42:01,973 --> 00:42:07,411
-Tags are optional, so we use get with an
-empty list as the default, and then check
+00:39:09,495 --> 00:39:14,956
+Windows par default encoding alag hota
+hai, aur AI ka text, jaise Hindi ya emoji,
 
 662
-00:42:07,411 --> 00:42:09,267
-that it's a list of strings.
+00:39:14,956 --> 00:39:18,664
+basic English ke bahar ke
+characters se bhara hota hai.
 
 663
-00:42:09,617 --> 00:42:13,957
-For the timestamp, datetime
-dot fromisoformat does the parsing.
+00:39:19,014 --> 00:39:24,222
+read text poori file ek string mein deta
+hai, aur splitlines usse lines ki list bana
 
 664
-00:42:14,177 --> 00:42:19,565
-If it fails, we raise our own error,
-from None, so the user sees one clear message
+00:39:24,222 --> 00:39:24,780
+deta hai.
 
 665
-00:42:19,565 --> 00:42:21,799
-instead of two chained tracebacks.
+00:39:25,130 --> 00:39:28,929
+Zyaada control chahiye, toh
+file ko with block ke andar kholo.
 
 666
-00:42:22,149 --> 00:42:25,886
-Finally, we call cls
-with every validated value.
+00:39:29,149 --> 00:39:32,116
+Mode a ka matlab
+append, yaani end mein jodo.
 
 667
-00:42:26,106 --> 00:42:29,342
-If we get here, the
-record is guaranteed to be valid.
+00:39:32,336 --> 00:39:36,904
+Aur with guarantee deta hai ki file
+band hogi, chaahe beech mein error aa jaaye.
 
 668
-00:42:30,642 --> 00:42:35,877
-Let's try the model in the interactive
-Python prompt, before any other code exists.
+00:39:37,254 --> 00:39:42,470
+Aakhir mein lines ko number do, aur
+path se kuch sawaal poocho: file hai ya nahi,
 
 669
-00:42:36,097 --> 00:42:39,042
-Start it by typing
-python in the project folder.
+00:39:42,470 --> 00:39:44,853
+uska suffix kya hai, aur kitne bytes.
 
 670
-00:42:39,392 --> 00:42:41,946
-We build a valid dictionary step by step.
+00:39:45,073 --> 00:39:47,135
+Teen lines, aur thirty four bytes.
 
 671
-00:42:42,166 --> 00:42:45,942
-From dict gives us a
-record, and total tokens is fifteen.
+00:39:48,435 --> 00:39:53,538
+JSON data ke liye ek text format hai,
+aur AI engineering mein yeh har jagah hai.
 
 672
-00:42:46,292 --> 00:42:48,619
-Now change one field to minus one.
+00:39:53,758 --> 00:39:59,508
+Model APIs JSON bhejti aur leti hain,
+tool calls JSON mein describe hote hain, aur
 
 673
-00:42:48,839 --> 00:42:52,614
-Our validation error names
-the field and the bad value.
+00:39:59,508 --> 00:40:01,331
+logs aksar JSON hote hain.
 
 674
-00:42:52,834 --> 00:42:58,077
-Double star row copies the dictionary,
-and the new key overrides the old value.
+00:40:01,551 --> 00:40:06,091
+Isse ek common courier ka dabba
+samjho, jise har system khol sakta hai.
 
 675
-00:42:59,377 --> 00:43:02,694
-Read JSON handles the
-two ways reading can fail.
+00:40:06,441 --> 00:40:08,770
+JSON Python jaisa hi dikhta hai.
 
 676
-00:43:02,914 --> 00:43:06,782
-The file might not exist,
-or it might not be valid JSON.
+00:40:08,990 --> 00:40:13,648
+Curly braces mein objects, square
+brackets mein arrays, strings, numbers, true,
 
 677
-00:43:07,002 --> 00:43:12,464
-Both become a toolkit error with a clear
-message, including the line and column for
+00:40:13,648 --> 00:40:14,592
+false, aur null.
 
 678
-00:43:12,464 --> 00:43:13,056
-bad JSON.
+00:40:14,942 --> 00:40:18,427
+Python ka json module
+inhe seedha map karta hai.
 
 679
-00:43:13,406 --> 00:43:18,920
-Load records returns a tuple of two
-lists: the valid records, and a message for
+00:40:18,647 --> 00:40:23,563
+Objects dictionaries ban jaate hain,
+arrays lists, aur true, false, null ban jaate
 
 680
-00:43:18,920 --> 00:43:20,176
-every invalid one.
+00:40:23,563 --> 00:40:25,662
+hain capital True, False, aur None.
 
 681
-00:43:20,396 --> 00:43:22,786
-The top level of the file must be a list.
+00:40:25,882 --> 00:40:28,675
+Lekin JSON Python se zyaada strict hai.
 
 682
-00:43:23,136 --> 00:43:27,949
-Then we loop with enumerate, so we
-can report record numbers starting at one.
+00:40:28,895 --> 00:40:32,872
+Strings ko double quotes chahiye,
+aur aakhri comma allowed nahi hai.
 
 683
-00:43:28,169 --> 00:43:33,761
-Each record that fails validation is
-recorded as a problem, and the loop carries on.
+00:40:34,172 --> 00:40:37,345
+Hum ek normal Python
+dictionary se shuru karte hain.
 
 684
-00:43:33,981 --> 00:43:37,429
-One bad record never stops
-the good ones from loading.
+00:40:37,695 --> 00:40:43,569
+json dot dumps, s matlab string, Python
+ko JSON text mein badalta hai. indent do se
 
 685
-00:43:38,729 --> 00:43:44,046
-Settings is a small frozen dataclass
-with the two things we can configure: the
+00:40:43,569 --> 00:40:44,914
+padhne mein aasaan.
 
 686
-00:43:44,046 --> 00:43:46,500
-prices file, and the currency label.
+00:40:45,134 --> 00:40:48,152
+Output mein dekho: true
+aur null, chhote akshar mein.
 
 687
-00:43:46,850 --> 00:43:49,710
-Load dot env is our tiny dot env reader.
+00:40:48,372 --> 00:40:50,181
+Phir ise file mein save kiya.
 
 688
-00:43:49,930 --> 00:43:55,516
-It skips blank lines and comments,
-splits each line at the first equals sign, and
+00:40:50,531 --> 00:40:56,642
+json dot loads ulta kaam karta hai,
+JSON text ko wapas Python objects banata hai.
 
 689
-00:43:55,516 --> 00:44:01,102
-uses set default, so a variable that's
-already set in the real environment always
+00:40:56,862 --> 00:41:00,450
+Isliye tokens phir se asli
+number hai: six hundred one.
 
 690
-00:44:01,102 --> 00:44:02,412
-wins over the file.
+00:41:00,670 --> 00:41:01,999
+Aur ok ek bool.
 
 691
-00:44:02,762 --> 00:44:06,615
-Load settings reads both
-variables, with sensible defaults.
+00:41:02,349 --> 00:41:05,691
+Aur galat JSON par
+JSONDecodeError aata hai.
 
 692
-00:44:06,965 --> 00:44:12,488
-And load prices reads the prices file,
-skipping keys that start with an underscore,
+00:41:05,911 --> 00:41:07,893
+Yahan aakhri comma ki wajah se.
 
 693
-00:44:12,488 --> 00:44:14,218
-which we use for comments.
+00:41:08,113 --> 00:41:09,897
+Error column tak batata hai.
 
 694
-00:44:14,438 --> 00:44:18,969
-These are example prices for
-fictional models, per million tokens.
+00:41:10,117 --> 00:41:15,646
+Language models kabhi kabhi thoda toota
+JSON dete hain, isliye yeh error aap bahut
 
 695
-00:44:19,189 --> 00:44:21,423
-They are not real provider prices.
+00:41:15,646 --> 00:41:16,590
+handle karoge.
 
 696
-00:44:22,723 --> 00:44:26,683
-Prices is a type alias, a
-short name for a long type hint.
+00:41:17,890 --> 00:41:19,750
+Ab environment variables.
 
 697
-00:44:27,033 --> 00:44:31,720
-Model stats holds running totals
-for one model, all starting at zero.
+00:41:19,970 --> 00:41:24,111
+Module zero mein humne yeh
+dekha tha, yahan Python ki taraf se.
 
 698
-00:44:32,070 --> 00:44:34,408
-Summary holds every number in the report.
+00:41:24,331 --> 00:41:25,841
+ATM card socho.
 
 699
-00:44:34,628 --> 00:44:39,820
-Notice the default factories again,
-and two properties that calculate the total
+00:41:26,061 --> 00:41:28,059
+PIN kabhi card par nahi likhte.
 
 700
-00:44:39,820 --> 00:44:43,961
-tokens and the success rate,
-guarding against dividing by zero.
+00:41:28,279 --> 00:41:31,377
+Card ki photo kheench
+sakti hai, card kho sakta hai.
 
 701
-00:44:44,311 --> 00:44:50,148
-Estimate cost multiplies prompt and
-completion tokens by their prices, and divides
+00:41:31,597 --> 00:41:34,266
+PIN aapke paas rehta hai, card se alag.
 
 702
-00:44:50,148 --> 00:44:51,073
-by a million.
+00:41:34,486 --> 00:41:38,650
+API key bhi code mein nahi,
+environment variable mein rehti hai.
 
 703
-00:44:51,293 --> 00:44:54,382
-An unknown model returns
-None instead of crashing.
+00:41:39,950 --> 00:41:40,710
+Ab why.
 
 704
-00:44:55,682 --> 00:45:01,403
-Summarize prepares a dictionary of
-per-model stats, a counter for tags, a set of
+00:41:40,930 --> 00:41:43,240
+Pehla: secrets code se bahar rehte hain.
 
 705
-00:45:01,403 --> 00:45:04,335
-models with no price, and a running cost.
+00:41:43,460 --> 00:41:48,598
+Source file mein likhi API key git
+history, screenshots, aur logs tak pahunch jaati
 
 706
-00:45:04,685 --> 00:45:06,474
-One loop does all the counting.
+00:41:48,598 --> 00:41:48,846
+hai.
 
 707
-00:45:06,694 --> 00:45:10,426
-Set default creates a model's
-stats the first time we see it.
+00:41:49,196 --> 00:41:52,198
+Doosra: code badle bina
+settings badal sakte ho.
 
 708
-00:45:10,646 --> 00:45:15,823
-Unpriced models are collected, not
-fatal, and the counter tallies every tag.
+00:41:52,418 --> 00:41:55,808
+Jaise laptop par ek model,
+aur production mein doosra.
 
 709
-00:45:16,173 --> 00:45:21,587
-Finally, comprehensions and sum compute
-the totals, and most common gives the top
+00:41:56,158 --> 00:41:58,734
+Teesra: har platform
+inhe support karta hai.
 
 710
-00:45:21,587 --> 00:45:22,322
-three tags.
+00:41:58,954 --> 00:42:01,726
+Terminal, Docker, cloud, aur CI pipelines.
 
 711
-00:45:22,542 --> 00:45:25,099
-Everything from
-lesson two, working together.
+00:42:01,946 --> 00:42:04,613
+Module satrah tak aap inhe use karoge.
 
 712
-00:45:26,399 --> 00:45:30,354
-The command line doesn't exist
-yet, but the pieces already work.
+00:42:05,913 --> 00:42:11,689
+os module environment variables ko
+environ naam ke dictionary jaise object mein deta
 
 713
-00:45:30,574 --> 00:45:32,649
-Let's call them from the Python prompt.
+00:42:11,689 --> 00:42:16,847
+hai. get, variable set na ho toh
+None deta hai, ya aapka chuna hua default.
 
 714
-00:45:32,999 --> 00:45:38,097
-Loading the broken file gives one
-valid record and four problems, each with a
+00:42:17,197 --> 00:42:21,936
+Key missing ho toh saaf saaf bolo, baad
+mein ulajhne wale tareeke se fail mat ho.
 
 715
-00:45:38,097 --> 00:45:39,156
-precise message.
+00:42:22,156 --> 00:42:24,379
+Aur secret khud kabhi print mat karo.
 
 716
-00:45:39,506 --> 00:45:44,946
-And summarising the clean sample
-gives ten requests, eight successful, eleven
+00:42:24,599 --> 00:42:28,115
+Uski length print karna
+confirm karne ke liye kaafi hai.
 
 717
-00:45:44,946 --> 00:45:50,315
-thousand and ninety-five tokens, the
-estimated cost, and the top three tags.
+00:42:28,335 --> 00:42:33,312
+Abhi kuch set nahi hai, toh script mana
+kar deti hai, aur default model use hota
 
 718
-00:45:51,615 --> 00:45:54,374
-We planned small
-modules with one job each.
+00:42:33,312 --> 00:42:33,561
+hai.
 
 719
-00:45:54,724 --> 00:46:00,296
-We validate data at the edge, turning raw
-dictionaries into trusted records or clear
+00:42:34,861 --> 00:42:39,318
+Mac ya Linux par ek command ke
+liye variables aise set kar sakte ho.
 
 720
-00:46:00,296 --> 00:46:00,760
-errors.
+00:42:39,538 --> 00:42:41,754
+Yeh fake key hai, sirf demo ke liye.
 
 721
-00:46:01,110 --> 00:46:04,346
-We collect problems instead
-of crashing on the first one.
+00:42:41,974 --> 00:42:45,645
+Key load hui, uski sirf
+length dikhi, aur model badal gaya.
 
 722
-00:46:04,696 --> 00:46:07,188
-And we keep calculating
-separate from formatting.
+00:42:45,995 --> 00:42:51,904
+Windows PowerShell mein pehle dollar env
+colon DEMO API KEY equals, aur value quotes
 
 723
-00:46:07,538 --> 00:46:12,755
-In part two, we write the report, the
-downloader, and the command line, then run the
+00:42:51,904 --> 00:42:52,256
+mein.
 
 724
-00:46:12,755 --> 00:46:15,674
-finished tool, test
-it, and wrap up the module.
+00:42:52,476 --> 00:42:56,992
+Aur roz ke kaam ke liye dot env
+file, jo Module zero mein dekhi thi.
 
 725
-00:46:16,998 --> 00:46:18,023
-Welcome back.
+00:42:58,292 --> 00:43:03,319
+Har baar variables type karna thakaau
+hai, isliye projects unhe dot env file mein
 
 726
-00:46:18,243 --> 00:46:19,688
-The data layer works.
+00:43:03,319 --> 00:43:04,064
+rakhte hain.
 
 727
-00:46:19,908 --> 00:46:25,007
-Now we add the report writer, the
-downloader, and the command line, then run the
+00:43:04,284 --> 00:43:09,768
+Commit hota hai template, dot env dot
+example, fake values ke saath, taaki doosron
 
 728
-00:46:25,007 --> 00:46:30,361
-finished tool, test it, fix the common
-errors, and finish the module with a quiz and
+00:43:09,768 --> 00:43:11,707
+ko pata ho kya set karna hai.
 
 729
-00:46:30,361 --> 00:46:31,126
-a challenge.
+00:43:12,057 --> 00:43:17,275
+Asli dot env file mein aapki real keys
+hoti hain, aur woh dot gitignore mein listed
 
 730
-00:46:32,426 --> 00:46:35,690
-Render markdown takes a
-summary and returns text.
+00:43:17,275 --> 00:43:19,916
+hai, toh git usse kabhi record nahi karta.
 
 731
-00:46:35,910 --> 00:46:40,897
-It doesn't print anything, so it's easy
-to test, and the caller decides where the
+00:43:20,136 --> 00:43:25,522
+Project mein hum ek chhota loader
+likhenge jo dot env ko environment mein padhta
 
 732
-00:46:40,897 --> 00:46:41,512
-text goes.
+00:43:25,522 --> 00:43:25,791
+hai.
 
 733
-00:46:41,862 --> 00:46:47,169
-The report is built as a list of
-lines, using f-string formats from lesson two.
+00:43:26,011 --> 00:43:29,893
+Aur asli environment
+variables hamesha file se jeette hain.
 
 734
-00:46:47,389 --> 00:46:52,861
-Colon point one percent shows a
-percentage, and colon point four f shows four
+00:43:31,193 --> 00:43:32,488
+Interview corner.
 
 735
-00:46:52,861 --> 00:46:53,927
-decimal places.
+00:43:32,708 --> 00:43:36,001
+Pehla question: module aur
+package mein kya farak hai?
 
 736
-00:46:54,277 --> 00:46:57,033
-A Markdown table has one row per model.
+00:43:38,351 --> 00:43:40,641
+Answer: module ek dot py file hai.
 
 737
-00:46:57,383 --> 00:47:03,207
-Then the top tags, numbered with
-enumerate, a warning if any model had no price, and
+00:43:40,861 --> 00:43:46,510
+Package modules ka folder hai, aam taur
+par dunder init ke saath, jo folder ke naam
 
 738
-00:47:03,207 --> 00:47:06,396
-finally join glues
-everything into one string.
+00:43:46,510 --> 00:43:47,803
+se import hota hai.
 
 739
-00:47:07,696 --> 00:47:13,112
-The JSON report builds nested
-dictionaries in exactly the shape we want, rounding
+00:43:48,023 --> 00:43:53,384
+Trap: package ke andar ki file ko
+seedha chalana, aur phir sochna ki imports kyun
 
 740
-00:47:13,112 --> 00:47:15,520
-the floats so the output stays tidy.
+00:43:53,384 --> 00:43:55,634
+toot gaye. python dash m use karo.
 
 741
-00:47:15,870 --> 00:47:21,052
-A dictionary comprehension builds the
-per-model section, and a list comprehension
+00:43:55,984 --> 00:43:58,940
+Doosra: json load aur
+json loads mein farak?
 
 742
-00:47:21,052 --> 00:47:22,076
-builds the tags.
+00:44:01,290 --> 00:44:05,904
+Answer: loads ek string ko parse
+karta hai, load ek khuli file se padhta hai.
 
 743
-00:47:22,296 --> 00:47:27,058
-Sets aren't valid JSON, so the
-unpriced models become a sorted list.
+00:44:06,124 --> 00:44:11,029
+Likhne ke liye bhi yahi jodi: dumps
+string lautaata hai, dump file mein likhta hai.
 
 744
-00:47:27,408 --> 00:47:30,280
-And json dot dumps turns it all into text.
+00:44:11,249 --> 00:44:13,771
+Trap: json load ko file ka path dena.
 
 745
-00:47:31,580 --> 00:47:34,758
-Fetch one is the async
-request from lesson five.
+00:44:13,991 --> 00:44:16,183
+Use khuli file chahiye, path nahi.
 
 746
-00:47:34,978 --> 00:47:38,660
-Get the URL, raise for
-status, and parse the JSON.
+00:44:16,533 --> 00:44:19,207
+Teesra: ek API key
+git mein commit ho gayi.
 
 747
-00:47:39,010 --> 00:47:42,686
-Each kind of failure
-becomes one readable toolkit error.
+00:44:19,427 --> 00:44:21,490
+Kya line delete karna kaafi hai?
 
 748
-00:47:42,906 --> 00:47:48,760
-An error status, a network problem like
-a refused connection, or a body that isn't
+00:44:23,840 --> 00:44:24,936
+Answer: nahi.
 
 749
-00:47:48,760 --> 00:47:49,117
-JSON.
+00:44:25,156 --> 00:44:29,087
+Woh git history mein rehti hai,
+aur shayad copy bhi ho chuki hai.
 
 750
-00:47:49,467 --> 00:47:51,749
-And the body has to be a list of records.
+00:44:29,307 --> 00:44:34,532
+Key revoke karo, nayi banao, aur
+environment variable ya git ignored dot env mein
 
 751
-00:47:52,099 --> 00:47:58,213
-Fetch all opens one client, gathers
-every download at the same time, and flattens
+00:44:34,532 --> 00:44:34,919
+rakho.
 
 752
-00:47:58,213 --> 00:48:02,516
-the batches into one list,
-keeping the order of the URLs.
+00:44:35,139 --> 00:44:37,101
+Trap: sirf history saaf karna.
 
 753
-00:48:02,736 --> 00:48:05,640
-The optional transport
-parameter is for testing.
+00:44:37,321 --> 00:44:38,796
+Key ko leaked hi maano.
 
 754
-00:48:05,860 --> 00:48:09,113
-It lets tests replace the
-real network with a fake one.
+00:44:40,096 --> 00:44:41,205
+Practice time.
 
 755
-00:48:10,413 --> 00:48:15,388
-The standard library's argparse
-turns command line text into Python values.
+00:44:41,425 --> 00:44:43,838
+Video pause karo, aur khud try karo.
 
 756
-00:48:15,608 --> 00:48:19,312
-It also generates help text
-and error messages for free.
+00:44:44,188 --> 00:44:48,827
+Pehla: textkit mein char count
+function jodo, aur init file se export karo.
 
 757
-00:48:19,662 --> 00:48:23,917
-Sub parsers give us separate
-commands, like git commit and git push.
+00:44:49,177 --> 00:44:54,505
+Doosra: teen messages ki list chat dot
+json mein save karo, aur wapas load karo.
 
 758
-00:48:24,137 --> 00:48:29,289
-Validate takes one file, and type
-equals Path converts it to a Path object.
+00:44:54,855 --> 00:44:59,186
+Teesra: DEMO MAX TOKENS ko int ki
+tarah padho, default five hundred.
 
 759
-00:48:29,639 --> 00:48:35,306
-Report adds options: a format
-restricted to two choices, an optional output file,
+00:44:59,406 --> 00:45:03,056
+Dhyaan do: environment
+variables hamesha text hote hain.
 
 760
-00:48:35,306 --> 00:48:38,385
-and a strict flag
-that is True when present.
+00:45:03,406 --> 00:45:06,895
+Aur scenario: model
+aakhri comma wala JSON deta hai.
 
 761
-00:48:38,735 --> 00:48:43,340
-Fetch accepts one or more
-URLs, and requires an output file.
+00:45:07,115 --> 00:45:10,299
+App crash na ho, iske
+liye aapka code kya karega?
 
 762
-00:48:44,640 --> 00:48:48,269
-Each command is a
-function that returns an exit code.
+00:45:17,599 --> 00:45:18,429
+Quick check.
 
 763
-00:48:48,489 --> 00:48:54,157
-Validate prints every problem and
-returns one if anything was wrong, so scripts and
+00:45:18,649 --> 00:45:22,645
+Kaunsi call iss JSON text ko
+Python dictionary banati hai?
 
 764
-00:48:54,157 --> 00:48:56,343
-CI pipelines can detect failure.
+00:45:28,345 --> 00:45:34,214
+B, json dot loads. s matlab string. dumps
+ulta jaata hai, aur bina s wala load khuli
 
 765
-00:48:56,693 --> 00:48:58,818
-Report loads settings and records.
+00:45:34,214 --> 00:45:35,541
+file se padhta hai.
 
 766
-00:48:59,038 --> 00:49:04,272
-Warnings go to standard error, so they
-never mix into a report that's being saved or
+00:45:36,841 --> 00:45:38,127
+Doosra question.
 
 767
-00:49:04,272 --> 00:49:04,645
-piped.
+00:45:38,347 --> 00:45:40,844
+Asli API key kahan rehni chahiye?
 
 768
-00:49:04,865 --> 00:49:07,733
-With strict, any
-invalid record is a failure.
+00:45:46,544 --> 00:45:47,029
+C.
 
 769
-00:49:07,953 --> 00:49:11,897
-Then we summarise and choose
-a renderer, Markdown or JSON.
+00:45:47,249 --> 00:45:52,771
+Environment variable mein, ya git
+ignored dot env mein. dot env dot example commit
 
 770
-00:49:12,247 --> 00:49:15,951
-The text is written to a
-file if out was given, or printed.
+00:45:52,771 --> 00:45:55,398
+hoti hai, isliye usme sirf fake values.
 
 771
-00:49:16,301 --> 00:49:21,795
-Fetch uses asyncio dot run to call
-our async function from normal code.
+00:45:56,698 --> 00:45:57,423
+Recap.
 
 772
-00:49:22,145 --> 00:49:27,192
-A dictionary maps each command name to
-its function, so there's no long chain of
+00:45:57,643 --> 00:46:01,430
+Module ek file hai, aur
+package dunder init wala folder.
 
 773
-00:49:27,192 --> 00:49:27,444
-ifs.
+00:46:01,780 --> 00:46:05,109
+Har file ke liye
+pathlib, aur encoding utf eight.
 
 774
-00:49:27,664 --> 00:49:32,953
-And main is the single place that
-catches toolkit errors, printing one clean line
+00:46:05,459 --> 00:46:10,076
+json loads aur dumps se convert
+karo, aur JSONDecodeError pakdo.
 
 775
-00:49:32,953 --> 00:49:35,695
-and returning one, instead of a traceback.
+00:46:10,426 --> 00:46:14,657
+Secrets environment variables
+mein, aur commit sirf example file.
 
 776
-00:49:36,995 --> 00:49:41,128
-And dunder main is what runs
-when you type python dash m toolkit.
+00:46:15,007 --> 00:46:21,044
+Agle lesson mein type hints jodenge, HTTP
+par web APIs se baat karenge, aur dekhenge
 
 777
-00:49:41,348 --> 00:49:46,878
-It calls main, and raises system exit
-with the return value, which becomes the
+00:46:21,044 --> 00:46:23,920
+ki async AI apps ko tez kyun banata hai.
 
 778
-00:49:46,878 --> 00:49:48,296
-program's exit code.
+00:46:25,220 --> 00:46:26,814
+Lesson chaar complete.
 
 779
-00:49:49,596 --> 00:49:51,027
-Let's run the finished tool.
+00:46:27,034 --> 00:46:31,055
+Ab aapka code files mein baanta
+hua hai, aur secrets surakshit hain.
 
 780
-00:49:51,247 --> 00:49:55,295
-Help is generated by
-argparse, listing the three commands.
+00:46:31,275 --> 00:46:33,122
+Milte hain agle lesson mein.
 
 781
-00:49:55,645 --> 00:49:57,641
-The sample file is fully valid.
+00:46:34,428 --> 00:46:38,952
+Iss course ka har language
+model ek web API ke peeche rehta hai.
 
 782
-00:49:57,991 --> 00:50:01,249
-The broken file
-reports four precise problems.
+00:46:39,172 --> 00:46:43,808
+Aap ek HTTP request bhejte ho,
+aur jawaab ka intezaar karte ho.
 
 783
-00:50:01,599 --> 00:50:06,489
-And the exit code is one, which is
-how other programs know validation failed.
+00:46:44,027 --> 00:46:50,299
+Yeh lesson aapko teen tools deta hai jo
+isse achhe se karte hain: type hints, httpx
 
 784
-00:50:07,789 --> 00:50:09,141
-The Markdown report.
+00:46:50,299 --> 00:46:52,868
+se HTTP requests, aur async await.
 
 785
-00:50:09,361 --> 00:50:12,042
-Ten requests with an
-eighty percent success rate.
+00:46:54,168 --> 00:46:59,247
+Iss lesson ke baad aap functions par
+type hints lagaoge, aur unhe type checker se
 
 786
-00:50:12,262 --> 00:50:15,498
-And notice the average
-latency, over four seconds.
+00:46:59,247 --> 00:47:00,062
+check karoge.
 
 787
-00:50:15,718 --> 00:50:18,741
-That's because one failed
-request took thirty seconds.
+00:47:00,412 --> 00:47:04,397
+HTTP requests, responses,
+aur status codes samjhoge.
 
 788
-00:50:18,961 --> 00:50:24,302
-An average hides outliers like that,
-which is why one of this module's challenges
+00:47:04,747 --> 00:47:09,909
+httpx se web APIs call karoge,
+timeout aur error handling ke saath.
 
 789
-00:50:24,302 --> 00:50:26,214
-asks you to add a percentile.
+00:47:10,259 --> 00:47:13,626
+Aur async await se dheemi
+cheezein ek saath chalaoge.
 
 790
-00:50:27,514 --> 00:50:33,299
-With format json and out, the report is
-saved to a file instead, and the folder is
+00:47:14,926 --> 00:47:16,723
+Pehle what: type hint kya hai?
 
 791
-00:50:33,299 --> 00:50:34,851
-created automatically.
+00:47:16,943 --> 00:47:21,542
+Courier ka dabba socho, jis par
+likha hai: fragile, do kilo, electronics.
 
 792
-00:50:35,201 --> 00:50:40,043
-Here's the start of that JSON file,
-ready for a dashboard or another program.
+00:47:21,762 --> 00:47:24,024
+Label andar ki cheez nahi badalta.
 
 793
-00:50:40,393 --> 00:50:45,078
-In strict mode, the broken file
-fails, with the warning on standard error.
+00:47:24,244 --> 00:47:29,734
+Lekin sabko pata hota hai kya umeed
+karni hai, aur scanner bhejne se pehle hi galti
 
 794
-00:50:45,428 --> 00:50:47,397
-And settings come from the environment.
+00:47:29,734 --> 00:47:30,792
+pakad sakta hai.
 
 795
-00:50:47,617 --> 00:50:52,857
-Point the prices file at something that
-doesn't exist, and you get one clear error
+00:47:31,012 --> 00:47:33,414
+Type hint label hai, aur mypy scanner.
 
 796
-00:50:52,857 --> 00:50:54,071
-line, no traceback.
+00:47:34,714 --> 00:47:39,983
+Har parameter ke baad colon aur type
+likhte ho, aur brackets ke baad ek arrow aur
 
 797
-00:50:55,371 --> 00:50:56,475
-Finally, fetch.
+00:47:39,983 --> 00:47:40,763
+return type.
 
 798
-00:50:56,695 --> 00:51:02,450
-A local web server is serving the data
-folder on port eighty-seven sixty-five, just
+00:47:40,983 --> 00:47:44,760
+Yeh function floats ki list
+leta hai aur ek float lautaata hai.
 
 799
-00:51:02,450 --> 00:51:03,837
-like in lesson five.
+00:47:45,110 --> 00:47:50,052
+Yahan dictionary strings se floats tak
+map karti hai, aur khadi line ka matlab hai
 
 800
-00:51:04,187 --> 00:51:08,650
-To keep the command short, we store
-the base address in a shell variable.
+00:47:50,052 --> 00:47:50,233
+ya.
 
 801
-00:51:09,000 --> 00:51:14,418
-Both files download concurrently, and
-fifteen records are merged into one file.
+00:47:50,453 --> 00:47:53,928
+Function float lautaata
+hai, ya None, jab model na mile.
 
 802
-00:51:14,768 --> 00:51:20,656
-Validating the merged file finds the
-eleven good records and the same four problems.
+00:47:54,278 --> 00:47:57,027
+Sahi tarah call karo,
+toh sab theek chalta hai.
 
 803
-00:51:21,006 --> 00:51:25,995
-And if a server can't be reached,
-again, one clear line explains what happened.
+00:47:57,377 --> 00:47:58,978
+Lekin important baat.
 
 804
-00:51:27,295 --> 00:51:29,556
-A demo shows that the tool works today.
+00:47:59,198 --> 00:48:01,857
+Python chalte waqt hints check nahi karta.
 
 805
-00:51:29,776 --> 00:51:32,220
-Tests make sure it keeps
-working when you change it.
+00:48:02,077 --> 00:48:06,781
+String pass karna allowed hai, aur crash
+function ke andar kahin gehraai mein hota
 
 806
-00:51:32,440 --> 00:51:33,661
-We use pytest.
+00:48:06,781 --> 00:48:07,010
+hai.
 
 807
-00:51:34,011 --> 00:51:39,339
-A pytest test is just a function whose
-name starts with test, using plain assert
+00:48:08,310 --> 00:48:13,858
+Chalao: do sahi results, aur phir sum
+ke andar se ek ulajhne wala TypeError, asli
 
 808
-00:51:39,339 --> 00:51:40,071
-statements.
+00:48:13,858 --> 00:48:15,228
+galti se bahut door.
 
 809
-00:51:40,291 --> 00:51:41,736
-Good row is a fixture.
+00:48:15,578 --> 00:48:21,210
+mypy jaisa type checker code chalaye bina
+aapke hints padhta hai, aur galat argument
 
 810
-00:51:41,956 --> 00:51:47,986
-Pytest sees the parameter name and
-passes in a fresh valid dictionary, defined once
+00:48:21,210 --> 00:48:24,629
+wali exact line bata
+deta hai, chalane se pehle hi.
 
 811
-00:51:47,986 --> 00:51:49,367
-in conftest dot py.
+00:48:24,849 --> 00:48:28,983
+Aapka editor bhi yahi hints
+autocomplete ke liye use karta hai.
 
 812
-00:51:49,717 --> 00:51:52,796
-Parametrize runs the
-same test once per value.
+00:48:30,283 --> 00:48:33,109
+Simple types: str, int, float, aur bool.
 
 813
-00:51:53,016 --> 00:51:58,302
-Here, five tests, each deleting a
-different required field, and checking that the
+00:48:33,459 --> 00:48:38,412
+Collections batate hain ki andar kya
+hai: strings ki list, ya strings se ints tak
 
 814
-00:51:58,302 --> 00:51:59,802
-error names that field.
+00:48:38,412 --> 00:48:39,085
+dictionary.
 
 815
-00:52:00,152 --> 00:52:05,515
-This one feeds in nine kinds of bad
-data, including the sneaky True posing as a
+00:48:39,435 --> 00:48:43,375
+None ke saath khadi line ka
+matlab: value missing ho sakti hai.
 
 816
-00:52:05,515 --> 00:52:09,317
-number, and checks each is
-rejected for the right field.
+00:48:43,725 --> 00:48:47,799
+Tuple hint har position batata
+hai, jaise ek string aur ek int.
 
 817
-00:52:10,617 --> 00:52:17,032
-Tests must not depend on a real network,
-which could be slow or down. httpx's mock
+00:48:48,149 --> 00:48:53,724
+Module teen mein Pydantic naam ki
+library inhi hints se asli data ko chalte waqt
 
 818
-00:52:17,032 --> 00:52:22,900
-transport replaces the network with
-a function that returns fake responses.
+00:48:53,724 --> 00:48:54,839
+validate karegi.
 
 819
-00:52:23,250 --> 00:52:26,794
-So we can check that two
-downloads are merged in the right order.
+00:48:55,059 --> 00:48:57,728
+Wahan hints sach mein
+taakatwar ban jaate hain.
 
 820
-00:52:27,144 --> 00:52:32,316
-And that a four oh four, or a response
-that isn't a list, becomes a toolkit error.
+00:48:59,028 --> 00:49:00,376
+Ab HTTP.
 
 821
-00:52:32,536 --> 00:52:35,640
-These run in
-milliseconds, with no server at all.
+00:49:00,596 --> 00:49:02,382
+Restaurant mein order socho.
 
 822
-00:52:36,940 --> 00:52:38,149
-Run the whole suite.
+00:49:02,602 --> 00:49:06,263
+Aap client ho, waiter ko
+order dete ho, yahi request hai.
 
 823
-00:52:38,369 --> 00:52:41,748
-Forty-two tests, all
-passing, in a fraction of a second.
+00:49:06,483 --> 00:49:07,765
+Kitchen server hai.
 
 824
-00:52:42,098 --> 00:52:45,397
-With dash v, pytest
-lists each test by name.
+00:49:07,985 --> 00:49:12,511
+Woh plate ke saath ek note bhejta
+hai: serve ho gaya, ya khatam ho gaya.
 
 825
-00:52:45,747 --> 00:52:49,193
-And mypy confirms that all
-our type hints are consistent.
+00:49:12,731 --> 00:49:14,896
+Yahi response aur status code hai.
 
 826
-00:52:50,493 --> 00:52:53,529
-First, running a file
-inside the package directly.
+00:49:16,196 --> 00:49:21,303
+HTTP web APIs ki bhaasha hai, aur
+yeh jitna lagta hai usse aasaan hai.
 
 827
-00:52:53,749 --> 00:52:58,661
-Python can't find the toolkit package,
-because it searches from the toolkit folder
+00:49:21,653 --> 00:49:22,685
+Do side hain.
 
 828
-00:52:58,661 --> 00:52:59,080
-itself.
+00:49:22,905 --> 00:49:25,009
+Client, yaani aapka Python code.
 
 829
-00:52:59,300 --> 00:53:03,603
-The fix: stay in the project
-root and run python dash m toolkit.
+00:49:25,229 --> 00:49:28,348
+Aur server, jaise
+kisi model provider ki API.
 
 830
-00:53:03,953 --> 00:53:06,441
-Second, forgetting
-the virtual environment.
+00:49:28,698 --> 00:49:30,502
+Client request bhejta hai.
 
 831
-00:53:06,791 --> 00:53:12,771
-With the environment deactivated, the
-system Python doesn't have httpx installed.
+00:49:30,722 --> 00:49:35,947
+Usme ek method hota hai, jaise GET
+padhne ke liye, ya POST data bhejne ke liye.
 
 832
-00:53:12,991 --> 00:53:15,602
-The fix is to activate dot venv again.
+00:49:36,167 --> 00:49:42,413
+Ek URL, headers jinme extra jaankaari
+hoti hai jaise aapki API key, aur kabhi kabhi
 
 833
-00:53:16,902 --> 00:53:22,531
-Is not valid JSON usually means a
-trailing comma, single quotes, or a comment.
+00:49:42,413 --> 00:49:43,015
+ek body.
 
 834
-00:53:22,751 --> 00:53:25,048
-The message gives you the line and column.
+00:49:43,365 --> 00:49:48,458
+Server response wapas bhejta hai: ek
+status code jo batata hai kaam kaisa raha,
 
 835
-00:53:25,398 --> 00:53:29,854
-File not found usually means you
-ran the command from another folder.
+00:49:48,458 --> 00:49:49,619
+headers, aur body.
 
 836
-00:53:30,074 --> 00:53:32,302
-Relative paths start
-from where you run it.
+00:49:49,839 --> 00:49:53,703
+AI APIs ki body
+lagbhag hamesha JSON hoti hai.
 
 837
-00:53:32,652 --> 00:53:38,446
-On Windows, if PowerShell refuses to
-run the activate script, run Set Execution
+00:49:55,003 --> 00:49:57,424
+Do sau wale codes ka matlab success.
 
 838
-00:53:38,446 --> 00:53:42,333
-Policy for the current
-user with Remote Signed, once.
+00:49:57,644 --> 00:50:00,891
+Two hundred OK hai, two
+zero one matlab created.
 
 839
-00:53:42,683 --> 00:53:48,194
-And if text comes out garbled, make
-sure every read and write uses utf eight.
+00:50:01,241 --> 00:50:04,528
+Chaar sau wale codes ka
+matlab galti aapki taraf hai.
 
 840
-00:53:49,494 --> 00:53:54,879
-You used lists, dictionaries, and sets,
-and built conversations as lists of message
+00:50:04,748 --> 00:50:09,429
+Galat input, galat ya missing
+API key, ya aisa URL jo hai hi nahi.
 
 841
-00:53:54,879 --> 00:53:55,722
-dictionaries.
+00:50:09,649 --> 00:50:11,507
+Retry se kuch nahi hoga.
 
 842
-00:53:56,072 --> 00:53:59,581
-You wrote functions,
-dataclasses, and your own exceptions.
+00:50:11,727 --> 00:50:13,246
+Request theek karo.
 
 843
-00:53:59,931 --> 00:54:05,124
-You organised a package, and worked
-with files, JSON, and environment variables.
+00:50:13,596 --> 00:50:15,853
+Four twenty nine ka apna card hai.
 
 844
-00:54:05,474 --> 00:54:11,090
-You added type hints, made HTTP
-requests, and ran downloads concurrently.
+00:50:16,073 --> 00:50:18,461
+Matlab aap rate limit tak pahunch gaye.
 
 845
-00:54:11,440 --> 00:54:16,571
-And you built a tested command line
-tool with clear errors and proper exit codes.
+00:50:18,681 --> 00:50:24,223
+Har model API mein yeh hoti hai, aur
+Module do mein sahi tareeke se ruk kar retry
 
 846
-00:54:17,871 --> 00:54:19,700
-Module quiz, question one.
+00:50:24,223 --> 00:50:25,249
+karna seekhoge.
 
 847
-00:54:19,920 --> 00:54:22,189
-An agent may only use two tools.
+00:50:25,599 --> 00:50:28,909
+Aur paanch sau wale codes ka
+matlab server mein problem hai.
 
 848
-00:54:22,409 --> 00:54:26,082
-Which structure gives the fastest
-check for whether a tool is allowed?
+00:50:29,129 --> 00:50:33,877
+Yeh aksar thodi der ki hoti hai, toh
+dhyaan se kiya retry kaam kar sakta hai.
 
 849
-00:54:31,782 --> 00:54:32,462
-A set.
+00:50:35,177 --> 00:50:36,624
+Ab asli requests.
 
 850
-00:54:32,682 --> 00:54:36,522
-Membership checks on a set
-stay fast however large it grows.
+00:50:36,844 --> 00:50:42,284
+Taaki yeh offline bhi chale, project ka
+sample data ek chhote local web server se
 
 851
-00:54:37,822 --> 00:54:38,858
-Question two.
+00:50:42,284 --> 00:50:46,112
+serve ho raha hai, Python
+ke built in http dot server se.
 
 852
-00:54:39,078 --> 00:54:42,291
-What does frozen equals
-True add to our usage record?
+00:50:46,332 --> 00:50:48,049
+Koi bahari service nahi.
 
 853
-00:54:47,991 --> 00:54:51,344
-Fields can't be changed
-after the record is created.
+00:50:48,399 --> 00:50:53,823
+httpx dot get ek GET request
+bhejta hai aur response object deta hai.
 
 854
-00:54:51,564 --> 00:54:55,337
-And note, a dataclass does
-not validate types by itself.
+00:50:54,043 --> 00:50:55,552
+Timeout hamesha do.
 
 855
-00:54:55,557 --> 00:54:57,806
-That's why from dict checks every field.
+00:50:55,772 --> 00:50:59,766
+Hamesha ke liye atki network
+call aapke agent ko jama degi.
 
 856
-00:54:59,106 --> 00:55:00,168
-Question three.
+00:50:59,986 --> 00:51:04,705
+Response status code aur content
+type batata hai: two hundred, aur JSON.
 
 857
-00:55:00,388 --> 00:55:04,163
-Which block runs every time,
-whether or not an error happens?
+00:51:05,055 --> 00:51:10,313
+raise for status har error status ko
+exception bana deta hai, taaki failure chupke
 
 858
-00:55:09,863 --> 00:55:10,635
-Finally.
+00:51:10,313 --> 00:51:11,467
+se na nikal jaaye.
 
 859
-00:55:10,855 --> 00:55:12,644
-That's why it's used for cleanup.
+00:51:11,687 --> 00:51:15,721
+Phir dot json body ko Python
+objects mein parse karta hai.
 
 860
-00:55:13,944 --> 00:55:15,006
-Question four.
+00:51:15,941 --> 00:51:17,093
+Das records.
 
 861
-00:55:15,226 --> 00:55:18,195
-Why does fetch all use asyncio dot gather?
+00:51:17,443 --> 00:51:20,008
+Aur yahan ek aisi
+file maangi jo hai hi nahi.
 
 862
-00:55:23,895 --> 00:55:29,042
-To download everything concurrently,
-so the total time is roughly the slowest
+00:51:20,228 --> 00:51:24,704
+HTTPStatusError pakad kar
+status code padha: four zero four.
 
 863
-00:55:29,042 --> 00:55:31,516
-download, not the sum of all of them.
+00:51:26,004 --> 00:51:27,246
+Ab why async?
 
 864
-00:55:32,816 --> 00:55:34,078
-And question five.
+00:51:27,466 --> 00:51:32,857
+Ek language model call mein kai second
+lag sakte hain, aur uss dauraan aapka program
 
 865
-00:55:34,298 --> 00:55:37,297
-Where should the real API
-key for your project live?
+00:51:32,857 --> 00:51:35,039
+bas network ka intezaar karta hai.
 
 866
-00:55:42,997 --> 00:55:47,361
-In an environment variable, or
-a dot env file that git ignores.
+00:51:35,259 --> 00:51:40,826
+Ek chai wale ko socho: woh teen cups ek
+saath chadhata hai, ek ke ubalne ka intezaar
 
 867
-00:55:47,581 --> 00:55:51,173
-The example file only
-ever holds fake placeholders.
+00:51:40,826 --> 00:51:42,814
+karke doosra shuru nahi karta.
 
 868
-00:55:52,473 --> 00:55:55,726
-If you want to go further,
-here's your extension challenge.
+00:51:43,164 --> 00:51:48,511
+Agar agent ko teen alag jawaab chahiye,
+aur woh ek ek karke maange, toh intezaar
 
 869
-00:55:55,946 --> 00:55:59,678
-Pick one or more, and for each
-one, write the code and a test.
+00:51:48,511 --> 00:51:49,580
+judta jaata hai.
 
 870
-00:56:00,028 --> 00:56:02,637
-Add a top N option to the report command.
+00:51:49,800 --> 00:51:52,458
+Ek ek second ki teen calls, teen second.
 
 871
-00:56:02,987 --> 00:56:09,038
-Add ninety-fifth percentile latency,
-which, unlike the average, isn't distorted by
+00:51:52,808 --> 00:51:57,925
+Async ke saath teeno shuru karo, saath
+mein intezaar karo, aur lagbhag ek second
 
 872
-00:56:09,038 --> 00:56:10,292
-one slow request.
+00:51:57,925 --> 00:51:59,012
+mein kaam khatam.
 
 873
-00:56:10,642 --> 00:56:14,411
-Add a breakdown per day,
-using the created at timestamp.
+00:51:59,232 --> 00:52:01,153
+Zyaada computing power nahi.
 
 874
-00:56:14,761 --> 00:56:19,298
-Or add a CSV output format,
-with the standard csv module.
+00:52:01,373 --> 00:52:03,624
+Bas intezaar mein time barbaad nahi.
 
 875
-00:56:20,598 --> 00:56:25,192
-These are the official
-documentation pages for everything we used.
+00:52:04,924 --> 00:52:10,072
+async def ek coroutine banata hai,
+yaani aisa function jo ruk sakta hai. await ka
 
 876
-00:56:25,412 --> 00:56:30,451
-Links are in the description, and the
-full source code is in the course repository.
+00:52:10,072 --> 00:52:15,093
+matlab: yahan ruko jab tak yeh khatam
+na ho, aur tab tak doosra kaam chalne do.
 
 877
-00:56:34,551 --> 00:56:36,345
-That's Module 1 complete.
+00:52:15,093 --> 00:52:19,098
+asyncio dot sleep yahan
+network reply ke intezaar ki jagah hai.
 
 878
-00:56:36,565 --> 00:56:41,336
-You now have the Python foundation
-that the rest of this course is built on.
+00:52:19,448 --> 00:52:24,234
+Yeh version loop mein har call ko await
+karta hai, toh woh phir bhi ek ke baad ek
 
 879
-00:56:41,556 --> 00:56:47,061
-In Module 2, you'll finally talk to a
-language model: tokens, context windows,
+00:52:24,234 --> 00:52:24,943
+chalti hain.
 
 880
-00:56:47,061 --> 00:56:52,849
-message history, structured output, rate
-limits, and costs, and you'll build an AI
+00:52:25,293 --> 00:52:30,563
+Yeh version teeno ko asyncio dot gather
+ko deta hai, jo unhe ek saath chalata hai,
 
 881
-00:56:52,849 --> 00:56:57,154
-Study Assistant that explains
-concepts and generates quizzes.
+00:52:30,563 --> 00:52:35,061
+aur results usi order mein
+lautaata hai jis order mein unhe diya gaya.
 
 882
-00:56:57,374 --> 00:56:58,237
-See you there.
+00:52:35,411 --> 00:52:40,731
+Aakhir mein asyncio dot run event loop
+shuru karta hai, jo coroutines ko chalata
+
+883
+00:52:40,731 --> 00:52:40,997
+hai.
+
+884
+00:52:41,217 --> 00:52:43,169
+Dono versions ka time napa.
+
+885
+00:52:43,389 --> 00:52:47,613
+Asli measurement: ek ek karke
+teen second, ek saath ek second.
+
+886
+00:52:48,913 --> 00:52:54,650
+httpx ka ek async client bhi hai. fetch
+coroutine request ko await karta hai aur
+
+887
+00:52:54,650 --> 00:52:56,801
+batata hai kitne records aaye.
+
+888
+00:52:57,151 --> 00:53:02,227
+async with ek shared client kholta
+hai, aur baad mein theek se band karta hai.
+
+889
+00:53:02,227 --> 00:53:04,439
+gather har URL ek saath laata hai.
+
+890
+00:53:04,659 --> 00:53:09,023
+Dono files ek saath download
+hui: das records aur paanch records.
+
+891
+00:53:09,243 --> 00:53:12,631
+Project ka fetch command
+bilkul aise hi kaam karta hai.
+
+892
+00:53:13,931 --> 00:53:18,198
+Async ke kuch niyam. await sirf
+async function ke andar chalta hai.
+
+893
+00:53:18,548 --> 00:53:23,776
+Event loop ek hi baar shuru karo,
+program ke top par, asyncio dot run se.
+
+894
+00:53:24,126 --> 00:53:27,585
+Async intezaar ko tez
+karta hai, network ya disk ka.
+
+895
+00:53:27,805 --> 00:53:30,429
+Bhaari calculations ko tez nahi karta.
+
+896
+00:53:31,729 --> 00:53:33,023
+Interview corner.
+
+897
+00:53:33,243 --> 00:53:37,412
+Pehla question: kya Python chalte
+waqt type hints enforce karta hai?
+
+898
+00:53:39,762 --> 00:53:40,857
+Answer: nahi.
+
+899
+00:53:41,077 --> 00:53:45,659
+Hints tools ke liye hain, jaise mypy
+aur editor, aur padhne walon ke liye.
+
+900
+00:53:45,879 --> 00:53:51,330
+Pydantic jaisi libraries unhe padh kar
+data validate karti hain, lekin plain Python
+
+901
+00:53:51,330 --> 00:53:52,775
+unhe ignore karta hai.
+
+902
+00:53:52,995 --> 00:53:56,514
+Trap: kehna ki hints khud
+code ko tez ya safe banate hain.
+
+903
+00:53:56,864 --> 00:54:00,777
+Doosra: kaunse HTTP
+errors par retry karna chahiye?
+
+904
+00:54:03,127 --> 00:54:05,619
+Answer: four twenty nine, thoda ruk kar.
+
+905
+00:54:05,839 --> 00:54:09,065
+Paanch sau wale, jo
+server ki temporary problem hain.
+
+906
+00:54:09,285 --> 00:54:10,363
+Aur timeouts.
+
+907
+00:54:10,583 --> 00:54:12,360
+Backoff aur limit ke saath.
+
+908
+00:54:12,580 --> 00:54:18,026
+Chaar sau wale jaise four zero one ya
+four zero four ka matlab request galat hai,
+
+909
+00:54:18,026 --> 00:54:19,640
+retry se kuch nahi hoga.
+
+910
+00:54:19,860 --> 00:54:24,755
+Trap: sab par jaldi jaldi retry
+karna, jisse rate limit aur bigad jaati hai.
+
+911
+00:54:25,105 --> 00:54:27,214
+Teesra: async kab sahi choice hai?
+
+912
+00:54:29,564 --> 00:54:34,919
+Answer: jab kaam I O bound ho, yaani
+bahut saare network ya disk ke intezaar ek
+
+913
+00:54:34,919 --> 00:54:36,613
+saath, jaise model calls.
+
+914
+00:54:36,833 --> 00:54:40,265
+Bhaari CPU ke kaam
+mein async madad nahi karta.
+
+915
+00:54:40,485 --> 00:54:46,471
+Trap: async function ke andar blocking
+function chalana, jaise time dot sleep, ya
+
+916
+00:54:46,471 --> 00:54:47,727
+normal httpx get.
+
+917
+00:54:47,947 --> 00:54:50,418
+Woh baaki saare tasks ko rok deta hai.
+
+918
+00:54:51,718 --> 00:54:52,827
+Practice time.
+
+919
+00:54:53,047 --> 00:54:55,461
+Video pause karo, aur khud try karo.
+
+920
+00:54:55,811 --> 00:55:00,748
+Pehla: lesson teen ke shorten
+function par type hints lagao, aur mypy chalao.
+
+921
+00:55:01,098 --> 00:55:05,753
+Doosra: http demo mein response
+ka content length header print karo.
+
+922
+00:55:06,103 --> 00:55:10,103
+Teesra: async demo ko paanch
+tasks, do do second ke, bana do.
+
+923
+00:55:10,323 --> 00:55:12,275
+Pehle dono times guess karo.
+
+924
+00:55:12,625 --> 00:55:16,489
+Aur scenario: agent ko kabhi
+kabhi four twenty nine milta hai.
+
+925
+00:55:16,709 --> 00:55:18,534
+Ek safe retry plan batao.
+
+926
+00:55:25,834 --> 00:55:26,664
+Quick check.
+
+927
+00:55:26,884 --> 00:55:29,596
+API four twenty nine status deti hai.
+
+928
+00:55:29,816 --> 00:55:32,740
+Matlab kya hai, aur
+code ko kya karna chahiye?
+
+929
+00:55:38,440 --> 00:55:38,943
+B.
+
+930
+00:55:39,163 --> 00:55:40,858
+Bahut zyaada requests.
+
+931
+00:55:41,078 --> 00:55:43,954
+Rate limit lag gayi,
+toh ruko, phir retry karo.
+
+932
+00:55:44,174 --> 00:55:47,542
+Module do mein backoff ke
+saath yeh theek se banayenge.
+
+933
+00:55:48,842 --> 00:55:50,128
+Doosra question.
+
+934
+00:55:50,348 --> 00:55:55,822
+Teen alag calls, har ek do second ki.
+asyncio gather lagbhag kitna time lega?
+
+935
+00:56:01,522 --> 00:56:03,163
+B, lagbhag do second.
+
+936
+00:56:03,383 --> 00:56:05,464
+Teeno saath mein intezaar karti hain.
+
+937
+00:56:05,684 --> 00:56:07,780
+Ek ek karke chhe second lagte.
+
+938
+00:56:09,080 --> 00:56:09,805
+Recap.
+
+939
+00:56:10,025 --> 00:56:14,944
+Type hints aapka iraada likhte hain,
+aur mypy chalane se pehle check karta hai.
+
+940
+00:56:15,294 --> 00:56:20,805
+HTTP matlab request aur response, aur
+status code batata hai kaam kaisa raha.
+
+941
+00:56:21,155 --> 00:56:24,665
+httpx timeout ke
+saath, aur raise for status.
+
+942
+00:56:25,015 --> 00:56:29,278
+Aur bahut saari calls ka ek saath
+intezaar: async, await, aur gather.
+
+943
+00:56:29,628 --> 00:56:32,780
+Ab project ke liye har
+Python skill aapke paas hai.
+
+944
+00:56:33,000 --> 00:56:36,796
+Agle lesson mein Python AI
+Toolkit banana shuru karenge.
+
+945
+00:56:38,096 --> 00:56:39,554
+Lesson paanch complete.
+
+946
+00:56:39,774 --> 00:56:42,467
+Ab aap web APIs se baat kar sakte ho.
+
+947
+00:56:42,687 --> 00:56:45,707
+Milte hain agle lesson
+mein, project ke saath.
+
+948
+00:56:47,015 --> 00:56:48,516
+Ab banane ka time.
+
+949
+00:56:48,736 --> 00:56:54,107
+Agle do lessons mein aap Python AI
+Toolkit ko khaali folder se lekar ek tested
+
+950
+00:56:54,107 --> 00:56:56,242
+command line tool tak le jaoge.
+
+951
+00:56:56,462 --> 00:57:00,078
+Iss module ka har concept
+isme kahin na kahin aata hai.
+
+952
+00:57:00,298 --> 00:57:05,661
+Iss lesson mein hum plan karenge, data ka
+model banayenge, aur use validate karenge.
+
+953
+00:57:06,961 --> 00:57:12,337
+Har AI team ko apne language model
+usage ke baare mein kuch simple sawaalon ke
+
+954
+00:57:12,337 --> 00:57:13,371
+jawaab chahiye.
+
+955
+00:57:13,591 --> 00:57:15,266
+Kitni requests fail hui?
+
+956
+00:57:15,486 --> 00:57:16,939
+Kitne tokens lage?
+
+957
+00:57:17,159 --> 00:57:19,155
+Lagbhag kitna kharcha hua?
+
+958
+00:57:19,375 --> 00:57:20,997
+Hamara tool yeh karega.
+
+959
+00:57:21,347 --> 00:57:26,017
+Model API calls ka JSON log
+padhna, har request ka ek record.
+
+960
+00:57:26,367 --> 00:57:29,920
+Har record validate karna,
+aur har problem saaf batana.
+
+961
+00:57:30,140 --> 00:57:32,296
+Kharab data par kabhi crash nahi.
+
+962
+00:57:32,646 --> 00:57:38,506
+Achhe records ka summary: success rate,
+tokens, estimated cost, latency, aur sabse
+
+963
+00:57:38,506 --> 00:57:39,364
+common tags.
+
+964
+00:57:39,714 --> 00:57:44,519
+Report Markdown mein, logon ke liye,
+ya JSON mein, doosre programs ke liye.
+
+965
+00:57:44,869 --> 00:57:47,875
+Kai URLs se logs ek saath download karna.
+
+966
+00:57:48,225 --> 00:57:52,682
+Settings environment variables
+se, aur sab kuch ke automated tests.
+
+967
+00:57:53,982 --> 00:57:57,729
+Code likhne se pehle decide
+karo ki usse kaise baantna hai.
+
+968
+00:57:57,949 --> 00:58:03,410
+Ek restaurant ki kitchen jaise: ek sabzi
+kaatta hai, ek pakaata hai, ek plate sajata
+
+969
+00:58:03,410 --> 00:58:03,670
+hai.
+
+970
+00:58:03,890 --> 00:58:05,398
+Har file ka ek kaam.
+
+971
+00:58:05,748 --> 00:58:07,520
+Sabse upar cli dot py.
+
+972
+00:58:07,740 --> 00:58:11,492
+Yeh command line padhta hai
+aur baaki sabko call karta hai.
+
+973
+00:58:11,712 --> 00:58:15,828
+Sirf yahi hissa arguments aur
+printing ke baare mein jaanta hai.
+
+974
+00:58:16,178 --> 00:58:21,669
+loader file padhta hai, aur models har
+raw dictionary ko ek validated usage record
+
+975
+00:58:21,669 --> 00:58:22,406
+banata hai.
+
+976
+00:58:22,756 --> 00:58:27,029
+stats summary calculate karta
+hai, aur report use format karta hai.
+
+977
+00:58:27,249 --> 00:58:32,212
+Calculate karna aur format karna alag
+hain, toh dono ko test karna aasaan hai.
+
+978
+00:58:32,562 --> 00:58:38,129
+config settings aur prices padhta hai,
+aur fetch HTTP par logs download karta hai.
+
+979
+00:58:38,479 --> 00:58:41,881
+Aur errors hamari
+exception classes define karta hai.
+
+980
+00:58:42,101 --> 00:58:47,538
+Koi bhi module ToolkitError raise kar
+sakta hai, aur command line usse sirf ek jagah
+
+981
+00:58:47,538 --> 00:58:48,315
+pakadti hai.
+
+982
+00:58:49,615 --> 00:58:50,783
+Yeh input hai.
+
+983
+00:58:51,003 --> 00:58:54,130
+Ek JSON list, har model call ka ek object.
+
+984
+00:58:54,480 --> 00:58:59,496
+Har record mein ek id hai, use hua
+model, aur prompt aur completion tokens.
+
+985
+00:58:59,716 --> 00:59:04,829
+Prompt tokens woh hain jo aapne bheje,
+completion tokens woh jo model ne banaye.
+
+986
+00:59:05,049 --> 00:59:07,832
+Providers inki keemat
+aksar alag rakhte hain.
+
+987
+00:59:08,182 --> 00:59:13,918
+Usme milliseconds mein latency bhi hai,
+ok ya error status, task batane wale tags ki
+
+988
+00:59:13,918 --> 00:59:17,673
+list, aur ISO eight six
+zero one format mein timestamp.
+
+989
+00:59:17,893 --> 00:59:23,058
+Isi file mein aage, request chaar tees
+second ke baad fail hui, jo timeout jaisa
+
+990
+00:59:23,058 --> 00:59:23,704
+lagta hai.
+
+991
+00:59:23,924 --> 00:59:26,821
+Asli logs mein bilkul
+aisi hi gadbad hoti hai.
+
+992
+00:59:28,121 --> 00:59:32,744
+Hum errors se shuru karte hain,
+kyunki baaki har module inhe use karta hai.
+
+993
+00:59:32,964 --> 00:59:37,869
+ToolkitError har uss error ki base class
+hai jo hum jaan boojh kar raise karte hain.
+
+994
+00:59:38,219 --> 00:59:41,177
+ValidationError ek
+zyaada specific type hai.
+
+995
+00:59:41,397 --> 00:59:46,597
+Yeh parent ke init ko ek readable
+message ke saath call karta hai, aur yeh bhi yaad
+
+996
+00:59:46,597 --> 00:59:51,046
+rakhta hai ki kaunsi field fail
+hui, taaki tests usse check kar sakein.
+
+997
+00:59:52,346 --> 00:59:53,668
+Ab data model.
+
+998
+00:59:53,888 --> 00:59:55,682
+Airport security socho.
+
+999
+00:59:55,902 --> 00:59:59,049
+Har bag entrance par ek
+baar scanner se guzarta hai.
+
+1000
+00:59:59,269 --> 01:00:02,296
+Uske baad andar sab
+uss par bharosa karte hain.
+
+1001
+01:00:02,516 --> 01:00:07,729
+Hum bhi har raw record ko darwaaze par
+ek baar validate karte hain, aur baaki code
+
+1002
+01:00:07,729 --> 01:00:10,653
+sirf pass hue records
+ke saath kaam karta hai.
+
+1003
+01:00:11,953 --> 01:00:16,805
+ALLOWED STATUS ek set hai, kyunki hum
+sirf yahi poochte hain: kya yeh status set
+
+1004
+01:00:16,805 --> 01:00:17,351
+mein hai?
+
+1005
+01:00:17,701 --> 01:00:19,637
+require ek chhota helper hai.
+
+1006
+01:00:19,857 --> 01:00:24,673
+Yeh field ki value lautaata hai, ya
+ValidationError raise karta hai ki field
+
+1007
+01:00:24,673 --> 01:00:25,497
+required hai.
+
+1008
+01:00:25,717 --> 01:00:27,591
+Ulajhne wala KeyError nahi.
+
+1009
+01:00:27,941 --> 01:00:31,034
+Yeh helper non negative
+integer check karta hai.
+
+1010
+01:00:31,254 --> 01:00:35,656
+Ek chhupa hua trap hai: Python mein
+True aur False bhi ek tarah ke int hain.
+
+1011
+01:00:35,876 --> 01:00:38,599
+Isliye bools ko alag se reject karte hain.
+
+1012
+01:00:38,949 --> 01:00:44,402
+Record khud ek dataclass hai, har field
+ke type hint ke saath. frozen equals True
+
+1013
+01:00:44,402 --> 01:00:49,788
+use read only banata hai, taaki
+validation ke baad koi chupke se record na badal
+
+1014
+01:00:49,788 --> 01:00:50,125
+sake.
+
+1015
+01:00:50,475 --> 01:00:52,484
+total tokens ek property hai.
+
+1016
+01:00:52,704 --> 01:00:58,042
+Yeh baaki fields se calculate hoti hai,
+lekin aap use normal attribute ki tarah,
+
+1017
+01:00:58,042 --> 01:01:00,111
+bina brackets ke, use karte ho.
+
+1018
+01:01:01,411 --> 01:01:05,631
+from dict ek class method hai,
+object banane ka doosra tareeka.
+
+1019
+01:01:05,851 --> 01:01:11,158
+Isse class khud cls ke roop mein milti
+hai, aur yeh raw dictionary se record banata
+
+1020
+01:01:11,158 --> 01:01:11,414
+hai.
+
+1021
+01:01:11,634 --> 01:01:14,461
+Pehle check: item
+dictionary hai bhi ya nahi.
+
+1022
+01:01:14,811 --> 01:01:19,952
+Phir har field check hoti hai. id aur
+model khaali nahi hone chahiye, aur strings
+
+1023
+01:01:19,952 --> 01:01:20,777
+hone chahiye.
+
+1024
+01:01:21,127 --> 01:01:26,090
+Latency negative nahi honi chahiye,
+int ya float, lekin phir se, bool nahi.
+
+1025
+01:01:26,440 --> 01:01:28,735
+Status allowed set mein hona chahiye.
+
+1026
+01:01:28,955 --> 01:01:33,361
+Message mein sahi options likhe
+hote hain, toh galti theek karna aasaan.
+
+1027
+01:01:33,711 --> 01:01:36,708
+Tags optional hain, toh
+get aur khaali list default.
+
+1028
+01:01:36,928 --> 01:01:38,968
+Phir check ki yeh strings ki list hai.
+
+1029
+01:01:39,318 --> 01:01:43,551
+Timestamp ke liye datetime dot
+fromisoformat parsing karta hai.
+
+1030
+01:01:43,771 --> 01:01:48,912
+Fail ho, toh hum apni error raise karte
+hain, from None ke saath, taaki user ko do
+
+1031
+01:01:48,912 --> 01:01:52,110
+jude hue tracebacks ki
+jagah ek saaf message dikhe.
+
+1032
+01:01:52,460 --> 01:01:56,306
+Aakhir mein har validated
+value ke saath cls call hota hai.
+
+1033
+01:01:56,526 --> 01:01:59,704
+Yahan tak pahunche,
+matlab record pakka valid hai.
+
+1034
+01:02:01,004 --> 01:02:06,314
+Model ko interactive Python prompt mein
+try karte hain, baaki code bane usse pehle
+
+1035
+01:02:06,314 --> 01:02:06,508
+hi.
+
+1036
+01:02:06,728 --> 01:02:09,878
+Project folder mein
+python type karke shuru karo.
+
+1037
+01:02:10,228 --> 01:02:15,670
+Ek valid dictionary step by step banayi.
+from dict ne record diya, aur total tokens
+
+1038
+01:02:15,670 --> 01:02:16,195
+pandrah.
+
+1039
+01:02:16,545 --> 01:02:18,691
+Ab ek field ko minus ek kar do.
+
+1040
+01:02:18,911 --> 01:02:23,594
+Hamari ValidationError field ka
+naam aur galat value dono batati hai.
+
+1041
+01:02:23,814 --> 01:02:28,806
+Double star row dictionary ko copy
+karta hai, aur nayi key purani value ko badal
+
+1042
+01:02:28,806 --> 01:02:29,367
+deti hai.
+
+1043
+01:02:30,667 --> 01:02:33,874
+read json padhne ki do
+galtiyan sambhaalta hai.
+
+1044
+01:02:34,094 --> 01:02:36,549
+File ho hi na, ya valid JSON na ho.
+
+1045
+01:02:36,769 --> 01:02:42,074
+Dono ek saaf ToolkitError ban jaati
+hain, kharab JSON ke liye line aur column ke
+
+1046
+01:02:42,074 --> 01:02:42,471
+saath.
+
+1047
+01:02:42,821 --> 01:02:48,349
+load records do lists ka tuple lautaata
+hai: valid records, aur har invalid record
+
+1048
+01:02:48,349 --> 01:02:49,091
+ka message.
+
+1049
+01:02:49,311 --> 01:02:51,895
+File ka top level ek list hona chahiye.
+
+1050
+01:02:52,245 --> 01:02:56,417
+Phir enumerate ke saath loop,
+taaki record numbers ek se shuru hon.
+
+1051
+01:02:56,637 --> 01:03:01,431
+Jo record validation mein fail ho, woh
+problem ki list mein jaata hai, aur loop
+
+1052
+01:03:01,431 --> 01:03:02,463
+chalta rehta hai.
+
+1053
+01:03:02,683 --> 01:03:06,295
+Ek kharab record achhe
+records ko kabhi nahi rokta.
+
+1054
+01:03:07,595 --> 01:03:13,054
+Settings ek chhoti frozen dataclass
+hai, do configurable cheezon ke saath: prices
+
+1055
+01:03:13,054 --> 01:03:14,738
+file, aur currency label.
+
+1056
+01:03:15,088 --> 01:03:18,282
+load dot env hamara
+chhota sa dot env reader hai.
+
+1057
+01:03:18,502 --> 01:03:23,689
+Khaali lines aur comments chhod deta
+hai, har line ko pehle equals sign par todta
+
+1058
+01:03:23,689 --> 01:03:25,866
+hai, aur setdefault use karta hai.
+
+1059
+01:03:26,086 --> 01:03:31,007
+Toh asli environment mein pehle se
+set variable hamesha file se jeetta hai.
+
+1060
+01:03:31,357 --> 01:03:35,717
+load settings dono variables
+padhta hai, sensible defaults ke saath.
+
+1061
+01:03:36,067 --> 01:03:41,173
+Aur load prices prices file padhta hai,
+underscore se shuru hone wali keys chhod
+
+1062
+01:03:41,173 --> 01:03:43,982
+kar, jo hum comments
+ke liye use karte hain.
+
+1063
+01:03:44,202 --> 01:03:48,302
+Yeh fictional models ki example
+prices hain, per million tokens.
+
+1064
+01:03:48,522 --> 01:03:50,501
+Asli provider prices nahi.
+
+1065
+01:03:51,801 --> 01:03:55,607
+Prices ek type alias hai,
+lambe type hint ka chhota naam.
+
+1066
+01:03:55,957 --> 01:04:00,497
+ModelStats ek model ke running
+totals rakhta hai, sab zero se shuru.
+
+1067
+01:04:00,847 --> 01:04:03,236
+Summary report ka har number rakhta hai.
+
+1068
+01:04:03,456 --> 01:04:08,895
+Default factories phir se dekho, aur do
+properties jo total tokens aur success rate
+
+1069
+01:04:08,895 --> 01:04:12,565
+calculate karti hain, zero
+se divide hone se bachte hue.
+
+1070
+01:04:12,915 --> 01:04:18,413
+estimate cost prompt aur completion
+tokens ko unki prices se guna karta hai, aur ek
+
+1071
+01:04:18,413 --> 01:04:19,606
+million se divide.
+
+1072
+01:04:19,826 --> 01:04:22,055
+Anjaan model par crash nahi, None.
+
+1073
+01:04:23,355 --> 01:04:28,840
+summarize har model ke stats ki
+dictionary, tags ke liye ek Counter, bina price wale
+
+1074
+01:04:28,840 --> 01:04:32,105
+models ka set, aur
+running cost taiyaar karta hai.
+
+1075
+01:04:32,455 --> 01:04:37,750
+Ek hi loop saari ginti karta hai.
+setdefault kisi model ke stats pehli baar dikhne
+
+1076
+01:04:37,750 --> 01:04:38,718
+par banata hai.
+
+1077
+01:04:38,938 --> 01:04:44,304
+Bina price wale models collect hote hain,
+crash nahi, aur Counter har tag ginta hai.
+
+1078
+01:04:44,654 --> 01:04:49,727
+Aakhir mein comprehensions aur sum
+totals nikaalte hain, aur most common top teen
+
+1079
+01:04:49,727 --> 01:04:50,604
+tags deta hai.
+
+1080
+01:04:50,824 --> 01:04:54,275
+Lesson do ki saari
+cheezein, ek saath kaam karti hui.
+
+1081
+01:04:55,575 --> 01:04:59,630
+Command line abhi bani nahi,
+lekin hisse pehle se kaam karte hain.
+
+1082
+01:04:59,850 --> 01:05:02,155
+Python prompt se unhe call karte hain.
+
+1083
+01:05:02,505 --> 01:05:07,790
+Broken file load karne par ek valid
+record, aur chaar problems, har ek ka saaf
+
+1084
+01:05:07,790 --> 01:05:08,332
+message.
+
+1085
+01:05:08,682 --> 01:05:14,495
+Aur clean sample ka summary: das
+requests, aath successful, eleven thousand ninety
+
+1086
+01:05:14,495 --> 01:05:17,827
+five tokens, estimated
+cost, aur top teen tags.
+
+1087
+01:05:19,127 --> 01:05:20,421
+Interview corner.
+
+1088
+01:05:20,641 --> 01:05:25,208
+Pehla question: data ko har jagah ki
+jagah edge par validate kyun karte hain?
+
+1089
+01:05:27,558 --> 01:05:32,338
+Answer: ek hi jagah raw input check
+hota hai aur ek trusted type ban jaata hai.
+
+1090
+01:05:32,558 --> 01:05:37,767
+Baaki code uss par bharosa kar sakta
+hai, checks dohraaye nahi jaate, aur bug wahin
+
+1091
+01:05:37,767 --> 01:05:40,277
+dikhta hai jahan kharab data andar aaya.
+
+1092
+01:05:40,497 --> 01:05:43,519
+Trap: poore code mein
+jagah jagah if x is None likhna.
+
+1093
+01:05:43,869 --> 01:05:46,306
+Doosra: yahan classmethod kis kaam ka hai?
+
+1094
+01:05:48,656 --> 01:05:53,904
+Answer: yeh object banane ka doosra
+tareeka hai. from dict dictionary se record
+
+1095
+01:05:53,904 --> 01:05:55,897
+banata aur validate karta hai.
+
+1096
+01:05:56,117 --> 01:05:58,581
+Usse class cls ke roop mein milti hai.
+
+1097
+01:05:58,801 --> 01:06:03,957
+Trap: saari validation frozen dataclass
+ke init mein daal dena, jisse tests mein
+
+1098
+01:06:03,957 --> 01:06:06,665
+simple object banana mushkil ho jaata hai.
+
+1099
+01:06:07,015 --> 01:06:10,822
+Teesra: validation mein
+isinstance True comma int problem kyun hai?
+
+1100
+01:06:13,172 --> 01:06:18,081
+Answer: bool, int ki subclass hai, toh
+True int check pass kar leta hai. prompt
+
+1101
+01:06:18,081 --> 01:06:23,114
+tokens true wali field ek ki tarah
+accept ho jaayegi, jab tak aap bool ko alag se
+
+1102
+01:06:23,114 --> 01:06:24,046
+reject na karo.
+
+1103
+01:06:24,266 --> 01:06:28,808
+Trap: maan lena ki JSON ka true
+kabhi number field tak nahi pahunchega.
+
+1104
+01:06:30,108 --> 01:06:31,217
+Practice time.
+
+1105
+01:06:31,437 --> 01:06:33,851
+Video pause karo, aur khud try karo.
+
+1106
+01:06:34,201 --> 01:06:38,416
+Pehla: REPL mein status done
+wala record banao, aur message padho.
+
+1107
+01:06:38,766 --> 01:06:41,552
+Doosra: allowed
+statuses mein cancelled jodo.
+
+1108
+01:06:41,772 --> 01:06:43,900
+Kaunse tests badlne chahiye?
+
+1109
+01:06:44,250 --> 01:06:49,289
+Teesra: Summary mein cost per request
+property jodo, zero requests par bhi safe.
+
+1110
+01:06:49,639 --> 01:06:53,558
+Aur scenario: log mein das
+hazaar records hain, aur teen kharab.
+
+1111
+01:06:53,778 --> 01:06:55,657
+User ko kya dikhna chahiye?
+
+1112
+01:07:02,957 --> 01:07:07,628
+Quick check. load records ko ek
+valid aur chaar invalid records milte hain.
+
+1113
+01:07:07,848 --> 01:07:09,184
+Woh kya karta hai?
+
+1114
+01:07:14,884 --> 01:07:15,387
+B.
+
+1115
+01:07:15,607 --> 01:07:18,653
+Valid record aur chaar
+problems ki list lautaata hai.
+
+1116
+01:07:18,873 --> 01:07:23,981
+Achhe records kaam karte rehte hain, aur
+har problem record number ke saath batayi
+
+1117
+01:07:23,981 --> 01:07:24,604
+jaati hai.
+
+1118
+01:07:25,904 --> 01:07:27,190
+Doosra question.
+
+1119
+01:07:27,410 --> 01:07:30,422
+Dataclass par frozen
+equals True kya karta hai?
+
+1120
+01:07:36,122 --> 01:07:36,625
+B.
+
+1121
+01:07:36,845 --> 01:07:40,743
+Object banne ke baad koi
+uski fields nahi badal sakta.
+
+1122
+01:07:40,963 --> 01:07:42,823
+Types validate nahi karta.
+
+1123
+01:07:43,043 --> 01:07:44,632
+Woh kaam from dict ka hai.
+
+1124
+01:07:45,932 --> 01:07:46,657
+Recap.
+
+1125
+01:07:46,877 --> 01:07:49,791
+Code se pehle plan: har module ka ek kaam.
+
+1126
+01:07:50,141 --> 01:07:55,616
+Data ko darwaaze par validate karo: raw
+dictionary se trusted record, ya saaf error.
+
+1127
+01:07:55,966 --> 01:07:59,198
+Pehli galti par crash
+nahi, problems collect karo.
+
+1128
+01:07:59,548 --> 01:08:02,813
+Aur calculate karna,
+format karne se alag rakho.
+
+1129
+01:08:03,163 --> 01:08:06,908
+Part do mein report,
+downloader, aur command line likhenge.
+
+1130
+01:08:07,128 --> 01:08:11,605
+Phir tayyar tool chalayenge, test
+karenge, aur module poora karenge.
+
+1131
+01:08:12,905 --> 01:08:14,481
+Lesson chhe complete.
+
+1132
+01:08:14,701 --> 01:08:16,431
+Toolkit ki neev taiyaar hai.
+
+1133
+01:08:16,651 --> 01:08:18,498
+Milte hain agle lesson mein.
+
+1134
+01:08:19,815 --> 01:08:21,208
+Wapas swagat hai.
+
+1135
+01:08:21,428 --> 01:08:23,215
+Data layer kaam kar rahi hai.
+
+1136
+01:08:23,435 --> 01:08:26,996
+Ab report writer,
+downloader, aur command line jodenge.
+
+1137
+01:08:27,216 --> 01:08:32,377
+Phir tayyar tool chalayenge, test
+karenge, common errors theek karenge, aur module
+
+1138
+01:08:32,377 --> 01:08:35,272
+ko quiz aur challenge
+ke saath khatam karenge.
+
+1139
+01:08:36,572 --> 01:08:40,367
+render markdown ek summary
+leta hai aur text lautaata hai.
+
+1140
+01:08:40,587 --> 01:08:42,129
+Kuch print nahi karta.
+
+1141
+01:08:42,349 --> 01:08:47,640
+Isliye test karna aasaan, aur call karne
+wala decide karta hai ki text kahan jaaye.
+
+1142
+01:08:47,990 --> 01:08:52,572
+Report lines ki list ki tarah banti
+hai, lesson do ke f string formats se.
+
+1143
+01:08:52,792 --> 01:08:58,388
+Colon point one percent percentage
+dikhata hai, aur colon point four f chaar decimal
+
+1144
+01:08:58,388 --> 01:08:58,854
+places.
+
+1145
+01:08:59,204 --> 01:09:01,697
+Markdown table mein har model ki ek row.
+
+1146
+01:09:02,047 --> 01:09:05,080
+Phir top tags,
+enumerate se number ke saath.
+
+1147
+01:09:05,300 --> 01:09:07,703
+Kisi model ki price na ho, toh warning.
+
+1148
+01:09:07,923 --> 01:09:11,564
+Aur aakhir mein join sab lines
+ko ek string mein jod deta hai.
+
+1149
+01:09:12,864 --> 01:09:18,180
+JSON report nested dictionaries banata
+hai, bilkul usi shape mein jo humein chahiye.
+
+1150
+01:09:18,400 --> 01:09:21,526
+Floats ko round karta
+hai taaki output saaf rahe.
+
+1151
+01:09:21,876 --> 01:09:27,007
+Dictionary comprehension har model ka
+section banata hai, aur list comprehension
+
+1152
+01:09:27,007 --> 01:09:27,328
+tags.
+
+1153
+01:09:27,548 --> 01:09:33,165
+Sets valid JSON nahi hote, isliye bina
+price wale models ek sorted list ban jaate
+
+1154
+01:09:33,165 --> 01:09:33,512
+hain.
+
+1155
+01:09:33,862 --> 01:09:37,145
+Aur json dot dumps sab
+kuch text bana deta hai.
+
+1156
+01:09:38,445 --> 01:09:41,207
+fetch one lesson
+paanch wali async request hai.
+
+1157
+01:09:41,427 --> 01:09:45,392
+URL get karo, raise for
+status, aur JSON parse karo.
+
+1158
+01:09:45,742 --> 01:09:49,471
+Har tarah ki failure ek
+readable ToolkitError ban jaati hai.
+
+1159
+01:09:49,691 --> 01:09:55,141
+Error status, network problem jaise
+refused connection, ya aisi body jo JSON nahi
+
+1160
+01:09:55,141 --> 01:09:55,410
+hai.
+
+1161
+01:09:55,760 --> 01:09:58,226
+Aur body records ki list honi chahiye.
+
+1162
+01:09:58,576 --> 01:10:03,733
+fetch all ek client kholta hai, saare
+downloads ek saath gather karta hai, aur
+
+1163
+01:10:03,733 --> 01:10:07,304
+batches ko ek list mein
+jodta hai, URLs ke order mein.
+
+1164
+01:10:07,524 --> 01:10:10,431
+Optional transport
+parameter testing ke liye hai.
+
+1165
+01:10:10,651 --> 01:10:14,934
+Isse tests asli network ki
+jagah ek fake network laga sakte hain.
+
+1166
+01:10:16,234 --> 01:10:17,476
+Ab command line.
+
+1167
+01:10:17,696 --> 01:10:19,126
+TV remote socho.
+
+1168
+01:10:19,346 --> 01:10:22,770
+Kuch saaf buttons, yaani
+commands: validate, report, fetch.
+
+1169
+01:10:22,990 --> 01:10:27,939
+Kuch buttons ke saath setting, yaani
+options, jaise dash dash format json.
+
+1170
+01:10:28,159 --> 01:10:31,275
+Aur dash dash help remote
+ke peeche likha label hai.
+
+1171
+01:10:32,575 --> 01:10:38,179
+Standard library ka argparse command line
+ke text ko Python values mein badalta hai.
+
+1172
+01:10:38,399 --> 01:10:41,665
+Help text aur error
+messages bhi free mein banata hai.
+
+1173
+01:10:42,015 --> 01:10:47,535
+Sub parsers alag commands dete hain,
+jaise git commit aur git push. validate ek file
+
+1174
+01:10:47,535 --> 01:10:51,609
+leta hai, aur type equals Path
+usse Path object bana deta hai.
+
+1175
+01:10:51,959 --> 01:10:56,121
+report options jodta hai:
+format, sirf do choices ke saath.
+
+1176
+01:10:56,341 --> 01:10:57,836
+Optional output file.
+
+1177
+01:10:58,056 --> 01:11:00,794
+Aur strict flag, jo
+likhne par True hota hai.
+
+1178
+01:11:01,144 --> 01:11:05,443
+fetch ek ya zyaada URLs leta
+hai, aur output file zaroori hai.
+
+1179
+01:11:06,743 --> 01:11:11,808
+Har command ek function hai jo exit
+code lautaata hai. validate har problem print
+
+1180
+01:11:11,808 --> 01:11:14,872
+karta hai, aur kuch
+galat ho toh ek lautaata hai.
+
+1181
+01:11:15,092 --> 01:11:18,633
+Isse scripts aur CI
+pipelines failure pakad sakti hain.
+
+1182
+01:11:18,983 --> 01:11:21,628
+report settings aur
+records load karta hai.
+
+1183
+01:11:21,848 --> 01:11:26,837
+Warnings standard error par jaati hain,
+taaki save ya pipe ho rahi report mein kabhi
+
+1184
+01:11:26,837 --> 01:11:30,520
+na milein. strict ke saath koi
+bhi invalid record failure hai.
+
+1185
+01:11:30,740 --> 01:11:34,389
+Phir summary, aur
+renderer chunna: Markdown ya JSON.
+
+1186
+01:11:34,739 --> 01:11:38,415
+out diya ho toh text file
+mein likha jaata hai, warna print.
+
+1187
+01:11:38,765 --> 01:11:44,109
+fetch asyncio dot run se hamare async
+function ko normal code se chalata hai.
+
+1188
+01:11:44,459 --> 01:11:49,607
+Ek dictionary har command ke naam ko
+uske function se jodti hai, toh ifs ki lambi
+
+1189
+01:11:49,607 --> 01:11:50,306
+chain nahi.
+
+1190
+01:11:50,526 --> 01:11:53,999
+Aur main woh ek jagah hai
+jo ToolkitError pakadti hai.
+
+1191
+01:11:54,219 --> 01:11:58,328
+Traceback ki jagah ek saaf line
+print karti hai, aur ek lautaati hai.
+
+1192
+01:11:59,628 --> 01:12:04,489
+Aur dunder main woh file hai jo
+python dash m toolkit likhne par chalti hai.
+
+1193
+01:12:04,709 --> 01:12:10,040
+Yeh main call karti hai, aur uski return
+value ke saath SystemExit raise karti hai,
+
+1194
+01:12:10,040 --> 01:12:12,480
+jo program ka exit code ban jaata hai.
+
+1195
+01:12:13,780 --> 01:12:15,492
+Ab tayyar tool chalate hain.
+
+1196
+01:12:15,712 --> 01:12:19,250
+Help argparse ne banaya
+hai, teeno commands ke saath.
+
+1197
+01:12:19,600 --> 01:12:21,737
+Sample file poori tarah valid hai.
+
+1198
+01:12:22,087 --> 01:12:24,853
+Broken file chaar
+exact problems batati hai.
+
+1199
+01:12:25,203 --> 01:12:26,625
+Aur exit code ek hai.
+
+1200
+01:12:26,845 --> 01:12:31,068
+Isi se doosre programs ko pata
+chalta hai ki validation fail hui.
+
+1201
+01:12:32,368 --> 01:12:33,727
+Markdown report.
+
+1202
+01:12:33,947 --> 01:12:36,642
+Das requests, assi percent success rate.
+
+1203
+01:12:36,862 --> 01:12:40,072
+Aur average latency
+dekho, chaar second se zyaada.
+
+1204
+01:12:40,292 --> 01:12:42,935
+Kyunki ek failed
+request ne tees second liye.
+
+1205
+01:12:43,155 --> 01:12:48,458
+Average aise outliers ko chhupa deta
+hai, isliye module ke ek challenge mein aap
+
+1206
+01:12:48,458 --> 01:12:49,651
+percentile jodoge.
+
+1207
+01:12:50,951 --> 01:12:56,539
+format json aur out ke saath report file
+mein save hoti hai, aur folder apne aap ban
+
+1208
+01:12:56,539 --> 01:12:57,204
+jaata hai.
+
+1209
+01:12:57,554 --> 01:13:02,763
+Yeh uss JSON file ki shuruaat hai, kisi
+dashboard ya doosre program ke liye tayyar.
+
+1210
+01:13:03,113 --> 01:13:07,459
+Strict mode mein broken file fail
+hoti hai, warning standard error par.
+
+1211
+01:13:07,809 --> 01:13:10,104
+Aur settings environment se aati hain.
+
+1212
+01:13:10,324 --> 01:13:15,528
+Prices file ko aisi file par point karo
+jo hai hi nahi, toh ek saaf error line milti
+
+1213
+01:13:15,528 --> 01:13:17,015
+hai, koi traceback nahi.
+
+1214
+01:13:18,315 --> 01:13:19,498
+Aakhir mein fetch.
+
+1215
+01:13:19,718 --> 01:13:24,997
+Ek local web server data folder ko port
+eight seven six five par serve kar raha hai,
+
+1216
+01:13:24,997 --> 01:13:26,694
+bilkul lesson paanch jaisa.
+
+1217
+01:13:27,044 --> 01:13:31,268
+Command chhoti rakhne ke liye base
+address ek shell variable mein rakha.
+
+1218
+01:13:31,618 --> 01:13:36,307
+Dono files ek saath download hui, aur
+pandrah records ek file mein jud gaye.
+
+1219
+01:13:36,657 --> 01:13:41,828
+Merged file validate karne par gyaarah
+achhe records, aur wahi chaar problems.
+
+1220
+01:13:42,178 --> 01:13:47,116
+Aur agar server tak pahunch hi na sakein,
+toh phir se ek saaf line batati hai ki kya
+
+1221
+01:13:47,116 --> 01:13:47,351
+hua.
+
+1222
+01:13:48,651 --> 01:13:51,440
+Demo dikhata hai ki
+tool aaj kaam karta hai.
+
+1223
+01:13:51,660 --> 01:13:55,433
+Tests pakka karte hain ki
+badlaav ke baad bhi kaam karta rahe.
+
+1224
+01:13:55,653 --> 01:13:57,484
+Hum pytest use karte hain.
+
+1225
+01:13:57,834 --> 01:14:02,957
+pytest test bas ek function hai jiska
+naam test se shuru hota hai, aur jo assert use
+
+1226
+01:14:02,957 --> 01:14:08,019
+karta hai. good row ek fixture hai.
+pytest parameter ka naam dekh kar ek nayi valid
+
+1227
+01:14:08,019 --> 01:14:12,105
+dictionary de deta hai, jo
+conftest dot py mein ek baar define hai.
+
+1228
+01:14:12,455 --> 01:14:15,883
+parametrize ek hi test ko
+har value ke liye chalata hai.
+
+1229
+01:14:16,103 --> 01:14:21,140
+Yahan paanch tests, har ek alag
+required field hatata hai, aur check karta hai ki
+
+1230
+01:14:21,140 --> 01:14:22,881
+error ussi field ka naam le.
+
+1231
+01:14:23,231 --> 01:14:28,140
+Yeh test nau tarah ka kharab data deta
+hai, chalaak True samet jo number ban kar
+
+1232
+01:14:28,140 --> 01:14:32,374
+aata hai, aur check karta hai ki
+har ek sahi field ke liye reject ho.
+
+1233
+01:14:33,674 --> 01:14:39,458
+Tests asli network par depend nahi hone
+chahiye, jo slow ho sakta hai ya band. httpx
+
+1234
+01:14:39,458 --> 01:14:45,104
+ka MockTransport network ki jagah ek
+function laga deta hai jo fake responses deta
+
+1235
+01:14:45,104 --> 01:14:45,380
+hai.
+
+1236
+01:14:45,730 --> 01:14:49,533
+Toh hum check kar sakte hain ki
+do downloads sahi order mein jude.
+
+1237
+01:14:49,883 --> 01:14:54,580
+Aur four zero four, ya list ke
+alaawa response, ToolkitError banta hai.
+
+1238
+01:14:54,800 --> 01:14:58,005
+Yeh milliseconds mein
+chalte hain, bina kisi server ke.
+
+1239
+01:14:59,305 --> 01:15:00,624
+Poora suite chalao.
+
+1240
+01:15:00,844 --> 01:15:04,245
+Forty two tests, sab
+pass, ek second se bhi kam mein.
+
+1241
+01:15:04,595 --> 01:15:08,175
+dash v ke saath pytest
+har test ka naam dikhata hai.
+
+1242
+01:15:08,525 --> 01:15:12,915
+Aur mypy confirm karta hai ki
+hamare saare type hints consistent hain.
+
+1243
+01:15:14,215 --> 01:15:17,102
+Pehla: package ke
+andar ki file seedhe chalana.
+
+1244
+01:15:17,322 --> 01:15:22,204
+Python ko toolkit package nahi
+milta, kyunki woh toolkit folder ke andar se
+
+1245
+01:15:22,204 --> 01:15:23,897
+dhoondhna shuru karta hai.
+
+1246
+01:15:24,117 --> 01:15:28,152
+Fix: project root mein raho
+aur python dash m toolkit chalao.
+
+1247
+01:15:28,502 --> 01:15:31,298
+Doosra: virtual environment bhool jaana.
+
+1248
+01:15:31,648 --> 01:15:36,911
+Environment deactivate hai, toh
+system Python mein httpx install nahi hai.
+
+1249
+01:15:37,131 --> 01:15:39,661
+Fix: dot venv dobara activate karo.
+
+1250
+01:15:40,961 --> 01:15:45,974
+is not valid JSON ka matlab aksar
+aakhri comma, single quotes, ya comment.
+
+1251
+01:15:46,194 --> 01:15:48,512
+Message line aur column batata hai.
+
+1252
+01:15:48,862 --> 01:15:52,994
+file not found ka matlab aksar
+command kisi aur folder se chali.
+
+1253
+01:15:53,214 --> 01:15:57,154
+Relative paths wahin se shuru
+hote hain jahan se aap chalate ho.
+
+1254
+01:15:57,504 --> 01:16:02,449
+Windows par PowerShell activate
+script chalane se mana kare, toh ek baar Set
+
+1255
+01:16:02,449 --> 01:16:07,003
+Execution Policy, current user ke
+liye, Remote Signed ke saath chalao.
+
+1256
+01:16:07,353 --> 01:16:12,433
+Aur text ajeeb characters mein aaye, toh
+dhyaan do ki har read aur write utf eight
+
+1257
+01:16:12,433 --> 01:16:13,177
+ke saath ho.
+
+1258
+01:16:14,477 --> 01:16:15,771
+Interview corner.
+
+1259
+01:16:15,991 --> 01:16:21,386
+Pehla question: CLI ko sirf error
+print karne ki jagah exit code kyun lautaana
+
+1260
+01:16:21,386 --> 01:16:21,939
+chahiye?
+
+1261
+01:16:24,289 --> 01:16:29,889
+Answer: scripts, CI, aur doosre programs
+aapke sentences nahi padh sakte, lekin exit
+
+1262
+01:16:29,889 --> 01:16:31,289
+code padh sakte hain.
+
+1263
+01:16:31,509 --> 01:16:33,555
+Zero success, baaki failure.
+
+1264
+01:16:33,775 --> 01:16:36,660
+Do ampersand aur CI
+steps isi se rukte hain.
+
+1265
+01:16:36,880 --> 01:16:41,011
+Trap: Error print karna aur
+phir bhi zero ke saath exit karna.
+
+1266
+01:16:41,231 --> 01:16:43,966
+Pipeline khushi
+khushi aage chalti rehti hai.
+
+1267
+01:16:44,316 --> 01:16:48,465
+Doosra: HTTP requests wale
+code ko test kaise karte ho?
+
+1268
+01:16:50,815 --> 01:16:56,140
+Answer: network ki jagah ek fake
+lagao. httpx MockTransport pehle se tayyar
+
+1269
+01:16:56,140 --> 01:16:59,975
+responses deta hai, four
+zero four jaise errors samet.
+
+1270
+01:17:00,195 --> 01:17:03,645
+Tests tez aur repeatable
+bante hain, bina asli server ke.
+
+1271
+01:17:03,865 --> 01:17:06,522
+Trap: tests mein asli API call karna.
+
+1272
+01:17:06,742 --> 01:17:10,391
+Slow, kabhi pass kabhi fail,
+aur paise ya keys ka nuksaan.
+
+1273
+01:17:10,741 --> 01:17:14,258
+Teesra: calculation aur
+formatting ko alag kyun rakhte hain?
+
+1274
+01:17:16,608 --> 01:17:22,644
+Answer: har hissa akele test ho sakta
+hai, aur naya output, jaise JSON, CSV, ya web
+
+1275
+01:17:22,644 --> 01:17:25,480
+page, ganit ko chhue bina jod sakte ho.
+
+1276
+01:17:25,700 --> 01:17:28,360
+Yahi single responsibility ka idea hai.
+
+1277
+01:17:28,580 --> 01:17:33,266
+Trap: ek bahut bada function jo load
+bhi kare, calculate bhi, aur print bhi.
+
+1278
+01:17:33,486 --> 01:17:35,721
+Na test ho sakta hai, na reuse.
+
+1279
+01:17:37,021 --> 01:17:38,241
+Module recap.
+
+1280
+01:17:38,461 --> 01:17:43,123
+Aapne lists, dictionaries, aur sets
+use kiye, aur conversations ko message
+
+1281
+01:17:43,123 --> 01:17:45,455
+dictionaries ki list ki tarah banaya.
+
+1282
+01:17:45,805 --> 01:17:48,997
+Functions, dataclasses,
+aur apni exceptions likhi.
+
+1283
+01:17:49,347 --> 01:17:54,809
+Package organise kiya, aur files,
+JSON, aur environment variables ke saath kaam
+
+1284
+01:17:54,809 --> 01:17:55,155
+kiya.
+
+1285
+01:17:55,505 --> 01:18:00,251
+Type hints lagaye, HTTP requests
+ki, aur downloads ek saath chalaye.
+
+1286
+01:18:00,601 --> 01:18:05,762
+Aur ek tested command line tool banaya,
+saaf errors aur sahi exit codes ke saath.
+
+1287
+01:18:07,062 --> 01:18:09,012
+Module quiz, pehla sawaal.
+
+1288
+01:18:09,232 --> 01:18:12,141
+Ek agent sirf do tools use kar sakta hai.
+
+1289
+01:18:12,361 --> 01:18:16,924
+Tool allowed hai ya nahi, iska
+sabse tez check kaunsa structure deta hai?
+
+1290
+01:18:22,624 --> 01:18:23,508
+B, set.
+
+1291
+01:18:23,728 --> 01:18:27,117
+Set kitna bhi bada ho,
+membership check tez rehta hai.
+
+1292
+01:18:28,417 --> 01:18:33,432
+Doosra sawaal. frozen equals True
+hamare usage record mein kya jodta hai?
+
+1293
+01:18:39,132 --> 01:18:39,617
+C.
+
+1294
+01:18:39,837 --> 01:18:43,065
+Record banne ke baad
+fields badli nahi ja sakti.
+
+1295
+01:18:43,285 --> 01:18:46,802
+Aur yaad rahe, dataclass
+khud types validate nahi karti.
+
+1296
+01:18:47,022 --> 01:18:49,493
+Isliye from dict har
+field check karta hai.
+
+1297
+01:18:50,793 --> 01:18:51,981
+Teesra sawaal.
+
+1298
+01:18:52,201 --> 01:18:54,322
+Ek command error print karti hai.
+
+1299
+01:18:54,542 --> 01:18:57,946
+CI pipeline ko kaise pata
+chalta hai ki woh fail hui?
+
+1300
+01:19:03,646 --> 01:19:05,573
+B, non zero exit code se.
+
+1301
+01:19:05,793 --> 01:19:09,729
+Hamara validate kisi bhi
+invalid record par ek lautaata hai.
+
+1302
+01:19:11,029 --> 01:19:15,120
+Chautha sawaal. fetch all
+asyncio dot gather kyun use karta hai?
+
+1303
+01:19:20,820 --> 01:19:21,323
+B.
+
+1304
+01:19:21,543 --> 01:19:27,178
+Taaki sab ek saath download ho, aur total
+time lagbhag sabse slow download jitna ho,
+
+1305
+01:19:27,178 --> 01:19:28,184
+sabka jod nahi.
+
+1306
+01:19:29,484 --> 01:19:30,854
+Aur paanchva sawaal.
+
+1307
+01:19:31,074 --> 01:19:34,215
+Project ki asli API
+key kahan rehni chahiye?
+
+1308
+01:19:39,915 --> 01:19:40,399
+C.
+
+1309
+01:19:40,619 --> 01:19:44,481
+Environment variable mein, ya
+git ignored dot env file mein.
+
+1310
+01:19:44,701 --> 01:19:47,558
+Example file mein
+hamesha sirf fake values.
+
+1311
+01:19:48,858 --> 01:19:51,811
+Aage jaana hai, toh yeh
+raha extension challenge.
+
+1312
+01:19:52,031 --> 01:19:56,136
+Ek ya zyaada chuno, aur har ek
+ke liye code aur test dono likho.
+
+1313
+01:19:56,486 --> 01:19:58,925
+report command mein top N option jodo.
+
+1314
+01:19:59,275 --> 01:20:01,328
+p ninety five latency jodo.
+
+1315
+01:20:01,548 --> 01:20:04,842
+Average ki tarah yeh ek
+slow request se bigadti nahi.
+
+1316
+01:20:05,192 --> 01:20:08,271
+created at timestamp se
+har din ka breakdown jodo.
+
+1317
+01:20:08,621 --> 01:20:12,719
+Ya standard csv module
+se CSV output format jodo.
+
+1318
+01:20:14,019 --> 01:20:18,556
+Yeh hamari use ki hui har cheez
+ke official documentation pages hain.
+
+1319
+01:20:18,776 --> 01:20:22,936
+Links description mein hain, aur
+poora source code course repository mein.
+
+1320
+01:20:27,036 --> 01:20:28,657
+Module ek complete.
+
+1321
+01:20:28,877 --> 01:20:33,495
+Ab aapke paas woh Python foundation
+hai jis par yeh poora course khada hai.
+
+1322
+01:20:33,715 --> 01:20:38,777
+Module do mein aap aakhirkaar
+language model se baat karoge: tokens, context
+
+1323
+01:20:38,777 --> 01:20:43,306
+windows, message history,
+structured output, rate limits, aur costs.
+
+1324
+01:20:43,526 --> 01:20:46,050
+Aur ek AI Study Assistant banaoge.
+
+1325
+01:20:46,270 --> 01:20:47,466
+Milte hain wahan.

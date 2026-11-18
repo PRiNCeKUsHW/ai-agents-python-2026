@@ -1,11 +1,11 @@
 # Course question bank
 
-Every question asked in the videos: quick checks, module quizzes, pause-and-try, practice and interview questions, with collapsible answers. **192 questions so far.**
+Every question asked in the videos: quick checks, module quizzes, pause-and-try, practice and interview questions, with collapsible answers. **245 questions so far.**
 
 | Module | Topic | Questions |
 |---|---|---|
 | 0 | [Your Developer Setup](modules/module-00-developer-setup/QUESTIONS.md) | 32 |
-| 1 | [Python for AI Engineering](modules/module-01-python-ai-engineering/QUESTIONS.md) | 9 |
+| 1 | [Python for AI Engineering](modules/module-01-python-ai-engineering/QUESTIONS.md) | 62 |
 | 2 | [LLM Fundamentals and API Integration](modules/module-02-llm-fundamentals/QUESTIONS.md) | 47 |
 | 3 | [Prompt Engineering and Structured Outputs](modules/module-03-prompt-engineering/QUESTIONS.md) | 9 |
 | 4 | [AI Agent Architecture](modules/module-04-agent-architecture/QUESTIONS.md) | 21 |

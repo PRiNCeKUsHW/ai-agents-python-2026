@@ -9,8 +9,9 @@
 
 | Module | Theme | Look | Why it fits |
 |---|---|---|---|
-| 1–6 | Paper (Modules 2–6), Agent Console (Module 1 original) | warm off-white page, dark ink; Module 1 dark navy | made before the per-module rule |
+| 2–6 | Paper (Modules 2–6); Module 1's English original used Agent Console | warm off-white page, dark ink | made before the per-module rule |
 | 0 | Terminal Night | GitHub-dark page, terminal green prompt, Git orange highlights | the module teaches the terminal, venv and Git |
+| 1 (Hinglish remake) | Python Notebook | cool blue-white notebook page, Python blue primary, Python yellow highlights, dark navy code cells | the module is pure Python |
 | next | (new, not yet chosen) | must differ from everything above | chosen from the module's syllabus |
 
 Chosen for an international developer audience watching long technical lessons: a calm, dark,

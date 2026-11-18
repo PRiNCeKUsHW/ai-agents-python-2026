@@ -73,7 +73,7 @@ MODULES = {
                    "extension challenge and the documentation links.",
         "parts": [
             {"lessons": [1, 2, 3, 4],
-             "title": "Agents, Python Data, Functions, Classes, Files and JSON",
+             "title": "Agents, Python Data, Functions, Classes and JSON",
              "blurb": "what an AI agent is and the agent loop in plain Python, the course map, then the Python "
                       "AI code is made of: variables, f-strings, lists, dictionaries, sets and comprehensions; "
                       "functions, classes, dataclasses and exceptions; modules, packages, files, JSON and "
@@ -82,7 +82,7 @@ MODULES = {
                       "python functions classes", "python dataclasses", "python exceptions", "python json",
                       "python modules packages", "python hindi", "hinglish python tutorial"]},
             {"lessons": [5, 6, 7],
-             "title": "Type Hints, HTTP, Async + Project: Python AI Toolkit",
+             "title": "Type Hints, HTTP, Async + Project: AI Toolkit",
              "blurb": "type hints and mypy, HTTP requests with httpx, async and await, then the project: "
                       "{project_blurb}",
              "tags": ["python type hints", "mypy", "httpx tutorial", "python async await", "asyncio gather",

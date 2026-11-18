@@ -106,8 +106,15 @@
       "render": {
         "lessons": 7,
         "full_module": "renders/module-01-full.mp4",
-        "duration": "56:58",
-        "format": "1920x1080 60fps H.264 + AAC"
+        "duration": "1:20:48",
+        "format": "1920x1080 60fps H.264 + AAC",
+        "language": "Hinglish (remake, 2026-11-18)",
+        "voice": "hf_beta 0.95",
+        "theme": "Python Notebook",
+        "parts": [
+          "Part 1: lessons 1-4 (46:33)",
+          "Part 2: lessons 5-7 (34:14)"
+        ]
       },
       "blockers": []
     },
@@ -710,5 +717,5 @@
     }
   ],
   "capstone_deliverables": "a public GitHub repository, a professional README, an architecture diagram, setup instructions, automated tests, a short demo video, a deployed demo where feasible, and known limitations",
-  "updated": "2026-11-17T06:16:38Z"
+  "updated": "2026-11-18T11:06:22Z"
 }

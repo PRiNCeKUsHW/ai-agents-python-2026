@@ -20,6 +20,13 @@ Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, a
 - `validation-report.md`: 69/69 checks passed (formats, durations, captions, loudness, no black frames,
   no long silences, fresh-venv install, 42 tests, mypy, documented CLI commands)
 - Lessons 4 and 5 were re-rendered after a fix: compare scenes now show dimmed panels during intro narration
+- **Remade 2026-11-18 in Hinglish** (learner's request): voice `hf_beta` at 0.95 (the learner's pick of
+  sample 2; Priyamvada/Piper was rejected for its non-commercial licence), new theme **Python Notebook**,
+  the newer teaching style (analogy, What → Why → How → Where, code + real output, interview corner,
+  practice, two quick checks per lesson). Lesson 1 now shows a 30-line agent loop with a labelled fake
+  model and the 20-module map; setup is only checked (Module 0 teaches it). Full video 1:20:48,
+  84 chapters, 1325 captions; validation 69/69. Two YouTube parts: lessons 1–4 (46:33), 5–7 (34:14).
+  Panel colour tokens (`codePrompt`, `codeCmd`, ...) added so terminal text is readable on any theme.
 - Videos and audio are not in git (too large); they were delivered from the cloud session
 
 ## Local Windows machine (set up 2026-10-29)
