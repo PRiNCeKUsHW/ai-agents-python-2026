@@ -23,7 +23,7 @@ export const THUMBS: ThumbProps[] = [
     module: 1,
     lines: ["PYTHON", "FOR AI", "ENGINEERING"],
     accentLine: 1,
-    tagline: "Build a real CLI project from zero",
+    tagline: "Hinglish mein · a real CLI project",
     code: ["$ python -m toolkit report", "Requests: 10 (8 ok, 2 errors)", "Success rate: 80.0%", "Estimated cost: 0.0498 USD"],
   },
   {

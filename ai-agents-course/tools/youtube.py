@@ -54,6 +54,7 @@ MODULES = {
     },
     1: {
         "title": "Python for AI Engineering",
+        "language": "hinglish",  # remade in Hinglish 2026-11-18 (the English first version is in git history)
         "project": "Python AI Toolkit",
         "project_dir": "python-ai-toolkit",
         "project_blurb": "a command-line tool that validates a JSON log of LLM API calls and reports "
@@ -62,9 +63,32 @@ MODULES = {
         "prereq": "No AI experience needed. Any programming experience helps, but every Python concept is explained.",
         "terms": ["python for ai", "python tutorial for beginners", "ai engineering", "ai agents python",
                   "python dataclasses", "python json", "httpx", "python async await", "pytest tutorial",
-                  "python cli project"],
+                  "python cli project", "python hindi", "python for ai hindi"],
         "tags": "#Python #AIAgents #AIEngineering #PythonTutorial #LLM",
         "docs": "docs.python.org/3/tutorial · www.python-httpx.org · docs.pytest.org",
+        "style": "Explained in Hinglish (Hindi + English) with Hinglish captions. Real-life analogies, code next "
+                 "to its real output, comparison tables, an interview corner and practice questions in every "
+                 "lesson (answers in quiz.md).",
+        "closing": "Every lesson ends with quick-check questions and a recap. Lesson 7 adds the module quiz, an "
+                   "extension challenge and the documentation links.",
+        "parts": [
+            {"lessons": [1, 2, 3, 4],
+             "title": "Agents, Python Data, Functions, Classes, Files and JSON",
+             "blurb": "what an AI agent is and the agent loop in plain Python, the course map, then the Python "
+                      "AI code is made of: variables, f-strings, lists, dictionaries, sets and comprehensions; "
+                      "functions, classes, dataclasses and exceptions; modules, packages, files, JSON and "
+                      "environment variables.",
+             "tags": ["what is an ai agent", "agent loop python", "python lists dictionaries sets",
+                      "python functions classes", "python dataclasses", "python exceptions", "python json",
+                      "python modules packages", "python hindi", "hinglish python tutorial"]},
+            {"lessons": [5, 6, 7],
+             "title": "Type Hints, HTTP, Async + Project: Python AI Toolkit",
+             "blurb": "type hints and mypy, HTTP requests with httpx, async and await, then the project: "
+                      "{project_blurb}",
+             "tags": ["python type hints", "mypy", "httpx tutorial", "python async await", "asyncio gather",
+                      "python cli project", "argparse", "pytest tutorial", "python project hindi",
+                      "llm usage report"]},
+        ],
     },
     2: {
         "title": "LLM Fundamentals and API Integration",
