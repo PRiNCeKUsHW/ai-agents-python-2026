@@ -111,6 +111,9 @@ Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, a
   "GitHub" remote is a local bare repository, and the video says so.
 - Ready for a two-part upload: Part 1 lessons 1-2 (36:05), Part 2 lesson 3 (20:49); packaging in
   `modules/module-00-developer-setup/youtube.md`.
+- 2026-11-18: videos (full, Part 1, lessons) downloaded by the learner; local video files, narration
+  audio and studio audio deleted (rebuild with `python tools/build_lesson.py 0 all` and
+  `python tools/module.py render 0`; the voice cache is kept).
 
 ## Next: Module 7: Reliable and Efficient Agents (project: Resilient API Agent)
 
