@@ -1,736 +1,896 @@
 1
-00:00:00,700 --> 00:00:01,725
-Welcome back.
+00:00:00,700 --> 00:00:02,093
+Wapas swagat hai.
 
 2
-00:00:01,945 --> 00:00:03,390
-The data layer works.
+00:00:02,313 --> 00:00:04,100
+Data layer kaam kar rahi hai.
 
 3
-00:00:03,610 --> 00:00:08,709
-Now we add the report writer, the
-downloader, and the command line, then run the
+00:00:04,320 --> 00:00:07,881
+Ab report writer,
+downloader, aur command line jodenge.
 
 4
-00:00:08,709 --> 00:00:14,063
-finished tool, test it, fix the common
-errors, and finish the module with a quiz and
+00:00:08,101 --> 00:00:13,262
+Phir tayyar tool chalayenge, test
+karenge, common errors theek karenge, aur module
 
 5
-00:00:14,063 --> 00:00:14,828
-a challenge.
+00:00:13,262 --> 00:00:16,157
+ko quiz aur challenge
+ke saath khatam karenge.
 
 6
-00:00:16,128 --> 00:00:19,392
-Render markdown takes a
-summary and returns text.
+00:00:17,457 --> 00:00:21,252
+render markdown ek summary
+leta hai aur text lautaata hai.
 
 7
-00:00:19,612 --> 00:00:24,599
-It doesn't print anything, so it's easy
-to test, and the caller decides where the
+00:00:21,472 --> 00:00:23,014
+Kuch print nahi karta.
 
 8
-00:00:24,599 --> 00:00:25,214
-text goes.
+00:00:23,234 --> 00:00:28,525
+Isliye test karna aasaan, aur call karne
+wala decide karta hai ki text kahan jaaye.
 
 9
-00:00:25,564 --> 00:00:30,871
-The report is built as a list of
-lines, using f-string formats from lesson two.
+00:00:28,875 --> 00:00:33,457
+Report lines ki list ki tarah banti
+hai, lesson do ke f string formats se.
 
 10
-00:00:31,091 --> 00:00:36,563
-Colon point one percent shows a
-percentage, and colon point four f shows four
+00:00:33,677 --> 00:00:39,273
+Colon point one percent percentage
+dikhata hai, aur colon point four f chaar decimal
 
 11
-00:00:36,563 --> 00:00:37,629
-decimal places.
+00:00:39,273 --> 00:00:39,739
+places.
 
 12
-00:00:37,979 --> 00:00:40,735
-A Markdown table has one row per model.
+00:00:40,089 --> 00:00:42,582
+Markdown table mein har model ki ek row.
 
 13
-00:00:41,085 --> 00:00:46,909
-Then the top tags, numbered with
-enumerate, a warning if any model had no price, and
+00:00:42,932 --> 00:00:45,965
+Phir top tags,
+enumerate se number ke saath.
 
 14
-00:00:46,909 --> 00:00:50,098
-finally join glues
-everything into one string.
+00:00:46,185 --> 00:00:48,588
+Kisi model ki price na ho, toh warning.
 
 15
-00:00:51,398 --> 00:00:56,814
-The JSON report builds nested
-dictionaries in exactly the shape we want, rounding
+00:00:48,808 --> 00:00:52,449
+Aur aakhir mein join sab lines
+ko ek string mein jod deta hai.
 
 16
-00:00:56,814 --> 00:00:59,222
-the floats so the output stays tidy.
+00:00:53,749 --> 00:00:59,065
+JSON report nested dictionaries banata
+hai, bilkul usi shape mein jo humein chahiye.
 
 17
-00:00:59,572 --> 00:01:04,754
-A dictionary comprehension builds the
-per-model section, and a list comprehension
+00:00:59,285 --> 00:01:02,411
+Floats ko round karta
+hai taaki output saaf rahe.
 
 18
-00:01:04,754 --> 00:01:05,778
-builds the tags.
+00:01:02,761 --> 00:01:07,892
+Dictionary comprehension har model ka
+section banata hai, aur list comprehension
 
 19
-00:01:05,998 --> 00:01:10,760
-Sets aren't valid JSON, so the
-unpriced models become a sorted list.
+00:01:07,892 --> 00:01:08,213
+tags.
 
 20
-00:01:11,110 --> 00:01:13,982
-And json dot dumps turns it all into text.
+00:01:08,433 --> 00:01:14,050
+Sets valid JSON nahi hote, isliye bina
+price wale models ek sorted list ban jaate
 
 21
-00:01:15,282 --> 00:01:18,460
-Fetch one is the async
-request from lesson five.
+00:01:14,050 --> 00:01:14,397
+hain.
 
 22
-00:01:18,680 --> 00:01:22,362
-Get the URL, raise for
-status, and parse the JSON.
+00:01:14,747 --> 00:01:18,030
+Aur json dot dumps sab
+kuch text bana deta hai.
 
 23
-00:01:22,712 --> 00:01:26,388
-Each kind of failure
-becomes one readable toolkit error.
+00:01:19,330 --> 00:01:22,092
+fetch one lesson
+paanch wali async request hai.
 
 24
-00:01:26,608 --> 00:01:32,462
-An error status, a network problem like
-a refused connection, or a body that isn't
+00:01:22,312 --> 00:01:26,277
+URL get karo, raise for
+status, aur JSON parse karo.
 
 25
-00:01:32,462 --> 00:01:32,819
-JSON.
+00:01:26,627 --> 00:01:30,356
+Har tarah ki failure ek
+readable ToolkitError ban jaati hai.
 
 26
-00:01:33,169 --> 00:01:35,451
-And the body has to be a list of records.
+00:01:30,576 --> 00:01:36,026
+Error status, network problem jaise
+refused connection, ya aisi body jo JSON nahi
 
 27
-00:01:35,801 --> 00:01:41,915
-Fetch all opens one client, gathers
-every download at the same time, and flattens
+00:01:36,026 --> 00:01:36,295
+hai.
 
 28
-00:01:41,915 --> 00:01:46,218
-the batches into one list,
-keeping the order of the URLs.
+00:01:36,645 --> 00:01:39,111
+Aur body records ki list honi chahiye.
 
 29
-00:01:46,438 --> 00:01:49,342
-The optional transport
-parameter is for testing.
+00:01:39,461 --> 00:01:44,618
+fetch all ek client kholta hai, saare
+downloads ek saath gather karta hai, aur
 
 30
-00:01:49,562 --> 00:01:52,815
-It lets tests replace the
-real network with a fake one.
+00:01:44,618 --> 00:01:48,189
+batches ko ek list mein
+jodta hai, URLs ke order mein.
 
 31
-00:01:54,115 --> 00:01:59,090
-The standard library's argparse
-turns command line text into Python values.
+00:01:48,409 --> 00:01:51,316
+Optional transport
+parameter testing ke liye hai.
 
 32
-00:01:59,310 --> 00:02:03,014
-It also generates help text
-and error messages for free.
+00:01:51,536 --> 00:01:55,819
+Isse tests asli network ki
+jagah ek fake network laga sakte hain.
 
 33
-00:02:03,364 --> 00:02:07,619
-Sub parsers give us separate
-commands, like git commit and git push.
+00:01:57,119 --> 00:01:58,361
+Ab command line.
 
 34
-00:02:07,839 --> 00:02:12,991
-Validate takes one file, and type
-equals Path converts it to a Path object.
+00:01:58,581 --> 00:02:00,011
+TV remote socho.
 
 35
-00:02:13,341 --> 00:02:19,008
-Report adds options: a format
-restricted to two choices, an optional output file,
+00:02:00,231 --> 00:02:03,655
+Kuch saaf buttons, yaani
+commands: validate, report, fetch.
 
 36
-00:02:19,008 --> 00:02:22,087
-and a strict flag
-that is True when present.
+00:02:03,875 --> 00:02:08,824
+Kuch buttons ke saath setting, yaani
+options, jaise dash dash format json.
 
 37
-00:02:22,437 --> 00:02:27,042
-Fetch accepts one or more
-URLs, and requires an output file.
+00:02:09,044 --> 00:02:12,160
+Aur dash dash help remote
+ke peeche likha label hai.
 
 38
-00:02:28,342 --> 00:02:31,971
-Each command is a
-function that returns an exit code.
+00:02:13,460 --> 00:02:19,064
+Standard library ka argparse command line
+ke text ko Python values mein badalta hai.
 
 39
-00:02:32,191 --> 00:02:37,859
-Validate prints every problem and
-returns one if anything was wrong, so scripts and
+00:02:19,284 --> 00:02:22,550
+Help text aur error
+messages bhi free mein banata hai.
 
 40
-00:02:37,859 --> 00:02:40,045
-CI pipelines can detect failure.
+00:02:22,900 --> 00:02:28,420
+Sub parsers alag commands dete hain,
+jaise git commit aur git push. validate ek file
 
 41
-00:02:40,395 --> 00:02:42,520
-Report loads settings and records.
+00:02:28,420 --> 00:02:32,494
+leta hai, aur type equals Path
+usse Path object bana deta hai.
 
 42
-00:02:42,740 --> 00:02:47,974
-Warnings go to standard error, so they
-never mix into a report that's being saved or
+00:02:32,844 --> 00:02:37,006
+report options jodta hai:
+format, sirf do choices ke saath.
 
 43
-00:02:47,974 --> 00:02:48,347
-piped.
+00:02:37,226 --> 00:02:38,721
+Optional output file.
 
 44
-00:02:48,567 --> 00:02:51,435
-With strict, any
-invalid record is a failure.
+00:02:38,941 --> 00:02:41,679
+Aur strict flag, jo
+likhne par True hota hai.
 
 45
-00:02:51,655 --> 00:02:55,599
-Then we summarise and choose
-a renderer, Markdown or JSON.
+00:02:42,029 --> 00:02:46,328
+fetch ek ya zyaada URLs leta
+hai, aur output file zaroori hai.
 
 46
-00:02:55,949 --> 00:02:59,653
-The text is written to a
-file if out was given, or printed.
+00:02:47,628 --> 00:02:52,693
+Har command ek function hai jo exit
+code lautaata hai. validate har problem print
 
 47
-00:03:00,003 --> 00:03:05,497
-Fetch uses asyncio dot run to call
-our async function from normal code.
+00:02:52,693 --> 00:02:55,757
+karta hai, aur kuch
+galat ho toh ek lautaata hai.
 
 48
-00:03:05,847 --> 00:03:10,894
-A dictionary maps each command name to
-its function, so there's no long chain of
+00:02:55,977 --> 00:02:59,518
+Isse scripts aur CI
+pipelines failure pakad sakti hain.
 
 49
-00:03:10,894 --> 00:03:11,146
-ifs.
+00:02:59,868 --> 00:03:02,513
+report settings aur
+records load karta hai.
 
 50
-00:03:11,366 --> 00:03:16,655
-And main is the single place that
-catches toolkit errors, printing one clean line
+00:03:02,733 --> 00:03:07,722
+Warnings standard error par jaati hain,
+taaki save ya pipe ho rahi report mein kabhi
 
 51
-00:03:16,655 --> 00:03:19,397
-and returning one, instead of a traceback.
+00:03:07,722 --> 00:03:11,405
+na milein. strict ke saath koi
+bhi invalid record failure hai.
 
 52
-00:03:20,697 --> 00:03:24,830
-And dunder main is what runs
-when you type python dash m toolkit.
+00:03:11,625 --> 00:03:15,274
+Phir summary, aur
+renderer chunna: Markdown ya JSON.
 
 53
-00:03:25,050 --> 00:03:30,580
-It calls main, and raises system exit
-with the return value, which becomes the
+00:03:15,624 --> 00:03:19,300
+out diya ho toh text file
+mein likha jaata hai, warna print.
 
 54
-00:03:30,580 --> 00:03:31,998
-program's exit code.
+00:03:19,650 --> 00:03:24,994
+fetch asyncio dot run se hamare async
+function ko normal code se chalata hai.
 
 55
-00:03:33,298 --> 00:03:34,729
-Let's run the finished tool.
+00:03:25,344 --> 00:03:30,492
+Ek dictionary har command ke naam ko
+uske function se jodti hai, toh ifs ki lambi
 
 56
-00:03:34,949 --> 00:03:38,997
-Help is generated by
-argparse, listing the three commands.
+00:03:30,492 --> 00:03:31,191
+chain nahi.
 
 57
-00:03:39,347 --> 00:03:41,343
-The sample file is fully valid.
+00:03:31,411 --> 00:03:34,884
+Aur main woh ek jagah hai
+jo ToolkitError pakadti hai.
 
 58
-00:03:41,693 --> 00:03:44,951
-The broken file
-reports four precise problems.
+00:03:35,104 --> 00:03:39,213
+Traceback ki jagah ek saaf line
+print karti hai, aur ek lautaati hai.
 
 59
-00:03:45,301 --> 00:03:50,191
-And the exit code is one, which is
-how other programs know validation failed.
+00:03:40,513 --> 00:03:45,374
+Aur dunder main woh file hai jo
+python dash m toolkit likhne par chalti hai.
 
 60
-00:03:51,491 --> 00:03:52,843
-The Markdown report.
+00:03:45,594 --> 00:03:50,925
+Yeh main call karti hai, aur uski return
+value ke saath SystemExit raise karti hai,
 
 61
-00:03:53,063 --> 00:03:55,744
-Ten requests with an
-eighty percent success rate.
+00:03:50,925 --> 00:03:53,365
+jo program ka exit code ban jaata hai.
 
 62
-00:03:55,964 --> 00:03:59,200
-And notice the average
-latency, over four seconds.
+00:03:54,665 --> 00:03:56,377
+Ab tayyar tool chalate hain.
 
 63
-00:03:59,420 --> 00:04:02,443
-That's because one failed
-request took thirty seconds.
+00:03:56,597 --> 00:04:00,135
+Help argparse ne banaya
+hai, teeno commands ke saath.
 
 64
-00:04:02,663 --> 00:04:08,004
-An average hides outliers like that,
-which is why one of this module's challenges
+00:04:00,485 --> 00:04:02,622
+Sample file poori tarah valid hai.
 
 65
-00:04:08,004 --> 00:04:09,916
-asks you to add a percentile.
+00:04:02,972 --> 00:04:05,738
+Broken file chaar
+exact problems batati hai.
 
 66
-00:04:11,216 --> 00:04:17,001
-With format json and out, the report is
-saved to a file instead, and the folder is
+00:04:06,088 --> 00:04:07,510
+Aur exit code ek hai.
 
 67
-00:04:17,001 --> 00:04:18,553
-created automatically.
+00:04:07,730 --> 00:04:11,953
+Isi se doosre programs ko pata
+chalta hai ki validation fail hui.
 
 68
-00:04:18,903 --> 00:04:23,745
-Here's the start of that JSON file,
-ready for a dashboard or another program.
+00:04:13,253 --> 00:04:14,612
+Markdown report.
 
 69
-00:04:24,095 --> 00:04:28,780
-In strict mode, the broken file
-fails, with the warning on standard error.
+00:04:14,832 --> 00:04:17,527
+Das requests, assi percent success rate.
 
 70
-00:04:29,130 --> 00:04:31,099
-And settings come from the environment.
+00:04:17,747 --> 00:04:20,957
+Aur average latency
+dekho, chaar second se zyaada.
 
 71
-00:04:31,319 --> 00:04:36,559
-Point the prices file at something that
-doesn't exist, and you get one clear error
+00:04:21,177 --> 00:04:23,820
+Kyunki ek failed
+request ne tees second liye.
 
 72
-00:04:36,559 --> 00:04:37,773
-line, no traceback.
+00:04:24,040 --> 00:04:29,343
+Average aise outliers ko chhupa deta
+hai, isliye module ke ek challenge mein aap
 
 73
-00:04:39,073 --> 00:04:40,177
-Finally, fetch.
+00:04:29,343 --> 00:04:30,536
+percentile jodoge.
 
 74
-00:04:40,397 --> 00:04:46,152
-A local web server is serving the data
-folder on port eighty-seven sixty-five, just
+00:04:31,836 --> 00:04:37,424
+format json aur out ke saath report file
+mein save hoti hai, aur folder apne aap ban
 
 75
-00:04:46,152 --> 00:04:47,539
-like in lesson five.
+00:04:37,424 --> 00:04:38,089
+jaata hai.
 
 76
-00:04:47,889 --> 00:04:52,352
-To keep the command short, we store
-the base address in a shell variable.
+00:04:38,439 --> 00:04:43,648
+Yeh uss JSON file ki shuruaat hai, kisi
+dashboard ya doosre program ke liye tayyar.
 
 77
-00:04:52,702 --> 00:04:58,120
-Both files download concurrently, and
-fifteen records are merged into one file.
+00:04:43,998 --> 00:04:48,344
+Strict mode mein broken file fail
+hoti hai, warning standard error par.
 
 78
-00:04:58,470 --> 00:05:04,358
-Validating the merged file finds the
-eleven good records and the same four problems.
+00:04:48,694 --> 00:04:50,989
+Aur settings environment se aati hain.
 
 79
-00:05:04,708 --> 00:05:09,697
-And if a server can't be reached,
-again, one clear line explains what happened.
+00:04:51,209 --> 00:04:56,413
+Prices file ko aisi file par point karo
+jo hai hi nahi, toh ek saaf error line milti
 
 80
-00:05:10,997 --> 00:05:13,258
-A demo shows that the tool works today.
+00:04:56,413 --> 00:04:57,900
+hai, koi traceback nahi.
 
 81
-00:05:13,478 --> 00:05:15,922
-Tests make sure it keeps
-working when you change it.
+00:04:59,200 --> 00:05:00,383
+Aakhir mein fetch.
 
 82
-00:05:16,142 --> 00:05:17,363
-We use pytest.
+00:05:00,603 --> 00:05:05,882
+Ek local web server data folder ko port
+eight seven six five par serve kar raha hai,
 
 83
-00:05:17,713 --> 00:05:23,041
-A pytest test is just a function whose
-name starts with test, using plain assert
+00:05:05,882 --> 00:05:07,579
+bilkul lesson paanch jaisa.
 
 84
-00:05:23,041 --> 00:05:23,773
-statements.
+00:05:07,929 --> 00:05:12,153
+Command chhoti rakhne ke liye base
+address ek shell variable mein rakha.
 
 85
-00:05:23,993 --> 00:05:25,438
-Good row is a fixture.
+00:05:12,503 --> 00:05:17,192
+Dono files ek saath download hui, aur
+pandrah records ek file mein jud gaye.
 
 86
-00:05:25,658 --> 00:05:31,688
-Pytest sees the parameter name and
-passes in a fresh valid dictionary, defined once
+00:05:17,542 --> 00:05:22,713
+Merged file validate karne par gyaarah
+achhe records, aur wahi chaar problems.
 
 87
-00:05:31,688 --> 00:05:33,069
-in conftest dot py.
+00:05:23,063 --> 00:05:28,001
+Aur agar server tak pahunch hi na sakein,
+toh phir se ek saaf line batati hai ki kya
 
 88
-00:05:33,419 --> 00:05:36,498
-Parametrize runs the
-same test once per value.
+00:05:28,001 --> 00:05:28,236
+hua.
 
 89
-00:05:36,718 --> 00:05:42,004
-Here, five tests, each deleting a
-different required field, and checking that the
+00:05:29,536 --> 00:05:32,325
+Demo dikhata hai ki
+tool aaj kaam karta hai.
 
 90
-00:05:42,004 --> 00:05:43,504
-error names that field.
+00:05:32,545 --> 00:05:36,318
+Tests pakka karte hain ki
+badlaav ke baad bhi kaam karta rahe.
 
 91
-00:05:43,854 --> 00:05:49,217
-This one feeds in nine kinds of bad
-data, including the sneaky True posing as a
+00:05:36,538 --> 00:05:38,369
+Hum pytest use karte hain.
 
 92
-00:05:49,217 --> 00:05:53,019
-number, and checks each is
-rejected for the right field.
+00:05:38,719 --> 00:05:43,842
+pytest test bas ek function hai jiska
+naam test se shuru hota hai, aur jo assert use
 
 93
-00:05:54,319 --> 00:06:00,734
-Tests must not depend on a real network,
-which could be slow or down. httpx's mock
+00:05:43,842 --> 00:05:48,904
+karta hai. good row ek fixture hai.
+pytest parameter ka naam dekh kar ek nayi valid
 
 94
-00:06:00,734 --> 00:06:06,602
-transport replaces the network with
-a function that returns fake responses.
+00:05:48,904 --> 00:05:52,990
+dictionary de deta hai, jo
+conftest dot py mein ek baar define hai.
 
 95
-00:06:06,952 --> 00:06:10,496
-So we can check that two
-downloads are merged in the right order.
+00:05:53,340 --> 00:05:56,768
+parametrize ek hi test ko
+har value ke liye chalata hai.
 
 96
-00:06:10,846 --> 00:06:16,018
-And that a four oh four, or a response
-that isn't a list, becomes a toolkit error.
+00:05:56,988 --> 00:06:02,025
+Yahan paanch tests, har ek alag
+required field hatata hai, aur check karta hai ki
 
 97
-00:06:16,238 --> 00:06:19,342
-These run in
-milliseconds, with no server at all.
+00:06:02,025 --> 00:06:03,766
+error ussi field ka naam le.
 
 98
-00:06:20,642 --> 00:06:21,851
-Run the whole suite.
+00:06:04,116 --> 00:06:09,025
+Yeh test nau tarah ka kharab data deta
+hai, chalaak True samet jo number ban kar
 
 99
-00:06:22,071 --> 00:06:25,450
-Forty-two tests, all
-passing, in a fraction of a second.
+00:06:09,025 --> 00:06:13,259
+aata hai, aur check karta hai ki
+har ek sahi field ke liye reject ho.
 
 100
-00:06:25,800 --> 00:06:29,099
-With dash v, pytest
-lists each test by name.
+00:06:14,559 --> 00:06:20,343
+Tests asli network par depend nahi hone
+chahiye, jo slow ho sakta hai ya band. httpx
 
 101
-00:06:29,449 --> 00:06:32,895
-And mypy confirms that all
-our type hints are consistent.
+00:06:20,343 --> 00:06:25,989
+ka MockTransport network ki jagah ek
+function laga deta hai jo fake responses deta
 
 102
-00:06:34,195 --> 00:06:37,231
-First, running a file
-inside the package directly.
+00:06:25,989 --> 00:06:26,265
+hai.
 
 103
-00:06:37,451 --> 00:06:42,363
-Python can't find the toolkit package,
-because it searches from the toolkit folder
+00:06:26,615 --> 00:06:30,418
+Toh hum check kar sakte hain ki
+do downloads sahi order mein jude.
 
 104
-00:06:42,363 --> 00:06:42,782
-itself.
+00:06:30,768 --> 00:06:35,465
+Aur four zero four, ya list ke
+alaawa response, ToolkitError banta hai.
 
 105
-00:06:43,002 --> 00:06:47,305
-The fix: stay in the project
-root and run python dash m toolkit.
+00:06:35,685 --> 00:06:38,890
+Yeh milliseconds mein
+chalte hain, bina kisi server ke.
 
 106
-00:06:47,655 --> 00:06:50,143
-Second, forgetting
-the virtual environment.
+00:06:40,190 --> 00:06:41,509
+Poora suite chalao.
 
 107
-00:06:50,493 --> 00:06:56,473
-With the environment deactivated, the
-system Python doesn't have httpx installed.
+00:06:41,729 --> 00:06:45,130
+Forty two tests, sab
+pass, ek second se bhi kam mein.
 
 108
-00:06:56,693 --> 00:06:59,304
-The fix is to activate dot venv again.
+00:06:45,480 --> 00:06:49,060
+dash v ke saath pytest
+har test ka naam dikhata hai.
 
 109
-00:07:00,604 --> 00:07:06,233
-Is not valid JSON usually means a
-trailing comma, single quotes, or a comment.
+00:06:49,410 --> 00:06:53,800
+Aur mypy confirm karta hai ki
+hamare saare type hints consistent hain.
 
 110
-00:07:06,453 --> 00:07:08,750
-The message gives you the line and column.
+00:06:55,100 --> 00:06:57,987
+Pehla: package ke
+andar ki file seedhe chalana.
 
 111
-00:07:09,100 --> 00:07:13,556
-File not found usually means you
-ran the command from another folder.
+00:06:58,207 --> 00:07:03,089
+Python ko toolkit package nahi
+milta, kyunki woh toolkit folder ke andar se
 
 112
-00:07:13,776 --> 00:07:16,004
-Relative paths start
-from where you run it.
+00:07:03,089 --> 00:07:04,782
+dhoondhna shuru karta hai.
 
 113
-00:07:16,354 --> 00:07:22,148
-On Windows, if PowerShell refuses to
-run the activate script, run Set Execution
+00:07:05,002 --> 00:07:09,037
+Fix: project root mein raho
+aur python dash m toolkit chalao.
 
 114
-00:07:22,148 --> 00:07:26,035
-Policy for the current
-user with Remote Signed, once.
+00:07:09,387 --> 00:07:12,183
+Doosra: virtual environment bhool jaana.
 
 115
-00:07:26,385 --> 00:07:31,896
-And if text comes out garbled, make
-sure every read and write uses utf eight.
+00:07:12,533 --> 00:07:17,796
+Environment deactivate hai, toh
+system Python mein httpx install nahi hai.
 
 116
-00:07:33,196 --> 00:07:38,581
-You used lists, dictionaries, and sets,
-and built conversations as lists of message
+00:07:18,016 --> 00:07:20,546
+Fix: dot venv dobara activate karo.
 
 117
-00:07:38,581 --> 00:07:39,424
-dictionaries.
+00:07:21,846 --> 00:07:26,859
+is not valid JSON ka matlab aksar
+aakhri comma, single quotes, ya comment.
 
 118
-00:07:39,774 --> 00:07:43,283
-You wrote functions,
-dataclasses, and your own exceptions.
+00:07:27,079 --> 00:07:29,397
+Message line aur column batata hai.
 
 119
-00:07:43,633 --> 00:07:48,826
-You organised a package, and worked
-with files, JSON, and environment variables.
+00:07:29,747 --> 00:07:33,879
+file not found ka matlab aksar
+command kisi aur folder se chali.
 
 120
-00:07:49,176 --> 00:07:54,792
-You added type hints, made HTTP
-requests, and ran downloads concurrently.
+00:07:34,099 --> 00:07:38,039
+Relative paths wahin se shuru
+hote hain jahan se aap chalate ho.
 
 121
-00:07:55,142 --> 00:08:00,273
-And you built a tested command line
-tool with clear errors and proper exit codes.
+00:07:38,389 --> 00:07:43,334
+Windows par PowerShell activate
+script chalane se mana kare, toh ek baar Set
 
 122
-00:08:01,573 --> 00:08:03,402
-Module quiz, question one.
+00:07:43,334 --> 00:07:47,888
+Execution Policy, current user ke
+liye, Remote Signed ke saath chalao.
 
 123
-00:08:03,622 --> 00:08:05,891
-An agent may only use two tools.
+00:07:48,238 --> 00:07:53,318
+Aur text ajeeb characters mein aaye, toh
+dhyaan do ki har read aur write utf eight
 
 124
-00:08:06,111 --> 00:08:09,784
-Which structure gives the fastest
-check for whether a tool is allowed?
+00:07:53,318 --> 00:07:54,062
+ke saath ho.
 
 125
-00:08:15,484 --> 00:08:16,164
-A set.
+00:07:55,362 --> 00:07:56,656
+Interview corner.
 
 126
-00:08:16,384 --> 00:08:20,224
-Membership checks on a set
-stay fast however large it grows.
+00:07:56,876 --> 00:08:02,271
+Pehla question: CLI ko sirf error
+print karne ki jagah exit code kyun lautaana
 
 127
-00:08:21,524 --> 00:08:22,560
-Question two.
+00:08:02,271 --> 00:08:02,824
+chahiye?
 
 128
-00:08:22,780 --> 00:08:25,993
-What does frozen equals
-True add to our usage record?
+00:08:05,174 --> 00:08:10,774
+Answer: scripts, CI, aur doosre programs
+aapke sentences nahi padh sakte, lekin exit
 
 129
-00:08:31,693 --> 00:08:35,046
-Fields can't be changed
-after the record is created.
+00:08:10,774 --> 00:08:12,174
+code padh sakte hain.
 
 130
-00:08:35,266 --> 00:08:39,039
-And note, a dataclass does
-not validate types by itself.
+00:08:12,394 --> 00:08:14,440
+Zero success, baaki failure.
 
 131
-00:08:39,259 --> 00:08:41,508
-That's why from dict checks every field.
+00:08:14,660 --> 00:08:17,545
+Do ampersand aur CI
+steps isi se rukte hain.
 
 132
-00:08:42,808 --> 00:08:43,870
-Question three.
+00:08:17,765 --> 00:08:21,896
+Trap: Error print karna aur
+phir bhi zero ke saath exit karna.
 
 133
-00:08:44,090 --> 00:08:47,865
-Which block runs every time,
-whether or not an error happens?
+00:08:22,116 --> 00:08:24,851
+Pipeline khushi
+khushi aage chalti rehti hai.
 
 134
-00:08:53,565 --> 00:08:54,337
-Finally.
+00:08:25,201 --> 00:08:29,350
+Doosra: HTTP requests wale
+code ko test kaise karte ho?
 
 135
-00:08:54,557 --> 00:08:56,346
-That's why it's used for cleanup.
+00:08:31,700 --> 00:08:37,025
+Answer: network ki jagah ek fake
+lagao. httpx MockTransport pehle se tayyar
 
 136
-00:08:57,646 --> 00:08:58,708
-Question four.
+00:08:37,025 --> 00:08:40,860
+responses deta hai, four
+zero four jaise errors samet.
 
 137
-00:08:58,928 --> 00:09:01,897
-Why does fetch all use asyncio dot gather?
+00:08:41,080 --> 00:08:44,530
+Tests tez aur repeatable
+bante hain, bina asli server ke.
 
 138
-00:09:07,597 --> 00:09:12,744
-To download everything concurrently,
-so the total time is roughly the slowest
+00:08:44,750 --> 00:08:47,407
+Trap: tests mein asli API call karna.
 
 139
-00:09:12,744 --> 00:09:15,218
-download, not the sum of all of them.
+00:08:47,627 --> 00:08:51,276
+Slow, kabhi pass kabhi fail,
+aur paise ya keys ka nuksaan.
 
 140
-00:09:16,518 --> 00:09:17,780
-And question five.
+00:08:51,626 --> 00:08:55,143
+Teesra: calculation aur
+formatting ko alag kyun rakhte hain?
 
 141
-00:09:18,000 --> 00:09:20,999
-Where should the real API
-key for your project live?
+00:08:57,493 --> 00:09:03,529
+Answer: har hissa akele test ho sakta
+hai, aur naya output, jaise JSON, CSV, ya web
 
 142
-00:09:26,699 --> 00:09:31,063
-In an environment variable, or
-a dot env file that git ignores.
+00:09:03,529 --> 00:09:06,365
+page, ganit ko chhue bina jod sakte ho.
 
 143
-00:09:31,283 --> 00:09:34,875
-The example file only
-ever holds fake placeholders.
+00:09:06,585 --> 00:09:09,245
+Yahi single responsibility ka idea hai.
 
 144
-00:09:36,175 --> 00:09:39,428
-If you want to go further,
-here's your extension challenge.
+00:09:09,465 --> 00:09:14,151
+Trap: ek bahut bada function jo load
+bhi kare, calculate bhi, aur print bhi.
 
 145
-00:09:39,648 --> 00:09:43,380
-Pick one or more, and for each
-one, write the code and a test.
+00:09:14,371 --> 00:09:16,606
+Na test ho sakta hai, na reuse.
 
 146
-00:09:43,730 --> 00:09:46,339
-Add a top N option to the report command.
+00:09:17,906 --> 00:09:19,126
+Module recap.
 
 147
-00:09:46,689 --> 00:09:52,740
-Add ninety-fifth percentile latency,
-which, unlike the average, isn't distorted by
+00:09:19,346 --> 00:09:24,008
+Aapne lists, dictionaries, aur sets
+use kiye, aur conversations ko message
 
 148
-00:09:52,740 --> 00:09:53,994
-one slow request.
+00:09:24,008 --> 00:09:26,340
+dictionaries ki list ki tarah banaya.
 
 149
-00:09:54,344 --> 00:09:58,113
-Add a breakdown per day,
-using the created at timestamp.
+00:09:26,690 --> 00:09:29,882
+Functions, dataclasses,
+aur apni exceptions likhi.
 
 150
-00:09:58,463 --> 00:10:03,000
-Or add a CSV output format,
-with the standard csv module.
+00:09:30,232 --> 00:09:35,694
+Package organise kiya, aur files,
+JSON, aur environment variables ke saath kaam
 
 151
-00:10:04,300 --> 00:10:08,894
-These are the official
-documentation pages for everything we used.
+00:09:35,694 --> 00:09:36,040
+kiya.
 
 152
-00:10:09,114 --> 00:10:14,153
-Links are in the description, and the
-full source code is in the course repository.
+00:09:36,390 --> 00:09:41,136
+Type hints lagaye, HTTP requests
+ki, aur downloads ek saath chalaye.
 
 153
-00:10:18,253 --> 00:10:20,047
-That's Module 1 complete.
+00:09:41,486 --> 00:09:46,647
+Aur ek tested command line tool banaya,
+saaf errors aur sahi exit codes ke saath.
 
 154
-00:10:20,267 --> 00:10:25,038
-You now have the Python foundation
-that the rest of this course is built on.
+00:09:47,947 --> 00:09:49,897
+Module quiz, pehla sawaal.
 
 155
-00:10:25,258 --> 00:10:30,763
-In Module 2, you'll finally talk to a
-language model: tokens, context windows,
+00:09:50,117 --> 00:09:53,026
+Ek agent sirf do tools use kar sakta hai.
 
 156
-00:10:30,763 --> 00:10:36,551
-message history, structured output, rate
-limits, and costs, and you'll build an AI
+00:09:53,246 --> 00:09:57,809
+Tool allowed hai ya nahi, iska
+sabse tez check kaunsa structure deta hai?
 
 157
-00:10:36,551 --> 00:10:40,856
-Study Assistant that explains
-concepts and generates quizzes.
+00:10:03,509 --> 00:10:04,393
+B, set.
 
 158
-00:10:41,076 --> 00:10:41,939
-See you there.
+00:10:04,613 --> 00:10:08,002
+Set kitna bhi bada ho,
+membership check tez rehta hai.
+
+159
+00:10:09,302 --> 00:10:14,317
+Doosra sawaal. frozen equals True
+hamare usage record mein kya jodta hai?
+
+160
+00:10:20,017 --> 00:10:20,502
+C.
+
+161
+00:10:20,722 --> 00:10:23,950
+Record banne ke baad
+fields badli nahi ja sakti.
+
+162
+00:10:24,170 --> 00:10:27,687
+Aur yaad rahe, dataclass
+khud types validate nahi karti.
+
+163
+00:10:27,907 --> 00:10:30,378
+Isliye from dict har
+field check karta hai.
+
+164
+00:10:31,678 --> 00:10:32,866
+Teesra sawaal.
+
+165
+00:10:33,086 --> 00:10:35,207
+Ek command error print karti hai.
+
+166
+00:10:35,427 --> 00:10:38,831
+CI pipeline ko kaise pata
+chalta hai ki woh fail hui?
+
+167
+00:10:44,531 --> 00:10:46,458
+B, non zero exit code se.
+
+168
+00:10:46,678 --> 00:10:50,614
+Hamara validate kisi bhi
+invalid record par ek lautaata hai.
+
+169
+00:10:51,914 --> 00:10:56,005
+Chautha sawaal. fetch all
+asyncio dot gather kyun use karta hai?
+
+170
+00:11:01,705 --> 00:11:02,208
+B.
+
+171
+00:11:02,428 --> 00:11:08,063
+Taaki sab ek saath download ho, aur total
+time lagbhag sabse slow download jitna ho,
+
+172
+00:11:08,063 --> 00:11:09,069
+sabka jod nahi.
+
+173
+00:11:10,369 --> 00:11:11,739
+Aur paanchva sawaal.
+
+174
+00:11:11,959 --> 00:11:15,100
+Project ki asli API
+key kahan rehni chahiye?
+
+175
+00:11:20,800 --> 00:11:21,284
+C.
+
+176
+00:11:21,504 --> 00:11:25,366
+Environment variable mein, ya
+git ignored dot env file mein.
+
+177
+00:11:25,586 --> 00:11:28,443
+Example file mein
+hamesha sirf fake values.
+
+178
+00:11:29,743 --> 00:11:32,696
+Aage jaana hai, toh yeh
+raha extension challenge.
+
+179
+00:11:32,916 --> 00:11:37,021
+Ek ya zyaada chuno, aur har ek
+ke liye code aur test dono likho.
+
+180
+00:11:37,371 --> 00:11:39,810
+report command mein top N option jodo.
+
+181
+00:11:40,160 --> 00:11:42,213
+p ninety five latency jodo.
+
+182
+00:11:42,433 --> 00:11:45,727
+Average ki tarah yeh ek
+slow request se bigadti nahi.
+
+183
+00:11:46,077 --> 00:11:49,156
+created at timestamp se
+har din ka breakdown jodo.
+
+184
+00:11:49,506 --> 00:11:53,604
+Ya standard csv module
+se CSV output format jodo.
+
+185
+00:11:54,904 --> 00:11:59,441
+Yeh hamari use ki hui har cheez
+ke official documentation pages hain.
+
+186
+00:11:59,661 --> 00:12:03,821
+Links description mein hain, aur
+poora source code course repository mein.
+
+187
+00:12:07,921 --> 00:12:09,542
+Module ek complete.
+
+188
+00:12:09,762 --> 00:12:14,380
+Ab aapke paas woh Python foundation
+hai jis par yeh poora course khada hai.
+
+189
+00:12:14,600 --> 00:12:19,662
+Module do mein aap aakhirkaar
+language model se baat karoge: tokens, context
+
+190
+00:12:19,662 --> 00:12:24,191
+windows, message history,
+structured output, rate limits, aur costs.
+
+191
+00:12:24,411 --> 00:12:26,935
+Aur ek AI Study Assistant banaoge.
+
+192
+00:12:27,155 --> 00:12:28,351
+Milte hain wahan.
