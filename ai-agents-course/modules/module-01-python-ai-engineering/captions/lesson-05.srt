@@ -1,520 +1,759 @@
 1
-00:00:00,700 --> 00:00:05,844
-Every language model you will use
-in this course lives behind a web API.
+00:00:00,700 --> 00:00:05,224
+Iss course ka har language
+model ek web API ke peeche rehta hai.
 
 2
-00:00:06,064 --> 00:00:10,015
-You send an HTTP request,
-and you wait for the answer.
+00:00:05,444 --> 00:00:10,080
+Aap ek HTTP request bhejte ho,
+aur jawaab ka intezaar karte ho.
 
 3
-00:00:10,235 --> 00:00:16,645
-This lesson gives you the three tools
-that make that work well: type hints, HTTP
+00:00:10,299 --> 00:00:16,571
+Yeh lesson aapko teen tools deta hai jo
+isse achhe se karte hain: type hints, httpx
 
 4
-00:00:16,645 --> 00:00:19,929
-requests with httpx, and async and await.
+00:00:16,571 --> 00:00:19,140
+se HTTP requests, aur async await.
 
 5
-00:00:21,229 --> 00:00:25,730
-You will annotate functions with type
-hints, and check them with a type checker.
+00:00:20,440 --> 00:00:25,519
+Iss lesson ke baad aap functions par
+type hints lagaoge, aur unhe type checker se
 
 6
-00:00:26,080 --> 00:00:30,653
-Understand HTTP requests,
-responses, and status codes.
+00:00:25,519 --> 00:00:26,334
+check karoge.
 
 7
-00:00:31,003 --> 00:00:36,202
-Call web APIs with httpx,
-including timeouts and error handling.
+00:00:26,684 --> 00:00:30,669
+HTTP requests, responses,
+aur status codes samjhoge.
 
 8
-00:00:36,552 --> 00:00:40,345
-And run slow operations at the
-same time with async and await.
+00:00:31,019 --> 00:00:36,181
+httpx se web APIs call karoge,
+timeout aur error handling ke saath.
 
 9
-00:00:41,645 --> 00:00:45,098
-A type hint is a label
-saying what type a value should be.
+00:00:36,531 --> 00:00:39,898
+Aur async await se dheemi
+cheezein ek saath chalaoge.
 
 10
-00:00:45,318 --> 00:00:50,497
-After each parameter you write a colon
-and a type, and after the parentheses an
+00:00:41,198 --> 00:00:42,995
+Pehle what: type hint kya hai?
 
 11
-00:00:50,497 --> 00:00:52,201
-arrow and the return type.
+00:00:43,215 --> 00:00:47,814
+Courier ka dabba socho, jis par
+likha hai: fragile, do kilo, electronics.
 
 12
-00:00:52,421 --> 00:00:55,797
-This function takes a list
-of floats and returns a float.
+00:00:48,034 --> 00:00:50,296
+Label andar ki cheez nahi badalta.
 
 13
-00:00:56,147 --> 00:01:00,699
-Here, the dictionary maps strings to
-floats, and the vertical bar means or.
+00:00:50,516 --> 00:00:56,006
+Lekin sabko pata hota hai kya umeed
+karni hai, aur scanner bhejne se pehle hi galti
 
 14
-00:01:00,919 --> 00:01:04,889
-The function returns a float,
-or None when the model isn't found.
+00:00:56,006 --> 00:00:57,064
+pakad sakta hai.
 
 15
-00:01:05,239 --> 00:01:08,233
-Called correctly,
-everything works as you'd expect.
+00:00:57,284 --> 00:00:59,686
+Type hint label hai, aur mypy scanner.
 
 16
-00:01:08,583 --> 00:01:10,263
-But here's the important part.
+00:01:00,986 --> 00:01:06,255
+Har parameter ke baad colon aur type
+likhte ho, aur brackets ke baad ek arrow aur
 
 17
-00:01:10,483 --> 00:01:13,265
-Python does not enforce
-hints when the code runs.
+00:01:06,255 --> 00:01:07,035
+return type.
 
 18
-00:01:13,485 --> 00:01:18,024
-Passing a string is allowed, and it
-only crashes deep inside the function.
+00:01:07,255 --> 00:01:11,032
+Yeh function floats ki list
+leta hai aur ek float lautaata hai.
 
 19
-00:01:19,324 --> 00:01:24,910
-Running it: two good results, and then a
-confusing type error from inside sum, far
+00:01:11,382 --> 00:01:16,324
+Yahan dictionary strings se floats tak
+map karti hai, aur khadi line ka matlab hai
 
 20
-00:01:24,910 --> 00:01:26,749
-away from the real mistake.
+00:01:16,324 --> 00:01:16,505
+ya.
 
 21
-00:01:27,099 --> 00:01:32,134
-A type checker like mypy reads your
-hints without running the code, and points at
+00:01:16,725 --> 00:01:20,200
+Function float lautaata
+hai, ya None, jab model na mile.
 
 22
-00:01:32,134 --> 00:01:36,050
-the exact line with the wrong
-argument, before you ever run it.
+00:01:20,550 --> 00:01:23,299
+Sahi tarah call karo,
+toh sab theek chalta hai.
 
 23
-00:01:36,270 --> 00:01:39,511
-Your editor uses the
-same hints for autocompletion.
+00:01:23,649 --> 00:01:25,250
+Lekin important baat.
 
 24
-00:01:40,811 --> 00:01:44,118
-The simple types:
-str, int, float, and bool.
+00:01:25,470 --> 00:01:28,129
+Python chalte waqt hints check nahi karta.
 
 25
-00:01:44,468 --> 00:01:49,768
-Collections say what's inside: a list
-of strings, or a dictionary from strings to
+00:01:28,349 --> 00:01:33,053
+String pass karna allowed hai, aur crash
+function ke andar kahin gehraai mein hota
 
 26
-00:01:49,768 --> 00:01:50,095
-ints.
+00:01:33,053 --> 00:01:33,282
+hai.
 
 27
-00:01:50,445 --> 00:01:53,964
-A vertical bar with None
-means the value might be missing.
+00:01:34,582 --> 00:01:40,130
+Chalao: do sahi results, aur phir sum
+ke andar se ek ulajhne wala TypeError, asli
 
 28
-00:01:54,314 --> 00:01:58,099
-A tuple hint lists each
-position, like a string and an int.
+00:01:40,130 --> 00:01:41,500
+galti se bahut door.
 
 29
-00:01:58,449 --> 00:02:04,699
-In Module 3, a library called Pydantic
-will use exactly these hints to validate real
+00:01:41,850 --> 00:01:47,482
+mypy jaisa type checker code chalaye bina
+aapke hints padhta hai, aur galat argument
 
 30
-00:02:04,699 --> 00:02:05,890
-data at runtime.
+00:01:47,482 --> 00:01:50,901
+wali exact line bata
+deta hai, chalane se pehle hi.
 
 31
-00:02:06,110 --> 00:02:08,276
-That's where hints become really powerful.
+00:01:51,121 --> 00:01:55,255
+Aapka editor bhi yahi hints
+autocomplete ke liye use karta hai.
 
 32
-00:02:09,576 --> 00:02:14,991
-HTTP is the language of web
-APIs, and it is simpler than it sounds.
+00:01:56,555 --> 00:01:59,381
+Simple types: str, int, float, aur bool.
 
 33
-00:02:15,341 --> 00:02:21,062
-There are two sides: a client, which is
-your Python code, and a server, such as a
+00:01:59,731 --> 00:02:04,684
+Collections batate hain ki andar kya
+hai: strings ki list, ya strings se ints tak
 
 34
-00:02:21,062 --> 00:02:22,545
-model provider's API.
+00:02:04,684 --> 00:02:05,357
+dictionary.
 
 35
-00:02:22,895 --> 00:02:24,512
-The client sends a request.
+00:02:05,707 --> 00:02:09,647
+None ke saath khadi line ka
+matlab: value missing ho sakti hai.
 
 36
-00:02:24,732 --> 00:02:31,020
-It has a method, such as GET to read or
-POST to send data, a URL, headers with extra
+00:02:09,997 --> 00:02:14,071
+Tuple hint har position batata
+hai, jaise ek string aur ek int.
 
 37
-00:02:31,020 --> 00:02:34,913
-information like your API
-key, and sometimes a body.
+00:02:14,421 --> 00:02:19,996
+Module teen mein Pydantic naam ki
+library inhi hints se asli data ko chalte waqt
 
 38
-00:02:35,263 --> 00:02:41,512
-The server sends back a response: a
-status code saying how it went, headers, and a
+00:02:19,996 --> 00:02:21,111
+validate karegi.
 
 39
-00:02:41,512 --> 00:02:45,018
-body, which for AI
-APIs is almost always JSON.
+00:02:21,331 --> 00:02:24,000
+Wahan hints sach mein
+taakatwar ban jaate hain.
 
 40
-00:02:46,318 --> 00:02:48,631
-Codes in the two hundreds mean success.
+00:02:25,300 --> 00:02:26,648
+Ab HTTP.
 
 41
-00:02:48,851 --> 00:02:52,034
-Two hundred is OK, two oh one is created.
+00:02:26,868 --> 00:02:28,654
+Restaurant mein order socho.
 
 42
-00:02:52,384 --> 00:02:55,352
-Four hundreds mean the
-problem is on your side.
+00:02:28,874 --> 00:02:32,535
+Aap client ho, waiter ko
+order dete ho, yahi request hai.
 
 43
-00:02:55,572 --> 00:03:01,230
-Bad input, a missing or wrong
-API key, or a URL that doesn't exist.
+00:02:32,755 --> 00:02:34,037
+Kitchen server hai.
 
 44
-00:03:01,450 --> 00:03:02,770
-Retrying won't help.
+00:02:34,257 --> 00:02:38,783
+Woh plate ke saath ek note bhejta
+hai: serve ho gaya, ya khatam ho gaya.
 
 45
-00:03:02,990 --> 00:03:04,169
-Fix the request.
+00:02:39,003 --> 00:02:41,168
+Yahi response aur status code hai.
 
 46
-00:03:04,519 --> 00:03:07,057
-Four twenty-nine deserves its own card.
+00:02:42,468 --> 00:02:47,575
+HTTP web APIs ki bhaasha hai, aur
+yeh jitna lagta hai usse aasaan hai.
 
 47
-00:03:07,277 --> 00:03:09,007
-It means you hit a rate limit.
+00:02:47,925 --> 00:02:48,957
+Do side hain.
 
 48
-00:03:09,227 --> 00:03:14,717
-Every model API has them, and Module
-2 shows how to wait and retry properly.
+00:02:49,177 --> 00:02:51,281
+Client, yaani aapka Python code.
 
 49
-00:03:15,067 --> 00:03:17,834
-And five hundreds mean
-the server had a problem.
+00:02:51,501 --> 00:02:54,620
+Aur server, jaise
+kisi model provider ki API.
 
 50
-00:03:18,054 --> 00:03:21,925
-Those are often temporary,
-so a careful retry can succeed.
+00:02:54,970 --> 00:02:56,774
+Client request bhejta hai.
 
 51
-00:03:23,225 --> 00:03:25,080
-Now let's make real requests.
+00:02:56,994 --> 00:03:02,219
+Usme ek method hota hai, jaise GET
+padhne ke liye, ya POST data bhejne ke liye.
 
 52
-00:03:25,300 --> 00:03:31,371
-So that this works offline, I'm serving
-the project's sample data from a small local
+00:03:02,439 --> 00:03:08,685
+Ek URL, headers jinme extra jaankaari
+hoti hai jaise aapki API key, aur kabhi kabhi
 
 53
-00:03:31,371 --> 00:03:35,130
-web server, using
-Python's built-in http dot server.
+00:03:08,685 --> 00:03:09,287
+ek body.
 
 54
-00:03:35,480 --> 00:03:41,226
-httpx dot get sends a GET
-request and returns a response object.
+00:03:09,637 --> 00:03:14,730
+Server response wapas bhejta hai: ek
+status code jo batata hai kaam kaisa raha,
 
 55
-00:03:41,446 --> 00:03:42,886
-Always pass a timeout.
+00:03:14,730 --> 00:03:15,891
+headers, aur body.
 
 56
-00:03:43,106 --> 00:03:46,689
-A network call that hangs
-forever will freeze your agent.
+00:03:16,111 --> 00:03:19,975
+AI APIs ki body
+lagbhag hamesha JSON hoti hai.
 
 57
-00:03:46,909 --> 00:03:50,706
-The response tells us the status
-code and the content type header.
+00:03:21,275 --> 00:03:23,696
+Do sau wale codes ka matlab success.
 
 58
-00:03:51,056 --> 00:03:56,569
-Raise for status turns any error status
-into an exception, so failures can't slip by
+00:03:23,916 --> 00:03:27,163
+Two hundred OK hai, two
+zero one matlab created.
 
 59
-00:03:56,569 --> 00:03:57,225
-unnoticed.
+00:03:27,513 --> 00:03:30,800
+Chaar sau wale codes ka
+matlab galti aapki taraf hai.
 
 60
-00:03:57,445 --> 00:04:01,448
-Then dot json parses the
-body into Python objects.
+00:03:31,020 --> 00:03:35,701
+Galat input, galat ya missing
+API key, ya aisa URL jo hai hi nahi.
 
 61
-00:04:01,798 --> 00:04:07,549
-And here we request a file that doesn't
-exist, and catch the HTTP status error to
+00:03:35,921 --> 00:03:37,779
+Retry se kuch nahi hoga.
 
 62
-00:04:07,549 --> 00:04:09,039
-read its status code.
+00:03:37,999 --> 00:03:39,518
+Request theek karo.
 
 63
-00:04:10,339 --> 00:04:13,012
-First, start the local
-server in the background.
+00:03:39,868 --> 00:03:42,125
+Four twenty nine ka apna card hai.
 
 64
-00:04:13,232 --> 00:04:15,592
-It serves the files in the data folder.
+00:03:42,345 --> 00:03:44,733
+Matlab aap rate limit tak pahunch gaye.
 
 65
-00:04:15,942 --> 00:04:17,228
-Then run the script.
+00:03:44,953 --> 00:03:50,495
+Har model API mein yeh hoti hai, aur
+Module do mein sahi tareeke se ruk kar retry
 
 66
-00:04:17,448 --> 00:04:22,976
-Status two hundred with a JSON content
-type, ten records loaded, and a clean four oh
+00:03:50,495 --> 00:03:51,521
+karna seekhoge.
 
 67
-00:04:22,976 --> 00:04:24,687
-four for the missing file.
+00:03:51,871 --> 00:03:55,181
+Aur paanch sau wale codes ka
+matlab server mein problem hai.
 
 68
-00:04:25,987 --> 00:04:31,189
-A language model call can take several
-seconds, and during that time your program is
+00:03:55,401 --> 00:04:00,149
+Yeh aksar thodi der ki hoti hai, toh
+dhyaan se kiya retry kaam kar sakta hai.
 
 69
-00:04:31,189 --> 00:04:32,986
-just waiting for the network.
+00:04:01,449 --> 00:04:02,896
+Ab asli requests.
 
 70
-00:04:33,336 --> 00:04:38,743
-If an agent needs three independent
-answers and asks for them one by one, the waits
+00:04:03,116 --> 00:04:08,556
+Taaki yeh offline bhi chale, project ka
+sample data ek chhote local web server se
 
 71
-00:04:38,743 --> 00:04:39,199
-add up.
+00:04:08,556 --> 00:04:12,384
+serve ho raha hai, Python
+ke built in http dot server se.
 
 72
-00:04:39,419 --> 00:04:42,599
-Three calls of one
-second each take three seconds.
+00:04:12,604 --> 00:04:14,321
+Koi bahari service nahi.
 
 73
-00:04:42,949 --> 00:04:47,902
-With async, you start all three, wait
-for them together, and finish in about one
+00:04:14,671 --> 00:04:20,095
+httpx dot get ek GET request
+bhejta hai aur response object deta hai.
 
 74
-00:04:47,902 --> 00:04:48,335
-second.
+00:04:20,315 --> 00:04:21,824
+Timeout hamesha do.
 
 75
-00:04:48,555 --> 00:04:50,396
-That's not more computing power.
+00:04:22,044 --> 00:04:26,038
+Hamesha ke liye atki network
+call aapke agent ko jama degi.
 
 76
-00:04:50,616 --> 00:04:52,770
-It's simply not wasting time waiting.
+00:04:26,258 --> 00:04:30,977
+Response status code aur content
+type batata hai: two hundred, aur JSON.
 
 77
-00:04:54,070 --> 00:04:58,145
-Async def defines a
-coroutine, a function that can pause.
+00:04:31,327 --> 00:04:36,585
+raise for status har error status ko
+exception bana deta hai, taaki failure chupke
 
 78
-00:04:58,365 --> 00:05:04,025
-Await means: pause here until this
-finishes, and let other work run meanwhile.
+00:04:36,585 --> 00:04:37,739
+se na nikal jaaye.
 
 79
-00:05:04,025 --> 00:05:08,306
-asyncio dot sleep stands in
-for waiting on a network reply.
+00:04:37,959 --> 00:04:41,993
+Phir dot json body ko Python
+objects mein parse karta hai.
 
 80
-00:05:08,656 --> 00:05:13,418
-This version awaits each call in a
-loop, so they still run one after another.
+00:04:42,213 --> 00:04:43,365
+Das records.
 
 81
-00:05:13,768 --> 00:05:19,381
-This version passes all three to
-asyncio dot gather, which runs them concurrently
+00:04:43,715 --> 00:04:46,280
+Aur yahan ek aisi
+file maangi jo hai hi nahi.
 
 82
-00:05:19,381 --> 00:05:23,400
-and returns the results in
-the same order you passed them.
+00:04:46,500 --> 00:04:50,976
+HTTPStatusError pakad kar
+status code padha: four zero four.
 
 83
-00:05:23,750 --> 00:05:29,116
-Finally, asyncio dot run starts
-the event loop that drives coroutines.
+00:04:52,276 --> 00:04:53,518
+Ab why async?
 
 84
-00:05:29,336 --> 00:05:30,948
-We time both versions.
+00:04:53,738 --> 00:04:59,129
+Ek language model call mein kai second
+lag sakte hain, aur uss dauraan aapka program
 
 85
-00:05:32,248 --> 00:05:33,501
-A real measurement.
+00:04:59,129 --> 00:05:01,311
+bas network ka intezaar karta hai.
 
 86
-00:05:33,721 --> 00:05:37,162
-Three seconds one by
-one, one second concurrently.
+00:05:01,531 --> 00:05:07,098
+Ek chai wale ko socho: woh teen cups ek
+saath chadhata hai, ek ke ubalne ka intezaar
 
 87
-00:05:38,462 --> 00:05:41,233
-httpx has an async client too.
+00:05:07,098 --> 00:05:09,086
+karke doosra shuru nahi karta.
 
 88
-00:05:41,453 --> 00:05:46,634
-The fetch coroutine awaits the request
-and returns how many records came back.
+00:05:09,436 --> 00:05:14,783
+Agar agent ko teen alag jawaab chahiye,
+aur woh ek ek karke maange, toh intezaar
 
 89
-00:05:46,984 --> 00:05:51,636
-Async with opens one shared
-client, and closes it properly afterwards.
+00:05:14,783 --> 00:05:15,852
+judta jaata hai.
 
 90
-00:05:51,856 --> 00:05:55,039
-Gather fetches every URL at the same time.
+00:05:16,072 --> 00:05:18,730
+Ek ek second ki teen calls, teen second.
 
 91
-00:05:55,259 --> 00:05:58,347
-This is exactly how the
-project's fetch command works.
+00:05:19,080 --> 00:05:24,197
+Async ke saath teeno shuru karo, saath
+mein intezaar karo, aur lagbhag ek second
 
 92
-00:05:59,647 --> 00:06:04,134
-Both files downloaded
-concurrently: ten records and five records.
+00:05:24,197 --> 00:05:25,284
+mein kaam khatam.
 
 93
-00:06:05,434 --> 00:06:08,169
-Await only works inside an async function.
+00:05:25,504 --> 00:05:27,425
+Zyaada computing power nahi.
 
 94
-00:06:08,519 --> 00:06:13,462
-Start the event loop once, at the top
-of your program, with asyncio dot run.
+00:05:27,645 --> 00:05:29,896
+Bas intezaar mein time barbaad nahi.
 
 95
-00:06:13,812 --> 00:06:17,051
-Async speeds up waiting,
-for the network or the disk.
+00:05:31,196 --> 00:05:36,344
+async def ek coroutine banata hai,
+yaani aisa function jo ruk sakta hai. await ka
 
 96
-00:06:17,271 --> 00:06:19,680
-It doesn't make heavy calculations faster.
+00:05:36,344 --> 00:05:41,365
+matlab: yahan ruko jab tak yeh khatam
+na ho, aur tab tak doosra kaam chalne do.
 
 97
-00:06:20,030 --> 00:06:24,702
-And never call blocking code, like
-time dot sleep, inside a coroutine.
+00:05:41,365 --> 00:05:45,370
+asyncio dot sleep yahan
+network reply ke intezaar ki jagah hai.
 
 98
-00:06:24,922 --> 00:06:26,707
-It freezes every other task.
+00:05:45,720 --> 00:05:50,506
+Yeh version loop mein har call ko await
+karta hai, toh woh phir bhi ek ke baad ek
 
 99
-00:06:26,927 --> 00:06:29,005
-Use the async version instead.
+00:05:50,506 --> 00:05:51,215
+chalti hain.
 
 100
-00:06:30,305 --> 00:06:31,112
-Quick check.
+00:05:51,565 --> 00:05:56,835
+Yeh version teeno ko asyncio dot gather
+ko deta hai, jo unhe ek saath chalata hai,
 
 101
-00:06:31,332 --> 00:06:34,255
-An API replies with
-status four twenty-nine.
+00:05:56,835 --> 00:06:01,333
+aur results usi order mein
+lautaata hai jis order mein unhe diya gaya.
 
 102
-00:06:34,475 --> 00:06:36,832
-What does it mean, and
-what should your code do?
+00:06:01,683 --> 00:06:07,003
+Aakhir mein asyncio dot run event loop
+shuru karta hai, jo coroutines ko chalata
 
 103
-00:06:42,532 --> 00:06:43,664
-Too many requests.
+00:06:07,003 --> 00:06:07,269
+hai.
 
 104
-00:06:43,884 --> 00:06:46,574
-You hit a rate limit, so wait, then retry.
+00:06:07,489 --> 00:06:09,441
+Dono versions ka time napa.
 
 105
-00:06:46,794 --> 00:06:50,235
-You'll implement this
-properly, with backoff, in Module 2.
+00:06:09,661 --> 00:06:13,885
+Asli measurement: ek ek karke
+teen second, ek saath ek second.
 
 106
-00:06:51,535 --> 00:06:56,807
-Type hints document your intent, and a
-type checker verifies them before the code
+00:06:15,185 --> 00:06:20,922
+httpx ka ek async client bhi hai. fetch
+coroutine request ko await karta hai aur
 
 107
-00:06:56,807 --> 00:06:57,132
-runs.
+00:06:20,922 --> 00:06:23,073
+batata hai kitne records aaye.
 
 108
-00:06:57,482 --> 00:07:03,382
-HTTP is a request and a response, and
-the status code tells you how it went.
+00:06:23,423 --> 00:06:28,499
+async with ek shared client kholta
+hai, aur baad mein theek se band karta hai.
 
 109
-00:07:03,732 --> 00:07:07,801
-Use httpx with a
-timeout, and raise for status.
+00:06:28,499 --> 00:06:30,711
+gather har URL ek saath laata hai.
 
 110
-00:07:08,151 --> 00:07:12,623
-And use async, await, and
-gather to wait for many calls at once.
+00:06:30,931 --> 00:06:35,295
+Dono files ek saath download
+hui: das records aur paanch records.
 
 111
-00:07:12,973 --> 00:07:16,013
-You now have every
-Python skill the project needs.
+00:06:35,515 --> 00:06:38,903
+Project ka fetch command
+bilkul aise hi kaam karta hai.
 
 112
-00:07:16,233 --> 00:07:20,075
-In the next lesson, we start
-building the Python AI Toolkit.
+00:06:40,203 --> 00:06:44,470
+Async ke kuch niyam. await sirf
+async function ke andar chalta hai.
+
+113
+00:06:44,820 --> 00:06:50,048
+Event loop ek hi baar shuru karo,
+program ke top par, asyncio dot run se.
+
+114
+00:06:50,398 --> 00:06:53,857
+Async intezaar ko tez
+karta hai, network ya disk ka.
+
+115
+00:06:54,077 --> 00:06:56,701
+Bhaari calculations ko tez nahi karta.
+
+116
+00:06:58,001 --> 00:06:59,295
+Interview corner.
+
+117
+00:06:59,515 --> 00:07:03,684
+Pehla question: kya Python chalte
+waqt type hints enforce karta hai?
+
+118
+00:07:06,034 --> 00:07:07,129
+Answer: nahi.
+
+119
+00:07:07,349 --> 00:07:11,931
+Hints tools ke liye hain, jaise mypy
+aur editor, aur padhne walon ke liye.
+
+120
+00:07:12,151 --> 00:07:17,602
+Pydantic jaisi libraries unhe padh kar
+data validate karti hain, lekin plain Python
+
+121
+00:07:17,602 --> 00:07:19,047
+unhe ignore karta hai.
+
+122
+00:07:19,267 --> 00:07:22,786
+Trap: kehna ki hints khud
+code ko tez ya safe banate hain.
+
+123
+00:07:23,136 --> 00:07:27,049
+Doosra: kaunse HTTP
+errors par retry karna chahiye?
+
+124
+00:07:29,399 --> 00:07:31,891
+Answer: four twenty nine, thoda ruk kar.
+
+125
+00:07:32,111 --> 00:07:35,337
+Paanch sau wale, jo
+server ki temporary problem hain.
+
+126
+00:07:35,557 --> 00:07:36,635
+Aur timeouts.
+
+127
+00:07:36,855 --> 00:07:38,632
+Backoff aur limit ke saath.
+
+128
+00:07:38,852 --> 00:07:44,298
+Chaar sau wale jaise four zero one ya
+four zero four ka matlab request galat hai,
+
+129
+00:07:44,298 --> 00:07:45,912
+retry se kuch nahi hoga.
+
+130
+00:07:46,132 --> 00:07:51,027
+Trap: sab par jaldi jaldi retry
+karna, jisse rate limit aur bigad jaati hai.
+
+131
+00:07:51,377 --> 00:07:53,486
+Teesra: async kab sahi choice hai?
+
+132
+00:07:55,836 --> 00:08:01,191
+Answer: jab kaam I O bound ho, yaani
+bahut saare network ya disk ke intezaar ek
+
+133
+00:08:01,191 --> 00:08:02,885
+saath, jaise model calls.
+
+134
+00:08:03,105 --> 00:08:06,537
+Bhaari CPU ke kaam
+mein async madad nahi karta.
+
+135
+00:08:06,757 --> 00:08:12,743
+Trap: async function ke andar blocking
+function chalana, jaise time dot sleep, ya
+
+136
+00:08:12,743 --> 00:08:13,999
+normal httpx get.
+
+137
+00:08:14,219 --> 00:08:16,690
+Woh baaki saare tasks ko rok deta hai.
+
+138
+00:08:17,990 --> 00:08:19,099
+Practice time.
+
+139
+00:08:19,319 --> 00:08:21,733
+Video pause karo, aur khud try karo.
+
+140
+00:08:22,083 --> 00:08:27,020
+Pehla: lesson teen ke shorten
+function par type hints lagao, aur mypy chalao.
+
+141
+00:08:27,370 --> 00:08:32,025
+Doosra: http demo mein response
+ka content length header print karo.
+
+142
+00:08:32,375 --> 00:08:36,375
+Teesra: async demo ko paanch
+tasks, do do second ke, bana do.
+
+143
+00:08:36,595 --> 00:08:38,547
+Pehle dono times guess karo.
+
+144
+00:08:38,897 --> 00:08:42,761
+Aur scenario: agent ko kabhi
+kabhi four twenty nine milta hai.
+
+145
+00:08:42,981 --> 00:08:44,806
+Ek safe retry plan batao.
+
+146
+00:08:52,106 --> 00:08:52,936
+Quick check.
+
+147
+00:08:53,156 --> 00:08:55,868
+API four twenty nine status deti hai.
+
+148
+00:08:56,088 --> 00:08:59,012
+Matlab kya hai, aur
+code ko kya karna chahiye?
+
+149
+00:09:04,712 --> 00:09:05,215
+B.
+
+150
+00:09:05,435 --> 00:09:07,130
+Bahut zyaada requests.
+
+151
+00:09:07,350 --> 00:09:10,226
+Rate limit lag gayi,
+toh ruko, phir retry karo.
+
+152
+00:09:10,446 --> 00:09:13,814
+Module do mein backoff ke
+saath yeh theek se banayenge.
+
+153
+00:09:15,114 --> 00:09:16,400
+Doosra question.
+
+154
+00:09:16,620 --> 00:09:22,094
+Teen alag calls, har ek do second ki.
+asyncio gather lagbhag kitna time lega?
+
+155
+00:09:27,794 --> 00:09:29,435
+B, lagbhag do second.
+
+156
+00:09:29,655 --> 00:09:31,736
+Teeno saath mein intezaar karti hain.
+
+157
+00:09:31,956 --> 00:09:34,052
+Ek ek karke chhe second lagte.
+
+158
+00:09:35,352 --> 00:09:36,077
+Recap.
+
+159
+00:09:36,297 --> 00:09:41,216
+Type hints aapka iraada likhte hain,
+aur mypy chalane se pehle check karta hai.
+
+160
+00:09:41,566 --> 00:09:47,077
+HTTP matlab request aur response, aur
+status code batata hai kaam kaisa raha.
+
+161
+00:09:47,427 --> 00:09:50,937
+httpx timeout ke
+saath, aur raise for status.
+
+162
+00:09:51,287 --> 00:09:55,550
+Aur bahut saari calls ka ek saath
+intezaar: async, await, aur gather.
+
+163
+00:09:55,900 --> 00:09:59,052
+Ab project ke liye har
+Python skill aapke paas hai.
+
+164
+00:09:59,272 --> 00:10:03,068
+Agle lesson mein Python AI
+Toolkit banana shuru karenge.
+
+165
+00:10:04,368 --> 00:10:05,826
+Lesson paanch complete.
+
+166
+00:10:06,046 --> 00:10:08,739
+Ab aap web APIs se baat kar sakte ho.
+
+167
+00:10:08,959 --> 00:10:11,979
+Milte hain agle lesson
+mein, project ke saath.

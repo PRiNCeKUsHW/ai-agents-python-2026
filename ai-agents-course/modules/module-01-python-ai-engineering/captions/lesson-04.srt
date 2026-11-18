@@ -1,537 +1,786 @@
 1
-00:00:00,700 --> 00:00:03,748
-Real AI projects are never a single file.
+00:00:00,700 --> 00:00:03,895
+Asli AI projects
+kabhi ek file ke nahi hote.
 
 2
-00:00:03,968 --> 00:00:09,989
-They read prompts and documents from
-disk, exchange JSON with APIs, and need secret
+00:00:04,115 --> 00:00:09,440
+Woh disk se prompts aur documents padhte
+hain, APIs ke saath JSON ka len den karte
 
 3
-00:00:09,989 --> 00:00:13,252
-API keys that must
-never end up in your code.
+00:00:09,440 --> 00:00:14,505
+hain, aur unhe secret API keys chahiye
+hoti hain, jo kabhi code mein nahi honi
 
 4
-00:00:13,472 --> 00:00:15,271
-This lesson covers all of that.
+00:00:14,505 --> 00:00:15,025
+chahiye.
 
 5
-00:00:16,571 --> 00:00:21,097
-You will split code into modules
-and packages, and import between them.
+00:00:15,245 --> 00:00:16,760
+Iss lesson mein yeh sab.
 
 6
-00:00:21,447 --> 00:00:23,945
-Read and write files safely with pathlib.
+00:00:18,060 --> 00:00:23,583
+Iss lesson ke baad aap code ko modules
+aur packages mein baant paoge, aur import kar
 
 7
-00:00:24,295 --> 00:00:29,013
-Convert between JSON and Python
-objects, and handle invalid JSON.
+00:00:23,583 --> 00:00:23,977
+paoge.
 
 8
-00:00:29,363 --> 00:00:33,489
-And keep configuration and
-secrets in environment variables.
+00:00:24,327 --> 00:00:27,146
+pathlib se files
+safely padhoge aur likhoge.
 
 9
-00:00:34,789 --> 00:00:37,195
-First, how Python code is organised.
+00:00:27,496 --> 00:00:32,388
+JSON aur Python ke beech convert
+karoge, aur kharab JSON handle karoge.
 
 10
-00:00:37,545 --> 00:00:39,783
-A module is simply a Python file.
+00:00:32,738 --> 00:00:37,211
+Aur configuration aur secrets ko
+environment variables mein rakhoge.
 
 11
-00:00:40,003 --> 00:00:45,708
-Anything defined in cleaning dot py,
-functions, classes, variables, can be imported
+00:00:38,511 --> 00:00:41,013
+Pehle what: modules aur packages kya hain?
 
 12
-00:00:45,708 --> 00:00:46,396
-elsewhere.
+00:00:41,233 --> 00:00:42,709
+Ek almirah socho.
 
 13
-00:00:46,746 --> 00:00:51,864
-A package is a folder of modules
-with a file called dunder init dot py.
+00:00:42,929 --> 00:00:45,559
+Aap saare kapde ek dher mein nahi phenkte.
 
 14
-00:00:52,084 --> 00:00:57,692
-That file runs when the package is
-imported, and it often re-exports the most useful
+00:00:45,779 --> 00:00:48,229
+Shirts ek shelf par, jeans doosri par.
 
 15
-00:00:57,692 --> 00:00:58,093
-names.
+00:00:48,449 --> 00:00:51,930
+Har shelf ek module hai,
+poori almirah ek package.
 
 16
-00:00:58,443 --> 00:01:03,843
-Your program imports the package by
-name, exactly like it imports anything else.
+00:00:52,151 --> 00:00:55,247
+Aur zaroorat ho toh sirf
+woh nikaalte ho jo chahiye.
 
 17
-00:01:04,193 --> 00:01:10,518
-And there are two other sources of
-modules: the standard library, which ships with
+00:00:56,547 --> 00:00:59,766
+Ab dekhte hain Python
+code organise kaise hota hai.
 
 18
-00:01:10,518 --> 00:01:16,842
-Python, like json, pathlib, and os, and
-third-party packages you install with pip,
+00:01:00,116 --> 00:01:05,371
+Module bas ek Python file hai. cleaning
+dot py mein jo bhi define hai, functions,
 
 19
-00:01:16,842 --> 00:01:17,690
-like httpx.
+00:01:05,371 --> 00:01:08,873
+classes, variables, sab
+kahin aur import ho sakta hai.
 
 20
-00:01:18,990 --> 00:01:20,305
-Here is the module.
+00:01:09,223 --> 00:01:14,710
+Package modules ka ek folder hai, jisme
+dunder init dot py naam ki file hoti hai.
 
 21
-00:01:20,525 --> 00:01:26,167
-Normalize collapses runs of whitespace
-by splitting the text into words and joining
+00:01:14,930 --> 00:01:20,340
+Package import hote hi yeh file chalti
+hai, aur aksar sabse kaam ke naam aage export
 
 22
-00:01:26,167 --> 00:01:28,139
-them back with single spaces.
+00:01:20,340 --> 00:01:20,984
+karti hai.
 
 23
-00:01:28,489 --> 00:01:30,795
-And word count reuses normalize.
+00:01:21,334 --> 00:01:26,494
+Aapka program package ko naam se import
+karta hai, bilkul baaki cheezon ki tarah.
 
 24
-00:01:31,015 --> 00:01:33,308
-Small functions that build on each other.
+00:01:26,844 --> 00:01:28,721
+Modules ke do aur source hain.
 
 25
-00:01:34,608 --> 00:01:40,060
-The package's init file imports the two
-functions, so users can call them directly
+00:01:28,941 --> 00:01:34,247
+Standard library, jo Python ke saath
+aati hai, jaise json, pathlib, aur os.
 
 26
-00:01:40,060 --> 00:01:40,792
-on textkit.
+00:01:34,467 --> 00:01:39,297
+Aur third party packages jo pip
+se install hote hain, jaise httpx.
 
 27
-00:01:41,142 --> 00:01:44,004
-And dunder all
-documents which names are public.
+00:01:40,597 --> 00:01:45,860
+Yeh module hai. normalize text ko words
+mein todta hai, aur ek ek space se wapas
 
 28
-00:01:45,304 --> 00:01:46,635
-Two import styles.
+00:01:45,860 --> 00:01:46,518
+jodta hai.
 
 29
-00:01:46,855 --> 00:01:50,837
-Import textkit gives you the
-whole package, used with a prefix.
+00:01:46,738 --> 00:01:48,974
+Isse faaltu spaces hat jaate hain.
 
 30
-00:01:51,057 --> 00:01:55,446
-From textkit dot cleaning import
-word count brings in a single name.
+00:01:49,324 --> 00:01:52,835
+Aur word count normalize
+ko hi dobara use karta hai.
 
 31
-00:01:55,796 --> 00:01:57,640
-The main function does the work.
+00:01:53,055 --> 00:01:55,847
+Chhote functions, jo
+ek doosre par khade hain.
 
 32
-00:01:57,990 --> 00:02:00,382
-This final check is a Python idiom.
+00:01:57,147 --> 00:02:02,026
+Package ki init file dono functions
+import karti hai, taaki users unhe seedha
 
 33
-00:02:00,602 --> 00:02:05,653
-Dunder name equals dunder main is
-true only when the file is run directly.
+00:02:02,026 --> 00:02:03,801
+textkit par call kar sakein.
 
 34
-00:02:05,873 --> 00:02:09,867
-If another file imports it,
-main does not run automatically.
+00:02:04,151 --> 00:02:07,184
+Aur dunder all batata hai
+ki kaunse naam public hain.
 
 35
-00:02:11,167 --> 00:02:14,464
-Running main gives the
-cleaned text and the word count.
+00:02:08,484 --> 00:02:14,089
+Import ke do tareeke. import textkit
+poora package laata hai, jise prefix ke saath
 
 36
-00:02:14,814 --> 00:02:19,903
-And because textkit is a proper package,
-any other code in this folder can import it
+00:02:14,089 --> 00:02:14,977
+use karte ho.
 
 37
-00:02:19,903 --> 00:02:20,145
-too.
+00:02:15,197 --> 00:02:19,741
+Aur from textkit dot cleaning
+import word count, sirf ek naam laata hai.
 
 38
-00:02:21,445 --> 00:02:26,285
-If you see module not found error for
-your own package, you are almost always
+00:02:20,091 --> 00:02:22,004
+main function kaam karta hai.
 
 39
-00:02:26,285 --> 00:02:28,611
-running Python from the wrong folder.
+00:02:22,224 --> 00:02:25,380
+Output mein saaf kiya
+hua text, aur teen words.
 
 40
-00:02:28,831 --> 00:02:32,697
-Python looks for imports starting
-in the folder of the script you run.
+00:02:25,730 --> 00:02:30,956
+Aakhri check Python ka ek idiom hai.
+dunder name equals dunder main tabhi true hota
 
 41
-00:02:32,917 --> 00:02:37,052
-Run from the project root, and
-for packages, use python dash m.
+00:02:30,956 --> 00:02:33,097
+hai jab file seedhe chalayi jaaye.
 
 42
-00:02:38,352 --> 00:02:39,424
-Next, files.
+00:02:33,317 --> 00:02:37,539
+Koi doosri file isse import
+kare, toh main apne aap nahi chalta.
 
 43
-00:02:39,644 --> 00:02:43,489
-Prompts, documents, logs,
-and reports all live in files.
+00:02:38,839 --> 00:02:44,440
+Agar apne hi package ke liye
+ModuleNotFoundError aaye, toh lagbhag hamesha aap galat
 
 44
-00:02:43,709 --> 00:02:46,270
-The modern way to
-work with them is pathlib.
+00:02:44,440 --> 00:02:46,507
+folder se Python chala rahe ho.
 
 45
-00:02:46,620 --> 00:02:49,194
-A Path object represents a file path.
+00:02:46,727 --> 00:02:51,709
+Python imports ko uss script ke
+folder se dhoondhna shuru karta hai jo aapne
 
 46
-00:02:49,414 --> 00:02:51,970
-Write text creates or overwrites the file.
+00:02:51,709 --> 00:02:52,233
+chalayi.
 
 47
-00:02:52,190 --> 00:02:54,998
-Always pass encoding equals utf eight.
+00:02:52,453 --> 00:02:56,372
+Project root se chalao, aur
+packages ke liye python dash m.
 
 48
-00:02:55,218 --> 00:03:00,545
-The default encoding is different on
-Windows, and AI text is full of characters
+00:02:57,672 --> 00:02:58,578
+Ab files.
 
 49
-00:03:00,545 --> 00:03:02,028
-outside basic English.
+00:02:58,798 --> 00:03:02,942
+Prompts, documents, logs, aur
+reports, sab files mein rehte hain.
 
 50
-00:03:02,378 --> 00:03:07,931
-Read text returns the whole file as one
-string, and splitlines turns it into a list
+00:03:03,162 --> 00:03:06,611
+Inke saath kaam karne ka
+modern tareeka hai pathlib.
 
 51
-00:03:07,931 --> 00:03:08,533
-of lines.
+00:03:06,961 --> 00:03:12,554
+Path object ek file ka path hai. write
+text file banata hai, ya overwrite karta hai.
 
 52
-00:03:08,883 --> 00:03:12,262
-For more control, open
-the file inside a with block.
+00:03:12,774 --> 00:03:15,547
+Aur hamesha encoding equals utf eight do.
 
 53
-00:03:12,482 --> 00:03:15,307
-The mode a means
-append, so we add to the end.
+00:03:15,767 --> 00:03:21,228
+Windows par default encoding alag hota
+hai, aur AI ka text, jaise Hindi ya emoji,
 
 54
-00:03:15,527 --> 00:03:20,183
-The with statement guarantees the
-file is closed, even if something fails.
+00:03:21,228 --> 00:03:24,936
+basic English ke bahar ke
+characters se bhara hota hai.
 
 55
-00:03:20,533 --> 00:03:25,679
-Finally, number the lines, and ask the
-path a few questions: does it exist, what is
+00:03:25,286 --> 00:03:30,494
+read text poori file ek string mein deta
+hai, aur splitlines usse lines ki list bana
 
 56
-00:03:25,679 --> 00:03:27,973
-its suffix, and how many bytes is it.
+00:03:30,494 --> 00:03:31,052
+deta hai.
 
 57
-00:03:29,273 --> 00:03:33,788
-Two lines written, a third
-appended, and the file is thirty-four bytes.
+00:03:31,402 --> 00:03:35,201
+Zyaada control chahiye, toh
+file ko with block ke andar kholo.
 
 58
-00:03:35,088 --> 00:03:40,090
-JSON is a text format for data,
-and it is everywhere in AI engineering.
+00:03:35,421 --> 00:03:38,388
+Mode a ka matlab
+append, yaani end mein jodo.
 
 59
-00:03:40,310 --> 00:03:46,871
-Model APIs send and receive JSON, tool
-calls are described in JSON, and logs are
+00:03:38,608 --> 00:03:43,176
+Aur with guarantee deta hai ki file
+band hogi, chaahe beech mein error aa jaaye.
 
 60
-00:03:46,871 --> 00:03:47,773
-often JSON.
+00:03:43,526 --> 00:03:48,742
+Aakhir mein lines ko number do, aur
+path se kuch sawaal poocho: file hai ya nahi,
 
 61
-00:03:48,123 --> 00:03:50,429
-JSON looks very similar to Python.
+00:03:48,742 --> 00:03:51,125
+uska suffix kya hai, aur kitne bytes.
 
 62
-00:03:50,649 --> 00:03:56,092
-Objects in curly braces, arrays in
-square brackets, strings, numbers, true, false,
+00:03:51,345 --> 00:03:53,407
+Teen lines, aur thirty four bytes.
 
 63
-00:03:56,092 --> 00:03:56,689
-and null.
+00:03:54,707 --> 00:03:59,810
+JSON data ke liye ek text format hai,
+aur AI engineering mein yeh har jagah hai.
 
 64
-00:03:57,039 --> 00:04:00,150
-Python's json module maps them directly.
+00:04:00,030 --> 00:04:05,780
+Model APIs JSON bhejti aur leti hain,
+tool calls JSON mein describe hote hain, aur
 
 65
-00:04:00,370 --> 00:04:05,588
-Objects become dictionaries, arrays
-become lists, and true, false, and null become
+00:04:05,780 --> 00:04:07,603
+logs aksar JSON hote hain.
 
 66
-00:04:05,588 --> 00:04:06,988
-True, False, and None.
+00:04:07,823 --> 00:04:12,363
+Isse ek common courier ka dabba
+samjho, jise har system khol sakta hai.
 
 67
-00:04:07,208 --> 00:04:09,184
-But JSON is stricter than Python.
+00:04:12,713 --> 00:04:15,042
+JSON Python jaisa hi dikhta hai.
 
 68
-00:04:09,404 --> 00:04:13,333
-Strings need double quotes, and
-trailing commas are not allowed.
+00:04:15,262 --> 00:04:19,920
+Curly braces mein objects, square
+brackets mein arrays, strings, numbers, true,
 
 69
-00:04:14,633 --> 00:04:17,503
-We start from an
-ordinary Python dictionary.
+00:04:19,920 --> 00:04:20,864
+false, aur null.
 
 70
-00:04:17,853 --> 00:04:23,057
-json dot dumps, with an s for
-string, converts Python into JSON text.
+00:04:21,214 --> 00:04:24,699
+Python ka json module
+inhe seedha map karta hai.
 
 71
-00:04:23,277 --> 00:04:25,033
-Indent two makes it readable.
+00:04:24,919 --> 00:04:29,835
+Objects dictionaries ban jaate hain,
+arrays lists, aur true, false, null ban jaate
 
 72
-00:04:25,253 --> 00:04:26,722
-Then we save it to a file.
+00:04:29,835 --> 00:04:31,934
+hain capital True, False, aur None.
 
 73
-00:04:27,072 --> 00:04:33,362
-json dot loads does the reverse, turning
-JSON text back into Python objects, so the
+00:04:32,154 --> 00:04:34,947
+Lekin JSON Python se zyaada strict hai.
 
 74
-00:04:33,362 --> 00:04:35,711
-tokens are a real number again.
+00:04:35,167 --> 00:04:39,144
+Strings ko double quotes chahiye,
+aur aakhri comma allowed nahi hai.
 
 75
-00:04:36,061 --> 00:04:39,619
-And invalid JSON
-raises a JSON decode error.
+00:04:40,444 --> 00:04:43,617
+Hum ek normal Python
+dictionary se shuru karte hain.
 
 76
-00:04:39,839 --> 00:04:41,313
-Here, a trailing comma.
+00:04:43,967 --> 00:04:49,841
+json dot dumps, s matlab string, Python
+ko JSON text mein badalta hai. indent do se
 
 77
-00:04:41,533 --> 00:04:46,903
-Language models sometimes produce
-slightly broken JSON, so you will handle this
+00:04:49,841 --> 00:04:51,186
+padhne mein aasaan.
 
 78
-00:04:46,903 --> 00:04:47,719
-error a lot.
+00:04:51,406 --> 00:04:54,424
+Output mein dekho: true
+aur null, chhote akshar mein.
 
 79
-00:04:49,019 --> 00:04:54,450
-Notice true and null in the JSON text,
-the token count plus one, and the precise
+00:04:54,644 --> 00:04:56,453
+Phir ise file mein save kiya.
 
 80
-00:04:54,450 --> 00:04:57,640
-error message, which
-even tells you the column.
+00:04:56,803 --> 00:05:02,914
+json dot loads ulta kaam karta hai,
+JSON text ko wapas Python objects banata hai.
 
 81
-00:04:58,940 --> 00:05:02,074
-Environment variables
-keep secrets out of your code.
+00:05:03,134 --> 00:05:06,722
+Isliye tokens phir se asli
+number hai: six hundred one.
 
 82
-00:05:02,294 --> 00:05:08,096
-An API key written in a source file ends
-up in git history, in screenshots, and in
+00:05:06,942 --> 00:05:08,271
+Aur ok ek bool.
 
 83
-00:05:08,096 --> 00:05:08,450
-logs.
+00:05:08,621 --> 00:05:11,963
+Aur galat JSON par
+JSONDecodeError aata hai.
 
 84
-00:05:08,800 --> 00:05:13,768
-They also let settings change without
-editing code, such as a different model on
+00:05:12,183 --> 00:05:14,165
+Yahan aakhri comma ki wajah se.
 
 85
-00:05:13,768 --> 00:05:15,631
-your laptop and in production.
+00:05:14,385 --> 00:05:16,169
+Error column tak batata hai.
 
 86
-00:05:15,981 --> 00:05:21,357
-And every platform supports them:
-your terminal, Docker, cloud hosts, and CI
+00:05:16,389 --> 00:05:21,918
+Language models kabhi kabhi thoda toota
+JSON dete hain, isliye yeh error aap bahut
 
 87
-00:05:21,357 --> 00:05:22,064
-pipelines.
+00:05:21,918 --> 00:05:22,862
+handle karoge.
 
 88
-00:05:22,284 --> 00:05:25,235
-You'll use them all the way to Module 17.
+00:05:24,162 --> 00:05:26,022
+Ab environment variables.
 
 89
-00:05:26,535 --> 00:05:32,688
-The os module exposes environment
-variables as a dictionary-like object called
+00:05:26,242 --> 00:05:30,383
+Module zero mein humne yeh
+dekha tha, yahan Python ki taraf se.
 
 90
-00:05:32,688 --> 00:05:33,319
-environ.
+00:05:30,603 --> 00:05:32,113
+ATM card socho.
 
 91
-00:05:33,539 --> 00:05:37,930
-Get returns None if the variable
-isn't set, or a default you choose.
+00:05:32,333 --> 00:05:34,331
+PIN kabhi card par nahi likhte.
 
 92
-00:05:38,280 --> 00:05:43,434
-If the key is missing, say so clearly
-instead of failing later in a confusing way.
+00:05:34,551 --> 00:05:37,649
+Card ki photo kheench
+sakti hai, card kho sakta hai.
 
 93
-00:05:43,654 --> 00:05:45,529
-And never print the secret itself.
+00:05:37,869 --> 00:05:40,538
+PIN aapke paas rehta hai, card se alag.
 
 94
-00:05:45,749 --> 00:05:48,647
-Printing its length is
-enough to confirm it loaded.
+00:05:40,758 --> 00:05:44,922
+API key bhi code mein nahi,
+environment variable mein rehti hai.
 
 95
-00:05:49,947 --> 00:05:55,026
-With nothing set, the script refuses
-to continue and uses the default model.
+00:05:46,222 --> 00:05:46,982
+Ab why.
 
 96
-00:05:55,376 --> 00:06:00,844
-On macOS or Linux, you can set
-variables for a single command like this.
+00:05:47,202 --> 00:05:49,512
+Pehla: secrets code se bahar rehte hain.
 
 97
-00:06:01,064 --> 00:06:03,341
-This is a fake key, just for the demo.
+00:05:49,732 --> 00:05:54,870
+Source file mein likhi API key git
+history, screenshots, aur logs tak pahunch jaati
 
 98
-00:06:03,561 --> 00:06:09,385
-On Windows PowerShell, you'd first run
-dollar env, colon, DEMO API KEY, equals, and
+00:05:54,870 --> 00:05:55,118
+hai.
 
 99
-00:06:09,385 --> 00:06:10,789
-the value in quotes.
+00:05:55,468 --> 00:05:58,470
+Doosra: code badle bina
+settings badal sakte ho.
 
 100
-00:06:12,089 --> 00:06:17,718
-Typing variables every time gets tedious,
-so projects keep them in a file called dot
+00:05:58,690 --> 00:06:02,080
+Jaise laptop par ek model,
+aur production mein doosra.
 
 101
-00:06:17,718 --> 00:06:17,986
-env.
+00:06:02,430 --> 00:06:05,006
+Teesra: har platform
+inhe support karta hai.
 
 102
-00:06:18,206 --> 00:06:23,597
-You commit a template called dot env dot
-example, with fake values, so others know
+00:06:05,226 --> 00:06:07,998
+Terminal, Docker, cloud, aur CI pipelines.
 
 103
-00:06:23,597 --> 00:06:24,386
-what to set.
+00:06:08,218 --> 00:06:10,885
+Module satrah tak aap inhe use karoge.
 
 104
-00:06:24,736 --> 00:06:30,763
-The real dot env file holds your actual
-keys, and it is listed in dot gitignore, so
+00:06:12,185 --> 00:06:17,961
+os module environment variables ko
+environ naam ke dictionary jaise object mein deta
 
 105
-00:06:30,763 --> 00:06:32,288
-git never records it.
+00:06:17,961 --> 00:06:23,119
+hai. get, variable set na ho toh
+None deta hai, ya aapka chuna hua default.
 
 106
-00:06:32,508 --> 00:06:37,637
-In the project, we'll write a tiny
-loader that reads dot env into the environment.
+00:06:23,469 --> 00:06:28,208
+Key missing ho toh saaf saaf bolo, baad
+mein ulajhne wale tareeke se fail mat ho.
 
 107
-00:06:37,857 --> 00:06:40,603
-Real variables always win over the file.
+00:06:28,428 --> 00:06:30,651
+Aur secret khud kabhi print mat karo.
 
 108
-00:06:41,903 --> 00:06:42,711
-Quick check.
+00:06:30,871 --> 00:06:34,387
+Uski length print karna
+confirm karne ke liye kaafi hai.
 
 109
-00:06:42,931 --> 00:06:46,647
-Which call turns this JSON
-text into a Python dictionary?
+00:06:34,607 --> 00:06:39,584
+Abhi kuch set nahi hai, toh script mana
+kar deti hai, aur default model use hota
 
 110
-00:06:52,347 --> 00:06:53,872
-json dot loads.
+00:06:39,584 --> 00:06:39,833
+hai.
 
 111
-00:06:54,092 --> 00:06:55,564
-The s stands for string.
+00:06:41,133 --> 00:06:45,590
+Mac ya Linux par ek command ke
+liye variables aise set kar sakte ho.
 
 112
-00:06:55,784 --> 00:07:01,174
-Dumps goes the other way, and load
-without an s reads from an open file object.
+00:06:45,810 --> 00:06:48,026
+Yeh fake key hai, sirf demo ke liye.
 
 113
-00:07:02,474 --> 00:07:07,232
-A module is a file, and a package
-is a folder with a dunder init file.
+00:06:48,246 --> 00:06:51,917
+Key load hui, uski sirf
+length dikhi, aur model badal gaya.
 
 114
-00:07:07,582 --> 00:07:11,133
-Use pathlib, and always
-set the encoding to utf eight.
+00:06:52,267 --> 00:06:58,176
+Windows PowerShell mein pehle dollar env
+colon DEMO API KEY equals, aur value quotes
 
 115
-00:07:11,483 --> 00:07:16,122
-Convert with json loads and
-dumps, and catch JSON decode errors.
+00:06:58,176 --> 00:06:58,528
+mein.
 
 116
-00:07:16,472 --> 00:07:21,676
-Secrets live in environment variables,
-and only the example file is committed.
+00:06:58,748 --> 00:07:03,264
+Aur roz ke kaam ke liye dot env
+file, jo Module zero mein dekhi thi.
 
 117
-00:07:22,026 --> 00:07:28,826
-In the next lesson, you'll add type
-hints, talk to web APIs over HTTP, and see why
+00:07:04,564 --> 00:07:09,591
+Har baar variables type karna thakaau
+hai, isliye projects unhe dot env file mein
 
 118
-00:07:28,826 --> 00:07:31,065
-async makes AI apps faster.
+00:07:09,591 --> 00:07:10,336
+rakhte hain.
+
+119
+00:07:10,556 --> 00:07:16,040
+Commit hota hai template, dot env dot
+example, fake values ke saath, taaki doosron
+
+120
+00:07:16,040 --> 00:07:17,979
+ko pata ho kya set karna hai.
+
+121
+00:07:18,329 --> 00:07:23,547
+Asli dot env file mein aapki real keys
+hoti hain, aur woh dot gitignore mein listed
+
+122
+00:07:23,547 --> 00:07:26,188
+hai, toh git usse kabhi record nahi karta.
+
+123
+00:07:26,408 --> 00:07:31,794
+Project mein hum ek chhota loader
+likhenge jo dot env ko environment mein padhta
+
+124
+00:07:31,794 --> 00:07:32,063
+hai.
+
+125
+00:07:32,283 --> 00:07:36,165
+Aur asli environment
+variables hamesha file se jeette hain.
+
+126
+00:07:37,465 --> 00:07:38,760
+Interview corner.
+
+127
+00:07:38,980 --> 00:07:42,273
+Pehla question: module aur
+package mein kya farak hai?
+
+128
+00:07:44,623 --> 00:07:46,913
+Answer: module ek dot py file hai.
+
+129
+00:07:47,133 --> 00:07:52,782
+Package modules ka folder hai, aam taur
+par dunder init ke saath, jo folder ke naam
+
+130
+00:07:52,782 --> 00:07:54,075
+se import hota hai.
+
+131
+00:07:54,295 --> 00:07:59,656
+Trap: package ke andar ki file ko
+seedha chalana, aur phir sochna ki imports kyun
+
+132
+00:07:59,656 --> 00:08:01,906
+toot gaye. python dash m use karo.
+
+133
+00:08:02,256 --> 00:08:05,212
+Doosra: json load aur
+json loads mein farak?
+
+134
+00:08:07,562 --> 00:08:12,176
+Answer: loads ek string ko parse
+karta hai, load ek khuli file se padhta hai.
+
+135
+00:08:12,396 --> 00:08:17,301
+Likhne ke liye bhi yahi jodi: dumps
+string lautaata hai, dump file mein likhta hai.
+
+136
+00:08:17,521 --> 00:08:20,043
+Trap: json load ko file ka path dena.
+
+137
+00:08:20,263 --> 00:08:22,455
+Use khuli file chahiye, path nahi.
+
+138
+00:08:22,805 --> 00:08:25,479
+Teesra: ek API key
+git mein commit ho gayi.
+
+139
+00:08:25,699 --> 00:08:27,762
+Kya line delete karna kaafi hai?
+
+140
+00:08:30,112 --> 00:08:31,208
+Answer: nahi.
+
+141
+00:08:31,428 --> 00:08:35,359
+Woh git history mein rehti hai,
+aur shayad copy bhi ho chuki hai.
+
+142
+00:08:35,579 --> 00:08:40,804
+Key revoke karo, nayi banao, aur
+environment variable ya git ignored dot env mein
+
+143
+00:08:40,804 --> 00:08:41,191
+rakho.
+
+144
+00:08:41,411 --> 00:08:43,373
+Trap: sirf history saaf karna.
+
+145
+00:08:43,593 --> 00:08:45,068
+Key ko leaked hi maano.
+
+146
+00:08:46,368 --> 00:08:47,477
+Practice time.
+
+147
+00:08:47,697 --> 00:08:50,110
+Video pause karo, aur khud try karo.
+
+148
+00:08:50,460 --> 00:08:55,099
+Pehla: textkit mein char count
+function jodo, aur init file se export karo.
+
+149
+00:08:55,449 --> 00:09:00,777
+Doosra: teen messages ki list chat dot
+json mein save karo, aur wapas load karo.
+
+150
+00:09:01,127 --> 00:09:05,458
+Teesra: DEMO MAX TOKENS ko int ki
+tarah padho, default five hundred.
+
+151
+00:09:05,678 --> 00:09:09,328
+Dhyaan do: environment
+variables hamesha text hote hain.
+
+152
+00:09:09,678 --> 00:09:13,167
+Aur scenario: model
+aakhri comma wala JSON deta hai.
+
+153
+00:09:13,387 --> 00:09:16,571
+App crash na ho, iske
+liye aapka code kya karega?
+
+154
+00:09:23,871 --> 00:09:24,701
+Quick check.
+
+155
+00:09:24,921 --> 00:09:28,917
+Kaunsi call iss JSON text ko
+Python dictionary banati hai?
+
+156
+00:09:34,617 --> 00:09:40,486
+B, json dot loads. s matlab string. dumps
+ulta jaata hai, aur bina s wala load khuli
+
+157
+00:09:40,486 --> 00:09:41,813
+file se padhta hai.
+
+158
+00:09:43,113 --> 00:09:44,399
+Doosra question.
+
+159
+00:09:44,619 --> 00:09:47,116
+Asli API key kahan rehni chahiye?
+
+160
+00:09:52,816 --> 00:09:53,301
+C.
+
+161
+00:09:53,521 --> 00:09:59,043
+Environment variable mein, ya git
+ignored dot env mein. dot env dot example commit
+
+162
+00:09:59,043 --> 00:10:01,670
+hoti hai, isliye usme sirf fake values.
+
+163
+00:10:02,970 --> 00:10:03,695
+Recap.
+
+164
+00:10:03,915 --> 00:10:07,702
+Module ek file hai, aur
+package dunder init wala folder.
+
+165
+00:10:08,052 --> 00:10:11,381
+Har file ke liye
+pathlib, aur encoding utf eight.
+
+166
+00:10:11,731 --> 00:10:16,348
+json loads aur dumps se convert
+karo, aur JSONDecodeError pakdo.
+
+167
+00:10:16,698 --> 00:10:20,929
+Secrets environment variables
+mein, aur commit sirf example file.
+
+168
+00:10:21,279 --> 00:10:27,316
+Agle lesson mein type hints jodenge, HTTP
+par web APIs se baat karenge, aur dekhenge
+
+169
+00:10:27,316 --> 00:10:30,192
+ki async AI apps ko tez kyun banata hai.
+
+170
+00:10:31,492 --> 00:10:33,086
+Lesson chaar complete.
+
+171
+00:10:33,306 --> 00:10:37,327
+Ab aapka code files mein baanta
+hua hai, aur secrets surakshit hain.
+
+172
+00:10:37,547 --> 00:10:39,394
+Milte hain agle lesson mein.
