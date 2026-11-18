@@ -83,7 +83,7 @@ export const CodeView: React.FC<{
                 }}
               />
               {lineNumbers ? (
-                <div style={{ width: gutter, textAlign: "right", paddingRight: fontSize * 0.9, color: C.faint, flexShrink: 0, position: "relative" }}>
+                <div style={{ width: gutter, textAlign: "right", paddingRight: fontSize * 0.9, color: C.codeFaint, flexShrink: 0, position: "relative" }}>
                   {firstLine + idx}
                 </div>
               ) : (
@@ -125,7 +125,7 @@ export const Window: React.FC<{ title?: string; children: React.ReactNode; style
       {["#FF5F57", "#FEBC2E", "#28C840"].map((c) => (
         <div key={c} style={{ width: 14, height: 14, borderRadius: 7, background: c, opacity: 0.85 }} />
       ))}
-      <div style={{ marginLeft: 16, fontFamily: MONO, fontSize: 22, color: C.muted, display: "flex", alignItems: "center", gap: 10 }}>
+      <div style={{ marginLeft: 16, fontFamily: MONO, fontSize: 22, color: C.codeMuted, display: "flex", alignItems: "center", gap: 10 }}>
         <span style={{ width: 8, height: 8, borderRadius: 4, background: accent }} />
         {title}
       </div>

@@ -42,7 +42,11 @@ VOICE, LANG, SPEED = "am_michael", "en-us", 1.0
 # Hinglish narration (Module 2 remake on): a lesson script with `narration: hinglish` is spoken by an
 # Indian female voice; tools/hinglish.py gives its English words an Indian-English accent.
 HINGLISH_VOICE = os.environ.get("HINGLISH_VOICE", "hf_beta")  # the learner chose voice B
-HINGLISH_SPEED = 0.85  # "a little slower" than the 0.95 sample
+HINGLISH_SPEED = 0.85  # "a little slower" than the 0.95 sample (Modules 0 and 2)
+# 2026-11-18: the learner picked the 0.95 sample for every Hinglish module made from now on
+# (Module 1 remake onward). Modules 0 and 2 keep 0.85 so their rebuilds match the published videos.
+HINGLISH_SPEED_NEW = 0.95
+HINGLISH_SPEED_OLD_MODULES = {0, 2}
 
 LEAD, TAIL, GAP = 0.7, 0.6, 0.35       # seconds before the first beat, after the last, between beats
 SENTENCE_GAP = 0.22
@@ -491,7 +495,7 @@ def build(module, lesson, allow_new=True):
     VOICE, LANG = ("am_michael", "en-us") if spec.get("narration") != "hinglish" else (HINGLISH_VOICE, "hinglish")
     if LANG == "hinglish":
         global SPEED
-        SPEED = HINGLISH_SPEED
+        SPEED = HINGLISH_SPEED if module in HINGLISH_SPEED_OLD_MODULES else HINGLISH_SPEED_NEW
     env = dict(os.environ, PATH=f"{VENV_BIN}{os.pathsep}{os.environ['PATH']}", PYTHONDONTWRITEBYTECODE="1",
                VIRTUAL_ENV=str(ROOT / ".venv"), COLUMNS="88", NO_COLOR="1")
     env = shell_env(env)

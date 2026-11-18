@@ -91,7 +91,7 @@ export const Thumbnail: React.FC<ThumbProps> = ({ module, lines, accentLine, tag
     </div>
     <div style={{ position: "absolute", right: 44, bottom: 44, width: 500, background: C.code, border: `2px solid ${C.line}`, borderRadius: 18, padding: "20px 24px", boxShadow: `0 20px 60px ${C.shadow}` }}>
       {code.map((c, i) => (
-        <div key={i} style={{ fontFamily: MONO, fontSize: 23, lineHeight: 1.5, color: i === 0 ? C.teal : C.codeText, whiteSpace: "pre" }}>
+        <div key={i} style={{ fontFamily: MONO, fontSize: 23, lineHeight: 1.5, color: i === 0 ? C.codePrompt : C.codeText, whiteSpace: "pre" }}>
           {c}
         </div>
       ))}

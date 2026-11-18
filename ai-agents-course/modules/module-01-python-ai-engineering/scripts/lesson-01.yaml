@@ -1,20 +1,42 @@
 module_title: Python for AI Engineering
 title: Welcome, the Agent Loop, and Your Python Setup
+narration: hinglish
 scenes:
   - type: title
     chapter: Welcome
     kicker: Module 1 · Lesson 1
     title: AI Agents with Python
-    subtitle: Beginner to Production, 2026. Start here.
+    subtitle: Beginner to Production, 2026. Part I starts here.
     tags: [Python, LLMs, Tools, RAG, LangGraph, FastAPI, Docker]
     say: >
-      Welcome to AI Agents with Python, Beginner to Production.
-      Over this course you will go from writing your first Python data structures
-      to deploying a full AI agent application with authentication, retrieval, tools, tests, and monitoring.
-      This first lesson explains what an agent actually is, how the course works, and then gets your Python environment ready.
+      Namaste, aur swagat hai Module ek mein. Module zero mein humne terminal, virtual environment, aur Git seekha. Ab asli safar shuru hota hai.
+      Iss course mein aap Python ke basic data structures se lekar, ek poora AI agent application production tak le jaoge: tools, memory, retrieval, tests, security, aur deployment ke saath.
+      Aur yeh pehla lesson batata hai ki AI agent asal mein hota kya hai, course kaise chalega, aur aapka Python setup ready hai ya nahi.
+
+  - type: objectives
+    items:
+      - {text: "Explain what an AI agent is, and how it differs from a chatbot", say: "Iss lesson ke baad aap explain kar paoge ki AI agent kya hai, aur chatbot se kaise alag hai."}
+      - {text: "Describe the agent loop: decide, act, observe, repeat", say: "Agent loop samjhoge: decide, act, observe, aur repeat."}
+      - {text: "Run a tiny agent loop written in plain Python", say: "Plain Python mein likha ek chhota sa agent loop chalaoge."}
+      - {text: "Know the course map and how every module works", say: "Poore course ka map, aur har module kaise chalta hai, woh jaanoge."}
+      - {text: "Check your Python setup for this module", say: "Aur iss module ke liye apna Python setup check karoge."}
+
+  - type: callout
+    chapter: What is an AI agent?
+    kind: analogy
+    title: "An agent is like a smart new intern"
+    body: "You give an intern a **goal**, not a script: \"find the cheapest flight to Goa next Friday\". The intern **asks a senior** what to do next, **uses tools** (a browser, a phone, a spreadsheet), **looks at the result**, and keeps going until the job is done, or until you said to stop."
+    say: >
+      Pehle what: AI agent kya hai? Ek naya, smart intern socho. Aap usse step by step script nahi dete. Aap ek goal dete ho: agle Friday Goa ki sabse sasti flight dhoondo.
+    items:
+      - {text: "The intern = your Python program", say: "Intern hai aapka Python program."}
+      - {text: "The senior who decides the next step = the language model", say: "Senior, jo batata hai ki agla step kya ho, woh hai language model."}
+      - {text: "Browser, phone, spreadsheet = tools", say: "Browser, phone, aur spreadsheet, yeh sab tools hain."}
+      - {text: "\"Stop after 20 minutes\" = a safety limit", say: "Aur aapka instruction, bees minute mein ruk jaana, woh hai safety limit."}
+    outro: >
+      Yaad rakhna: senior khud kuch nahi karta. Woh sirf bataata hai. Kaam intern karta hai. AI agent mein bhi model sirf decide karta hai, aur kaam aapka Python code karta hai.
 
   - type: diagram
-    chapter: What is an AI agent?
     heading: What is an AI agent?
     nodes:
       - {id: user, label: You, sub: a goal, x: 170, y: 330, w: 240, tone: amber, shape: pill}
@@ -28,138 +50,239 @@ scenes:
       - {from: agent, to: tools, label: call}
       - {from: tools, to: agent, label: result, bend: -0.25}
     say: >
-      Let's start with a precise definition, because the word agent is used loosely.
+      Ab yahi baat ek diagram mein.
     steps:
       - show: [user, agent, "user->agent"]
         focus: [user, agent]
         say: >
-          An AI agent is a program that is given a goal, not a fixed script.
-          You describe what you want, for example, research this topic and write me a brief.
+          AI agent ek program hai jise goal milta hai, fixed script nahi. Aap batate ho ki kya chahiye, jaise: iss topic par research karo aur ek chhota summary likho.
       - show: [llm, "agent->llm", "llm->agent"]
         focus: [agent, llm]
         flow: ["agent->llm", "llm->agent"]
         say: >
-          The program asks a language model to decide what to do next.
-          The model does not run anything by itself. It only returns a decision, as text or as a structured tool request.
+          Program language model se poochta hai: ab kya karun? Model khud kuch run nahi karta. Woh sirf ek decision wapas bhejta hai, text ke roop mein, ya ek structured tool request ke roop mein.
       - show: [tools, "agent->tools", "tools->agent"]
         focus: [agent, tools]
         flow: ["agent->tools", "tools->agent"]
         say: >
-          Your Python code then performs that action with a tool, such as a web search, a database query, or a calculator,
-          and feeds the result back to the model.
+          Phir aapka Python code woh action ek tool se karta hai. Jaise web search, database query, ya calculator. Aur result wapas model ko bhejta hai.
       - focus: [agent]
         caption: "Decide, act, observe, repeat, until done or a limit is reached"
         say: >
-          This repeats in a loop. Decide, act, observe, and continue, until the goal is reached or a safety limit stops it.
-          That loop is the heart of every agent in this course, and you will build it from scratch in Module 4.
+          Yeh ek loop mein chalta hai. Decide, act, observe, aur phir se. Jab tak goal poora na ho, ya koi safety limit na rok de.
+          Yahi loop iss course ke har agent ka dil hai. Module chaar mein aap isse bilkul shuru se banaoge.
+
+  - type: compare
+    heading: "Chatbot vs agent"
+    left:
+      title: "Chatbot"
+      tone: blue
+      label: Answers
+      items:
+        - "One question in, one text answer out"
+        - "Only knows what it was trained on"
+        - "Can't do anything outside the chat"
+        - "Example: \"What is a refund policy?\""
+    right:
+      title: "AI agent"
+      tone: teal
+      label: Acts
+      items:
+        - "A goal in, several steps until it's done"
+        - "Looks things up with tools"
+        - "Takes actions: search, read files, call APIs"
+        - "Example: \"Find my order and start the refund\""
+    steps:
+      - show: left
+        say: >
+          Ab ek important farak: chatbot aur agent. Chatbot ek sawaal leta hai aur ek text jawaab deta hai. Jo uski training mein tha, bas wahi jaanta hai, aur chat ke bahar kuch nahi kar sakta.
+      - show: right
+        say: >
+          Agent ko goal milta hai, aur woh kai steps leta hai. Tools se cheezein dhoondhta hai, files padhta hai, APIs call karta hai. Chatbot bataata hai ki refund policy kya hai. Agent aapka order dhoondh kar refund shuru kar deta hai.
+
+  - type: table
+    chapter: Where agents are used
+    heading: "Where agents are used today"
+    columns: [Area, The goal, Tools it uses]
+    widths: [1.1, 2, 2]
+    rows:
+      - {cells: ["Customer support", "solve a ticket", "order database, refund API"], say: "Ab where: agents kahan use hote hain? Customer support mein: ticket solve karna, order database aur refund API ke saath."}
+      - {cells: ["Coding", "fix a failing test", "read files, run tests, edit code"], say: "Coding mein: ek failing test theek karna. Agent files padhta hai, tests chalata hai, aur code edit karta hai."}
+      - {cells: ["Research", "write a short brief", "web search, PDF reader"], say: "Research mein: ek chhota brief likhna, web search aur PDF reader ke saath."}
+      - {cells: ["Data", "answer a business question", "SQL queries, charts"], say: "Aur data mein: business ka koi sawaal answer karna, SQL queries aur charts se.", tone: teal}
+    outro: >
+      Inn sab mein pattern ek hi hai: goal, model ka decision, tool ka action, aur result. Iss course mein aap inme se kai agents khud banaoge.
+
+  - type: run
+    chapter: A tiny agent loop
+    heading: "The agent loop in 30 lines of Python"
+    title: agent_loop.py
+    file: source/lesson-01/agent_loop.py
+    cwd: source/lesson-01
+    cmd: python agent_loop.py
+    say: >
+      Ab how: loop asal mein dikhta kaisa hai? Yeh tees lines ka Python program hai. Goal hai: twenty three into nineteen, plus seven, kitna hota hai?
+      Dhyaan do: yahan model ek fake hai. Do fixed rules, real language model nahi. Real model Module do mein aayega. Abhi sirf loop samajhna hai.
+    steps:
+      - lines: "4-10"
+        note: "`fake_model` decides the next step. Not a real LLM: two fixed rules."
+        say: >
+          Pehla function, fake model. Yeh decide karta hai ki agla step kya ho. Agar abhi tak koi note nahi hai, toh calculator se twenty three into nineteen karwao. Ek note hai, toh usme saat jodo. Warna finish.
+      - lines: "13-16"
+        note: "`calculator` is the tool: it actually does the work."
+        say: >
+          Doosra function, calculator. Yeh tool hai. Kaam yahi karta hai: do numbers aur ek operator leta hai, aur result deta hai.
+      - lines: "19-22"
+        note: "The loop: at most `max_steps` rounds. Step 1 = decide."
+        say: >
+          Ab asli cheez, run agent. Ek for loop, zyaada se zyaada paanch steps. Har step mein pehle decide: model se poocho ki ab kya karna hai.
+      - lines: "26-28"
+        out: "1-2"
+        note: "Step 2 = act (call the tool), step 3 = observe (keep the result)."
+        say: >
+          Phir act: tool ko call karo. Aur observe: result ko notes mein rakh lo, taaki agli baar model use dekh sake. Right side par dekho: step ek mein four thirty seven, step do mein four forty four.
+      - lines: "23-25"
+        out: "3-4"
+        note: "The model says finish: the loop ends with the answer."
+        say: >
+          Step teen mein model kehta hai finish. Loop answer return karta hai: four forty four.
+      - lines: "29"
+        note: "Safety limit: never loop forever."
+        say: >
+          Aur aakhri line bahut important hai. Agar paanch steps mein kaam poora na ho, toh loop ruk jaata hai. Real agents mein yeh safety limit zaroori hai, warna galti se ek agent hamesha chalta reh sakta hai, aur API ka bill badhta rahega.
+
+  - type: callout
+    kind: tip
+    title: "Pause and try"
+    body: "Change the goal's numbers in `fake_model` (for example `12 * 12` and `+ 1`), run it again, and predict the output before you press Enter."
+    say: >
+      Pause and try. fake model mein numbers badlo, jaise twelve into twelve, plus ek. Enter dabane se pehle output guess karo.
+    items:
+      - {text: "Then set `max_steps=2`. What happens?", say: "Phir max steps ko do kar do. Kya hoga? Socho, phir chala ke dekho.", pause: 5}
 
   - type: cards
-    chapter: The course roadmap
-    heading: The roadmap, in six parts
+    chapter: The course map
+    heading: "The course map: 20 modules"
+    columns: 4
     say: >
-      Here is how the eighteen modules fit together.
+      Ab poora course ek nazar mein. Bees modules, Module zero se Module unnees tak, saat parts mein.
     cards:
-      - {tag: Part 1, title: Foundations, body: "Python, LLM APIs, prompts and structured output", tone: teal, say: "Part one builds your foundations: Python for AI work, calling language model APIs, and prompt engineering with validated, structured output."}
-      - {tag: Part 2, title: Agents from scratch, body: "The agent loop, tools, memory, reliability", tone: blue, say: "Part two builds agents from scratch, with no framework hiding the details: the loop, tool calling, memory, and making agents reliable."}
-      - {tag: Part 3, title: Knowledge and tools, body: "MCP, embeddings, retrieval-augmented generation", tone: violet, say: "Part three connects agents to knowledge and tools, with the Model Context Protocol, embeddings, and retrieval-augmented generation."}
-      - {tag: Part 4, title: Orchestration, body: "LangGraph, multi-agent systems, web research", tone: amber, say: "Part four covers orchestration: LangGraph workflows, multi-agent systems, and web research agents."}
-      - {tag: Part 5, title: Quality and security, body: "Evaluation suites, prompt injection defence", tone: coral, say: "Part five is about quality and security: testing and evaluating agents, and defending them against prompt injection and data leaks."}
-      - {tag: Part 6, title: Production, body: "FastAPI, Docker, deployment, full-stack app", tone: teal, say: "And part six takes everything to production, with FastAPI, Docker, monitoring, and a full-stack AI workspace as the final project."}
+      - {tag: Start here, title: Developer setup, body: "Module 0: terminal, venv, Git", tone: muted, say: "Start here: Module zero, developer setup. Woh aap kar chuke ho."}
+      - {tag: Part I, title: Foundations, body: "Modules 1–3: Python, LLM APIs, prompts", tone: teal, say: "Part ek, foundations: Python, language model APIs, aur prompt engineering. Hum abhi yahin hain."}
+      - {tag: Part II, title: Agents from scratch, body: "Modules 4–7: loop, tools, memory, reliability", tone: blue, say: "Part do: agents bilkul shuru se, bina kisi framework ke. Loop, tools, memory, aur reliability."}
+      - {tag: Part III, title: Knowledge and tools, body: "Modules 8–10: MCP, embeddings, RAG", tone: violet, say: "Part teen: knowledge aur tools. MCP, embeddings, aur RAG."}
+      - {tag: Part IV, title: Orchestration, body: "Modules 11–13: LangGraph, multi-agent, web research", tone: amber, say: "Part chaar: orchestration. LangGraph, multi agent systems, aur web research agents."}
+      - {tag: Part V, title: Quality and security, body: "Modules 14–15: evaluation, prompt injection", tone: coral, say: "Part paanch: quality aur security. Agents ko test aur evaluate karna, aur prompt injection se bachana."}
+      - {tag: Part VI, title: Production, body: "Modules 16–18: FastAPI, Docker, full-stack app", tone: teal, say: "Part chhe: production. FastAPI, Docker, monitoring, aur ek full stack AI application."}
+      - {tag: Part VII, title: Career, body: "Module 19: portfolio and interviews", tone: blue, say: "Aur part saat: career. Aapka AI engineer portfolio, aur interviews ki tayyari."}
 
   - type: steps
     chapter: How every module works
     heading: How every module works
     say: >
-      Every module follows the same rhythm, so you always know where you are.
+      Har module ek hi rhythm follow karta hai, taaki aapko hamesha pata rahe ki aap kahan ho.
     items:
-      - {text: "Concepts, explained from zero", sub: "what it is, why it matters, how it works", say: "First, the concepts, explained from zero, with small examples you can run."}
-      - {text: "A real project, built step by step", sub: "complete source code, tests and a README", say: "Then a real project, built step by step. Not a teaser. Complete code, tests, and a README you can run yourself."}
-      - {text: "Common errors and how to fix them", say: "Next, the errors people actually hit, and how to fix them."}
-      - {text: "Recap, quiz and an extension challenge", say: "And finally, a recap, a short quiz with explained answers, and an extension challenge if you want to go further."}
+      - {text: "Concepts from zero: what, why, how, where", sub: "with a real-life analogy and small runnable examples", say: "Pehle concepts, bilkul zero se: what, why, how, aur where. Ek real life analogy ke saath, aur chhote examples jo aap khud chala sako."}
+      - {text: "A real project, built step by step", sub: "complete source code, tests and a README", say: "Phir ek real project, step by step. Sirf teaser nahi. Poora code, tests, aur README."}
+      - {text: "Common errors and how to fix them", say: "Phir woh errors jo log sach mein dekhte hain, aur unhe theek kaise karein."}
+      - {text: "Interview corner, practice, quiz and a challenge", sub: "answers in the module's quiz.md", say: "Aur end mein interview corner, practice questions, quick quiz, aur ek extension challenge. Answers module ki quiz dot md file mein hain."}
+
+  - type: callout
+    chapter: Why Python for AI?
+    kind: analogy
+    title: "Python is the shared language of AI"
+    body: "In a big Indian office, people speak many languages, but meetings happen in one **shared language** so everyone can work together. In AI, that shared language is Python: model providers, frameworks and tools all ship Python first."
+    say: >
+      Ab why Python? Ek bade office ke baare mein socho, jahan log alag alag bhaashaayein bolte hain, lekin meeting ek common bhaasha mein hoti hai, taaki sab saath kaam kar sakein. AI ki duniya mein woh common bhaasha Python hai.
+
+  - type: table
+    heading: "What you will use Python for in this course"
+    columns: [Job, Python library, Module]
+    widths: [1.6, 1.6, 0.8]
+    rows:
+      - {cells: ["Call a language model", "official SDKs (e.g. `anthropic`)", "2"], say: "Language model ko call karna, official SDKs se. Module do."}
+      - {cells: ["Validate structured output", "Pydantic", "3"], say: "Model ke structured output ko validate karna, Pydantic se. Module teen."}
+      - {cells: ["Build agent workflows", "LangGraph", "11"], say: "Agent workflows banana, LangGraph se. Module gyaarah."}
+      - {cells: ["Serve an agent as an API", "FastAPI", "16"], say: "Agent ko ek API ki tarah chalana, FastAPI se. Module solah."}
+      - {cells: ["Test everything", "pytest", "every module"], say: "Aur sab kuch test karna, pytest se, har module mein.", tone: teal}
+    outro: >
+      Inn sab ki neev wahi Python hai jo iss module mein seekhoge: data, functions, classes, files, type hints, aur HTTP requests.
 
   - type: objectives
     chapter: Module 1 goals
     heading: "Module 1: Python for AI Engineering"
     say: >
-      Now, Module 1. Agents are software, so before we touch a language model, you need the Python that AI engineering actually uses.
+      Toh Module ek mein kya seekhenge? Agents software hi hain. Isliye language model ko chhoone se pehle, aapko woh Python aani chahiye jo AI engineering mein sach mein use hoti hai.
     items:
-      - {text: "Core data: lists, dictionaries and sets", say: "You will work with the core data types, lists, dictionaries, and sets, in the shapes AI applications use every day."}
-      - {text: "Functions, classes and exceptions", say: "You will write functions and classes, and handle errors with exceptions."}
-      - {text: "Modules, packages, files, JSON and environment variables", say: "You will organise code into modules and packages, read and write files and JSON, and keep settings in environment variables."}
-      - {text: "Type hints, HTTP requests and async", say: "And you will add type hints, make HTTP requests, and get a first, practical look at async and await."}
+      - {text: "Core data: lists, dictionaries and sets", say: "Core data types: lists, dictionaries, aur sets. Usi shape mein jaise AI applications roz use karti hain."}
+      - {text: "Functions, classes and exceptions", say: "Functions aur classes likhna, aur exceptions se errors handle karna."}
+      - {text: "Modules, packages, files, JSON and environment variables", say: "Code ko modules aur packages mein organise karna, files aur JSON padhna likhna, aur settings environment variables mein rakhna."}
+      - {text: "Type hints, HTTP requests and async", say: "Aur type hints, HTTP requests, aur async await ki pehli practical jhalak."}
 
   - type: terminal
-    chapter: Project preview
+    chapter: The project
     heading: "The project: Python AI Toolkit"
     title: terminal — python-ai-toolkit
     cwd: project/python-ai-toolkit
     say: >
-      Everything comes together in this module's project, the Python AI Toolkit.
-      It is a command line tool that reads a log of language model API calls, validates every record, and produces a report.
+      Yeh sab iss module ke project mein judta hai: Python AI Toolkit. Yeh ek command line tool hai jo language model API calls ka log padhta hai, har record validate karta hai, aur ek report banata hai.
     steps:
       - cmd: python -m toolkit validate data/usage_broken.json
         exit: 1
         say: >
-          Here is the finished tool. The validate command checks every record and explains exactly what is wrong,
-          like a negative token count, or a missing id.
+          Yeh raha finished tool. Validate command har record check karta hai aur saaf batata hai ki kya galat hai. Jaise negative token count, ya missing id. Aur galti milne par exit code ek.
       - cmd: python -m toolkit report data/usage_sample.json
         keep: "1-9"
         say: >
-          And the report command summarises a clean log: requests, success rate, tokens, estimated cost, and latency.
-          By the end of this module, you will have written every line of it.
+          Aur report command ek clean log ka summary deta hai: kitni requests, success rate, tokens, estimated cost, aur latency. Module ke end tak iski har line aap khud likh chuke hoge.
 
   - type: bullets
-    chapter: Prerequisites
+    chapter: What you need
     heading: What you need
     items:
-      - {text: "A computer running Windows, macOS or Linux", say: "To follow along you need a computer running Windows, macOS, or Linux."}
-      - {text: "Python 3.11 or newer", sub: "this course is recorded with Python 3.13", say: "You need Python 3.11 or newer. I am recording with Python 3.13."}
-      - {text: "A code editor, such as VS Code with the Python extension", say: "A code editor. VS Code with the official Python extension is a good free choice."}
-      - {text: "No AI experience required", sub: "basic programming helps, but every concept is explained", say: "And no AI experience at all. If you have written a little code in any language, that helps, but every concept is explained as we go."}
+      - {text: "Module 0 done: a terminal, Python and Git", sub: "or the same skills from somewhere else", say: "Iss module ke liye kya chahiye? Pehla, Module zero: terminal, Python, aur Git. Ya yahi skills kahin aur se."}
+      - {text: "Python 3.11 or newer", sub: "this course is recorded with Python 3.13", say: "Python three point eleven ya usse naya. Mai three point thirteen ke saath record kar rahi hoon."}
+      - {text: "A code editor, such as VS Code with the Python extension", say: "Ek code editor. VS Code, official Python extension ke saath, ek achha free option hai."}
+      - {text: "No AI experience required", sub: "every concept is explained as we go", say: "Aur AI ka koi experience nahi chahiye. Har concept saath saath samjhaya jaayega."}
 
   - type: terminal
-    chapter: Setup with a virtual environment
-    heading: Check Python, then create a virtual environment
+    chapter: Your setup check
+    heading: "Setup check: Python, a venv and one package"
     title: terminal — ai-toolkit
     cwd: tmp
     alias: ~/ai-toolkit
     say: >
-      Let's set up a clean workspace. Open a terminal in an empty folder.
+      Ab ek quick setup check. Yeh sab Module zero mein detail mein kiya tha, isliye yahan jaldi se. Ek khaali folder mein terminal kholo.
     steps:
       - cmd: python3 --version
         say: >
-          First, check your Python version. On Windows the command is usually just python, or py.
-          Anything from 3.11 up is fine.
+          Pehle Python ka version. Windows par aksar sirf python, ya py. Three point eleven se upar kuch bhi chalega.
       - cmd: python3 -m venv .venv
         say: >
-          Next, create a virtual environment. This makes a private folder, called dot venv, with its own copy of Python and its own installed packages.
-          Every project gets one, so the libraries of one project can never break another.
+          Phir virtual environment. Har project ka apna, taaki ek project ki libraries doosre ko kabhi na todein.
       - cmd: source .venv/bin/activate && which python
         run: . .venv/bin/activate && which python
+        prompt: "(.venv) $"
         say: >
-          Activate it. On macOS and Linux, use source, dot venv, slash bin, slash activate.
-          On Windows, run dot venv, backslash Scripts, backslash activate.
-          Now, the python command points inside your project folder.
+          Activate karo. Mac aur Linux par source dot venv slash bin slash activate. Windows par dot venv backslash Scripts backslash activate. Ab python command aapke project folder ke andar wala Python hai.
       - cmd: pip install httpx==0.28.1
         run: . .venv/bin/activate && pip install --disable-pip-version-check httpx==0.28.1
         keep: "1,-1"
+        prompt: "(.venv) $"
         say: >
-          With the environment active, pip installs packages into it. We install httpx, the HTTP library we will use later in this module,
-          and we pin the exact version, so that your results match mine.
+          Environment active hai, toh pip packages isi mein install karega. Hum httpx install karte hain, HTTP library jo lesson paanch mein use hogi. Aur exact version pin karte hain, taaki aapka result mere jaisa hi aaye.
       - cmd: pip freeze > requirements.txt && head -3 requirements.txt
         run: . .venv/bin/activate && pip freeze > requirements.txt && head -3 requirements.txt
+        prompt: "(.venv) $"
         say: >
-          Finally, pip freeze records the exact versions you installed into a requirements file.
-          Anyone can rebuild the same environment with pip install, dash r, requirements dot text.
+          Aur pip freeze exact versions ko requirements file mein likh deta hai. Koi bhi pip install dash r requirements dot txt se wahi environment dobara bana sakta hai.
 
   - type: callout
     kind: warn
-    title: "Seeing \"externally-managed-environment\" or packages installing in the wrong place?"
-    body: "That means pip is not running inside your virtual environment. Activate `.venv` first, then check with `which python` (macOS/Linux) or `where python` (Windows)."
+    title: "Seeing \"externally-managed-environment\" or packages in the wrong place?"
+    body: "pip is not running inside your virtual environment. Activate `.venv` first, then check with `which python` (macOS/Linux) or `where python` (Windows)."
     say: >
-      One warning. If pip complains about an externally managed environment, or packages seem to vanish,
-      you are almost certainly outside your virtual environment.
-      Activate it again, and check that which python, or where python on Windows, points into your project folder.
+      Ek warning. Agar pip externally managed environment ki shikayat kare, ya packages gaayab lagein, toh aap lagbhag pakka virtual environment ke bahar ho. Dobara activate karo, aur which python, ya Windows par where python, se check karo ki woh project folder ke andar point kar raha hai.
 
   - type: code
     chapter: Project layout
@@ -179,27 +302,100 @@ scenes:
       │   ├── models.py  loader.py  stats.py  report.py ...
       └── tests/              # automated tests with pytest
     say: >
-      This is the project layout we will grow into by the end of the module.
+      Yeh project ka layout hai, jismein hum module ke end tak pahunchenge.
     steps:
       - lines: "2-4"
         say: >
-          At the top: the virtual environment, which is never committed to git, a settings template, and the pinned requirements.
+          Upar: virtual environment, jo kabhi commit nahi hota. Settings ka template, bina secrets ke. Aur pinned requirements.
       - lines: "5-6"
         say: >
-          Configuration and sample data live in their own folders.
+          Configuration aur sample data apne alag folders mein.
       - lines: "7-10"
         say: >
-          The real code lives in a package called toolkit. The special file dunder main lets us run the whole package with python dash m toolkit.
+          Asli code ek package mein hai, jiska naam toolkit hai. Special file dunder main ki wajah se hum poore package ko python dash m toolkit se chala sakte hain.
       - lines: "11"
         say: >
-          And tests live in their own folder. Keeping code, data, configuration, and tests separate is a habit that pays off in every AI project you build.
+          Aur tests apne folder mein. Code, data, configuration, aur tests ko alag rakhna ek aisi aadat hai jo har AI project mein kaam aati hai.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is the difference between a chatbot and an AI agent?"
+        a: "A chatbot answers a message with text. An **agent** works towards a goal in a **loop**: the model decides the next step, the program runs a tool, and the result goes back to the model, until the goal is met or a limit stops it."
+        trap: "Saying \"an agent is a smarter model\". The model can be the same; the loop and the tools make it an agent."
+        say_q: "Interview corner. Pehla question: chatbot aur AI agent mein kya farak hai?"
+        say_a: "Answer: chatbot ek message ka text mein jawaab deta hai. Agent ek goal ki taraf loop mein kaam karta hai: model agla step decide karta hai, program tool chalata hai, aur result wapas model ko jaata hai. Trap: yeh kehna ki agent ek smarter model hai. Model wahi ho sakta hai. Loop aur tools usse agent banate hain."
+      - q: "Does the language model run the tools itself?"
+        a: "No. The model only returns a **decision** (text or a structured tool request). **Your code** validates it and runs the tool, then sends the result back."
+        trap: "Trusting the model's request blindly. Your code is where permissions and checks live."
+        say_q: "Doosra question: kya language model tools khud chalata hai?"
+        say_a: "Answer: nahi. Model sirf ek decision lautaata hai. Aapka code usse check karta hai, tool chalata hai, aur result wapas bhejta hai. Trap: model ki request par aankh band karke bharosa karna. Permissions aur checks aapke code mein hote hain."
+      - q: "Why does every agent loop need a step limit?"
+        a: "A model can repeat itself or never say \"finish\". A **max-steps** limit (and often a time or cost limit) stops runaway loops and runaway API bills."
+        trap: "Writing `while True:` around model calls."
+        say_q: "Teesra question: har agent loop mein step limit kyun chahiye?"
+        say_a: "Answer: model khud ko repeat kar sakta hai, ya kabhi finish bole hi nahi. Max steps ki limit, aur aksar time ya cost ki limit bhi, aise bhaagte loops aur bhaagte API bills ko rokti hai. Trap: model calls ke chaaron taraf while True likh dena."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Video pause karo aur khud try karo.
+    items:
+      - {text: "Name the four steps of the agent loop, in order", say: "Pehla: agent loop ke chaar steps, sahi order mein, bolo."}
+      - {text: "Set `max_steps=2` in `agent_loop.py`. What is printed, and why?", say: "Doosra: agent loop dot py mein max steps ko do karke chalao. Output mein kya aata hai, aur kyun?"}
+      - {text: "Pick a daily task (e.g. booking a cab) and list the goal, the decisions and the tools an agent would need", say: "Teesra: roz ka koi kaam lo, jaise cab book karna. Agent ke liye goal, decisions, aur tools ki list banao."}
+      - {text: "Scenario: an agent keeps calling the same search tool forever. Give two fixes.", say: "Aur scenario: ek agent baar baar wahi search tool call karta ja raha hai. Do fixes batao.", pause: 6}
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "In an AI agent, who actually runs the tool (for example, the calculator)?"
+    options:
+      - "The language model"
+      - "Your Python code"
+      - "The user"
+      - "The operating system, automatically"
+    answer: 1
+    explain: "The model only decides. Your code calls the tool and sends the result back."
+    say_question: >
+      Quick check. AI agent mein tool, jaise calculator, asal mein kaun chalata hai?
+    say_answer: >
+      B, aapka Python code. Model sirf decide karta hai.
+
+  - type: quiz
+    number: 2
+    question: "Which command records the exact package versions of your venv?"
+    options:
+      - "`pip list`"
+      - "`pip freeze > requirements.txt`"
+      - "`python -m venv .venv`"
+      - "`pip install -r requirements.txt`"
+    answer: 1
+    explain: "`pip freeze` prints `name==version` lines; redirecting them makes `requirements.txt`. `install -r` is the other direction: it rebuilds from the file."
+    say_question: >
+      Doosra question. Kaunsi command aapke venv ke exact package versions record karti hai?
+    say_answer: >
+      B, pip freeze, requirements dot txt mein. Aur pip install dash r ulta kaam karta hai: file se environment dobara banata hai.
 
   - type: recap
     chapter: Recap
     heading: Lesson 1 recap
     items:
-      - {text: "An agent decides, acts, observes and repeats, towards a goal", say: "An agent is a program that decides, acts, observes, and repeats, working towards a goal."}
-      - {text: "The model decides; your Python code acts", say: "The model only decides. Your Python code performs the actions."}
-      - {text: "One virtual environment per project, versions pinned", say: "Every project gets its own virtual environment, with pinned versions."}
+      - {text: "An agent works towards a goal: decide, act, observe, repeat", say: "Recap. Agent ek goal ki taraf kaam karta hai: decide, act, observe, aur repeat."}
+      - {text: "The model decides; your Python code acts", say: "Model sirf decide karta hai. Kaam aapka Python code karta hai."}
+      - {text: "Every loop needs a safety limit", say: "Har loop mein ek safety limit zaroori hai."}
+      - {text: "20 modules in 7 parts; Python is the shared language of AI", say: "Bees modules, saat parts. Aur Python AI ki common bhaasha hai."}
+      - {text: "One virtual environment per project, versions pinned", say: "Har project ka apna virtual environment, pinned versions ke saath."}
     outro: >
-      In the next lesson, we write real Python: the data types that every AI application is built from. See you there.
+      Agle lesson mein hum asli Python likhenge: woh data types jinse har AI application bani hoti hai.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 1 · Lesson 2
+    title: Python core data
+    subtitle: Variables, lists, dictionaries and sets, in the shapes AI apps use.
+    say: >
+      Lesson ek complete. Aapne agent loop samjha, aur apna setup check kar liya. Milte hain agle lesson mein.

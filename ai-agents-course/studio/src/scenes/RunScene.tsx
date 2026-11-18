@@ -12,8 +12,8 @@ import { CodeState, CodeView, codeFont, scrollFor, Tokens, visibleLines, Window 
 type Step = { hl: number[]; ohl?: number[]; note?: string; tone?: string };
 
 const outColor = (line: string) => {
-  if (/^\s*(x |error|Error|Traceback|E |FAILED)/.test(line) || /Error:/.test(line)) return C.coral;
-  if (/passed|^# /.test(line)) return C.teal;
+  if (/^\s*(x |error|Error|Traceback|E |FAILED)/.test(line) || /Error:/.test(line)) return C.codeErr;
+  if (/passed|^# /.test(line)) return C.codeOk;
   return C.codeText;
 };
 
@@ -100,10 +100,10 @@ export const RunScene: React.FC<{ scene: SceneBase }> = ({ scene }) => {
         <Window title="output" accent={C.blue} badge={frame >= outAt ? "ran" : undefined} style={{ width: rightW, opacity: appear(frame, 10, 22) }}>
           <div style={{ height: panelH, overflow: "hidden", padding: "20px 28px", fontFamily: MONO, fontSize: tfs }}>
             <div style={{ height: lh, whiteSpace: "pre", display: "flex", alignItems: "center" }}>
-              <span style={{ color: C.teal, marginRight: 14 }}>{s.prompt ?? "$"}</span>
-              <span style={{ color: C.text }}>{s.cmd.slice(0, typed)}</span>
+              <span style={{ color: C.codePrompt, marginRight: 14 }}>{s.prompt ?? "$"}</span>
+              <span style={{ color: C.codeCmd }}>{s.cmd.slice(0, typed)}</span>
               {typed < s.cmd.length || frame < outAt ? (
-                <span style={{ width: tfs * 0.6, height: tfs * 1.1, background: C.teal, opacity: typed < s.cmd.length || cursorOn ? 0.8 : 0 }} />
+                <span style={{ width: tfs * 0.6, height: tfs * 1.1, background: C.codePrompt, opacity: typed < s.cmd.length || cursorOn ? 0.8 : 0 }} />
               ) : null}
             </div>
             {visible.slice(scroll, scroll + termLines).map((r, i) => {

@@ -1,505 +1,1119 @@
 1
-00:00:00,700 --> 00:00:04,561
-Welcome to AI Agents with
-Python, Beginner to Production.
+00:00:00,700 --> 00:00:03,178
+Namaste, aur swagat hai Module ek mein.
 
 2
-00:00:04,781 --> 00:00:10,293
-Over this course you will go from
-writing your first Python data structures to
+00:00:03,398 --> 00:00:08,078
+Module zero mein humne terminal,
+virtual environment, aur Git seekha.
 
 3
-00:00:10,293 --> 00:00:16,159
-deploying a full AI agent application
-with authentication, retrieval, tools, tests,
+00:00:08,298 --> 00:00:10,321
+Ab asli safar shuru hota hai.
 
 4
-00:00:16,159 --> 00:00:17,219
-and monitoring.
+00:00:10,541 --> 00:00:15,808
+Iss course mein aap Python ke basic
+data structures se lekar, ek poora AI agent
 
 5
-00:00:17,439 --> 00:00:22,879
-This first lesson explains what an agent
-actually is, how the course works, and then
+00:00:15,808 --> 00:00:21,342
+application production tak le jaoge:
+tools, memory, retrieval, tests, security, aur
 
 6
-00:00:22,879 --> 00:00:25,145
-gets your Python environment ready.
+00:00:21,342 --> 00:00:22,675
+deployment ke saath.
 
 7
-00:00:26,445 --> 00:00:31,417
-Let's start with a precise definition,
-because the word agent is used loosely.
+00:00:22,895 --> 00:00:27,918
+Aur yeh pehla lesson batata hai ki AI
+agent asal mein hota kya hai, course kaise
 
 8
-00:00:31,767 --> 00:00:36,360
-An AI agent is a program that is
-given a goal, not a fixed script.
+00:00:27,918 --> 00:00:31,057
+chalega, aur aapka
+Python setup ready hai ya nahi.
 
 9
-00:00:36,580 --> 00:00:41,478
-You describe what you want, for example,
-research this topic and write me a brief.
+00:00:32,357 --> 00:00:37,923
+Iss lesson ke baad aap explain kar paoge
+ki AI agent kya hai, aur chatbot se kaise
 
 10
-00:00:41,828 --> 00:00:45,971
-The program asks a language
-model to decide what to do next.
+00:00:37,923 --> 00:00:38,534
+alag hai.
 
 11
-00:00:46,191 --> 00:00:48,874
-The model does not run anything by itself.
+00:00:38,884 --> 00:00:42,569
+Agent loop samjhoge:
+decide, act, observe, aur repeat.
 
 12
-00:00:49,094 --> 00:00:53,936
-It only returns a decision, as
-text or as a structured tool request.
+00:00:42,919 --> 00:00:46,617
+Plain Python mein likha ek
+chhota sa agent loop chalaoge.
 
 13
-00:00:54,286 --> 00:00:59,809
-Your Python code then performs that
-action with a tool, such as a web search, a
+00:00:46,967 --> 00:00:51,117
+Poore course ka map, aur har
+module kaise chalta hai, woh jaanoge.
 
 14
-00:00:59,809 --> 00:01:04,842
-database query, or a calculator,
-and feeds the result back to the model.
+00:00:51,467 --> 00:00:55,067
+Aur iss module ke liye
+apna Python setup check karoge.
 
 15
-00:01:05,192 --> 00:01:06,644
-This repeats in a loop.
+00:00:56,367 --> 00:00:58,388
+Pehle what: AI agent kya hai?
 
 16
-00:01:06,864 --> 00:01:12,338
-Decide, act, observe, and continue,
-until the goal is reached or a safety limit
+00:00:58,608 --> 00:01:00,644
+Ek naya, smart intern socho.
 
 17
-00:01:12,338 --> 00:01:12,962
-stops it.
+00:01:00,864 --> 00:01:03,296
+Aap usse step by step script nahi dete.
 
 18
-00:01:13,182 --> 00:01:17,983
-That loop is the heart of every agent
-in this course, and you will build it from
+00:01:03,516 --> 00:01:08,076
+Aap ek goal dete ho: agle Friday
+Goa ki sabse sasti flight dhoondo.
 
 19
-00:01:17,983 --> 00:01:19,183
-scratch in Module 4.
+00:01:08,426 --> 00:01:10,678
+Intern hai aapka Python program.
 
 20
-00:01:20,483 --> 00:01:23,106
-Here is how the
-eighteen modules fit together.
+00:01:11,028 --> 00:01:15,094
+Senior, jo batata hai ki agla
+step kya ho, woh hai language model.
 
 21
-00:01:23,456 --> 00:01:29,447
-Part one builds your foundations: Python
-for AI work, calling language model APIs,
+00:01:15,444 --> 00:01:18,239
+Browser, phone, aur
+spreadsheet, yeh sab tools hain.
 
 22
-00:01:29,447 --> 00:01:33,612
-and prompt engineering with
-validated, structured output.
+00:01:18,589 --> 00:01:22,957
+Aur aapka instruction, bees minute
+mein ruk jaana, woh hai safety limit.
 
 23
-00:01:33,962 --> 00:01:39,863
-Part two builds agents from scratch, with
-no framework hiding the details: the loop,
+00:01:23,307 --> 00:01:26,021
+Yaad rakhna: senior khud kuch nahi karta.
 
 24
-00:01:39,863 --> 00:01:43,305
-tool calling, memory,
-and making agents reliable.
+00:01:26,241 --> 00:01:27,740
+Woh sirf bataata hai.
 
 25
-00:01:43,655 --> 00:01:49,412
-Part three connects agents to knowledge
-and tools, with the Model Context Protocol,
+00:01:27,960 --> 00:01:29,526
+Kaam intern karta hai.
 
 26
-00:01:49,412 --> 00:01:52,672
-embeddings, and
-retrieval-augmented generation.
+00:01:29,746 --> 00:01:35,433
+AI agent mein bhi model sirf decide karta
+hai, aur kaam aapka Python code karta hai.
 
 27
-00:01:53,022 --> 00:01:59,170
-Part four covers orchestration:
-LangGraph workflows, multi-agent systems, and web
+00:01:36,733 --> 00:01:38,637
+Ab yahi baat ek diagram mein.
 
 28
-00:01:59,170 --> 00:02:00,384
-research agents.
+00:01:38,987 --> 00:01:43,250
+AI agent ek program hai jise
+goal milta hai, fixed script nahi.
 
 29
-00:02:00,734 --> 00:02:05,818
-Part five is about quality and
-security: testing and evaluating agents, and
+00:01:43,470 --> 00:01:48,686
+Aap batate ho ki kya chahiye, jaise:
+iss topic par research karo aur ek chhota
 
 30
-00:02:05,818 --> 00:02:09,546
-defending them against
-prompt injection and data leaks.
+00:01:48,686 --> 00:01:49,622
+summary likho.
 
 31
-00:02:09,896 --> 00:02:16,072
-And part six takes everything to
-production, with FastAPI, Docker, monitoring, and a
+00:01:49,972 --> 00:01:53,256
+Program language model se
+poochta hai: ab kya karun?
 
 32
-00:02:16,072 --> 00:02:19,381
-full-stack AI
-workspace as the final project.
+00:01:53,476 --> 00:01:55,603
+Model khud kuch run nahi karta.
 
 33
-00:02:20,681 --> 00:02:25,149
-Every module follows the same
-rhythm, so you always know where you are.
+00:01:55,823 --> 00:02:00,763
+Woh sirf ek decision wapas bhejta hai,
+text ke roop mein, ya ek structured tool
 
 34
-00:02:25,499 --> 00:02:30,453
-First, the concepts, explained from
-zero, with small examples you can run.
+00:02:00,763 --> 00:02:02,077
+request ke roop mein.
 
 35
-00:02:30,803 --> 00:02:33,471
-Then a real project, built step by step.
+00:02:02,426 --> 00:02:05,901
+Phir aapka Python code woh
+action ek tool se karta hai.
 
 36
-00:02:33,691 --> 00:02:34,702
-Not a teaser.
+00:02:06,121 --> 00:02:09,339
+Jaise web search,
+database query, ya calculator.
 
 37
-00:02:34,922 --> 00:02:38,733
-Complete code, tests, and a
-README you can run yourself.
+00:02:09,559 --> 00:02:11,956
+Aur result wapas model ko bhejta hai.
 
 38
-00:02:39,083 --> 00:02:42,632
-Next, the errors people
-actually hit, and how to fix them.
+00:02:12,306 --> 00:02:14,009
+Yeh ek loop mein chalta hai.
 
 39
-00:02:42,982 --> 00:02:47,953
-And finally, a recap, a short quiz
-with explained answers, and an extension
+00:02:14,229 --> 00:02:16,339
+Decide, act, observe, aur phir se.
 
 40
-00:02:47,953 --> 00:02:50,338
-challenge if you want to go further.
+00:02:16,559 --> 00:02:20,212
+Jab tak goal poora na ho,
+ya koi safety limit na rok de.
 
 41
-00:02:51,638 --> 00:02:52,858
-Now, Module 1.
+00:02:20,432 --> 00:02:23,048
+Yahi loop iss course
+ke har agent ka dil hai.
 
 42
-00:02:53,078 --> 00:02:58,898
-Agents are software, so before we touch
-a language model, you need the Python that
+00:02:23,268 --> 00:02:26,492
+Module chaar mein aap
+isse bilkul shuru se banaoge.
 
 43
-00:02:58,898 --> 00:03:00,956
-AI engineering actually uses.
+00:02:27,792 --> 00:02:30,697
+Ab ek important farak: chatbot aur agent.
 
 44
-00:03:01,306 --> 00:03:06,996
-You will work with the core data types,
-lists, dictionaries, and sets, in the shapes
+00:02:30,917 --> 00:02:34,487
+Chatbot ek sawaal leta hai
+aur ek text jawaab deta hai.
 
 45
-00:03:06,996 --> 00:03:09,028
-AI applications use every day.
+00:02:34,707 --> 00:02:39,743
+Jo uski training mein tha, bas wahi
+jaanta hai, aur chat ke bahar kuch nahi kar
 
 46
-00:03:09,378 --> 00:03:13,670
-You will write functions and
-classes, and handle errors with exceptions.
+00:02:39,743 --> 00:02:40,125
+sakta.
 
 47
-00:03:14,020 --> 00:03:19,966
-You will organise code into modules and
-packages, read and write files and JSON, and
+00:02:40,475 --> 00:02:43,723
+Agent ko goal milta hai,
+aur woh kai steps leta hai.
 
 48
-00:03:19,966 --> 00:03:22,726
-keep settings in environment variables.
+00:02:43,943 --> 00:02:48,656
+Tools se cheezein dhoondhta hai,
+files padhta hai, APIs call karta hai.
 
 49
-00:03:23,076 --> 00:03:28,795
-And you will add type hints, make HTTP
-requests, and get a first, practical look at
+00:02:48,876 --> 00:02:51,579
+Chatbot bataata hai
+ki refund policy kya hai.
 
 50
-00:03:28,795 --> 00:03:29,897
-async and await.
+00:02:51,799 --> 00:02:55,526
+Agent aapka order dhoondh
+kar refund shuru kar deta hai.
 
 51
-00:03:31,197 --> 00:03:35,982
-Everything comes together in this
-module's project, the Python AI Toolkit.
+00:02:56,826 --> 00:02:59,076
+Ab where: agents kahan use hote hain?
 
 52
-00:03:36,202 --> 00:03:42,348
-It is a command line tool that reads a
-log of language model API calls, validates
+00:02:59,296 --> 00:03:04,708
+Customer support mein: ticket solve
+karna, order database aur refund API ke saath.
 
 53
-00:03:42,348 --> 00:03:45,079
-every record, and produces a report.
+00:03:05,058 --> 00:03:07,450
+Coding mein: ek failing test theek karna.
 
 54
-00:03:45,429 --> 00:03:46,871
-Here is the finished tool.
+00:03:07,670 --> 00:03:12,048
+Agent files padhta hai, tests
+chalata hai, aur code edit karta hai.
 
 55
-00:03:47,091 --> 00:03:52,806
-The validate command checks every record
-and explains exactly what is wrong, like a
+00:03:12,398 --> 00:03:17,228
+Research mein: ek chhota brief
+likhna, web search aur PDF reader ke saath.
 
 56
-00:03:52,806 --> 00:03:55,422
-negative token count, or a missing id.
+00:03:17,578 --> 00:03:22,779
+Aur data mein: business ka koi sawaal
+answer karna, SQL queries aur charts se.
 
 57
-00:03:55,772 --> 00:04:01,587
-And the report command summarises a
-clean log: requests, success rate, tokens,
+00:03:23,129 --> 00:03:28,464
+Inn sab mein pattern ek hi hai: goal,
+model ka decision, tool ka action, aur result.
 
 58
-00:04:01,587 --> 00:04:03,674
-estimated cost, and latency.
+00:03:28,684 --> 00:03:31,808
+Iss course mein aap inme
+se kai agents khud banaoge.
 
 59
-00:04:03,894 --> 00:04:07,353
-By the end of this module, you
-will have written every line of it.
+00:03:33,108 --> 00:03:35,509
+Ab how: loop asal mein dikhta kaisa hai?
 
 60
-00:04:08,653 --> 00:04:13,712
-To follow along you need a
-computer running Windows, macOS, or Linux.
+00:03:35,729 --> 00:03:38,154
+Yeh tees lines ka Python program hai.
 
 61
-00:04:14,062 --> 00:04:16,690
-You need Python 3.11 or newer.
+00:03:38,374 --> 00:03:42,269
+Goal hai: twenty three into
+nineteen, plus seven, kitna hota hai?
 
 62
-00:04:16,910 --> 00:04:19,598
-I am recording with Python 3.13.
+00:03:42,489 --> 00:03:44,682
+Dhyaan do: yahan model ek fake hai.
 
 63
-00:04:19,948 --> 00:04:21,012
-A code editor.
+00:03:44,902 --> 00:03:47,759
+Do fixed rules, real language model nahi.
 
 64
-00:04:21,232 --> 00:04:25,829
-VS Code with the official
-Python extension is a good free choice.
+00:03:47,979 --> 00:03:50,120
+Real model Module do mein aayega.
 
 65
-00:04:26,179 --> 00:04:28,161
-And no AI experience at all.
+00:03:50,340 --> 00:03:52,131
+Abhi sirf loop samajhna hai.
 
 66
-00:04:28,381 --> 00:04:33,450
-If you have written a little code in any
-language, that helps, but every concept is
+00:03:52,481 --> 00:03:54,376
+Pehla function, fake model.
 
 67
-00:04:33,450 --> 00:04:34,610
-explained as we go.
+00:03:54,596 --> 00:03:57,229
+Yeh decide karta hai ki agla step kya ho.
 
 68
-00:04:35,910 --> 00:04:37,782
-Let's set up a clean workspace.
+00:03:57,449 --> 00:04:02,398
+Agar abhi tak koi note nahi hai, toh
+calculator se twenty three into nineteen
 
 69
-00:04:38,002 --> 00:04:40,354
-Open a terminal in an empty folder.
+00:04:02,398 --> 00:04:02,847
+karwao.
 
 70
-00:04:40,704 --> 00:04:42,518
-First, check your Python version.
+00:04:03,067 --> 00:04:05,154
+Ek note hai, toh usme saat jodo.
 
 71
-00:04:42,738 --> 00:04:46,356
-On Windows the command is
-usually just python, or py.
+00:04:05,374 --> 00:04:06,495
+Warna finish.
 
 72
-00:04:46,576 --> 00:04:49,160
-Anything from 3.11 up is fine.
+00:04:06,845 --> 00:04:08,923
+Doosra function, calculator.
 
 73
-00:04:49,510 --> 00:04:51,668
-Next, create a virtual environment.
+00:04:09,143 --> 00:04:10,214
+Yeh tool hai.
 
 74
-00:04:51,888 --> 00:04:57,473
-This makes a private folder, called dot
-venv, with its own copy of Python and its
+00:04:10,434 --> 00:04:15,351
+Kaam yahi karta hai: do numbers aur ek
+operator leta hai, aur result deta hai.
 
 75
-00:04:57,473 --> 00:04:59,059
-own installed packages.
+00:04:15,701 --> 00:04:17,557
+Ab asli cheez, run agent.
 
 76
-00:04:59,279 --> 00:05:04,530
-Every project gets one, so the
-libraries of one project can never break another.
+00:04:17,777 --> 00:04:20,321
+Ek for loop, zyaada
+se zyaada paanch steps.
 
 77
-00:05:04,880 --> 00:05:05,728
-Activate it.
+00:04:20,541 --> 00:04:24,632
+Har step mein pehle decide:
+model se poocho ki ab kya karna hai.
 
 78
-00:05:05,948 --> 00:05:11,313
-On macOS and Linux, use source,
-dot venv, slash bin, slash activate.
+00:04:24,982 --> 00:04:26,691
+Phir act: tool ko call karo.
 
 79
-00:05:11,533 --> 00:05:15,974
-On Windows, run dot venv,
-backslash Scripts, backslash activate.
+00:04:26,911 --> 00:04:31,936
+Aur observe: result ko notes mein rakh
+lo, taaki agli baar model use dekh sake.
 
 80
-00:05:16,194 --> 00:05:19,884
-Now, the python command
-points inside your project folder.
+00:04:32,156 --> 00:04:37,345
+Right side par dekho: step ek mein four
+thirty seven, step do mein four forty four.
 
 81
-00:05:20,234 --> 00:05:24,125
-With the environment active,
-pip installs packages into it.
+00:04:37,695 --> 00:04:40,049
+Step teen mein model kehta hai finish.
 
 82
-00:05:24,345 --> 00:05:31,368
-We install httpx, the HTTP library we
-will use later in this module, and we pin the
+00:04:40,269 --> 00:04:43,306
+Loop answer return
+karta hai: four forty four.
 
 83
-00:05:31,368 --> 00:05:35,345
-exact version, so that
-your results match mine.
+00:04:43,656 --> 00:04:45,920
+Aur aakhri line bahut important hai.
 
 84
-00:05:35,695 --> 00:05:40,956
-Finally, pip freeze records the exact
-versions you installed into a requirements
+00:04:46,140 --> 00:04:49,710
+Agar paanch steps mein kaam
+poora na ho, toh loop ruk jaata hai.
 
 85
-00:05:40,956 --> 00:05:41,285
-file.
+00:04:49,930 --> 00:04:55,277
+Real agents mein yeh safety limit
+zaroori hai, warna galti se ek agent hamesha
 
 86
-00:05:41,505 --> 00:05:47,507
-Anyone can rebuild the same environment
-with pip install, dash r, requirements dot
+00:04:55,277 --> 00:04:58,843
+chalta reh sakta hai, aur
+API ka bill badhta rahega.
 
 87
-00:05:47,507 --> 00:05:47,873
-text.
+00:05:00,143 --> 00:05:05,159
+Pause and try. fake model mein numbers
+badlo, jaise twelve into twelve, plus ek.
 
 88
-00:05:49,173 --> 00:05:50,137
-One warning.
+00:05:05,379 --> 00:05:08,054
+Enter dabane se pehle output guess karo.
 
 89
-00:05:50,357 --> 00:05:55,730
-If pip complains about an externally
-managed environment, or packages seem to
+00:05:08,404 --> 00:05:10,289
+Phir max steps ko do kar do.
 
 90
-00:05:55,730 --> 00:06:00,335
-vanish, you are almost certainly
-outside your virtual environment.
+00:05:10,509 --> 00:05:11,464
+Kya hoga?
 
 91
-00:06:00,555 --> 00:06:05,895
-Activate it again, and check that which
-python, or where python on Windows, points
+00:05:11,684 --> 00:05:13,474
+Socho, phir chala ke dekho.
 
 92
-00:06:05,895 --> 00:06:07,523
-into your project folder.
+00:05:19,774 --> 00:05:21,643
+Ab poora course ek nazar mein.
 
 93
-00:06:08,823 --> 00:06:13,567
-This is the project layout we will
-grow into by the end of the module.
+00:05:21,863 --> 00:05:26,541
+Bees modules, Module zero se
+Module unnees tak, saat parts mein.
 
 94
-00:06:13,917 --> 00:06:18,944
-At the top: the virtual environment,
-which is never committed to git, a settings
+00:05:26,891 --> 00:05:29,673
+Start here: Module zero, developer setup.
 
 95
-00:06:18,944 --> 00:06:21,331
-template, and the pinned requirements.
+00:05:29,893 --> 00:05:31,375
+Woh aap kar chuke ho.
 
 96
-00:06:21,681 --> 00:06:25,552
-Configuration and sample
-data live in their own folders.
+00:05:31,725 --> 00:05:36,799
+Part ek, foundations: Python,
+language model APIs, aur prompt engineering.
 
 97
-00:06:25,902 --> 00:06:28,978
-The real code lives in
-a package called toolkit.
+00:05:37,019 --> 00:05:38,401
+Hum abhi yahin hain.
 
 98
-00:06:29,198 --> 00:06:34,232
-The special file dunder main lets us
-run the whole package with python dash m
+00:05:38,751 --> 00:05:42,473
+Part do: agents bilkul
+shuru se, bina kisi framework ke.
 
 99
-00:06:34,232 --> 00:06:34,755
-toolkit.
+00:05:42,693 --> 00:05:45,002
+Loop, tools, memory, aur reliability.
 
 100
-00:06:35,105 --> 00:06:37,080
-And tests live in their own folder.
+00:05:45,352 --> 00:05:47,234
+Part teen: knowledge aur tools.
 
 101
-00:06:37,300 --> 00:06:43,226
-Keeping code, data, configuration, and
-tests separate is a habit that pays off in
+00:05:47,454 --> 00:05:49,381
+MCP, embeddings, aur RAG.
 
 102
-00:06:43,226 --> 00:06:45,201
-every AI project you build.
+00:05:49,731 --> 00:05:51,420
+Part chaar: orchestration.
 
 103
-00:06:46,501 --> 00:06:52,190
-An agent is a program that decides,
-acts, observes, and repeats, working towards a
+00:05:51,640 --> 00:05:55,636
+LangGraph, multi agent
+systems, aur web research agents.
 
 104
-00:06:52,190 --> 00:06:52,537
-goal.
+00:05:55,986 --> 00:05:58,195
+Part paanch: quality aur security.
 
 105
-00:06:52,887 --> 00:06:54,558
-The model only decides.
+00:05:58,415 --> 00:06:02,998
+Agents ko test aur evaluate
+karna, aur prompt injection se bachana.
 
 106
-00:06:54,778 --> 00:06:57,171
-Your Python code performs the actions.
+00:06:03,348 --> 00:06:04,748
+Part chhe: production.
 
 107
-00:06:57,521 --> 00:07:02,090
-Every project gets its own
-virtual environment, with pinned versions.
+00:06:04,968 --> 00:06:09,444
+FastAPI, Docker, monitoring,
+aur ek full stack AI application.
 
 108
-00:07:02,440 --> 00:07:08,058
-In the next lesson, we write real
-Python: the data types that every AI application
+00:06:09,794 --> 00:06:11,289
+Aur part saat: career.
 
 109
-00:07:08,058 --> 00:07:09,017
-is built from.
+00:06:11,509 --> 00:06:15,341
+Aapka AI engineer
+portfolio, aur interviews ki tayyari.
 
 110
-00:07:09,237 --> 00:07:10,100
-See you there.
+00:06:16,641 --> 00:06:22,004
+Har module ek hi rhythm follow karta hai,
+taaki aapko hamesha pata rahe ki aap kahan
+
+111
+00:06:22,004 --> 00:06:22,196
+ho.
+
+112
+00:06:22,546 --> 00:06:26,173
+Pehle concepts, bilkul zero
+se: what, why, how, aur where.
+
+113
+00:06:26,393 --> 00:06:31,500
+Ek real life analogy ke saath, aur
+chhote examples jo aap khud chala sako.
+
+114
+00:06:31,850 --> 00:06:34,248
+Phir ek real project, step by step.
+
+115
+00:06:34,468 --> 00:06:35,794
+Sirf teaser nahi.
+
+116
+00:06:36,014 --> 00:06:37,859
+Poora code, tests, aur README.
+
+117
+00:06:38,209 --> 00:06:42,448
+Phir woh errors jo log sach mein
+dekhte hain, aur unhe theek kaise karein.
+
+118
+00:06:42,798 --> 00:06:47,629
+Aur end mein interview corner,
+practice questions, quick quiz, aur ek extension
+
+119
+00:06:47,629 --> 00:06:48,241
+challenge.
+
+120
+00:06:48,461 --> 00:06:51,395
+Answers module ki
+quiz dot md file mein hain.
+
+121
+00:06:52,695 --> 00:06:53,913
+Ab why Python?
+
+122
+00:06:54,133 --> 00:06:58,938
+Ek bade office ke baare mein socho,
+jahan log alag alag bhaashaayein bolte hain,
+
+123
+00:06:58,938 --> 00:07:03,683
+lekin meeting ek common bhaasha mein
+hoti hai, taaki sab saath kaam kar sakein.
+
+124
+00:07:03,903 --> 00:07:06,771
+AI ki duniya mein woh
+common bhaasha Python hai.
+
+125
+00:07:08,071 --> 00:07:11,629
+Language model ko call
+karna, official SDKs se.
+
+126
+00:07:11,849 --> 00:07:12,925
+Module do.
+
+127
+00:07:13,275 --> 00:07:17,183
+Model ke structured output
+ko validate karna, Pydantic se.
+
+128
+00:07:17,403 --> 00:07:18,559
+Module teen.
+
+129
+00:07:18,909 --> 00:07:21,436
+Agent workflows banana, LangGraph se.
+
+130
+00:07:21,656 --> 00:07:22,933
+Module gyaarah.
+
+131
+00:07:23,283 --> 00:07:27,136
+Agent ko ek API ki
+tarah chalana, FastAPI se.
+
+132
+00:07:27,356 --> 00:07:28,555
+Module solah.
+
+133
+00:07:28,905 --> 00:07:32,214
+Aur sab kuch test karna,
+pytest se, har module mein.
+
+134
+00:07:32,564 --> 00:07:37,806
+Inn sab ki neev wahi Python hai jo
+iss module mein seekhoge: data, functions,
+
+135
+00:07:37,806 --> 00:07:40,937
+classes, files, type
+hints, aur HTTP requests.
+
+136
+00:07:42,237 --> 00:07:44,276
+Toh Module ek mein kya seekhenge?
+
+137
+00:07:44,496 --> 00:07:46,113
+Agents software hi hain.
+
+138
+00:07:46,333 --> 00:07:51,456
+Isliye language model ko chhoone se
+pehle, aapko woh Python aani chahiye jo AI
+
+139
+00:07:51,456 --> 00:07:54,083
+engineering mein sach mein use hoti hai.
+
+140
+00:07:54,433 --> 00:07:57,254
+Core data types:
+lists, dictionaries, aur sets.
+
+141
+00:07:57,474 --> 00:08:01,080
+Usi shape mein jaise AI
+applications roz use karti hain.
+
+142
+00:08:01,430 --> 00:08:05,702
+Functions aur classes likhna, aur
+exceptions se errors handle karna.
+
+143
+00:08:06,052 --> 00:08:11,596
+Code ko modules aur packages mein
+organise karna, files aur JSON padhna likhna, aur
+
+144
+00:08:11,596 --> 00:08:14,468
+settings environment
+variables mein rakhna.
+
+145
+00:08:14,818 --> 00:08:20,112
+Aur type hints, HTTP requests, aur
+async await ki pehli practical jhalak.
+
+146
+00:08:21,412 --> 00:08:26,013
+Yeh sab iss module ke project
+mein judta hai: Python AI Toolkit.
+
+147
+00:08:26,233 --> 00:08:31,612
+Yeh ek command line tool hai jo
+language model API calls ka log padhta hai, har
+
+148
+00:08:31,612 --> 00:08:35,153
+record validate karta
+hai, aur ek report banata hai.
+
+149
+00:08:35,503 --> 00:08:36,996
+Yeh raha finished tool.
+
+150
+00:08:37,216 --> 00:08:42,117
+Validate command har record check karta
+hai aur saaf batata hai ki kya galat hai.
+
+151
+00:08:42,337 --> 00:08:45,290
+Jaise negative token count, ya missing id.
+
+152
+00:08:45,510 --> 00:08:47,845
+Aur galti milne par exit code ek.
+
+153
+00:08:48,195 --> 00:08:53,889
+Aur report command ek clean log ka
+summary deta hai: kitni requests, success rate,
+
+154
+00:08:53,889 --> 00:08:56,389
+tokens, estimated cost, aur latency.
+
+155
+00:08:56,609 --> 00:09:00,494
+Module ke end tak iski har
+line aap khud likh chuke hoge.
+
+156
+00:09:01,794 --> 00:09:03,758
+Iss module ke liye kya chahiye?
+
+157
+00:09:03,978 --> 00:09:07,184
+Pehla, Module zero:
+terminal, Python, aur Git.
+
+158
+00:09:07,404 --> 00:09:09,133
+Ya yahi skills kahin aur se.
+
+159
+00:09:09,483 --> 00:09:11,901
+Python three point eleven ya usse naya.
+
+160
+00:09:12,121 --> 00:09:15,399
+Mai three point thirteen
+ke saath record kar rahi hoon.
+
+161
+00:09:15,749 --> 00:09:16,944
+Ek code editor.
+
+162
+00:09:17,164 --> 00:09:22,038
+VS Code, official Python extension
+ke saath, ek achha free option hai.
+
+163
+00:09:22,388 --> 00:09:24,922
+Aur AI ka koi experience nahi chahiye.
+
+164
+00:09:25,142 --> 00:09:27,691
+Har concept saath saath samjhaya jaayega.
+
+165
+00:09:28,991 --> 00:09:30,638
+Ab ek quick setup check.
+
+166
+00:09:30,858 --> 00:09:35,211
+Yeh sab Module zero mein detail
+mein kiya tha, isliye yahan jaldi se.
+
+167
+00:09:35,431 --> 00:09:37,750
+Ek khaali folder mein terminal kholo.
+
+168
+00:09:38,100 --> 00:09:39,881
+Pehle Python ka version.
+
+169
+00:09:40,101 --> 00:09:42,644
+Windows par aksar sirf python, ya py.
+
+170
+00:09:42,864 --> 00:09:45,605
+Three point eleven se
+upar kuch bhi chalega.
+
+171
+00:09:45,955 --> 00:09:47,739
+Phir virtual environment.
+
+172
+00:09:47,959 --> 00:09:52,999
+Har project ka apna, taaki ek project
+ki libraries doosre ko kabhi na todein.
+
+173
+00:09:53,349 --> 00:09:54,532
+Activate karo.
+
+174
+00:09:54,752 --> 00:09:58,776
+Mac aur Linux par source dot
+venv slash bin slash activate.
+
+175
+00:09:58,996 --> 00:10:02,653
+Windows par dot venv
+backslash Scripts backslash activate.
+
+176
+00:10:02,873 --> 00:10:07,316
+Ab python command aapke project
+folder ke andar wala Python hai.
+
+177
+00:10:07,666 --> 00:10:11,654
+Environment active hai, toh pip
+packages isi mein install karega.
+
+178
+00:10:11,874 --> 00:10:17,489
+Hum httpx install karte hain, HTTP
+library jo lesson paanch mein use hogi.
+
+179
+00:10:17,709 --> 00:10:22,212
+Aur exact version pin karte hain,
+taaki aapka result mere jaisa hi aaye.
+
+180
+00:10:22,562 --> 00:10:26,874
+Aur pip freeze exact versions ko
+requirements file mein likh deta hai.
+
+181
+00:10:27,094 --> 00:10:32,736
+Koi bhi pip install dash r
+requirements dot txt se wahi environment dobara bana
+
+182
+00:10:32,736 --> 00:10:33,450
+sakta hai.
+
+183
+00:10:34,750 --> 00:10:35,690
+Ek warning.
+
+184
+00:10:35,910 --> 00:10:41,461
+Agar pip externally managed environment
+ki shikayat kare, ya packages gaayab lagein,
+
+185
+00:10:41,461 --> 00:10:45,030
+toh aap lagbhag pakka
+virtual environment ke bahar ho.
+
+186
+00:10:45,250 --> 00:10:50,476
+Dobara activate karo, aur which python,
+ya Windows par where python, se check karo
+
+187
+00:10:50,476 --> 00:10:53,663
+ki woh project folder ke
+andar point kar raha hai.
+
+188
+00:10:54,963 --> 00:10:59,361
+Yeh project ka layout hai,
+jismein hum module ke end tak pahunchenge.
+
+189
+00:10:59,711 --> 00:11:03,249
+Upar: virtual
+environment, jo kabhi commit nahi hota.
+
+190
+00:11:03,469 --> 00:11:05,882
+Settings ka template, bina secrets ke.
+
+191
+00:11:06,102 --> 00:11:07,609
+Aur pinned requirements.
+
+192
+00:11:07,959 --> 00:11:11,511
+Configuration aur sample
+data apne alag folders mein.
+
+193
+00:11:11,861 --> 00:11:15,282
+Asli code ek package mein
+hai, jiska naam toolkit hai.
+
+194
+00:11:15,502 --> 00:11:20,803
+Special file dunder main ki wajah se hum
+poore package ko python dash m toolkit se
+
+195
+00:11:20,803 --> 00:11:21,902
+chala sakte hain.
+
+196
+00:11:22,252 --> 00:11:24,157
+Aur tests apne folder mein.
+
+197
+00:11:24,377 --> 00:11:29,888
+Code, data, configuration, aur tests
+ko alag rakhna ek aisi aadat hai jo har AI
+
+198
+00:11:29,888 --> 00:11:31,772
+project mein kaam aati hai.
+
+199
+00:11:33,072 --> 00:11:34,366
+Interview corner.
+
+200
+00:11:34,586 --> 00:11:38,205
+Pehla question: chatbot aur
+AI agent mein kya farak hai?
+
+201
+00:11:40,555 --> 00:11:44,113
+Answer: chatbot ek message
+ka text mein jawaab deta hai.
+
+202
+00:11:44,333 --> 00:11:49,670
+Agent ek goal ki taraf loop mein kaam
+karta hai: model agla step decide karta hai,
+
+203
+00:11:49,670 --> 00:11:53,705
+program tool chalata hai, aur
+result wapas model ko jaata hai.
+
+204
+00:11:53,925 --> 00:11:57,035
+Trap: yeh kehna ki
+agent ek smarter model hai.
+
+205
+00:11:57,255 --> 00:11:58,913
+Model wahi ho sakta hai.
+
+206
+00:11:59,133 --> 00:12:01,603
+Loop aur tools usse agent banate hain.
+
+207
+00:12:01,953 --> 00:12:05,581
+Doosra question: kya
+language model tools khud chalata hai?
+
+208
+00:12:07,931 --> 00:12:09,026
+Answer: nahi.
+
+209
+00:12:09,246 --> 00:12:11,533
+Model sirf ek decision lautaata hai.
+
+210
+00:12:11,753 --> 00:12:16,721
+Aapka code usse check karta hai, tool
+chalata hai, aur result wapas bhejta hai.
+
+211
+00:12:16,941 --> 00:12:20,685
+Trap: model ki request par
+aankh band karke bharosa karna.
+
+212
+00:12:20,905 --> 00:12:23,565
+Permissions aur checks
+aapke code mein hote hain.
+
+213
+00:12:23,915 --> 00:12:27,634
+Teesra question: har agent
+loop mein step limit kyun chahiye?
+
+214
+00:12:29,984 --> 00:12:34,494
+Answer: model khud ko repeat kar
+sakta hai, ya kabhi finish bole hi nahi.
+
+215
+00:12:34,714 --> 00:12:40,057
+Max steps ki limit, aur aksar time ya
+cost ki limit bhi, aise bhaagte loops aur
+
+216
+00:12:40,057 --> 00:12:42,154
+bhaagte API bills ko rokti hai.
+
+217
+00:12:42,374 --> 00:12:45,613
+Trap: model calls ke
+chaaron taraf while True likh dena.
+
+218
+00:12:46,913 --> 00:12:48,022
+Practice time.
+
+219
+00:12:48,242 --> 00:12:50,486
+Video pause karo aur khud try karo.
+
+220
+00:12:50,836 --> 00:12:54,423
+Pehla: agent loop ke chaar
+steps, sahi order mein, bolo.
+
+221
+00:12:54,773 --> 00:12:58,589
+Doosra: agent loop dot py
+mein max steps ko do karke chalao.
+
+222
+00:12:58,809 --> 00:13:00,881
+Output mein kya aata hai, aur kyun?
+
+223
+00:13:01,231 --> 00:13:04,413
+Teesra: roz ka koi kaam
+lo, jaise cab book karna.
+
+224
+00:13:04,633 --> 00:13:08,216
+Agent ke liye goal,
+decisions, aur tools ki list banao.
+
+225
+00:13:08,566 --> 00:13:12,975
+Aur scenario: ek agent baar baar
+wahi search tool call karta ja raha hai.
+
+226
+00:13:13,195 --> 00:13:14,512
+Do fixes batao.
+
+227
+00:13:21,812 --> 00:13:22,642
+Quick check.
+
+228
+00:13:22,862 --> 00:13:27,374
+AI agent mein tool, jaise
+calculator, asal mein kaun chalata hai?
+
+229
+00:13:33,074 --> 00:13:34,769
+B, aapka Python code.
+
+230
+00:13:34,989 --> 00:13:36,951
+Model sirf decide karta hai.
+
+231
+00:13:38,251 --> 00:13:39,538
+Doosra question.
+
+232
+00:13:39,758 --> 00:13:44,369
+Kaunsi command aapke venv ke
+exact package versions record karti hai?
+
+233
+00:13:50,069 --> 00:13:52,939
+B, pip freeze, requirements dot txt mein.
+
+234
+00:13:53,159 --> 00:13:58,714
+Aur pip install dash r ulta kaam karta
+hai: file se environment dobara banata hai.
+
+235
+00:14:00,014 --> 00:14:00,740
+Recap.
+
+236
+00:14:00,960 --> 00:14:05,996
+Agent ek goal ki taraf kaam karta
+hai: decide, act, observe, aur repeat.
+
+237
+00:14:06,346 --> 00:14:08,309
+Model sirf decide karta hai.
+
+238
+00:14:08,529 --> 00:14:10,734
+Kaam aapka Python code karta hai.
+
+239
+00:14:11,084 --> 00:14:13,479
+Har loop mein ek safety limit zaroori hai.
+
+240
+00:14:13,829 --> 00:14:15,661
+Bees modules, saat parts.
+
+241
+00:14:15,881 --> 00:14:18,134
+Aur Python AI ki common bhaasha hai.
+
+242
+00:14:18,484 --> 00:14:22,872
+Har project ka apna virtual
+environment, pinned versions ke saath.
+
+243
+00:14:23,222 --> 00:14:28,681
+Agle lesson mein hum asli Python
+likhenge: woh data types jinse har AI application
+
+244
+00:14:28,681 --> 00:14:29,612
+bani hoti hai.
+
+245
+00:14:30,912 --> 00:14:32,449
+Lesson ek complete.
+
+246
+00:14:32,669 --> 00:14:36,320
+Aapne agent loop samjha,
+aur apna setup check kar liya.
+
+247
+00:14:36,540 --> 00:14:38,387
+Milte hain agle lesson mein.

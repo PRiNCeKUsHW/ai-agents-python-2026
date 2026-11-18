@@ -21,6 +21,13 @@ const PAPER = {
   codeHead: "#F3EFE4",
   codeText: "#2A2F3A",
   shadow: "rgba(60,48,20,0.10)",
+  codePrompt: "#0B8A68",
+  codeOk: "#0B8A68",
+  codeErr: "#CC3348",
+  codeWarn: "#B86E00",
+  codeMuted: "#555D6E",
+  codeFaint: "#8C93A1",
+  codeCmd: "#1E2330",
 };
 
 // One theme per module, chosen to fit what the module teaches (rule from 2026-11-17).
@@ -44,6 +51,13 @@ const TERMINAL_NIGHT: typeof PAPER = {
   codeHead: "#161B22",
   codeText: "#E6EDF3",
   shadow: "rgba(0,0,0,0.45)",
+  codePrompt: "#3FB950",
+  codeOk: "#3FB950",
+  codeErr: "#FF7B72",
+  codeWarn: "#F0883E",
+  codeMuted: "#9DA7B3",
+  codeFaint: "#6E7681",
+  codeCmd: "#E6EDF3",
 };
 
 const SYNTAX_PAPER: Record<string, string> = {
@@ -76,8 +90,55 @@ const SYNTAX_NIGHT: Record<string, string> = {
   "": "#E6EDF3",
 };
 
+
+// Module 1 "Python Notebook": a cool blue-white notebook page with Python's own colours (blue
+// primary, yellow highlights) and dark navy code cells, because the module is pure Python.
+// Differs from Paper (warm page, light code) and Terminal Night (dark page). Chosen 2026-11-18.
+const PYTHON_NOTEBOOK: typeof PAPER = {
+  ink: "#F3F6FB",
+  ink2: "#E8EEF7",
+  surface: "#FFFFFF",
+  surface2: "#EEF3FA",
+  line: "#CCD7E6",
+  text: "#13233A",
+  muted: "#4E5D75",
+  faint: "#8794A8",
+  teal: "#2B67B0", // Python blue: primary, the agent, "correct"
+  amber: "#A97800", // Python yellow (deepened for contrast): highlights, numbers
+  blue: "#0B7F9E", // information, data flow
+  violet: "#6A46C0", // the model / LLM
+  coral: "#C7354B", // errors, wrong answers
+  code: "#14213A", // dark navy code cells and terminals
+  codeHead: "#1C2C4A",
+  codeText: "#E4ECF8",
+  shadow: "rgba(20,45,90,0.12)",
+  codePrompt: "#FFD43B",
+  codeOk: "#8BE0A0",
+  codeErr: "#FF8A9A",
+  codeWarn: "#FFC266",
+  codeMuted: "#A9B6CC",
+  codeFaint: "#7083A3",
+  codeCmd: "#FFFFFF",
+};
+
+const SYNTAX_PYNB: Record<string, string> = {
+  kw: "#FFD43B",
+  con: "#F5A97F",
+  str: "#9FE0A2",
+  num: "#F5A97F",
+  com: "#7F8EA8",
+  fn: "#7FB8FF",
+  cls: "#FFD43B",
+  bi: "#7DD3E8",
+  dec: "#F38BA8",
+  op: "#E4ECF8",
+  pun: "#B8C4D8",
+  "": "#E4ECF8",
+};
+
 export const THEMES: Record<number, { name: string; colors: typeof PAPER; syntax: Record<string, string> }> = {
   0: { name: "Terminal Night", colors: TERMINAL_NIGHT, syntax: SYNTAX_NIGHT },
+  1: { name: "Python Notebook", colors: PYTHON_NOTEBOOK, syntax: SYNTAX_PYNB },
 };
 const DEFAULT_THEME = { name: "Paper", colors: PAPER, syntax: SYNTAX_PAPER };
 
