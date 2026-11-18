@@ -1,617 +1,855 @@
 1
-00:00:00,700 --> 00:00:01,663
-Time to build.
+00:00:00,700 --> 00:00:02,201
+Ab banane ka time.
 
 2
-00:00:01,883 --> 00:00:07,356
-Over the next two lessons, you'll write
-the Python AI Toolkit from an empty folder
+00:00:02,421 --> 00:00:07,792
+Agle do lessons mein aap Python AI
+Toolkit ko khaali folder se lekar ek tested
 
 3
-00:00:07,356 --> 00:00:09,359
-to a tested command line tool.
+00:00:07,792 --> 00:00:09,927
+command line tool tak le jaoge.
 
 4
-00:00:09,579 --> 00:00:12,666
-Every concept from this
-module appears somewhere in it.
+00:00:10,147 --> 00:00:13,763
+Iss module ka har concept
+isme kahin na kahin aata hai.
 
 5
-00:00:12,886 --> 00:00:16,607
-In this lesson we plan it,
-model the data, and validate it.
+00:00:13,983 --> 00:00:19,346
+Iss lesson mein hum plan karenge, data ka
+model banayenge, aur use validate karenge.
 
 6
-00:00:17,907 --> 00:00:23,678
-Every AI team needs to answer simple
-questions about their language model usage.
+00:00:20,646 --> 00:00:26,022
+Har AI team ko apne language model
+usage ke baare mein kuch simple sawaalon ke
 
 7
-00:00:23,898 --> 00:00:25,360
-How many requests failed?
+00:00:26,022 --> 00:00:27,056
+jawaab chahiye.
 
 8
-00:00:25,580 --> 00:00:27,458
-How many tokens did we use?
+00:00:27,276 --> 00:00:28,951
+Kitni requests fail hui?
 
 9
-00:00:27,678 --> 00:00:29,138
-Roughly what did it cost?
+00:00:29,171 --> 00:00:30,624
+Kitne tokens lage?
 
 10
-00:00:29,358 --> 00:00:31,169
-Here is what our tool must do.
+00:00:30,844 --> 00:00:32,840
+Lagbhag kitna kharcha hua?
 
 11
-00:00:31,519 --> 00:00:36,451
-Read a JSON log of model API
-calls, with one record per request.
+00:00:33,060 --> 00:00:34,682
+Hamara tool yeh karega.
 
 12
-00:00:36,801 --> 00:00:42,594
-Validate every record, and explain each
-problem precisely, without crashing on bad
+00:00:35,032 --> 00:00:39,702
+Model API calls ka JSON log
+padhna, har request ka ek record.
 
 13
-00:00:42,594 --> 00:00:42,947
-data.
+00:00:40,052 --> 00:00:43,605
+Har record validate karna,
+aur har problem saaf batana.
 
 14
-00:00:43,297 --> 00:00:49,123
-Summarise the good records: success
-rate, tokens, estimated cost, latency, and the
+00:00:43,825 --> 00:00:45,981
+Kharab data par kabhi crash nahi.
 
 15
-00:00:49,123 --> 00:00:50,331
-most common tags.
+00:00:46,331 --> 00:00:52,191
+Achhe records ka summary: success rate,
+tokens, estimated cost, latency, aur sabse
 
 16
-00:00:50,681 --> 00:00:55,369
-Write that report as Markdown for
-people, or JSON for other programs.
+00:00:52,191 --> 00:00:53,049
+common tags.
 
 17
-00:00:55,719 --> 00:00:59,535
-Download logs from
-several URLs at the same time.
+00:00:53,399 --> 00:00:58,204
+Report Markdown mein, logon ke liye,
+ya JSON mein, doosre programs ke liye.
 
 18
-00:00:59,885 --> 00:01:04,751
-And take its settings from environment
-variables, with automated tests for all of
+00:00:58,554 --> 00:01:01,560
+Kai URLs se logs ek saath download karna.
 
 19
-00:01:04,751 --> 00:01:04,931
-it.
+00:01:01,910 --> 00:01:06,367
+Settings environment variables
+se, aur sab kuch ke automated tests.
 
 20
-00:01:06,231 --> 00:01:08,946
-Before writing code,
-decide how to split it.
+00:01:07,667 --> 00:01:11,414
+Code likhne se pehle decide
+karo ki usse kaise baantna hai.
 
 21
-00:01:09,166 --> 00:01:10,911
-Each file gets one job.
+00:01:11,634 --> 00:01:17,095
+Ek restaurant ki kitchen jaise: ek sabzi
+kaatta hai, ek pakaata hai, ek plate sajata
 
 22
-00:01:11,261 --> 00:01:16,210
-At the top, cli dot py reads the
-command line and calls everything else.
+00:01:17,095 --> 00:01:17,355
+hai.
 
 23
-00:01:16,430 --> 00:01:19,957
-It's the only part that
-knows about arguments and printing.
+00:01:17,575 --> 00:01:19,083
+Har file ka ek kaam.
 
 24
-00:01:20,307 --> 00:01:25,923
-The loader reads a file, and models turns
-each raw dictionary into a validated usage
+00:01:19,433 --> 00:01:21,205
+Sabse upar cli dot py.
 
 25
-00:01:25,923 --> 00:01:26,391
-record.
+00:01:21,425 --> 00:01:25,177
+Yeh command line padhta hai
+aur baaki sabko call karta hai.
 
 26
-00:01:26,741 --> 00:01:29,960
-Stats calculates the
-summary, and report formats it.
+00:01:25,397 --> 00:01:29,513
+Sirf yahi hissa arguments aur
+printing ke baare mein jaanta hai.
 
 27
-00:01:30,180 --> 00:01:34,311
-Calculating and formatting are
-separate, so each is easy to test.
+00:01:29,863 --> 00:01:35,354
+loader file padhta hai, aur models har
+raw dictionary ko ek validated usage record
 
 28
-00:01:34,661 --> 00:01:40,159
-Config reads settings and prices,
-and fetch downloads logs over HTTP.
+00:01:35,354 --> 00:01:36,091
+banata hai.
 
 29
-00:01:40,509 --> 00:01:43,168
-And errors defines our exception classes.
+00:01:36,441 --> 00:01:40,714
+stats summary calculate karta
+hai, aur report use format karta hai.
 
 30
-00:01:43,388 --> 00:01:48,939
-Any module can raise a toolkit error, and
-the command line catches it in exactly one
+00:01:40,934 --> 00:01:45,897
+Calculate karna aur format karna alag
+hain, toh dono ko test karna aasaan hai.
 
 31
-00:01:48,939 --> 00:01:49,335
-place.
+00:01:46,247 --> 00:01:51,814
+config settings aur prices padhta hai,
+aur fetch HTTP par logs download karta hai.
 
 32
-00:01:50,635 --> 00:01:51,742
-Here's the input.
+00:01:52,164 --> 00:01:55,566
+Aur errors hamari
+exception classes define karta hai.
 
 33
-00:01:51,962 --> 00:01:55,125
-A JSON list, with one
-object per model call.
+00:01:55,786 --> 00:02:01,223
+Koi bhi module ToolkitError raise kar
+sakta hai, aur command line usse sirf ek jagah
 
 34
-00:01:55,475 --> 00:02:00,836
-Each record has an id, the model
-used, and the prompt and completion tokens.
+00:02:01,223 --> 00:02:02,000
+pakadti hai.
 
 35
-00:02:01,056 --> 00:02:06,496
-Prompt tokens are what you sent, and
-completion tokens are what the model generated.
+00:02:03,300 --> 00:02:04,468
+Yeh input hai.
 
 36
-00:02:06,716 --> 00:02:09,243
-Providers usually price them differently.
+00:02:04,688 --> 00:02:07,815
+Ek JSON list, har model call ka ek object.
 
 37
-00:02:09,593 --> 00:02:17,013
-It also has the latency in
-milliseconds, a status of ok or error, a list of tags
+00:02:08,165 --> 00:02:13,181
+Har record mein ek id hai, use hua
+model, aur prompt aur completion tokens.
 
 38
-00:02:17,013 --> 00:02:22,208
-describing the task, and a
-timestamp in ISO 8601 format.
+00:02:13,401 --> 00:02:18,514
+Prompt tokens woh hain jo aapne bheje,
+completion tokens woh jo model ne banaye.
 
 39
-00:02:22,428 --> 00:02:27,682
-Elsewhere in this file, request four
-failed after thirty seconds, which looks like a
+00:02:18,734 --> 00:02:21,517
+Providers inki keemat
+aksar alag rakhte hain.
 
 40
-00:02:27,682 --> 00:02:28,182
-timeout.
+00:02:21,867 --> 00:02:27,603
+Usme milliseconds mein latency bhi hai,
+ok ya error status, task batane wale tags ki
 
 41
-00:02:28,402 --> 00:02:31,256
-Real logs contain
-exactly this kind of mess.
+00:02:27,603 --> 00:02:31,358
+list, aur ISO eight six
+zero one format mein timestamp.
 
 42
-00:02:32,556 --> 00:02:36,509
-We start with the errors,
-because every other module uses them.
+00:02:31,578 --> 00:02:36,743
+Isi file mein aage, request chaar tees
+second ke baad fail hui, jo timeout jaisa
 
 43
-00:02:36,729 --> 00:02:41,049
-Toolkit error is the base class
-for anything we raise on purpose.
+00:02:36,743 --> 00:02:37,389
+lagta hai.
 
 44
-00:02:41,399 --> 00:02:44,282
-Validation error is a more specific kind.
+00:02:37,609 --> 00:02:40,506
+Asli logs mein bilkul
+aisi hi gadbad hoti hai.
 
 45
-00:02:44,502 --> 00:02:49,530
-It calls the parent's init with a
-readable message, and also stores which field
+00:02:41,806 --> 00:02:46,429
+Hum errors se shuru karte hain,
+kyunki baaki har module inhe use karta hai.
 
 46
-00:02:49,530 --> 00:02:51,439
-failed, so tests can check it.
+00:02:46,649 --> 00:02:51,554
+ToolkitError har uss error ki base class
+hai jo hum jaan boojh kar raise karte hain.
 
 47
-00:02:52,739 --> 00:02:54,060
-Now the data model.
+00:02:51,904 --> 00:02:54,862
+ValidationError ek
+zyaada specific type hai.
 
 48
-00:02:54,280 --> 00:02:58,954
-Allowed status is a set, because we
-only ever ask, is this status in the set?
+00:02:55,082 --> 00:03:00,282
+Yeh parent ke init ko ek readable
+message ke saath call karta hai, aur yeh bhi yaad
 
 49
-00:02:59,304 --> 00:03:00,962
-Require is a small helper.
+00:03:00,282 --> 00:03:04,731
+rakhta hai ki kaunsi field fail
+hui, taaki tests usse check kar sakein.
 
 50
-00:03:01,182 --> 00:03:06,586
-It returns a field's value, or raises
-a validation error saying the field is
+00:03:06,031 --> 00:03:07,353
+Ab data model.
 
 51
-00:03:06,586 --> 00:03:09,643
-required, instead of
-a confusing key error.
+00:03:07,573 --> 00:03:09,367
+Airport security socho.
 
 52
-00:03:09,993 --> 00:03:12,708
-This helper checks for
-a non-negative integer.
+00:03:09,587 --> 00:03:12,734
+Har bag entrance par ek
+baar scanner se guzarta hai.
 
 53
-00:03:12,928 --> 00:03:14,500
-There's one subtle trap here.
+00:03:12,954 --> 00:03:15,981
+Uske baad andar sab
+uss par bharosa karte hain.
 
 54
-00:03:14,720 --> 00:03:19,849
-In Python, True and False are a kind
-of int, so we reject bools explicitly.
+00:03:16,201 --> 00:03:21,414
+Hum bhi har raw record ko darwaaze par
+ek baar validate karte hain, aur baaki code
 
 55
-00:03:20,199 --> 00:03:24,591
-The record itself is a
-dataclass, with a type hint for every field.
+00:03:21,414 --> 00:03:24,338
+sirf pass hue records
+ke saath kaam karta hai.
 
 56
-00:03:24,811 --> 00:03:30,586
-Frozen equals True makes it read-only,
-so nothing can quietly modify a record after
+00:03:25,638 --> 00:03:30,490
+ALLOWED STATUS ek set hai, kyunki hum
+sirf yahi poochte hain: kya yeh status set
 
 57
-00:03:30,586 --> 00:03:31,351
-validation.
+00:03:30,490 --> 00:03:31,036
+mein hai?
 
 58
-00:03:31,701 --> 00:03:33,585
-Total tokens is a property.
+00:03:31,386 --> 00:03:33,322
+require ek chhota helper hai.
 
 59
-00:03:33,805 --> 00:03:38,928
-It's calculated from the other fields,
-but you use it like a normal attribute,
+00:03:33,542 --> 00:03:38,358
+Yeh field ki value lautaata hai, ya
+ValidationError raise karta hai ki field
 
 60
-00:03:38,928 --> 00:03:40,242
-without parentheses.
+00:03:38,358 --> 00:03:39,182
+required hai.
 
 61
-00:03:41,542 --> 00:03:45,240
-From dict is a class
-method, an alternative constructor.
+00:03:39,402 --> 00:03:41,276
+Ulajhne wala KeyError nahi.
 
 62
-00:03:45,460 --> 00:03:50,872
-It receives the class itself as cls,
-and builds a record from a raw dictionary.
+00:03:41,626 --> 00:03:44,719
+Yeh helper non negative
+integer check karta hai.
 
 63
-00:03:51,092 --> 00:03:54,253
-First, it checks that the
-item is a dictionary at all.
+00:03:44,939 --> 00:03:49,341
+Ek chhupa hua trap hai: Python mein
+True aur False bhi ek tarah ke int hain.
 
 64
-00:03:54,603 --> 00:03:56,183
-Then each field gets checked.
+00:03:49,561 --> 00:03:52,284
+Isliye bools ko alag se reject karte hain.
 
 65
-00:03:56,403 --> 00:03:59,618
-The id and the model
-must be non-empty strings.
+00:03:52,634 --> 00:03:58,087
+Record khud ek dataclass hai, har field
+ke type hint ke saath. frozen equals True
 
 66
-00:03:59,968 --> 00:04:05,819
-Latency must be a non-negative number,
-either an int or a float, but again, not a
+00:03:58,087 --> 00:04:03,473
+use read only banata hai, taaki
+validation ke baad koi chupke se record na badal
 
 67
-00:04:05,819 --> 00:04:06,180
-bool.
+00:04:03,473 --> 00:04:03,810
+sake.
 
 68
-00:04:06,530 --> 00:04:08,491
-The status must be in the allowed set.
+00:04:04,160 --> 00:04:06,169
+total tokens ek property hai.
 
 69
-00:04:08,711 --> 00:04:13,101
-The message lists the valid
-options, which makes the error easy to fix.
+00:04:06,389 --> 00:04:11,727
+Yeh baaki fields se calculate hoti hai,
+lekin aap use normal attribute ki tarah,
 
 70
-00:04:13,451 --> 00:04:18,889
-Tags are optional, so we use get with an
-empty list as the default, and then check
+00:04:11,727 --> 00:04:13,796
+bina brackets ke, use karte ho.
 
 71
-00:04:18,889 --> 00:04:20,745
-that it's a list of strings.
+00:04:15,096 --> 00:04:19,316
+from dict ek class method hai,
+object banane ka doosra tareeka.
 
 72
-00:04:21,095 --> 00:04:25,435
-For the timestamp, datetime
-dot fromisoformat does the parsing.
+00:04:19,536 --> 00:04:24,843
+Isse class khud cls ke roop mein milti
+hai, aur yeh raw dictionary se record banata
 
 73
-00:04:25,655 --> 00:04:31,043
-If it fails, we raise our own error,
-from None, so the user sees one clear message
+00:04:24,843 --> 00:04:25,099
+hai.
 
 74
-00:04:31,043 --> 00:04:33,277
-instead of two chained tracebacks.
+00:04:25,319 --> 00:04:28,146
+Pehle check: item
+dictionary hai bhi ya nahi.
 
 75
-00:04:33,627 --> 00:04:37,364
-Finally, we call cls
-with every validated value.
+00:04:28,496 --> 00:04:33,637
+Phir har field check hoti hai. id aur
+model khaali nahi hone chahiye, aur strings
 
 76
-00:04:37,584 --> 00:04:40,820
-If we get here, the
-record is guaranteed to be valid.
+00:04:33,637 --> 00:04:34,462
+hone chahiye.
 
 77
-00:04:42,120 --> 00:04:47,355
-Let's try the model in the interactive
-Python prompt, before any other code exists.
+00:04:34,812 --> 00:04:39,775
+Latency negative nahi honi chahiye,
+int ya float, lekin phir se, bool nahi.
 
 78
-00:04:47,575 --> 00:04:50,520
-Start it by typing
-python in the project folder.
+00:04:40,125 --> 00:04:42,420
+Status allowed set mein hona chahiye.
 
 79
-00:04:50,870 --> 00:04:53,424
-We build a valid dictionary step by step.
+00:04:42,640 --> 00:04:47,046
+Message mein sahi options likhe
+hote hain, toh galti theek karna aasaan.
 
 80
-00:04:53,644 --> 00:04:57,420
-From dict gives us a
-record, and total tokens is fifteen.
+00:04:47,396 --> 00:04:50,393
+Tags optional hain, toh
+get aur khaali list default.
 
 81
-00:04:57,770 --> 00:05:00,097
-Now change one field to minus one.
+00:04:50,613 --> 00:04:52,653
+Phir check ki yeh strings ki list hai.
 
 82
-00:05:00,317 --> 00:05:04,092
-Our validation error names
-the field and the bad value.
+00:04:53,003 --> 00:04:57,236
+Timestamp ke liye datetime dot
+fromisoformat parsing karta hai.
 
 83
-00:05:04,312 --> 00:05:09,555
-Double star row copies the dictionary,
-and the new key overrides the old value.
+00:04:57,456 --> 00:05:02,597
+Fail ho, toh hum apni error raise karte
+hain, from None ke saath, taaki user ko do
 
 84
-00:05:10,855 --> 00:05:14,172
-Read JSON handles the
-two ways reading can fail.
+00:05:02,597 --> 00:05:05,795
+jude hue tracebacks ki
+jagah ek saaf message dikhe.
 
 85
-00:05:14,392 --> 00:05:18,260
-The file might not exist,
-or it might not be valid JSON.
+00:05:06,145 --> 00:05:09,991
+Aakhir mein har validated
+value ke saath cls call hota hai.
 
 86
-00:05:18,480 --> 00:05:23,942
-Both become a toolkit error with a clear
-message, including the line and column for
+00:05:10,211 --> 00:05:13,389
+Yahan tak pahunche,
+matlab record pakka valid hai.
 
 87
-00:05:23,942 --> 00:05:24,534
-bad JSON.
+00:05:14,689 --> 00:05:19,999
+Model ko interactive Python prompt mein
+try karte hain, baaki code bane usse pehle
 
 88
-00:05:24,884 --> 00:05:30,398
-Load records returns a tuple of two
-lists: the valid records, and a message for
+00:05:19,999 --> 00:05:20,193
+hi.
 
 89
-00:05:30,398 --> 00:05:31,654
-every invalid one.
+00:05:20,413 --> 00:05:23,563
+Project folder mein
+python type karke shuru karo.
 
 90
-00:05:31,874 --> 00:05:34,264
-The top level of the file must be a list.
+00:05:23,913 --> 00:05:29,355
+Ek valid dictionary step by step banayi.
+from dict ne record diya, aur total tokens
 
 91
-00:05:34,614 --> 00:05:39,427
-Then we loop with enumerate, so we
-can report record numbers starting at one.
+00:05:29,355 --> 00:05:29,880
+pandrah.
 
 92
-00:05:39,647 --> 00:05:45,239
-Each record that fails validation is
-recorded as a problem, and the loop carries on.
+00:05:30,230 --> 00:05:32,376
+Ab ek field ko minus ek kar do.
 
 93
-00:05:45,459 --> 00:05:48,907
-One bad record never stops
-the good ones from loading.
+00:05:32,596 --> 00:05:37,279
+Hamari ValidationError field ka
+naam aur galat value dono batati hai.
 
 94
-00:05:50,207 --> 00:05:55,524
-Settings is a small frozen dataclass
-with the two things we can configure: the
+00:05:37,499 --> 00:05:42,491
+Double star row dictionary ko copy
+karta hai, aur nayi key purani value ko badal
 
 95
-00:05:55,524 --> 00:05:57,978
-prices file, and the currency label.
+00:05:42,491 --> 00:05:43,052
+deti hai.
 
 96
-00:05:58,328 --> 00:06:01,188
-Load dot env is our tiny dot env reader.
+00:05:44,352 --> 00:05:47,559
+read json padhne ki do
+galtiyan sambhaalta hai.
 
 97
-00:06:01,408 --> 00:06:06,994
-It skips blank lines and comments,
-splits each line at the first equals sign, and
+00:05:47,779 --> 00:05:50,234
+File ho hi na, ya valid JSON na ho.
 
 98
-00:06:06,994 --> 00:06:12,580
-uses set default, so a variable that's
-already set in the real environment always
+00:05:50,454 --> 00:05:55,759
+Dono ek saaf ToolkitError ban jaati
+hain, kharab JSON ke liye line aur column ke
 
 99
-00:06:12,580 --> 00:06:13,890
-wins over the file.
+00:05:55,759 --> 00:05:56,156
+saath.
 
 100
-00:06:14,240 --> 00:06:18,093
-Load settings reads both
-variables, with sensible defaults.
+00:05:56,506 --> 00:06:02,034
+load records do lists ka tuple lautaata
+hai: valid records, aur har invalid record
 
 101
-00:06:18,443 --> 00:06:23,966
-And load prices reads the prices file,
-skipping keys that start with an underscore,
+00:06:02,034 --> 00:06:02,776
+ka message.
 
 102
-00:06:23,966 --> 00:06:25,696
-which we use for comments.
+00:06:02,996 --> 00:06:05,580
+File ka top level ek list hona chahiye.
 
 103
-00:06:25,916 --> 00:06:30,447
-These are example prices for
-fictional models, per million tokens.
+00:06:05,930 --> 00:06:10,102
+Phir enumerate ke saath loop,
+taaki record numbers ek se shuru hon.
 
 104
-00:06:30,667 --> 00:06:32,901
-They are not real provider prices.
+00:06:10,322 --> 00:06:15,116
+Jo record validation mein fail ho, woh
+problem ki list mein jaata hai, aur loop
 
 105
-00:06:34,201 --> 00:06:38,161
-Prices is a type alias, a
-short name for a long type hint.
+00:06:15,116 --> 00:06:16,148
+chalta rehta hai.
 
 106
-00:06:38,511 --> 00:06:43,198
-Model stats holds running totals
-for one model, all starting at zero.
+00:06:16,368 --> 00:06:19,980
+Ek kharab record achhe
+records ko kabhi nahi rokta.
 
 107
-00:06:43,548 --> 00:06:45,886
-Summary holds every number in the report.
+00:06:21,280 --> 00:06:26,739
+Settings ek chhoti frozen dataclass
+hai, do configurable cheezon ke saath: prices
 
 108
-00:06:46,106 --> 00:06:51,298
-Notice the default factories again,
-and two properties that calculate the total
+00:06:26,739 --> 00:06:28,423
+file, aur currency label.
 
 109
-00:06:51,298 --> 00:06:55,439
-tokens and the success rate,
-guarding against dividing by zero.
+00:06:28,773 --> 00:06:31,967
+load dot env hamara
+chhota sa dot env reader hai.
 
 110
-00:06:55,789 --> 00:07:01,626
-Estimate cost multiplies prompt and
-completion tokens by their prices, and divides
+00:06:32,187 --> 00:06:37,374
+Khaali lines aur comments chhod deta
+hai, har line ko pehle equals sign par todta
 
 111
-00:07:01,626 --> 00:07:02,551
-by a million.
+00:06:37,374 --> 00:06:39,551
+hai, aur setdefault use karta hai.
 
 112
-00:07:02,771 --> 00:07:05,860
-An unknown model returns
-None instead of crashing.
+00:06:39,771 --> 00:06:44,692
+Toh asli environment mein pehle se
+set variable hamesha file se jeetta hai.
 
 113
-00:07:07,160 --> 00:07:12,881
-Summarize prepares a dictionary of
-per-model stats, a counter for tags, a set of
+00:06:45,042 --> 00:06:49,402
+load settings dono variables
+padhta hai, sensible defaults ke saath.
 
 114
-00:07:12,881 --> 00:07:15,813
-models with no price, and a running cost.
+00:06:49,752 --> 00:06:54,858
+Aur load prices prices file padhta hai,
+underscore se shuru hone wali keys chhod
 
 115
-00:07:16,163 --> 00:07:17,952
-One loop does all the counting.
+00:06:54,858 --> 00:06:57,667
+kar, jo hum comments
+ke liye use karte hain.
 
 116
-00:07:18,172 --> 00:07:21,904
-Set default creates a model's
-stats the first time we see it.
+00:06:57,887 --> 00:07:01,987
+Yeh fictional models ki example
+prices hain, per million tokens.
 
 117
-00:07:22,124 --> 00:07:27,301
-Unpriced models are collected, not
-fatal, and the counter tallies every tag.
+00:07:02,207 --> 00:07:04,186
+Asli provider prices nahi.
 
 118
-00:07:27,651 --> 00:07:33,065
-Finally, comprehensions and sum compute
-the totals, and most common gives the top
+00:07:05,486 --> 00:07:09,292
+Prices ek type alias hai,
+lambe type hint ka chhota naam.
 
 119
-00:07:33,065 --> 00:07:33,800
-three tags.
+00:07:09,642 --> 00:07:14,182
+ModelStats ek model ke running
+totals rakhta hai, sab zero se shuru.
 
 120
-00:07:34,020 --> 00:07:36,577
-Everything from
-lesson two, working together.
+00:07:14,532 --> 00:07:16,921
+Summary report ka har number rakhta hai.
 
 121
-00:07:37,877 --> 00:07:41,832
-The command line doesn't exist
-yet, but the pieces already work.
+00:07:17,141 --> 00:07:22,580
+Default factories phir se dekho, aur do
+properties jo total tokens aur success rate
 
 122
-00:07:42,052 --> 00:07:44,127
-Let's call them from the Python prompt.
+00:07:22,580 --> 00:07:26,250
+calculate karti hain, zero
+se divide hone se bachte hue.
 
 123
-00:07:44,477 --> 00:07:49,575
-Loading the broken file gives one
-valid record and four problems, each with a
+00:07:26,600 --> 00:07:32,098
+estimate cost prompt aur completion
+tokens ko unki prices se guna karta hai, aur ek
 
 124
-00:07:49,575 --> 00:07:50,634
-precise message.
+00:07:32,098 --> 00:07:33,291
+million se divide.
 
 125
-00:07:50,984 --> 00:07:56,424
-And summarising the clean sample
-gives ten requests, eight successful, eleven
+00:07:33,511 --> 00:07:35,740
+Anjaan model par crash nahi, None.
 
 126
-00:07:56,424 --> 00:08:01,793
-thousand and ninety-five tokens, the
-estimated cost, and the top three tags.
+00:07:37,040 --> 00:07:42,525
+summarize har model ke stats ki
+dictionary, tags ke liye ek Counter, bina price wale
 
 127
-00:08:03,093 --> 00:08:05,852
-We planned small
-modules with one job each.
+00:07:42,525 --> 00:07:45,790
+models ka set, aur
+running cost taiyaar karta hai.
 
 128
-00:08:06,202 --> 00:08:11,774
-We validate data at the edge, turning raw
-dictionaries into trusted records or clear
+00:07:46,140 --> 00:07:51,435
+Ek hi loop saari ginti karta hai.
+setdefault kisi model ke stats pehli baar dikhne
 
 129
-00:08:11,774 --> 00:08:12,238
-errors.
+00:07:51,435 --> 00:07:52,403
+par banata hai.
 
 130
-00:08:12,588 --> 00:08:15,824
-We collect problems instead
-of crashing on the first one.
+00:07:52,623 --> 00:07:57,989
+Bina price wale models collect hote hain,
+crash nahi, aur Counter har tag ginta hai.
 
 131
-00:08:16,174 --> 00:08:18,666
-And we keep calculating
-separate from formatting.
+00:07:58,339 --> 00:08:03,412
+Aakhir mein comprehensions aur sum
+totals nikaalte hain, aur most common top teen
 
 132
-00:08:19,016 --> 00:08:24,233
-In part two, we write the report, the
-downloader, and the command line, then run the
+00:08:03,412 --> 00:08:04,289
+tags deta hai.
 
 133
-00:08:24,233 --> 00:08:27,152
-finished tool, test
-it, and wrap up the module.
+00:08:04,509 --> 00:08:07,960
+Lesson do ki saari
+cheezein, ek saath kaam karti hui.
+
+134
+00:08:09,260 --> 00:08:13,315
+Command line abhi bani nahi,
+lekin hisse pehle se kaam karte hain.
+
+135
+00:08:13,535 --> 00:08:15,840
+Python prompt se unhe call karte hain.
+
+136
+00:08:16,190 --> 00:08:21,475
+Broken file load karne par ek valid
+record, aur chaar problems, har ek ka saaf
+
+137
+00:08:21,475 --> 00:08:22,017
+message.
+
+138
+00:08:22,367 --> 00:08:28,180
+Aur clean sample ka summary: das
+requests, aath successful, eleven thousand ninety
+
+139
+00:08:28,180 --> 00:08:31,512
+five tokens, estimated
+cost, aur top teen tags.
+
+140
+00:08:32,812 --> 00:08:34,106
+Interview corner.
+
+141
+00:08:34,326 --> 00:08:38,893
+Pehla question: data ko har jagah ki
+jagah edge par validate kyun karte hain?
+
+142
+00:08:41,243 --> 00:08:46,023
+Answer: ek hi jagah raw input check
+hota hai aur ek trusted type ban jaata hai.
+
+143
+00:08:46,243 --> 00:08:51,452
+Baaki code uss par bharosa kar sakta
+hai, checks dohraaye nahi jaate, aur bug wahin
+
+144
+00:08:51,452 --> 00:08:53,962
+dikhta hai jahan kharab data andar aaya.
+
+145
+00:08:54,182 --> 00:08:57,204
+Trap: poore code mein
+jagah jagah if x is None likhna.
+
+146
+00:08:57,554 --> 00:08:59,991
+Doosra: yahan classmethod kis kaam ka hai?
+
+147
+00:09:02,341 --> 00:09:07,589
+Answer: yeh object banane ka doosra
+tareeka hai. from dict dictionary se record
+
+148
+00:09:07,589 --> 00:09:09,582
+banata aur validate karta hai.
+
+149
+00:09:09,802 --> 00:09:12,266
+Usse class cls ke roop mein milti hai.
+
+150
+00:09:12,486 --> 00:09:17,642
+Trap: saari validation frozen dataclass
+ke init mein daal dena, jisse tests mein
+
+151
+00:09:17,642 --> 00:09:20,350
+simple object banana mushkil ho jaata hai.
+
+152
+00:09:20,700 --> 00:09:24,507
+Teesra: validation mein
+isinstance True comma int problem kyun hai?
+
+153
+00:09:26,857 --> 00:09:31,766
+Answer: bool, int ki subclass hai, toh
+True int check pass kar leta hai. prompt
+
+154
+00:09:31,766 --> 00:09:36,799
+tokens true wali field ek ki tarah
+accept ho jaayegi, jab tak aap bool ko alag se
+
+155
+00:09:36,799 --> 00:09:37,731
+reject na karo.
+
+156
+00:09:37,951 --> 00:09:42,493
+Trap: maan lena ki JSON ka true
+kabhi number field tak nahi pahunchega.
+
+157
+00:09:43,793 --> 00:09:44,902
+Practice time.
+
+158
+00:09:45,122 --> 00:09:47,536
+Video pause karo, aur khud try karo.
+
+159
+00:09:47,886 --> 00:09:52,101
+Pehla: REPL mein status done
+wala record banao, aur message padho.
+
+160
+00:09:52,451 --> 00:09:55,237
+Doosra: allowed
+statuses mein cancelled jodo.
+
+161
+00:09:55,457 --> 00:09:57,585
+Kaunse tests badlne chahiye?
+
+162
+00:09:57,935 --> 00:10:02,974
+Teesra: Summary mein cost per request
+property jodo, zero requests par bhi safe.
+
+163
+00:10:03,324 --> 00:10:07,243
+Aur scenario: log mein das
+hazaar records hain, aur teen kharab.
+
+164
+00:10:07,463 --> 00:10:09,342
+User ko kya dikhna chahiye?
+
+165
+00:10:16,642 --> 00:10:21,313
+Quick check. load records ko ek
+valid aur chaar invalid records milte hain.
+
+166
+00:10:21,533 --> 00:10:22,869
+Woh kya karta hai?
+
+167
+00:10:28,569 --> 00:10:29,072
+B.
+
+168
+00:10:29,292 --> 00:10:32,338
+Valid record aur chaar
+problems ki list lautaata hai.
+
+169
+00:10:32,558 --> 00:10:37,666
+Achhe records kaam karte rehte hain, aur
+har problem record number ke saath batayi
+
+170
+00:10:37,666 --> 00:10:38,289
+jaati hai.
+
+171
+00:10:39,589 --> 00:10:40,875
+Doosra question.
+
+172
+00:10:41,095 --> 00:10:44,107
+Dataclass par frozen
+equals True kya karta hai?
+
+173
+00:10:49,807 --> 00:10:50,310
+B.
+
+174
+00:10:50,530 --> 00:10:54,428
+Object banne ke baad koi
+uski fields nahi badal sakta.
+
+175
+00:10:54,648 --> 00:10:56,508
+Types validate nahi karta.
+
+176
+00:10:56,728 --> 00:10:58,317
+Woh kaam from dict ka hai.
+
+177
+00:10:59,617 --> 00:11:00,342
+Recap.
+
+178
+00:11:00,562 --> 00:11:03,476
+Code se pehle plan: har module ka ek kaam.
+
+179
+00:11:03,826 --> 00:11:09,301
+Data ko darwaaze par validate karo: raw
+dictionary se trusted record, ya saaf error.
+
+180
+00:11:09,651 --> 00:11:12,883
+Pehli galti par crash
+nahi, problems collect karo.
+
+181
+00:11:13,233 --> 00:11:16,498
+Aur calculate karna,
+format karne se alag rakho.
+
+182
+00:11:16,848 --> 00:11:20,593
+Part do mein report,
+downloader, aur command line likhenge.
+
+183
+00:11:20,813 --> 00:11:25,290
+Phir tayyar tool chalayenge, test
+karenge, aur module poora karenge.
+
+184
+00:11:26,590 --> 00:11:28,166
+Lesson chhe complete.
+
+185
+00:11:28,386 --> 00:11:30,116
+Toolkit ki neev taiyaar hai.
+
+186
+00:11:30,336 --> 00:11:32,183
+Milte hain agle lesson mein.
