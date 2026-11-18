@@ -27,6 +27,9 @@ Source of truth: `COURSE_MANIFEST.json` (update only with `tools/manifest.py`, a
   model and the 20-module map; setup is only checked (Module 0 teaches it). Full video 1:20:48,
   84 chapters, 1325 captions; validation 69/69. Two YouTube parts: lessons 1–4 (46:33), 5–7 (34:14).
   Panel colour tokens (`codePrompt`, `codeCmd`, ...) added so terminal text is readable on any theme.
+- 2026-11-18: Hinglish lesson videos downloaded by the learner; local videos, narration audio and
+  studio audio deleted (rebuild with `python tools/build_lesson.py 1 all` and `python tools/module.py render 1`;
+  the voice cache is kept).
 - Videos and audio are not in git (too large); they were delivered from the cloud session
 
 ## Local Windows machine (set up 2026-10-29)
