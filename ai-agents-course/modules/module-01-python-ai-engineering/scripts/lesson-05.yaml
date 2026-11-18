@@ -1,5 +1,6 @@
 module_title: Python for AI Engineering
 title: "Type Hints, HTTP Requests and Async"
+narration: hinglish
 scenes:
   - type: title
     chapter: Introduction
@@ -7,18 +8,25 @@ scenes:
     title: Type hints, HTTP and async
     subtitle: Describe your data, talk to web APIs, and wait for many things at once.
     say: >
-      Every language model you will use in this course lives behind a web API. You send an HTTP request, and you wait for the answer.
-      This lesson gives you the three tools that make that work well: type hints, HTTP requests with httpx, and async and await.
+      Iss course ka har language model ek web API ke peeche rehta hai. Aap ek HTTP request bhejte ho, aur jawaab ka intezaar karte ho.
+      Yeh lesson aapko teen tools deta hai jo isse achhe se karte hain: type hints, httpx se HTTP requests, aur async await.
 
   - type: objectives
     items:
-      - {text: "Annotate functions with type hints and check them with mypy", say: "You will annotate functions with type hints, and check them with a type checker."}
-      - {text: "Understand requests, responses and status codes", say: "Understand HTTP requests, responses, and status codes."}
-      - {text: "Call web APIs with `httpx`, with timeouts and error handling", say: "Call web APIs with httpx, including timeouts and error handling."}
-      - {text: "Run slow operations concurrently with `async` and `await`", say: "And run slow operations at the same time with async and await."}
+      - {text: "Annotate functions with type hints and check them with mypy", say: "Iss lesson ke baad aap functions par type hints lagaoge, aur unhe type checker se check karoge."}
+      - {text: "Understand requests, responses and status codes", say: "HTTP requests, responses, aur status codes samjhoge."}
+      - {text: "Call web APIs with `httpx`, with timeouts and error handling", say: "httpx se web APIs call karoge, timeout aur error handling ke saath."}
+      - {text: "Run slow operations concurrently with `async` and `await`", say: "Aur async await se dheemi cheezein ek saath chalaoge."}
+
+  - type: callout
+    chapter: Type hints
+    kind: analogy
+    title: "Type hints are labels on a courier box"
+    body: "A parcel says **\"Fragile · 2 kg · Electronics\"**. The label doesn't change what's inside, but everyone handling it knows what to expect, and a scanner can **flag a mismatch before** it ships. That's a type hint, and mypy is the scanner."
+    say: >
+      Pehle what: type hint kya hai? Courier ka dabba socho, jis par likha hai: fragile, do kilo, electronics. Label andar ki cheez nahi badalta. Lekin sabko pata hota hai kya umeed karni hai, aur scanner bhejne se pehle hi galti pakad sakta hai. Type hint label hai, aur mypy scanner.
 
   - type: code
-    chapter: Type hints
     heading: Type hints describe what goes in and out
     title: type_hints.py
     file: source/lesson-05/type_hints.py
@@ -26,20 +34,19 @@ scenes:
       - lines: "2-3"
         note: "`name: type` for parameters, `-> type` for the return value."
         say: >
-          A type hint is a label saying what type a value should be. After each parameter you write a colon and a type, and after the parentheses an arrow and the return type.
-          This function takes a list of floats and returns a float.
+          Har parameter ke baad colon aur type likhte ho, aur brackets ke baad ek arrow aur return type. Yeh function floats ki list leta hai aur ek float lautaata hai.
       - lines: "6-7"
         note: "`float | None` means: a float, **or** `None`."
         say: >
-          Here, the dictionary maps strings to floats, and the vertical bar means or. The function returns a float, or None when the model isn't found.
+          Yahan dictionary strings se floats tak map karti hai, aur khadi line ka matlab hai ya. Function float lautaata hai, ya None, jab model na mile.
       - lines: "10-11"
+        note: "Called correctly, everything works."
         say: >
-          Called correctly, everything works as you'd expect.
+          Sahi tarah call karo, toh sab theek chalta hai.
       - lines: "12"
-        tone: coral
         note: "Python does **not** check hints at runtime. This line still runs, and crashes."
         say: >
-          But here's the important part. Python does not enforce hints when the code runs. Passing a string is allowed, and it only crashes deep inside the function.
+          Lekin important baat. Python chalte waqt hints check nahi karta. String pass karna allowed hai, aur crash function ke andar kahin gehraai mein hota hai.
 
   - type: terminal
     title: terminal — lesson-05
@@ -49,25 +56,31 @@ scenes:
       - cmd: python type_hints.py
         exit: 1
         say: >
-          Running it: two good results, and then a confusing type error from inside sum, far away from the real mistake.
+          Chalao: do sahi results, aur phir sum ke andar se ek ulajhne wala TypeError, asli galti se bahut door.
       - cmd: mypy type_hints.py
         exit: 1
         say: >
-          A type checker like mypy reads your hints without running the code, and points at the exact line with the wrong argument, before you ever run it.
-          Your editor uses the same hints for autocompletion.
+          mypy jaisa type checker code chalaye bina aapke hints padhta hai, aur galat argument wali exact line bata deta hai, chalane se pehle hi. Aapka editor bhi yahi hints autocomplete ke liye use karta hai.
 
   - type: cards
     heading: Hints you will use constantly
     cards:
-      - {tag: basics, title: "Simple types", code: "str  int  float  bool", tone: teal, say: "The simple types: str, int, float, and bool."}
-      - {tag: collections, title: "What's inside", code: "list[str]\ndict[str, int]", tone: blue, say: "Collections say what's inside: a list of strings, or a dictionary from strings to ints."}
-      - {tag: optional, title: "Maybe missing", code: "str | None", tone: violet, say: "A vertical bar with None means the value might be missing."}
-      - {tag: fixed, title: "Fixed groups", code: "tuple[str, int]", tone: amber, say: "A tuple hint lists each position, like a string and an int."}
+      - {tag: basics, title: "Simple types", code: "str  int  float  bool", tone: teal, say: "Simple types: str, int, float, aur bool."}
+      - {tag: collections, title: "What's inside", code: "list[str]\ndict[str, int]", tone: blue, say: "Collections batate hain ki andar kya hai: strings ki list, ya strings se ints tak dictionary."}
+      - {tag: optional, title: "Maybe missing", code: "str | None", tone: violet, say: "None ke saath khadi line ka matlab: value missing ho sakti hai."}
+      - {tag: fixed, title: "Fixed groups", code: "tuple[str, int]", tone: amber, say: "Tuple hint har position batata hai, jaise ek string aur ek int."}
     outro: >
-      In Module 3, a library called Pydantic will use exactly these hints to validate real data at runtime. That's where hints become really powerful.
+      Module teen mein Pydantic naam ki library inhi hints se asli data ko chalte waqt validate karegi. Wahan hints sach mein taakatwar ban jaate hain.
+
+  - type: callout
+    chapter: HTTP in one picture
+    kind: analogy
+    title: "HTTP is ordering at a restaurant"
+    body: "You (the **client**) tell the waiter your order (the **request**: what you want, plus details like \"no onion\"). The kitchen (the **server**) sends back your plate with a note (the **response**: a **status** like \"served\" or \"sold out\", plus the food, the **body**)."
+    say: >
+      Ab HTTP. Restaurant mein order socho. Aap client ho, waiter ko order dete ho, yahi request hai. Kitchen server hai. Woh plate ke saath ek note bhejta hai: serve ho gaya, ya khatam ho gaya. Yahi response aur status code hai.
 
   - type: diagram
-    chapter: HTTP in one picture
     heading: HTTP in one picture
     nodes:
       - {id: client, label: Your Python code, sub: the client, x: 260, y: 300, w: 340, h: 140, tone: teal}
@@ -78,67 +91,58 @@ scenes:
       - {from: client, to: server, label: request, bend: -0.18}
       - {from: server, to: client, label: response, bend: -0.18}
     say: >
-      HTTP is the language of web APIs, and it is simpler than it sounds.
+      HTTP web APIs ki bhaasha hai, aur yeh jitna lagta hai usse aasaan hai.
     steps:
       - show: [client, server]
         say: >
-          There are two sides: a client, which is your Python code, and a server, such as a model provider's API.
+          Do side hain. Client, yaani aapka Python code. Aur server, jaise kisi model provider ki API.
       - show: [req, "client->server"]
         focus: [client, req, server]
         flow: ["client->server"]
         say: >
-          The client sends a request. It has a method, such as GET to read or POST to send data, a URL, headers with extra information like your API key, and sometimes a body.
+          Client request bhejta hai. Usme ek method hota hai, jaise GET padhne ke liye, ya POST data bhejne ke liye. Ek URL, headers jinme extra jaankaari hoti hai jaise aapki API key, aur kabhi kabhi ek body.
       - show: [res, "server->client"]
         focus: [server, res, client]
         flow: ["server->client"]
         say: >
-          The server sends back a response: a status code saying how it went, headers, and a body, which for AI APIs is almost always JSON.
+          Server response wapas bhejta hai: ek status code jo batata hai kaam kaisa raha, headers, aur body. AI APIs ki body lagbhag hamesha JSON hoti hai.
 
   - type: cards
     heading: Status codes you will meet
     cards:
-      - {tag: 2xx, title: Success, body: "200 OK · 201 Created", tone: teal, say: "Codes in the two hundreds mean success. Two hundred is OK, two oh one is created."}
-      - {tag: 4xx, title: Your request was wrong, body: "400 bad input · 401 bad key · 404 not found", tone: amber, say: "Four hundreds mean the problem is on your side. Bad input, a missing or wrong API key, or a URL that doesn't exist. Retrying won't help. Fix the request."}
-      - {tag: "429", title: Too many requests, body: "slow down: you hit a rate limit", tone: violet, say: "Four twenty-nine deserves its own card. It means you hit a rate limit. Every model API has them, and Module 2 shows how to wait and retry properly."}
-      - {tag: 5xx, title: The server failed, body: "500 error · 503 unavailable", tone: coral, say: "And five hundreds mean the server had a problem. Those are often temporary, so a careful retry can succeed."}
+      - {tag: 2xx, title: Success, body: "200 OK · 201 Created", tone: teal, say: "Do sau wale codes ka matlab success. Two hundred OK hai, two zero one matlab created."}
+      - {tag: 4xx, title: Your request was wrong, body: "400 bad input · 401 bad key · 404 not found", tone: amber, say: "Chaar sau wale codes ka matlab galti aapki taraf hai. Galat input, galat ya missing API key, ya aisa URL jo hai hi nahi. Retry se kuch nahi hoga. Request theek karo."}
+      - {tag: "429", title: Too many requests, body: "slow down: you hit a rate limit", tone: violet, say: "Four twenty nine ka apna card hai. Matlab aap rate limit tak pahunch gaye. Har model API mein yeh hoti hai, aur Module do mein sahi tareeke se ruk kar retry karna seekhoge."}
+      - {tag: 5xx, title: The server failed, body: "500 error · 503 unavailable", tone: coral, say: "Aur paanch sau wale codes ka matlab server mein problem hai. Yeh aksar thodi der ki hoti hai, toh dhyaan se kiya retry kaam kar sakta hai."}
 
-  - type: code
+  - type: run
     chapter: Requests with httpx
     heading: Calling an API with httpx
     title: http_demo.py
     file: source/lesson-05/http_demo.py
+    cwd: source/lesson-05
+    cmd: python http_demo.py
+    run: >
+      python -m http.server 8765 --bind 127.0.0.1 --directory ../../project/python-ai-toolkit/data > /dev/null 2>&1 &
+      sleep 1; python http_demo.py; status=$?; kill %1; exit $status
     say: >
-      Now let's make real requests. So that this works offline, I'm serving the project's sample data from a small local web server, using Python's built-in http dot server.
+      Ab asli requests. Taaki yeh offline bhi chale, project ka sample data ek chhote local web server se serve ho raha hai, Python ke built in http dot server se. Koi bahari service nahi.
     steps:
       - lines: "6-7"
+        out: "1"
         note: "Always set a `timeout`, so a stuck server can't freeze your program."
         say: >
-          httpx dot get sends a GET request and returns a response object. Always pass a timeout. A network call that hangs forever will freeze your agent.
-          The response tells us the status code and the content type header.
+          httpx dot get ek GET request bhejta hai aur response object deta hai. Timeout hamesha do. Hamesha ke liye atki network call aapke agent ko jama degi. Response status code aur content type batata hai: two hundred, aur JSON.
       - lines: "8-10"
+        out: "2"
         note: "`raise_for_status()` turns 4xx/5xx into an exception. `.json()` parses the body."
         say: >
-          Raise for status turns any error status into an exception, so failures can't slip by unnoticed. Then dot json parses the body into Python objects.
+          raise for status har error status ko exception bana deta hai, taaki failure chupke se na nikal jaaye. Phir dot json body ko Python objects mein parse karta hai. Das records.
       - lines: "12-15"
+        out: "3"
+        note: "A missing file: catch `HTTPStatusError` and read its status."
         say: >
-          And here we request a file that doesn't exist, and catch the HTTP status error to read its status code.
-
-  - type: terminal
-    title: terminal — lesson-05
-    cwd: source/lesson-05
-    steps:
-      - cmd: python -m http.server 8765 --directory data &
-        run: >
-          python -m http.server 8765 --bind 127.0.0.1 --directory ../../project/python-ai-toolkit/data > /dev/null 2>&1 &
-          sleep 1; echo "Serving HTTP on 127.0.0.1 port 8765 (http://127.0.0.1:8765/) ..."; kill %1
-        say: >
-          First, start the local server in the background. It serves the files in the data folder.
-      - cmd: python http_demo.py
-        run: >
-          python -m http.server 8765 --bind 127.0.0.1 --directory ../../project/python-ai-toolkit/data > /dev/null 2>&1 &
-          sleep 1; python http_demo.py; status=$?; kill %1; exit $status
-        say: >
-          Then run the script. Status two hundred with a JSON content type, ten records loaded, and a clean four oh four for the missing file.
+          Aur yahan ek aisi file maangi jo hai hi nahi. HTTPStatusError pakad kar status code padha: four zero four.
 
   - type: compare
     chapter: Why async?
@@ -160,78 +164,98 @@ scenes:
         - "Collect the three results"
         - "Same work, a third of the time"
     say: >
-      A language model call can take several seconds, and during that time your program is just waiting for the network.
+      Ab why async? Ek language model call mein kai second lag sakte hain, aur uss dauraan aapka program bas network ka intezaar karta hai. Ek chai wale ko socho: woh teen cups ek saath chadhata hai, ek ke ubalne ka intezaar karke doosra shuru nahi karta.
     steps:
       - show: left
         say: >
-          If an agent needs three independent answers and asks for them one by one, the waits add up. Three calls of one second each take three seconds.
+          Agar agent ko teen alag jawaab chahiye, aur woh ek ek karke maange, toh intezaar judta jaata hai. Ek ek second ki teen calls, teen second.
       - show: right
         say: >
-          With async, you start all three, wait for them together, and finish in about one second. That's not more computing power. It's simply not wasting time waiting.
+          Async ke saath teeno shuru karo, saath mein intezaar karo, aur lagbhag ek second mein kaam khatam. Zyaada computing power nahi. Bas intezaar mein time barbaad nahi.
 
-  - type: code
+  - type: run
+    heading: "async, await and asyncio.gather"
     title: async_demo.py
     file: source/lesson-05/async_demo.py
+    cwd: source/lesson-05
+    cmd: python async_demo.py
     steps:
       - lines: "6-8"
         note: "`async def` defines a **coroutine**. `await` pauses it while it waits."
         say: >
-          Async def defines a coroutine, a function that can pause. Await means: pause here until this finishes, and let other work run meanwhile.
-          asyncio dot sleep stands in for waiting on a network reply.
+          async def ek coroutine banata hai, yaani aisa function jo ruk sakta hai. await ka matlab: yahan ruko jab tak yeh khatam na ho, aur tab tak doosra kaam chalne do. asyncio dot sleep yahan network reply ke intezaar ki jagah hai.
       - lines: "11-13"
         note: "Awaiting in a loop: each call waits for the previous one."
         say: >
-          This version awaits each call in a loop, so they still run one after another.
+          Yeh version loop mein har call ko await karta hai, toh woh phir bhi ek ke baad ek chalti hain.
       - lines: "16-20"
         note: "`asyncio.gather` runs them **concurrently** and returns results in order."
         say: >
-          This version passes all three to asyncio dot gather, which runs them concurrently and returns the results in the same order you passed them.
+          Yeh version teeno ko asyncio dot gather ko deta hai, jo unhe ek saath chalata hai, aur results usi order mein lautaata hai jis order mein unhe diya gaya.
       - lines: "23-26"
-        note: "`asyncio.run()` starts the event loop from normal code."
+        out: "1-6"
+        note: "`asyncio.run()` starts the event loop. A real measurement: 3.0 s vs 1.0 s."
         say: >
-          Finally, asyncio dot run starts the event loop that drives coroutines. We time both versions.
+          Aakhir mein asyncio dot run event loop shuru karta hai, jo coroutines ko chalata hai. Dono versions ka time napa. Asli measurement: ek ek karke teen second, ek saath ek second.
 
-  - type: terminal
-    title: terminal — lesson-05
-    cwd: source/lesson-05
-    steps:
-      - cmd: python async_demo.py
-        say: >
-          A real measurement. Three seconds one by one, one second concurrently.
-
-  - type: code
+  - type: run
     heading: Async HTTP with httpx
     title: async_http.py
     file: source/lesson-05/async_http.py
+    cwd: source/lesson-05
+    cmd: python async_http.py
+    run: >
+      python -m http.server 8765 --bind 127.0.0.1 --directory ../../project/python-ai-toolkit/data > /dev/null 2>&1 &
+      sleep 1; python async_http.py; status=$?; kill %1; exit $status
     steps:
       - lines: "9-12"
         note: "`await client.get(...)`: the async version of `httpx.get`."
         say: >
-          httpx has an async client too. The fetch coroutine awaits the request and returns how many records came back.
-      - lines: "15-17"
-        note: "`async with` opens the client and always closes it."
+          httpx ka ek async client bhi hai. fetch coroutine request ko await karta hai aur batata hai kitne records aaye.
+      - lines: "15-19"
+        out: "1-2"
+        note: "`async with` opens the client and always closes it; `gather` fetches all URLs at once."
         say: >
-          Async with opens one shared client, and closes it properly afterwards. Gather fetches every URL at the same time.
-          This is exactly how the project's fetch command works.
-
-  - type: terminal
-    title: terminal — lesson-05
-    cwd: source/lesson-05
-    steps:
-      - cmd: python async_http.py
-        run: >
-          python -m http.server 8765 --bind 127.0.0.1 --directory ../../project/python-ai-toolkit/data > /dev/null 2>&1 &
-          sleep 1; python async_http.py; status=$?; kill %1; exit $status
-        say: >
-          Both files downloaded concurrently: ten records and five records.
+          async with ek shared client kholta hai, aur baad mein theek se band karta hai. gather har URL ek saath laata hai. Dono files ek saath download hui: das records aur paanch records. Project ka fetch command bilkul aise hi kaam karta hai.
 
   - type: bullets
     heading: Async rules of thumb
     items:
-      - {text: "`await` only works inside `async def`", say: "Await only works inside an async function."}
-      - {text: "Start the event loop once, with `asyncio.run(main())`", say: "Start the event loop once, at the top of your program, with asyncio dot run."}
-      - {text: "Async helps with waiting (network, disk), not heavy computation", say: "Async speeds up waiting, for the network or the disk. It doesn't make heavy calculations faster."}
-      - {text: "Never call blocking code like `time.sleep()` inside a coroutine", sub: "it freezes every other task. Use `await asyncio.sleep()`.", tone: coral, say: "And never call blocking code, like time dot sleep, inside a coroutine. It freezes every other task. Use the async version instead."}
+      - {text: "`await` only works inside `async def`", say: "Async ke kuch niyam. await sirf async function ke andar chalta hai."}
+      - {text: "Start the event loop once, with `asyncio.run(main())`", say: "Event loop ek hi baar shuru karo, program ke top par, asyncio dot run se."}
+      - {text: "Async helps with waiting (network, disk), not heavy computation", say: "Async intezaar ko tez karta hai, network ya disk ka. Bhaari calculations ko tez nahi karta."}
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "Does Python enforce type hints at runtime?"
+        a: "No. Hints are for **tools** (mypy, your editor) and for readers. Libraries like **Pydantic** read them to validate data at runtime, but plain Python ignores them."
+        trap: "Saying hints make code faster or safer by themselves."
+        say_q: "Interview corner. Pehla question: kya Python chalte waqt type hints enforce karta hai?"
+        say_a: "Answer: nahi. Hints tools ke liye hain, jaise mypy aur editor, aur padhne walon ke liye. Pydantic jaisi libraries unhe padh kar data validate karti hain, lekin plain Python unhe ignore karta hai. Trap: kehna ki hints khud code ko tez ya safe banate hain."
+      - q: "Which HTTP errors should you retry?"
+        a: "**429** (after waiting) and **5xx** (temporary server problems), plus timeouts, with backoff and a limit. **4xx** like 400/401/404 mean your request is wrong: retrying won't help."
+        trap: "Retrying everything in a tight loop, which makes rate limits worse."
+        say_q: "Doosra: kaunse HTTP errors par retry karna chahiye?"
+        say_a: "Answer: four twenty nine, thoda ruk kar. Paanch sau wale, jo server ki temporary problem hain. Aur timeouts. Backoff aur limit ke saath. Chaar sau wale jaise four zero one ya four zero four ka matlab request galat hai, retry se kuch nahi hoga. Trap: sab par jaldi jaldi retry karna, jisse rate limit aur bigad jaati hai."
+      - q: "Async vs threads vs processes: when is async the right choice?"
+        a: "For **I/O-bound** work: many network or disk waits at once (model calls, API requests). For **CPU-heavy** work, async doesn't help; use processes."
+        trap: "Calling a blocking function (like `time.sleep` or `httpx.get`) inside `async def`: it blocks every other task."
+        say_q: "Teesra: async kab sahi choice hai?"
+        say_a: "Answer: jab kaam I O bound ho, yaani bahut saare network ya disk ke intezaar ek saath, jaise model calls. Bhaari CPU ke kaam mein async madad nahi karta. Trap: async function ke andar blocking function chalana, jaise time dot sleep, ya normal httpx get. Woh baaki saare tasks ko rok deta hai."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Video pause karo, aur khud try karo.
+    items:
+      - {text: "Add type hints to `shorten(text, max_words=8)` from lesson 3 and run mypy", say: "Pehla: lesson teen ke shorten function par type hints lagao, aur mypy chalao."}
+      - {text: "In `http_demo.py`, print the response's `content-length` header", say: "Doosra: http demo mein response ka content length header print karo."}
+      - {text: "Change `async_demo.py` to 5 tasks of 2 s each. Predict both times first.", say: "Teesra: async demo ko paanch tasks, do do second ke, bana do. Pehle dono times guess karo."}
+      - {text: "Scenario: an agent calls a model API and sometimes gets 429. Describe a safe retry plan.", say: "Aur scenario: agent ko kabhi kabhi four twenty nine milta hai. Ek safe retry plan batao.", pause: 6}
 
   - type: quiz
     chapter: Quick check
@@ -245,17 +269,36 @@ scenes:
     answer: 1
     explain: "429 means you hit a **rate limit**. Wait (often the response says how long), then retry. Module 2 implements this with backoff."
     say_question: >
-      Quick check. An API replies with status four twenty-nine. What does it mean, and what should your code do?
+      Quick check. API four twenty nine status deti hai. Matlab kya hai, aur code ko kya karna chahiye?
     say_answer: >
-      Too many requests. You hit a rate limit, so wait, then retry. You'll implement this properly, with backoff, in Module 2.
+      B. Bahut zyaada requests. Rate limit lag gayi, toh ruko, phir retry karo. Module do mein backoff ke saath yeh theek se banayenge.
+
+  - type: quiz
+    number: 2
+    question: "Three independent calls each take 2 seconds. About how long does `asyncio.gather` take?"
+    options: ["6 seconds", "About 2 seconds", "0 seconds", "It depends on the CPU speed"]
+    answer: 1
+    explain: "They wait **together**, so the total is about the slowest one: ~2 s. One by one would be 6 s."
+    say_question: >
+      Doosra question. Teen alag calls, har ek do second ki. asyncio gather lagbhag kitna time lega?
+    say_answer: >
+      B, lagbhag do second. Teeno saath mein intezaar karti hain. Ek ek karke chhe second lagte.
 
   - type: recap
     chapter: Recap
     heading: Lesson 5 recap
     items:
-      - {text: "Type hints document intent; `mypy` checks them before running", say: "Type hints document your intent, and a type checker verifies them before the code runs."}
-      - {text: "HTTP = request (method, URL, headers, body) + response (status, body)", say: "HTTP is a request and a response, and the status code tells you how it went."}
-      - {text: "`httpx` with a timeout and `raise_for_status()`", say: "Use httpx with a timeout, and raise for status."}
-      - {text: "`async`/`await` + `asyncio.gather` to wait for many calls at once", say: "And use async, await, and gather to wait for many calls at once."}
+      - {text: "Type hints document intent; `mypy` checks them before running", say: "Recap. Type hints aapka iraada likhte hain, aur mypy chalane se pehle check karta hai."}
+      - {text: "HTTP = request (method, URL, headers, body) + response (status, body)", say: "HTTP matlab request aur response, aur status code batata hai kaam kaisa raha."}
+      - {text: "`httpx` with a timeout and `raise_for_status()`", say: "httpx timeout ke saath, aur raise for status."}
+      - {text: "`async`/`await` + `asyncio.gather` to wait for many calls at once", say: "Aur bahut saari calls ka ek saath intezaar: async, await, aur gather."}
     outro: >
-      You now have every Python skill the project needs. In the next lesson, we start building the Python AI Toolkit.
+      Ab project ke liye har Python skill aapke paas hai. Agle lesson mein Python AI Toolkit banana shuru karenge.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 1 · Lesson 6
+    title: "Project, Part 1"
+    subtitle: Plan, data model and validation for the Python AI Toolkit.
+    say: >
+      Lesson paanch complete. Ab aap web APIs se baat kar sakte ho. Milte hain agle lesson mein, project ke saath.

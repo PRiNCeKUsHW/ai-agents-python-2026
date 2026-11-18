@@ -1,218 +1,269 @@
 module_title: Python for AI Engineering
 title: "Python Core Data: Variables, Lists, Dictionaries and Sets"
+narration: hinglish
 scenes:
   - type: title
     chapter: Introduction
     kicker: Module 1 · Lesson 2
     title: The data every AI app is made of
-    subtitle: Variables, strings, lists, dictionaries and sets, shown with the shapes real AI code uses.
+    subtitle: Variables, strings, lists, dictionaries and sets, in the shapes real AI code uses.
     say: >
-      Every AI application, from a simple chatbot to a team of agents, moves the same few kinds of data around.
-      Text, numbers, lists of messages, and dictionaries of settings.
-      In this lesson you will learn those building blocks properly, using the exact shapes that language model APIs use.
+      Har AI application, ek simple chatbot se lekar agents ki poori team tak, wahi kuch tarah ka data idhar udhar karti hai. Text, numbers, messages ki lists, aur settings ki dictionaries.
+      Iss lesson mein aap yeh building blocks theek se seekhoge, bilkul usi shape mein jo language model APIs use karti hain.
 
   - type: objectives
     items:
-      - {text: "Create variables and recognise the basic types", say: "You will create variables and recognise Python's basic types."}
-      - {text: "Format text with f-strings", say: "Format text cleanly with f-strings."}
-      - {text: "Use lists, dictionaries and sets, and know when to pick each", say: "Use lists, dictionaries, and sets, and know when to pick each one."}
-      - {text: "Build a chat conversation as a list of dictionaries", say: "And build a chat conversation as a list of dictionaries, which is exactly the format you will send to a model in Module 2."}
+      - {text: "Create variables and recognise the basic types", say: "Iss lesson ke baad aap variables bana paoge, aur Python ke basic types pehchaan paoge."}
+      - {text: "Build text with f-strings", say: "f strings se saaf text banaoge."}
+      - {text: "Use lists, dictionaries and sets, and know when to pick each", say: "Lists, dictionaries, aur sets use karoge, aur jaanoge ki kab kaunsa chunna hai."}
+      - {text: "Build a chat conversation as a list of dictionaries", say: "Aur ek chat conversation ko dictionaries ki list ki tarah banaoge. Yahi format Module do mein model ko bheja jaayega."}
+
+  - type: callout
+    chapter: Variables and types
+    kind: analogy
+    title: "A variable is a label on a jar"
+    body: "In a kitchen, jars carry labels: **sugar**, **salt**, **chai patti**. The label is the **name**, what's inside is the **value**, and the kind of thing inside is the **type**. You can move a label to a new jar any time."
+    say: >
+      Pehle what: variable kya hai? Rasoi ke dabbe socho. Har dabbe par label hota hai: cheeni, namak, chai patti.
+      Label variable ka naam hai. Andar jo hai, woh value hai. Aur andar kis tarah ki cheez hai, woh type hai. Aur label ko aap kabhi bhi naye dabbe par chipka sakte ho.
 
   - type: cards
-    chapter: Variables and types
     heading: Python's basic types
     say: >
-      A variable is a name that points at a value. Every value has a type, and the type decides what you can do with it.
+      Python mein har value ka ek type hota hai, aur type decide karta hai ki aap uske saath kya kar sakte ho.
     cards:
-      - {tag: str, title: Text, code: '"model-small"', tone: teal, say: "A string, s t r, holds text. Prompts, model names, and replies are all strings."}
-      - {tag: int, title: Whole numbers, code: "500", tone: blue, say: "An int is a whole number, like a token count."}
-      - {tag: float, title: Decimals, code: "0.2", tone: violet, say: "A float is a decimal number, like a temperature setting or a price."}
-      - {tag: bool, title: True or False, code: "False", tone: amber, say: "A bool is either True or False, with a capital T and F."}
-      - {tag: None, title: No value yet, code: "None", tone: coral, say: "And None means no value at all. It's often used for something that is optional, or not loaded yet."}
+      - {tag: str, title: Text, code: '"model-small"', tone: teal, say: "String, yaani s t r, text rakhta hai. Prompts, model ke naam, aur replies, sab strings hain."}
+      - {tag: int, title: Whole numbers, code: "500", tone: blue, say: "int ek poora number hai, jaise token count."}
+      - {tag: float, title: Decimals, code: "0.2", tone: violet, say: "float decimal number hai, jaise temperature setting, ya price."}
+      - {tag: bool, title: True or False, code: "False", tone: amber, say: "bool ya toh True hota hai, ya False. Capital T aur capital F ke saath."}
+      - {tag: None, title: No value yet, code: "None", tone: coral, say: "Aur None ka matlab: abhi koi value nahi. Optional cheezon ke liye, ya jo abhi load nahi hui."}
 
-  - type: code
+  - type: run
+    heading: "variables.py: names, types and f-strings"
     title: variables.py
     file: source/lesson-02/variables.py
+    cwd: source/lesson-02
+    cmd: python variables.py
     say: >
-      Here they are in a small script.
+      Ab how: ek chhoti script. Left mein code, right mein uska real output.
     steps:
       - lines: "2-6"
         note: "`=` assigns: the name on the left now points at the value on the right."
         say: >
-          Each line creates a variable with the equals sign. You do not declare the type yourself. Python works it out from the value.
+          Har line equals sign se ek variable banati hai. Type aapko khud nahi batana padta. Python value dekh kar samajh leta hai.
       - lines: "8"
+        out: "1"
         note: "`type()` tells you what kind of value a name points at."
         say: >
-          The built-in type function tells you what kind of value you have. That is very handy when something behaves unexpectedly.
+          Built in type function batata hai ki value kis type ki hai. Jab kuch ajeeb behave kare, tab yeh bahut kaam aata hai. Output mein: str, int, aur float.
       - lines: "9"
+        out: "2"
         note: "An **f-string** puts values inside `{curly braces}` straight into text."
         say: >
-          This is an f-string. Put the letter f before the quotes, and anything inside curly braces is evaluated and inserted into the text.
-          You will build prompts this way all the time.
+          Yeh f string hai. Quotes se pehle f lagao, aur curly braces ke andar jo bhi hai, uski value text mein aa jaati hai. Prompts aap hamesha aise hi banaoge.
       - lines: "11-12"
+        out: "3"
         note: "`:,` inside the braces adds thousands separators."
         say: >
-          A name can be pointed at a new value at any time. And f-strings can format values too. Colon comma adds thousands separators.
+          Variable ko kabhi bhi nayi value di ja sakti hai. Yahan max tokens chaar guna ho gaya. Aur braces ke andar colon comma lagane se hazaar ke baad comma aata hai: two comma zero zero zero.
 
   - type: terminal
+    heading: "The first error you'll meet: str + int"
     title: terminal — lesson-02
     cwd: source/lesson-02
     steps:
-      - cmd: python variables.py
-        say: >
-          Run it, and you see the three types, the formatted sentence, and the new limit of two thousand tokens.
       - cmd: "python -c 'print(\"Tokens: \" + 500)'"
         exit: 1
         say: >
-          Now a classic mistake. Joining a string and a number with plus fails with a type error, because Python will not guess how to combine text with a number.
+          Ab ek classic galti. String aur number ko plus se jodna. Python TypeError deta hai, kyunki woh guess nahi karta ki text aur number ko kaise milaana hai.
     outro: >
-      The fix is an f-string, or converting the number with s t r first. Read the last line of any error first. It names the problem precisely.
+      Fix: f string use karo, ya number ko pehle s t r se text banao. Aur kisi bhi error ki aakhri line sabse pehle padho. Wahi problem ka naam batati hai.
 
-  - type: code
+  - type: callout
     chapter: Lists
+    kind: analogy
+    title: "A list is a queue at a ticket counter"
+    body: "People in a railway queue have an **order**: first, second, third. New people join **at the end**. You can point at \"the first person\" or \"the last person\". That's a list."
+    say: >
+      Ab lists. Railway ticket counter ki line socho. Logon ka ek order hota hai: pehla, doosra, teesra. Naya aadmi line ke end mein judta hai. Aur aap pehle ya aakhri insaan ki taraf ishara kar sakte ho. Yahi list hai.
+
+  - type: run
     heading: "Lists: ordered collections"
     title: lists.py
     file: source/lesson-02/lists.py
-    say: >
-      Next, lists. A list keeps items in order, and you can change it after creating it.
+    cwd: source/lesson-02
+    cmd: python lists.py
     steps:
       - lines: "2"
+        note: "Square brackets create a list."
         say: >
-          Square brackets create a list. Here, three user messages.
+          Square brackets se list banti hai. Yahan teen user messages.
       - lines: "3-5"
+        out: "1-3"
         note: "Indexes start at **0**. Negative indexes count from the end."
         say: >
-          You read an item by its position, called its index. Indexes start at zero, so zero is the first item, and minus one is the last.
-          The len function gives you the number of items.
+          Item ko uski position se padhte hain, jise index kehte hain. Index zero se shuru hota hai, toh zero pehla item hai, aur minus ek aakhri. len function items ki ginti deta hai: teen.
       - lines: "7-8"
+        out: "4"
         note: "A slice `[1:3]` includes index 1, but **stops before** index 3."
         say: >
-          Append adds to the end. A slice takes a range. One colon three means start at index one and stop before index three.
+          append end mein jodta hai. Aur slice ek range leta hai. Ek colon teen ka matlab: index ek se shuru, aur index teen se pehle ruk jao.
       - lines: "10-11"
+        out: "5-8"
         note: "`enumerate` gives you a counter **and** the item."
         say: >
-          A for loop visits every item. Wrapping the list in enumerate gives you a running number as well, starting wherever you choose.
+          for loop har item par jaata hai. enumerate saath mein ek ginti bhi deta hai, jahan se aap chaho wahan se. Dekho, Bye bhi end mein aa gaya.
 
-  - type: terminal
-    title: terminal — lesson-02
-    cwd: source/lesson-02
-    steps:
-      - cmd: python lists.py
-        say: >
-          The output shows the first and last message, the count of three, the slice, and then the numbered list after Bye was appended.
-
-  - type: code
+  - type: callout
     chapter: Dictionaries
+    kind: analogy
+    title: "A dictionary is your phone's contact list"
+    body: "You don't find a friend by **position** (\"the 47th contact\"). You search by **name** and get the number. Name = **key**, number = **value**."
+    say: >
+      Ab dictionaries. Iss poore course mein yeh sabse important structure hai. Apne phone ki contact list socho. Aap dost ko position se nahi dhoondhte, ki saintaalisvaan contact. Naam se search karte ho, aur number mil jaata hai. Naam key hai, number value hai.
+
+  - type: run
     heading: "Dictionaries: look things up by key"
     title: dicts.py
     file: source/lesson-02/dicts.py
-    say: >
-      Dictionaries are the most important structure in this whole course. A dictionary maps keys to values, so you look things up by name instead of by position.
+    cwd: source/lesson-02
+    cmd: python dicts.py
     steps:
-      - lines: "2"
+      - lines: "2-3"
+        out: "1"
         note: "This is exactly the shape of a chat message sent to a language model API."
         say: >
-          This dictionary is a chat message. It has a role, saying who is speaking, and the content, which is the text.
-          This is the same shape real chat APIs use.
-      - lines: "3-4"
-        say: >
-          Square brackets with a key read a value, and assigning to a new key adds it.
-      - lines: "5"
+          Yeh dictionary ek chat message hai. role batata hai ki kaun bol raha hai, aur content text hai. Real chat APIs bilkul yahi shape use karti hain. Square brackets mein key likh kar value padhte hain: user.
+      - lines: "4-6"
+        out: "2-3"
         note: "`.get(key, default)` never raises an error for a missing key."
         say: >
-          The get method is the safe way to read. If the key is missing, you get the default instead of an error.
+          Nayi key par value assign karne se woh jud jaati hai. Aur get method padhne ka safe tareeka hai. Key na mile, toh error ki jagah default milta hai: unknown.
       - lines: "8-12"
         note: "A **list of dictionaries** = a conversation."
         say: >
-          Now combine the two. A list of message dictionaries is a whole conversation: a system instruction, the user's question, and the assistant's answer.
-          When you call a model in Module 2, this is precisely what you will send.
+          Ab dono ko milao. Message dictionaries ki ek list, ek poori conversation hai: system instruction, user ka sawaal, aur assistant ka jawaab. Module do mein model ko bilkul yahi bhejoge.
       - lines: "13-14"
+        out: "4-6"
+        note: "`:>9` pads the role to 9 characters, so the columns line up."
         say: >
-          Looping over it, the f-string pads each role to nine characters, so the output lines up neatly.
+          Loop chalane par, f string har role ko nau characters tak right align karta hai, toh output ekdum line mein dikhta hai.
 
   - type: terminal
+    heading: "The most common error: KeyError"
     title: terminal — lesson-02
     cwd: source/lesson-02
     steps:
-      - cmd: python dicts.py
-        say: >
-          Here is the result, including the aligned conversation at the end.
       - cmd: "python -c 'm = {\"role\": \"user\"}; print(m[\"content\"])'"
         exit: 1
         say: >
-          And here is the error you will meet most often: a key error. The key content does not exist in this dictionary.
+          Aur yeh error aap sabse zyaada dekhoge: KeyError. Iss dictionary mein content key hai hi nahi.
     outro: >
-      When a key might be missing, use get with a sensible default. When it must exist, check it explicitly and give a clear message. You will do exactly that in this module's project.
+      Jab key missing ho sakti hai, toh get ke saath ek sensible default use karo. Jab key honi hi chahiye, toh khud check karo aur saaf message do. Project mein hum yahi karenge.
 
-  - type: code
+  - type: callout
     chapter: Sets
+    kind: analogy
+    title: "A set is a wedding guest list"
+    body: "A name appears on the guest list **once**, however many relatives suggest it. At the gate, the only question is **\"is this name on the list?\"**, and that check is instant."
+    say: >
+      Ab sets. Shaadi ki guest list socho. Kitne bhi rishtedaar ek hi naam bolein, list mein woh naam ek hi baar likha jaata hai. Aur gate par sirf ek sawaal hota hai: kya yeh naam list mein hai? Aur yeh check turant hota hai.
+
+  - type: run
     heading: "Sets: unique items, fast membership"
     title: sets.py
     file: source/lesson-02/sets.py
-    say: >
-      The third collection is the set. A set holds unique items, with no duplicates and no particular order.
+    cwd: source/lesson-02
+    cmd: python sets.py
     steps:
       - lines: "2-5"
+        out: "1-2"
         note: "Duplicates disappear. Sets are unordered, so sort them for display."
         say: >
-          Turning a list of tags into a set removes the duplicates. Because sets have no order, we sort the set before printing it, so the output is predictable.
+          Tags ki list ko set banane se duplicates hat jaate hain. Set ka koi order nahi hota, isliye print karne se pehle sorted lagaate hain, taaki output hamesha ek jaisa aaye. Teen unique tags.
       - lines: "6"
+        out: "3"
         note: "`in` on a set is fast, even with millions of items."
         say: >
-          The in operator checks membership, and on a set it stays fast however large the set grows.
+          in operator check karta hai ki item set mein hai ya nahi. Set kitna bhi bada ho, yeh check fast rehta hai. Answer: True.
       - lines: "8-10"
-        note: "Set difference: what was requested but is **not allowed**. Remember this for agent security."
+        out: "4"
+        note: "Set difference: requested but **not allowed**. Remember this for agent security."
         say: >
-          Sets also support maths-like operations. Here, the tools an agent requested, minus the tools it is allowed to use, gives exactly the forbidden request.
-          Keep this idea in mind. Tool allowlists come back in the security module.
+          Sets ganit jaise operations bhi karte hain. Agent ne jo tools maange, unme se allowed tools ghatao, toh bachta hai forbidden request: delete files. Yeh idea yaad rakhna. Tool allowlists security module mein wapas aayengi.
 
-  - type: terminal
-    title: terminal — lesson-02
-    cwd: source/lesson-02
-    steps:
-      - cmd: python sets.py
-        say: >
-          Three unique tags, membership is True, and delete files is flagged as not allowed.
-
-  - type: code
+  - type: run
     chapter: Comprehensions
-    heading: Comprehensions
+    heading: "Comprehensions: a new collection in one line"
     title: comprehensions.py
     file: source/lesson-02/comprehensions.py
+    cwd: source/lesson-02
+    cmd: python comprehensions.py
     say: >
-      One last tool for this lesson: comprehensions. They build a new list or dictionary from an existing collection, in a single readable line.
+      Iss lesson ka aakhri tool: comprehensions. Yeh ek collection se nayi list ya dictionary, ek hi readable line mein banate hain.
     steps:
       - lines: "2-6"
+        note: "Three request records: a list of dictionaries, like a usage log."
         say: >
-          Here are three request records, a list of dictionaries, just like a usage log.
+          Yeh teen request records hain. Dictionaries ki list, bilkul ek usage log jaisi. Project mein yahi data aayega.
       - lines: "7-8"
+        out: "1"
         note: "`[expression for item in items if condition]`"
         say: >
-          This list comprehension reads almost like English. Take r's id, for each r in records, if r's status is ok.
+          Yeh list comprehension lagbhag English jaisa padhta hai: r ka id lo, har r ke liye records mein, agar r ka status ok hai. Do ids milte hain.
       - lines: "10-11"
+        out: "2"
         note: "`{key: value for item in items}` builds a dictionary."
         say: >
-          Curly braces with a key, colon, value build a dictionary instead, here mapping each id to its tokens.
+          Curly braces mein key, colon, value likho, toh dictionary banti hai. Yahan har id se uske tokens.
       - lines: "13"
+        out: "3"
+        note: "Without brackets, it feeds straight into `sum()`."
         say: >
-          And without any brackets, the same pattern can feed straight into a function like sum.
+          Aur bina brackets ke, wahi pattern seedha sum jaise function mein ja sakta hai. Total eight hundred fifty tokens.
 
-  - type: terminal
-    title: terminal — lesson-02
-    cwd: source/lesson-02
-    steps:
-      - cmd: python comprehensions.py
-        say: >
-          Two successful ids, a dictionary of tokens, and eight hundred and fifty tokens in total.
-
-  - type: cards
+  - type: table
     chapter: Choosing a structure
     heading: Which structure should I use?
-    cards:
-      - {tag: list, title: Order matters, body: "messages in a conversation, steps in a plan", code: '["Hi", "Bye"]', tone: teal, say: "Use a list when order matters, like the messages in a conversation, or the steps of a plan."}
-      - {tag: dict, title: Look up by name, body: "a message, a config, a JSON record", code: '{"role": "user"}', tone: blue, say: "Use a dictionary when you look things up by name, like a message, a configuration, or a record from a JSON file."}
-      - {tag: set, title: Unique or membership, body: "allowed tools, seen IDs, unique tags", code: '{"search", "calc"}', tone: violet, say: "Use a set for uniqueness and fast membership checks, like allowed tools or IDs you've already processed."}
-      - {tag: tuple, title: Fixed group, body: "a pair that never changes, like (tag, count)", code: '("support", 3)', tone: amber, say: "And a tuple, written with parentheses, is a fixed group of values that will not change, such as a tag and its count."}
+    columns: [Use, When, Example]
+    widths: [0.8, 2, 1.8]
+    rows:
+      - {cells: ["list", "order matters: messages, plan steps", "`[\"Hi\", \"Bye\"]`"], say: "Ab where: kab kya use karein? List tab, jab order zaroori ho. Jaise conversation ke messages, ya plan ke steps."}
+      - {cells: ["dict", "look up by name: a message, a config, a JSON record", "`{\"role\": \"user\"}`"], say: "Dictionary tab, jab naam se dhoondhna ho. Jaise ek message, configuration, ya JSON file ka record."}
+      - {cells: ["set", "unique items, fast \"is it in?\": allowed tools, seen IDs", "`{\"search\", \"calc\"}`"], say: "Set tab, jab unique items chahiye, ya fast membership check. Jaise allowed tools, ya jo IDs pehle process ho chuke."}
+      - {cells: ["tuple", "a fixed group that won't change: (tag, count)", "`(\"support\", 3)`"], say: "Aur tuple, round brackets wala, ek fixed group hai jo badalta nahi. Jaise ek tag aur uski ginti.", tone: teal}
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is the difference between a list and a tuple?"
+        a: "A **list** is mutable: you can append, remove and change items. A **tuple** is immutable: once made, it can't change. Tuples can be dictionary keys and set items; lists can't."
+        trap: "Saying tuples are \"faster lists\". The real difference is mutability, and what that allows."
+        say_q: "Interview corner. Pehla question: list aur tuple mein kya farak hai?"
+        say_a: "Answer: list mutable hai, aap items jod, hata, aur badal sakte ho. Tuple immutable hai, ek baar bana toh badal nahi sakta. Isliye tuple dictionary ki key ban sakta hai, list nahi. Trap: kehna ki tuple bas tez list hai. Asli farak mutability ka hai."
+      - q: "`d[\"k\"]` or `d.get(\"k\")`: which one, and when?"
+        a: "Use `d[\"k\"]` when the key **must** exist: a missing key is a bug, and the `KeyError` says so. Use `d.get(\"k\", default)` when the key is **optional**."
+        trap: "Using `.get()` everywhere, which hides real bugs behind `None`."
+        say_q: "Doosra question: d square bracket k, ya d dot get k? Kab kaunsa?"
+        say_a: "Answer: jab key honi hi chahiye, tab square brackets. Missing key ek bug hai, aur KeyError yahi batata hai. Jab key optional ho, tab get ek default ke saath. Trap: har jagah get lagana. Asli bugs None ke peeche chhup jaate hain."
+      - q: "Why is checking `x in my_set` faster than `x in my_list`?"
+        a: "A set uses hashing, so a membership check takes about the same time however big it is. A list is checked **item by item**, so it gets slower as it grows."
+        trap: "Converting a list to a set inside a loop, every time: the conversion itself is the slow part."
+        say_q: "Teesra: x in set, x in list se fast kyun hai?"
+        say_a: "Answer: set hashing use karta hai, toh check ka time size par lagbhag depend nahi karta. List mein ek ek item check hota hai, toh list badi hone par slow hota hai. Trap: loop ke andar har baar list ko set banana. Wahi conversion slow hai."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Video pause karo, aur khud try karo.
+    items:
+      - {text: "Print `Model: model-small | Tokens: 1,500` with one f-string", say: "Pehla: ek hi f string se print karo: Model, model small, aur Tokens, one comma five zero zero."}
+      - {text: "Add a 4th message to `conversation` in `dicts.py` and print only the `user` messages", say: "Doosra: dicts dot py ki conversation mein chautha message jodo, aur sirf user wale messages print karo."}
+      - {text: "From the `records` list, build a set of all statuses", say: "Teesra: records list se saare statuses ka ek set banao."}
+      - {text: "Scenario: a tool list has duplicates and an unknown tool. Find both with sets.", say: "Aur scenario: tools ki ek list mein duplicates bhi hain aur ek unknown tool bhi. Sets se dono dhoondho.", pause: 6}
 
   - type: quiz
     chapter: Quick check
@@ -225,17 +276,36 @@ scenes:
     answer: 1
     explain: "`.get()` returns the default, `\"unknown\"`, when the key is missing. Only `message[\"model\"]` would raise a `KeyError`."
     say_question: >
-      Quick check. What does this code print? Pause the video if you need a moment.
+      Quick check. Yeh code kya print karega? Zaroorat ho toh video pause karo.
     say_answer: >
-      The answer is unknown. The get method returns the default when the key is missing. Only square-bracket access would raise a key error.
+      Answer: unknown. Key missing hai, toh get default lautaata hai. Sirf square brackets KeyError dete.
+
+  - type: quiz
+    number: 2
+    question: "`messages = [\"a\", \"b\", \"c\", \"d\"]`. What is `messages[1:3]`?"
+    options: ["`[\"a\", \"b\", \"c\"]`", "`[\"b\", \"c\"]`", "`[\"b\", \"c\", \"d\"]`", "`[\"c\", \"d\"]`"]
+    answer: 1
+    explain: "A slice starts at index 1 (`\"b\"`) and **stops before** index 3, so it's `[\"b\", \"c\"]`."
+    say_question: >
+      Doosra question. messages mein a, b, c, d hain. messages ek colon teen kya dega?
+    say_answer: >
+      B: b aur c. Slice index ek se shuru hota hai, aur index teen se pehle ruk jaata hai.
 
   - type: recap
     chapter: Recap
     heading: Lesson 2 recap
     items:
-      - {text: "Variables point at values; `type()` reveals the type", say: "Variables are names pointing at values, and the type function tells you what a value is."}
-      - {text: "f-strings build text: `f\"{model} with {max_tokens:,} tokens\"`", say: "F-strings are the clean way to build text, and they can format numbers too."}
-      - {text: "Lists keep order, dicts look up by key, sets keep things unique", say: "Lists keep order, dictionaries look up by key, and sets keep things unique."}
-      - {text: "A conversation is a list of `{\"role\", \"content\"}` dicts", say: "And a conversation is a list of dictionaries, each with a role and some content."}
+      - {text: "Variables are labels on values; `type()` reveals the type", say: "Recap. Variables values par lage labels hain, aur type function batata hai ki value kya hai."}
+      - {text: "f-strings build text: `f\"{model} with {max_tokens:,} tokens\"`", say: "f strings text banane ka saaf tareeka hain, aur numbers ko format bhi karte hain."}
+      - {text: "Lists keep order, dicts look up by key, sets keep things unique", say: "List order rakhti hai, dictionary key se dhoondhti hai, aur set cheezon ko unique rakhta hai."}
+      - {text: "A conversation is a list of `{\"role\", \"content\"}` dicts", say: "Aur ek conversation dictionaries ki list hai, har ek mein role aur content."}
     outro: >
-      Next lesson: functions, classes, and exceptions, so you can organise this data into reusable, reliable code.
+      Agle lesson mein: functions, classes, aur exceptions. Taaki iss data ko reusable aur reliable code mein organise kar sako.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 1 · Lesson 3
+    title: Functions, classes and exceptions
+    subtitle: Organise your data into reusable, reliable code.
+    say: >
+      Lesson do complete. Ab aap AI apps ka core data samajhte ho. Milte hain agle lesson mein.

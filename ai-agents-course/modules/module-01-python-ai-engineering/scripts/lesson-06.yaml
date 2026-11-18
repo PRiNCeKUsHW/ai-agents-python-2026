@@ -1,5 +1,6 @@
 module_title: Python for AI Engineering
 title: "Project, Part 1: Plan, Data Model and Validation"
+narration: hinglish
 scenes:
   - type: title
     chapter: Introduction
@@ -8,22 +9,21 @@ scenes:
     subtitle: Plan the tool, model the data, and validate every record.
     loop: [Plan, Model, Validate, Report]
     say: >
-      Time to build. Over the next two lessons, you'll write the Python AI Toolkit from an empty folder to a tested command line tool.
-      Every concept from this module appears somewhere in it. In this lesson we plan it, model the data, and validate it.
+      Ab banane ka time. Agle do lessons mein aap Python AI Toolkit ko khaali folder se lekar ek tested command line tool tak le jaoge.
+      Iss module ka har concept isme kahin na kahin aata hai. Iss lesson mein hum plan karenge, data ka model banayenge, aur use validate karenge.
 
   - type: bullets
     chapter: What we are building
     heading: "The brief: what the tool must do"
     say: >
-      Every AI team needs to answer simple questions about their language model usage. How many requests failed? How many tokens did we use? Roughly what did it cost?
-      Here is what our tool must do.
+      Har AI team ko apne language model usage ke baare mein kuch simple sawaalon ke jawaab chahiye. Kitni requests fail hui? Kitne tokens lage? Lagbhag kitna kharcha hua? Hamara tool yeh karega.
     items:
-      - {text: "Read a JSON log of model API calls", sub: "one record per request: model, tokens, latency, status, tags", say: "Read a JSON log of model API calls, with one record per request."}
-      - {text: "Validate every record and explain each problem", sub: "never crash on bad data", say: "Validate every record, and explain each problem precisely, without crashing on bad data."}
-      - {text: "Summarise: success rate, tokens, cost, latency, top tags", say: "Summarise the good records: success rate, tokens, estimated cost, latency, and the most common tags."}
-      - {text: "Write the report as Markdown or JSON", sub: "to the screen or to a file", say: "Write that report as Markdown for people, or JSON for other programs."}
-      - {text: "Download logs from URLs, concurrently", say: "Download logs from several URLs at the same time."}
-      - {text: "Configure with environment variables; test everything", say: "And take its settings from environment variables, with automated tests for all of it."}
+      - {text: "Read a JSON log of model API calls", sub: "one record per request: model, tokens, latency, status, tags", say: "Model API calls ka JSON log padhna, har request ka ek record."}
+      - {text: "Validate every record and explain each problem", sub: "never crash on bad data", say: "Har record validate karna, aur har problem saaf batana. Kharab data par kabhi crash nahi."}
+      - {text: "Summarise: success rate, tokens, cost, latency, top tags", say: "Achhe records ka summary: success rate, tokens, estimated cost, latency, aur sabse common tags."}
+      - {text: "Write the report as Markdown or JSON", sub: "to the screen or to a file", say: "Report Markdown mein, logon ke liye, ya JSON mein, doosre programs ke liye."}
+      - {text: "Download logs from URLs, concurrently", say: "Kai URLs se logs ek saath download karna."}
+      - {text: "Configure with environment variables; test everything", say: "Settings environment variables se, aur sab kuch ke automated tests."}
 
   - type: diagram
     chapter: Architecture
@@ -45,31 +45,31 @@ scenes:
       - {from: cli, to: config}
       - {from: cli, to: fetch}
     say: >
-      Before writing code, decide how to split it. Each file gets one job.
+      Code likhne se pehle decide karo ki usse kaise baantna hai. Ek restaurant ki kitchen jaise: ek sabzi kaatta hai, ek pakaata hai, ek plate sajata hai. Har file ka ek kaam.
     steps:
       - show: [cli]
         focus: [cli]
         say: >
-          At the top, cli dot py reads the command line and calls everything else. It's the only part that knows about arguments and printing.
+          Sabse upar cli dot py. Yeh command line padhta hai aur baaki sabko call karta hai. Sirf yahi hissa arguments aur printing ke baare mein jaanta hai.
       - show: [loader, models, "cli->loader", "loader->models"]
         focus: [loader, models]
         flow: ["cli->loader", "loader->models"]
         say: >
-          The loader reads a file, and models turns each raw dictionary into a validated usage record.
+          loader file padhta hai, aur models har raw dictionary ko ek validated usage record banata hai.
       - show: [stats, report, "cli->stats", "cli->report"]
         focus: [stats, report]
         flow: ["cli->stats", "cli->report"]
         say: >
-          Stats calculates the summary, and report formats it. Calculating and formatting are separate, so each is easy to test.
+          stats summary calculate karta hai, aur report use format karta hai. Calculate karna aur format karna alag hain, toh dono ko test karna aasaan hai.
       - show: [config, fetch, "cli->config", "cli->fetch"]
         focus: [config, fetch]
         say: >
-          Config reads settings and prices, and fetch downloads logs over HTTP.
+          config settings aur prices padhta hai, aur fetch HTTP par logs download karta hai.
       - show: [errors]
         focus: [errors]
         caption: "Every module raises ToolkitError, the CLI catches it once"
         say: >
-          And errors defines our exception classes. Any module can raise a toolkit error, and the command line catches it in exactly one place.
+          Aur errors hamari exception classes define karta hai. Koi bhi module ToolkitError raise kar sakta hai, aur command line usse sirf ek jagah pakadti hai.
 
   - type: code
     chapter: The data
@@ -79,16 +79,14 @@ scenes:
     file: project/python-ai-toolkit/data/usage_sample.json
     lines: "1-14"
     say: >
-      Here's the input. A JSON list, with one object per model call.
+      Yeh input hai. Ek JSON list, har model call ka ek object.
     steps:
       - lines: "3-6"
         say: >
-          Each record has an id, the model used, and the prompt and completion tokens.
-          Prompt tokens are what you sent, and completion tokens are what the model generated. Providers usually price them differently.
+          Har record mein ek id hai, use hua model, aur prompt aur completion tokens. Prompt tokens woh hain jo aapne bheje, completion tokens woh jo model ne banaye. Providers inki keemat aksar alag rakhte hain.
       - lines: "7-13"
         say: >
-          It also has the latency in milliseconds, a status of ok or error, a list of tags describing the task, and a timestamp in ISO 8601 format.
-          Elsewhere in this file, request four failed after thirty seconds, which looks like a timeout. Real logs contain exactly this kind of mess.
+          Usme milliseconds mein latency bhi hai, ok ya error status, task batane wale tags ki list, aur ISO eight six zero one format mein timestamp. Isi file mein aage, request chaar tees second ke baad fail hui, jo timeout jaisa lagta hai. Asli logs mein bilkul aisi hi gadbad hoti hai.
 
   - type: code
     chapter: Errors first
@@ -99,14 +97,21 @@ scenes:
       - lines: "1-2"
         note: "One base class for every error we raise **on purpose**."
         say: >
-          We start with the errors, because every other module uses them. Toolkit error is the base class for anything we raise on purpose.
+          Hum errors se shuru karte hain, kyunki baaki har module inhe use karta hai. ToolkitError har uss error ki base class hai jo hum jaan boojh kar raise karte hain.
       - lines: "5-10"
         note: "`ValidationError` remembers **which field** failed."
         say: >
-          Validation error is a more specific kind. It calls the parent's init with a readable message, and also stores which field failed, so tests can check it.
+          ValidationError ek zyaada specific type hai. Yeh parent ke init ko ek readable message ke saath call karta hai, aur yeh bhi yaad rakhta hai ki kaunsi field fail hui, taaki tests usse check kar sakein.
+
+  - type: callout
+    chapter: The data model
+    kind: analogy
+    title: "Validation is airport security"
+    body: "Every bag goes through the scanner **once, at the entrance**. After that, everyone inside trusts it. We validate each raw record **at the edge**, and the rest of the code works only with records that passed."
+    say: >
+      Ab data model. Airport security socho. Har bag entrance par ek baar scanner se guzarta hai. Uske baad andar sab uss par bharosa karte hain. Hum bhi har raw record ko darwaaze par ek baar validate karte hain, aur baaki code sirf pass hue records ke saath kaam karta hai.
 
   - type: code
-    chapter: The data model
     heading: "models.py: one record, validated"
     title: toolkit/models.py
     file: project/python-ai-toolkit/toolkit/models.py
@@ -115,23 +120,23 @@ scenes:
       - lines: "7"
         note: "A **set** of allowed values: fast membership checks."
         say: >
-          Now the data model. Allowed status is a set, because we only ever ask, is this status in the set?
+          ALLOWED STATUS ek set hai, kyunki hum sirf yahi poochte hain: kya yeh status set mein hai?
       - lines: "10-13"
         note: "Missing field → a clear `ValidationError`, never a `KeyError`."
         say: >
-          Require is a small helper. It returns a field's value, or raises a validation error saying the field is required, instead of a confusing key error.
+          require ek chhota helper hai. Yeh field ki value lautaata hai, ya ValidationError raise karta hai ki field required hai. Ulajhne wala KeyError nahi.
       - lines: "16-22"
         note: "`True` is an `int` in Python, so reject `bool` explicitly."
         say: >
-          This helper checks for a non-negative integer. There's one subtle trap here. In Python, True and False are a kind of int, so we reject bools explicitly.
+          Yeh helper non negative integer check karta hai. Ek chhupa hua trap hai: Python mein True aur False bhi ek tarah ke int hain. Isliye bools ko alag se reject karte hain.
       - lines: "25-36"
         note: "`frozen=True`: a record can't be changed after it's created."
         say: >
-          The record itself is a dataclass, with a type hint for every field. Frozen equals True makes it read-only, so nothing can quietly modify a record after validation.
+          Record khud ek dataclass hai, har field ke type hint ke saath. frozen equals True use read only banata hai, taaki validation ke baad koi chupke se record na badal sake.
       - lines: "38-40"
         note: "`@property`: computed, but used like an attribute: `record.total_tokens`."
         say: >
-          Total tokens is a property. It's calculated from the other fields, but you use it like a normal attribute, without parentheses.
+          total tokens ek property hai. Yeh baaki fields se calculate hoti hai, lekin aap use normal attribute ki tarah, bina brackets ke, use karte ho.
 
   - type: code
     heading: "from_dict: raw dictionary in, valid record out"
@@ -142,28 +147,31 @@ scenes:
       - lines: "42-45"
         note: "`@classmethod`: an alternative way to **create** the object."
         say: >
-          From dict is a class method, an alternative constructor. It receives the class itself as cls, and builds a record from a raw dictionary.
-          First, it checks that the item is a dictionary at all.
+          from dict ek class method hai, object banane ka doosra tareeka. Isse class khud cls ke roop mein milti hai, aur yeh raw dictionary se record banata hai. Pehle check: item dictionary hai bhi ya nahi.
       - lines: "47-53"
+        note: "`id` and `model` must be non-empty strings."
         say: >
-          Then each field gets checked. The id and the model must be non-empty strings.
+          Phir har field check hoti hai. id aur model khaali nahi hone chahiye, aur strings hone chahiye.
       - lines: "55-59"
+        note: "Latency: an `int` or a `float`, never a `bool`."
         say: >
-          Latency must be a non-negative number, either an int or a float, but again, not a bool.
+          Latency negative nahi honi chahiye, int ya float, lekin phir se, bool nahi.
       - lines: "61-65"
+        note: "The message lists the valid options."
         say: >
-          The status must be in the allowed set. The message lists the valid options, which makes the error easy to fix.
+          Status allowed set mein hona chahiye. Message mein sahi options likhe hote hain, toh galti theek karna aasaan.
       - lines: "67-69"
         note: "Tags are optional: `.get()` with a default."
         say: >
-          Tags are optional, so we use get with an empty list as the default, and then check that it's a list of strings.
+          Tags optional hain, toh get aur khaali list default. Phir check ki yeh strings ki list hai.
       - lines: "71-75"
         note: "`from None` hides the internal error, keeping only our clear message."
         say: >
-          For the timestamp, datetime dot fromisoformat does the parsing. If it fails, we raise our own error, from None, so the user sees one clear message instead of two chained tracebacks.
+          Timestamp ke liye datetime dot fromisoformat parsing karta hai. Fail ho, toh hum apni error raise karte hain, from None ke saath, taaki user ko do jude hue tracebacks ki jagah ek saaf message dikhe.
       - lines: "77-86"
+        note: "Reaching here means every field is valid."
         say: >
-          Finally, we call cls with every validated value. If we get here, the record is guaranteed to be valid.
+          Aakhir mein har validated value ke saath cls call hota hai. Yahan tak pahunche, matlab record pakka valid hai.
 
   - type: terminal
     repl: true
@@ -171,7 +179,7 @@ scenes:
     cwd: project/python-ai-toolkit
     alias: .
     say: >
-      Let's try the model in the interactive Python prompt, before any other code exists. Start it by typing python in the project folder.
+      Model ko interactive Python prompt mein try karte hain, baaki code bane usse pehle hi. Project folder mein python type karke shuru karo.
     steps:
       - cmd: |
           from toolkit.models import UsageRecord
@@ -180,13 +188,12 @@ scenes:
           row["created_at"] = "2026-03-02T09:00:00"
           UsageRecord.from_dict(row).total_tokens
         say: >
-          We build a valid dictionary step by step. From dict gives us a record, and total tokens is fifteen.
+          Ek valid dictionary step by step banayi. from dict ne record diya, aur total tokens pandrah.
       - cmd: |
           UsageRecord.from_dict({**row, "prompt_tokens": -1})
         keep: "1,-1"
         say: >
-          Now change one field to minus one. Our validation error names the field and the bad value.
-          Double star row copies the dictionary, and the new key overrides the old value.
+          Ab ek field ko minus ek kar do. Hamari ValidationError field ka naam aur galat value dono batati hai. Double star row dictionary ko copy karta hai, aur nayi key purani value ko badal deti hai.
 
   - type: code
     chapter: Loading files
@@ -197,17 +204,15 @@ scenes:
       - lines: "9-19"
         note: "Two things can go wrong: no file, or invalid JSON. Both become a `ToolkitError`."
         say: >
-          Read JSON handles the two ways reading can fail. The file might not exist, or it might not be valid JSON.
-          Both become a toolkit error with a clear message, including the line and column for bad JSON.
+          read json padhne ki do galtiyan sambhaalta hai. File ho hi na, ya valid JSON na ho. Dono ek saaf ToolkitError ban jaati hain, kharab JSON ke liye line aur column ke saath.
       - lines: "22-26"
         note: "Returns a **tuple**: the good records **and** the problems."
         say: >
-          Load records returns a tuple of two lists: the valid records, and a message for every invalid one. The top level of the file must be a list.
+          load records do lists ka tuple lautaata hai: valid records, aur har invalid record ka message. File ka top level ek list hona chahiye.
       - lines: "28-36"
         note: "One bad record must not stop the others from loading."
         say: >
-          Then we loop with enumerate, so we can report record numbers starting at one. Each record that fails validation is recorded as a problem, and the loop carries on.
-          One bad record never stops the good ones from loading.
+          Phir enumerate ke saath loop, taaki record numbers ek se shuru hon. Jo record validation mein fail ho, woh problem ki list mein jaata hai, aur loop chalta rehta hai. Ek kharab record achhe records ko kabhi nahi rokta.
 
   - type: code
     chapter: Configuration
@@ -216,21 +221,21 @@ scenes:
     file: project/python-ai-toolkit/toolkit/config.py
     steps:
       - lines: "9-12"
+        note: "Two settings: the prices file and the currency label."
         say: >
-          Settings is a small frozen dataclass with the two things we can configure: the prices file, and the currency label.
+          Settings ek chhoti frozen dataclass hai, do configurable cheezon ke saath: prices file, aur currency label.
       - lines: "15-24"
         note: "`setdefault`: a real environment variable always wins over `.env`."
         say: >
-          Load dot env is our tiny dot env reader. It skips blank lines and comments, splits each line at the first equals sign, and uses set default,
-          so a variable that's already set in the real environment always wins over the file.
+          load dot env hamara chhota sa dot env reader hai. Khaali lines aur comments chhod deta hai, har line ko pehle equals sign par todta hai, aur setdefault use karta hai. Toh asli environment mein pehle se set variable hamesha file se jeetta hai.
       - lines: "27-33"
+        note: "Sensible defaults for both."
         say: >
-          Load settings reads both variables, with sensible defaults.
+          load settings dono variables padhta hai, sensible defaults ke saath.
       - lines: "36-41"
         note: "Keys starting with `_` (like `_note`) are comments, not models."
         say: >
-          And load prices reads the prices file, skipping keys that start with an underscore, which we use for comments.
-          These are example prices for fictional models, per million tokens. They are not real provider prices.
+          Aur load prices prices file padhta hai, underscore se shuru hone wali keys chhod kar, jo hum comments ke liye use karte hain. Yeh fictional models ki example prices hain, per million tokens. Asli provider prices nahi.
 
   - type: code
     chapter: Statistics
@@ -242,19 +247,19 @@ scenes:
       - lines: "6-7"
         note: "A **type alias** gives a long type a short name."
         say: >
-          Prices is a type alias, a short name for a long type hint.
+          Prices ek type alias hai, lambe type hint ka chhota naam.
       - lines: "10-14"
+        note: "Running totals for one model."
         say: >
-          Model stats holds running totals for one model, all starting at zero.
+          ModelStats ek model ke running totals rakhta hai, sab zero se shuru.
       - lines: "17-36"
         note: "`field(default_factory=...)`: fresh containers for every summary."
         say: >
-          Summary holds every number in the report. Notice the default factories again, and two properties that calculate the total tokens and the success rate,
-          guarding against dividing by zero.
+          Summary report ka har number rakhta hai. Default factories phir se dekho, aur do properties jo total tokens aur success rate calculate karti hain, zero se divide hone se bachte hue.
       - lines: "39-45"
         note: "Unknown model → `None`, not a crash."
         say: >
-          Estimate cost multiplies prompt and completion tokens by their prices, and divides by a million. An unknown model returns None instead of crashing.
+          estimate cost prompt aur completion tokens ko unki prices se guna karta hai, aur ek million se divide. Anjaan model par crash nahi, None.
 
   - type: code
     heading: "summarize(): one pass over the records"
@@ -265,15 +270,15 @@ scenes:
       - lines: "50-53"
         note: "`Counter` counts things: perfect for tags."
         say: >
-          Summarize prepares a dictionary of per-model stats, a counter for tags, a set of models with no price, and a running cost.
+          summarize har model ke stats ki dictionary, tags ke liye ek Counter, bina price wale models ka set, aur running cost taiyaar karta hai.
       - lines: "55-65"
         note: "`setdefault` creates the entry the first time a model appears."
         say: >
-          One loop does all the counting. Set default creates a model's stats the first time we see it. Unpriced models are collected, not fatal, and the counter tallies every tag.
+          Ek hi loop saari ginti karta hai. setdefault kisi model ke stats pehli baar dikhne par banata hai. Bina price wale models collect hote hain, crash nahi, aur Counter har tag ginta hai.
       - lines: "67-80"
         note: "Comprehensions and `sum()`, straight from lesson 2."
         say: >
-          Finally, comprehensions and sum compute the totals, and most common gives the top three tags. Everything from lesson two, working together.
+          Aakhir mein comprehensions aur sum totals nikaalte hain, aur most common top teen tags deta hai. Lesson do ki saari cheezein, ek saath kaam karti hui.
 
   - type: terminal
     chapter: First results
@@ -281,7 +286,7 @@ scenes:
     title: python — python-ai-toolkit
     cwd: project/python-ai-toolkit
     say: >
-      The command line doesn't exist yet, but the pieces already work. Let's call them from the Python prompt.
+      Command line abhi bani nahi, lekin hisse pehle se kaam karte hain. Python prompt se unhe call karte hain.
     steps:
       - cmd: |
           from pathlib import Path
@@ -290,7 +295,7 @@ scenes:
           len(records), len(problems)
           problems[0]
         say: >
-          Loading the broken file gives one valid record and four problems, each with a precise message.
+          Broken file load karne par ek valid record, aur chaar problems, har ek ka saaf message.
       - cmd: |
           from toolkit.config import load_prices
           from toolkit.stats import summarize
@@ -299,15 +304,86 @@ scenes:
           s.requests, s.ok, s.total_tokens, round(s.cost, 4)
           s.top_tags
         say: >
-          And summarising the clean sample gives ten requests, eight successful, eleven thousand and ninety-five tokens, the estimated cost, and the top three tags.
+          Aur clean sample ka summary: das requests, aath successful, eleven thousand ninety five tokens, estimated cost, aur top teen tags.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "Why validate data at the edge instead of everywhere?"
+        a: "One place checks raw input and turns it into a **trusted type** (`UsageRecord`). The rest of the code can rely on it, so checks aren't duplicated and bugs show up **where the bad data enters**."
+        trap: "Sprinkling `if x is None` checks all over the code instead."
+        say_q: "Interview corner. Pehla question: data ko har jagah ki jagah edge par validate kyun karte hain?"
+        say_a: "Answer: ek hi jagah raw input check hota hai aur ek trusted type ban jaata hai. Baaki code uss par bharosa kar sakta hai, checks dohraaye nahi jaate, aur bug wahin dikhta hai jahan kharab data andar aaya. Trap: poore code mein jagah jagah if x is None likhna."
+      - q: "What is `@classmethod` used for here?"
+        a: "An **alternative constructor**: `UsageRecord.from_dict(raw)` builds and validates a record from a dictionary. It gets the class as `cls`, so it also works for subclasses."
+        trap: "Putting all validation in `__init__` of a frozen dataclass, which makes simple construction in tests awkward."
+        say_q: "Doosra: yahan classmethod kis kaam ka hai?"
+        say_a: "Answer: yeh object banane ka doosra tareeka hai. from dict dictionary se record banata aur validate karta hai. Usse class cls ke roop mein milti hai. Trap: saari validation frozen dataclass ke init mein daal dena, jisse tests mein simple object banana mushkil ho jaata hai."
+      - q: "Why is `isinstance(True, int)` a problem in validation?"
+        a: "`bool` is a subclass of `int`, so `True` passes an `int` check. A field like `prompt_tokens: true` would be accepted as **1** unless you reject `bool` explicitly."
+        trap: "Assuming JSON `true` can never reach a number field."
+        say_q: "Teesra: validation mein isinstance True comma int problem kyun hai?"
+        say_a: "Answer: bool, int ki subclass hai, toh True int check pass kar leta hai. prompt tokens true wali field ek ki tarah accept ho jaayegi, jab tak aap bool ko alag se reject na karo. Trap: maan lena ki JSON ka true kabhi number field tak nahi pahunchega."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Video pause karo, aur khud try karo.
+    items:
+      - {text: "In the REPL, make a record with `status: \"done\"`. Read the message.", say: "Pehla: REPL mein status done wala record banao, aur message padho."}
+      - {text: "Add `\"cancelled\"` to the allowed statuses. Which tests should change?", say: "Doosra: allowed statuses mein cancelled jodo. Kaunse tests badlne chahiye?"}
+      - {text: "Add `cost_per_request` (cost ÷ requests) to `Summary` as a property, safe for zero requests", say: "Teesra: Summary mein cost per request property jodo, zero requests par bhi safe."}
+      - {text: "Scenario: a log has 10,000 records and 3 are broken. What should the user see?", say: "Aur scenario: log mein das hazaar records hain, aur teen kharab. User ko kya dikhna chahiye?", pause: 6}
+
+  - type: quiz
+    chapter: Quick check
+    number: 1
+    question: "`load_records` finds 1 valid and 4 invalid records. What does it do?"
+    options:
+      - "Raises an error at the first invalid record"
+      - "Returns the valid record and a list of 4 problems"
+      - "Skips the bad records silently"
+      - "Fixes the bad records automatically"
+    answer: 1
+    explain: "It returns `(records, problems)`: good records keep working, and every problem is reported with its record number."
+    say_question: >
+      Quick check. load records ko ek valid aur chaar invalid records milte hain. Woh kya karta hai?
+    say_answer: >
+      B. Valid record aur chaar problems ki list lautaata hai. Achhe records kaam karte rehte hain, aur har problem record number ke saath batayi jaati hai.
+
+  - type: quiz
+    number: 2
+    question: "What does `frozen=True` on a dataclass do?"
+    options:
+      - "Makes the class faster"
+      - "Stops anyone from changing an object's fields after it's created"
+      - "Saves the object to disk"
+      - "Validates the field types"
+    answer: 1
+    explain: "Assigning to a field of a frozen dataclass raises `FrozenInstanceError`. It doesn't validate types: that's `from_dict`'s job."
+    say_question: >
+      Doosra question. Dataclass par frozen equals True kya karta hai?
+    say_answer: >
+      B. Object banne ke baad koi uski fields nahi badal sakta. Types validate nahi karta. Woh kaam from dict ka hai.
 
   - type: recap
     chapter: Recap
     heading: Part 1 recap
     items:
-      - {text: "Plan modules with one job each before writing code", say: "We planned small modules with one job each."}
-      - {text: "Validate at the edge: raw dict → `UsageRecord` or a clear error", say: "We validate data at the edge, turning raw dictionaries into trusted records or clear errors."}
-      - {text: "Collect problems instead of crashing on the first one", say: "We collect problems instead of crashing on the first one."}
-      - {text: "Keep calculation (`stats`) separate from formatting (`report`)", say: "And we keep calculating separate from formatting."}
+      - {text: "Plan modules with one job each before writing code", say: "Recap. Code se pehle plan: har module ka ek kaam."}
+      - {text: "Validate at the edge: raw dict → `UsageRecord` or a clear error", say: "Data ko darwaaze par validate karo: raw dictionary se trusted record, ya saaf error."}
+      - {text: "Collect problems instead of crashing on the first one", say: "Pehli galti par crash nahi, problems collect karo."}
+      - {text: "Keep calculation (`stats`) separate from formatting (`report`)", say: "Aur calculate karna, format karne se alag rakho."}
     outro: >
-      In part two, we write the report, the downloader, and the command line, then run the finished tool, test it, and wrap up the module.
+      Part do mein report, downloader, aur command line likhenge. Phir tayyar tool chalayenge, test karenge, aur module poora karenge.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 1 · Lesson 7
+    title: "Project, Part 2"
+    subtitle: Reports, the command line, tests and wrap-up.
+    say: >
+      Lesson chhe complete. Toolkit ki neev taiyaar hai. Milte hain agle lesson mein.

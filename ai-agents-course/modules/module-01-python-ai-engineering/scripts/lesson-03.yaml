@@ -1,5 +1,6 @@
 module_title: Python for AI Engineering
 title: "Functions, Classes and Exceptions"
+narration: hinglish
 scenes:
   - type: title
     chapter: Introduction
@@ -7,225 +8,206 @@ scenes:
     title: Functions, classes and exceptions
     subtitle: Organise logic, model your data, and fail on purpose instead of by accident.
     say: >
-      In the last lesson you learned how to hold data. Now you will learn how to organise the code that works on it.
-      Functions give logic a name, classes bundle data with behaviour, and exceptions let your program fail clearly and recover safely.
-      Agents call tools that fail all the time, so this last part matters a lot.
+      Pichle lesson mein humne data dekha. Ab hum code ko organise karenge. Functions logic ko naam dete hain, classes data aur behaviour ko saath rakhti hain, aur exceptions errors ko sambhaalti hain.
+      Har AI agent, chaahe chhota ho ya bada, inhi teen cheezon par khada hota hai.
 
   - type: objectives
     items:
-      - {text: "Write functions with parameters, defaults and return values", say: "You will write functions with parameters, default values, and return values."}
-      - {text: "Avoid the mutable default argument bug", say: "Avoid a classic bug that can leak data between users."}
-      - {text: "Create classes and dataclasses", say: "Create your own classes, and the shorter dataclasses."}
-      - {text: "Handle, raise and define exceptions, and read tracebacks", say: "And handle, raise, and define your own exceptions, and read a traceback calmly."}
+      - {text: "Write functions with parameters, defaults and return values", say: "Iss lesson ke baad aap parameters, default values, aur return values ke saath functions likh paoge."}
+      - {text: "Avoid the mutable default argument bug", say: "Ek classic bug se bachoge, jo users ke beech data leak kar sakta hai."}
+      - {text: "Create classes and dataclasses", say: "Apni classes, aur chhoti dataclasses banaoge."}
+      - {text: "Handle, raise and define exceptions, and read tracebacks", say: "Aur exceptions handle karoge, raise karoge, apni exceptions banaoge, aur traceback aaram se padhoge."}
 
-  - type: code
+  - type: callout
     chapter: Functions
+    kind: analogy
+    title: "A function is a recipe card"
+    body: "A recipe card for chai takes **inputs** (water, milk, sugar), does the **same steps** every time, and **gives back** one thing: a cup of chai. Write the card once, use it every morning."
+    say: >
+      Pehle what: function kya hai? Chai ka recipe card socho. Usme inputs hain: paani, doodh, cheeni. Har baar wahi steps hote hain. Aur end mein ek cheez milti hai: ek cup chai.
+      Card ek baar likho, aur roz subah use karo. Function bhi yahi hai: inputs ko parameters kehte hain, aur jo wapas milta hai, woh return value.
+
+  - type: run
     heading: "Functions: name a piece of logic"
     title: functions.py
     file: source/lesson-03/functions.py
-    say: >
-      A function is a named, reusable block of code. You define it once, and call it as often as you like.
+    cwd: source/lesson-03
+    cmd: python functions.py
     steps:
       - lines: "2-4"
         note: "`def name(parameters):` then an indented body. `return` sends a value back."
         say: >
-          The def keyword starts a function. Inside the parentheses are its parameters, the inputs.
-          The text in triple quotes is a docstring, describing what it does. And return sends the result back to whoever called it.
+          def keyword function shuru karta hai. Brackets ke andar parameters, yaani inputs. Teen quotes wala text docstring hai, jo batata hai ki function kya karta hai. Aur return result ko wapas bhejta hai.
       - lines: "7-8"
+        out: "1-2"
         note: "Call by position, or by **keyword** for clarity."
         say: >
-          You can pass arguments by position, or by name, as keyword arguments. Keywords make calls with several numbers much easier to read.
-          Notice the underscores in two million. Python ignores them. They are just there for readability.
+          Arguments position se de sakte ho, ya naam se, jinhe keyword arguments kehte hain. Kai numbers wali call mein keywords padhna bahut aasaan bana dete hain. Aur two million mein underscores dekho. Python unhe ignore karta hai, woh sirf padhne mein madad ke liye hain.
       - lines: "11-15"
         note: "`max_words=8` is a **default**: used when the caller doesn't pass a value."
         say: >
-          This second function has a default value. If the caller does not pass max words, it uses eight.
-          It returns early when the text is already short enough. Otherwise it keeps the first words and adds an ellipsis.
+          Doosre function mein ek default value hai. Agar call karne wala max words na de, toh aath use hoga. Text pehle se chhota ho, toh wahin return. Warna pehle ke words rakh kar teen dots jod deta hai.
       - lines: "18-20"
+        out: "3-5"
+        note: "Long text is shortened; the last call overrides the default."
         say: >
-          Here we call it three times: once with a long sentence, once with a short one, and once overriding the default.
-
-  - type: terminal
-    title: terminal — lesson-03
-    cwd: source/lesson-03
-    steps:
-      - cmd: python functions.py
-        say: >
-          The costs come back as plain numbers, the long sentence is shortened, and the last call keeps only two words.
+          Teen calls: ek lambi line, ek chhoti line, aur ek jisme default badal diya. Output mein lambi line chhoti ho gayi, aur aakhri call mein sirf do words bache.
 
   - type: bullets
     heading: Habits for good functions
     items:
-      - {text: "One job per function, named with a verb", sub: "`estimate_cost`, `load_records`, `render_report`", say: "Give each function one job, and name it with a verb, like estimate cost or load records."}
-      - {text: "Return values; don't print inside", sub: "the caller decides what to do with the result", say: "Return results instead of printing them. Then the caller decides what to do, and you can test the function easily."}
-      - {text: "Use keyword arguments for anything unclear", say: "Use keyword arguments whenever a call would otherwise be a mystery list of numbers."}
-      - {text: "Never use a mutable default like `[]` or `{}`", sub: "it is shared between calls. See next.", tone: coral, say: "And never use a mutable default, like an empty list. Let me show you why."}
+      - {text: "One job per function, named with a verb", sub: "`estimate_cost`, `load_records`, `render_report`", say: "Achhe functions ki aadatein. Har function ka ek hi kaam, aur naam ek verb se, jaise estimate cost, ya load records."}
+      - {text: "Return values; don't print inside", sub: "the caller decides what to do with the result", say: "Result return karo, andar print mat karo. Phir call karne wala decide karega, aur test karna aasaan hoga."}
+      - {text: "Use keyword arguments for anything unclear", say: "Jahan call samajh na aaye, wahan keyword arguments use karo."}
+      - {text: "Never use a mutable default like `[]` or `{}`", sub: "it is shared between calls. See next.", tone: coral, say: "Aur kabhi bhi khaali list jaisa mutable default mat do. Kyun? Abhi dikhati hoon."}
 
-  - type: code
+  - type: run
     chapter: The mutable default bug
-    heading: A bug that leaks memory between users
+    heading: A bug that leaks data between users
     title: mutable_default.py
     file: source/lesson-03/mutable_default.py
+    cwd: source/lesson-03
+    cmd: python mutable_default.py
     steps:
       - lines: "2-4"
-        tone: coral
         note: "The default `[]` is created **once**, when the function is defined, and then reused."
         say: >
-          This function stores chat history. The default empty list looks harmless, but Python creates it only once, when the function is defined.
-          Every call that uses the default shares that same list.
+          Yeh function chat history rakhta hai. Default khaali list masoom lagti hai, lekin Python usse sirf ek baar banata hai, jab function define hota hai. Default use karne wali har call wahi ek list share karti hai.
       - lines: "7-8"
-        tone: coral
+        out: "1-2"
         note: "Bob's conversation now contains Alice's message."
         say: >
-          So Alice sends a message, then Bob sends one, and Bob's history contains Alice's message.
-          In an AI app, that is a privacy bug: one user's conversation leaking into another's.
+          Toh Alice ne message bheja, phir Bob ne. Aur Bob ki history mein Alice ka message bhi aa gaya. AI app mein yeh privacy bug hai: ek user ki conversation doosre user tak pahunch gayi.
       - lines: "11-15"
-        tone: teal
+        out: "3-4"
         note: "Default to `None`, then create a fresh list inside."
         say: >
-          The fix is the standard Python pattern. Default to None, and create a fresh list inside the function.
+          Fix Python ka standard pattern hai. Default None rakho, aur function ke andar nayi list banao. Ab har call saaf shuru hoti hai.
 
-  - type: terminal
-    title: terminal — lesson-03
-    cwd: source/lesson-03
-    steps:
-      - cmd: python mutable_default.py
-        say: >
-          The output proves it. With the buggy version, Bob sees Alice's message. With the fixed version, each call starts clean.
+  - type: callout
+    chapter: Classes
+    kind: analogy
+    title: "A class is a cookie cutter"
+    body: "One **cookie cutter** (the class) makes many **cookies** (objects). Every cookie has the same shape, but each can have its own toppings (its **attributes**). What a cookie can do is its **methods**."
+    say: >
+      Ab classes. Functions behaviour ko organise karte hain. Classes data ko uske behaviour ke saath organise karti hain. Ek cookie cutter socho. Ek cutter se bahut saari cookies banti hain. Shape sabki same, lekin har cookie par apni topping ho sakti hai.
 
   - type: cards
-    chapter: Classes
     heading: Classes and objects
-    say: >
-      Now, classes. Functions organise behaviour. Classes organise data together with the behaviour that belongs to it.
     cards:
-      - {tag: class, title: The blueprint, body: "describes what every conversation has and can do", code: "class Conversation:", tone: teal, say: "A class is a blueprint. It describes what every object of that kind has, and what it can do."}
-      - {tag: object, title: One instance, body: "a real conversation built from the blueprint", code: 'chat = Conversation(...)', tone: blue, say: "An object, also called an instance, is one real thing built from that blueprint. You can create as many as you like."}
-      - {tag: attribute, title: Its data, body: "values stored on the object", code: "self.messages", tone: violet, say: "Attributes are the data stored on each object."}
-      - {tag: method, title: Its behaviour, body: "functions that belong to the class", code: "chat.add(...)", tone: amber, say: "And methods are functions that belong to the class and work on that object's data."}
+      - {tag: class, title: The blueprint, body: "describes what every conversation has and can do", code: "class Conversation:", tone: teal, say: "Class ek blueprint hai, cookie cutter. Woh batati hai ki uss tarah ke har object ke paas kya hoga, aur woh kya kar sakta hai."}
+      - {tag: object, title: One instance, body: "a real conversation built from the blueprint", code: 'chat = Conversation(...)', tone: blue, say: "Object, jise instance bhi kehte hain, uss blueprint se bani ek asli cheez hai. Jitne chaho utne bana sakte ho."}
+      - {tag: attribute, title: Its data, body: "values stored on the object", code: "self.messages", tone: violet, say: "Attributes har object par rakha data hain."}
+      - {tag: method, title: Its behaviour, body: "functions that belong to the class", code: "chat.add(...)", tone: amber, say: "Aur methods woh functions hain jo class ke hain, aur uss object ke data par kaam karte hain."}
 
-  - type: code
+  - type: run
+    heading: "A Conversation class"
     title: classes.py
     file: source/lesson-03/classes.py
+    cwd: source/lesson-03
+    cmd: python classes.py
     steps:
       - lines: "2-4"
         note: "`__init__` runs when an object is created. `self` is the object itself."
         say: >
-          Here is a Conversation class. The special dunder init method runs whenever a new object is created.
-          Its first parameter, self, is the object being built, so self dot messages stores a list on that particular object.
+          Yeh Conversation class hai. Special dunder init method tab chalta hai jab naya object banta hai. Uska pehla parameter, self, wahi object hai jo ban raha hai. Isliye self dot messages ek list ko issi object par rakhta hai.
       - lines: "6-10"
         note: "Methods always take `self` first."
         say: >
-          Add and last are methods. They also take self first, so they can read and change this object's messages.
+          add aur last methods hain. Yeh bhi pehle self lete hain, taaki issi object ke messages padh aur badal sakein.
       - lines: "12-13"
         note: "`__len__` makes `len(chat)` work."
         say: >
-          Methods with double underscores plug your class into Python itself. Defining dunder len makes the built-in len function work on a conversation.
+          Do underscores wale methods aapki class ko Python se jodte hain. dunder len likhne se built in len function conversation par bhi chalta hai.
       - lines: "16-20"
+        out: "1-2"
+        note: "Creating an object looks like calling a function."
         say: >
-          Creating an object looks like calling a function. We add two messages, then print the length and the last message.
+          Object banana function call jaisa dikhta hai. Do messages jode, phir length aur aakhri message print kiya. Teen messages.
       - lines: "22-23"
+        out: "3"
+        note: "A second object has its own, separate list."
         say: >
-          A second conversation is a completely separate object, with its own list.
+          Doosri conversation ek bilkul alag object hai, apni alag list ke saath. Usme sirf system message hai.
 
-  - type: terminal
-    title: terminal — lesson-03
-    cwd: source/lesson-03
-    steps:
-      - cmd: python classes.py
-        say: >
-          Three messages in the first conversation, and just the system message in the other.
-
-  - type: code
+  - type: run
     chapter: Dataclasses
     heading: "Dataclasses: less boilerplate for data"
     title: dataclass_demo.py
     file: source/lesson-03/dataclass_demo.py
+    cwd: source/lesson-03
+    cmd: python dataclass_demo.py
     say: >
-      Many classes in AI code mostly hold data: a model configuration, a usage record, a tool result.
-      For those, Python's dataclass decorator writes the boring parts for you.
+      AI code ki bahut si classes zyaadatar sirf data rakhti hain: model ki configuration, usage record, tool ka result. Inke liye Python ka dataclass decorator boring hissa khud likh deta hai.
     steps:
-      - lines: "5-10"
+      - lines: "5-9"
         note: "List the fields with types. `@dataclass` writes `__init__`, `__repr__` and `__eq__` for you."
         say: >
-          You just list the fields, with their types and optional defaults. The decorator generates the init method, a readable print form, and equality comparison.
+          Aap bas fields likho, unke types aur defaults ke saath. Decorator init method, ek readable print form, aur barabari ka comparison khud bana deta hai.
       - lines: "10"
         note: "Mutable defaults need `field(default_factory=list)`. The same rule as before!"
         say: >
-          Notice the stop field. Remember the mutable default bug? Dataclasses protect you from it: for a list default, you must use field with a default factory.
+          stop field dekho. Mutable default wala bug yaad hai? Dataclass aapko usse bachata hai. List default ke liye field aur default factory use karna zaroori hai.
       - lines: "13-17"
+        out: "1-3"
+        note: "A readable print form, and `==` compares the values."
         say: >
-          Creating objects, printing one, and comparing two with the same values, which counts as equal.
+          Objects banaye, ek print kiya, aur same values wale do objects compare kiye. Print mein har field dikhti hai, aur barabari True hai. Project mein hamara usage record bhi ek dataclass hai.
 
-  - type: terminal
-    title: terminal — lesson-03
-    cwd: source/lesson-03
-    steps:
-      - cmd: python dataclass_demo.py
-        say: >
-          The generated print form shows every field, and the equality check is True. In the project, our usage record is a dataclass.
-
-  - type: code
+  - type: callout
     chapter: Exceptions
+    kind: analogy
+    title: "Exceptions are a fire alarm"
+    body: "When something goes wrong, an **alarm rings** (an exception is raised). If **someone responds** (`except`), the building keeps working. If nobody does, everything **stops**. A good building has alarms for specific problems, not one for everything."
+    say: >
+      Ab exceptions. Fire alarm socho. Kuch galat hua, toh alarm bajta hai. Yaani exception raise hoti hai. Koi respond kare, toh kaam chalta rehta hai. Koi na kare, toh sab ruk jaata hai. Python mein bhi yahi hota hai.
+
+  - type: run
     heading: "Exceptions: try, except, else, finally"
     title: exceptions.py
     file: source/lesson-03/exceptions.py
-    say: >
-      Now, exceptions. When something goes wrong, Python raises an exception. If nothing handles it, the program stops.
+    cwd: source/lesson-03
+    cmd: python exceptions.py
     steps:
       - lines: "3-4"
         note: "`try`: code that might fail."
         say: >
-          Put code that might fail inside a try block. Converting text to a number fails if the text isn't a number.
+          Jo code fail ho sakta hai, usse try block mein rakho. Text ko number banana fail hoga, agar text number nahi hai.
       - lines: "5-7"
         note: "`except ValueError`: runs **only** for that error type."
         say: >
-          The except block runs only if that specific error happens. Here we handle a value error by reporting it and returning zero.
+          except block sirf ussi error par chalta hai. Yahan ValueError ko handle kiya: message diya aur zero return kiya.
       - lines: "8-9"
         note: "`else`: runs only if **no** exception happened."
         say: >
-          The else block runs only when the try block succeeded.
+          else block tabhi chalta hai jab try safal raha.
       - lines: "10-11"
+        out: "1-5"
         note: "`finally`: **always** runs, success or failure. Perfect for cleanup."
         say: >
-          And finally always runs, whether things went well or not. That makes it the right place for cleanup, like closing a connection.
+          Aur finally hamesha chalta hai, kaam bane ya bigde. Cleanup ke liye, jaise connection band karna, yahi sahi jagah hai. Output ka order dekho: one twenty ke liye checked wali line value se pehle aati hai, kyunki finally function se nikalte waqt chalta hai. Aur a b c ke liye error handle hua, finally phir bhi chala, aur zero mila.
 
-  - type: terminal
-    title: terminal — lesson-03
-    cwd: source/lesson-03
-    steps:
-      - cmd: python exceptions.py
-        say: >
-          Look at the order. For one twenty, the finally message prints before the value, because finally runs on the way out of the function.
-          For a b c, the error is handled, finally still runs, and we get zero.
-
-  - type: code
+  - type: run
     chapter: Raising your own errors
     heading: Raise specific, meaningful errors
     title: custom_errors.py
     file: source/lesson-03/custom_errors.py
+    cwd: source/lesson-03
+    cmd: python custom_errors.py
     steps:
       - lines: "2-7"
         note: "Your own exception classes inherit from `Exception`."
         say: >
-          You can define your own exceptions by inheriting from Exception. A base class for your project, with more specific ones below it, is a great pattern.
-      - lines: "10-14"
+          Aap Exception se inherit karke apni exceptions bana sakte ho. Project ki ek base class, aur uske neeche specific errors, ek bahut achha pattern hai.
+      - lines: "10-15"
         note: "`raise` stops the function and reports the problem to the caller."
         say: >
-          The raise statement stops the function immediately and hands the problem to the caller.
-          A negative cost is a programming error, so that's a value error. Going over budget is a business rule, so it gets our own budget exceeded error.
-      - lines: "17-23"
+          raise function ko turant rokta hai, aur problem call karne wale ko de deta hai. Negative cost programming ki galti hai, isliye ValueError. Budget se zyaada kharcha business rule hai, isliye hamari apni BudgetExceeded error.
+      - lines: "18-24"
+        out: "1-3"
         note: "Agents need exactly this: a hard spending limit that stops the loop."
         say: >
-          The caller catches only budget exceeded, and stops charging. Agents need exactly this kind of guard, a hard spending limit, which we'll build properly in Module 7.
-
-  - type: terminal
-    title: terminal — lesson-03
-    cwd: source/lesson-03
-    steps:
-      - cmd: python custom_errors.py
-        say: >
-          The first two charges succeed, and the third is refused with a clear message.
+          Caller sirf BudgetExceeded pakadta hai, aur charge karna rok deta hai. Pehle do charges chale, teesra mana ho gaya, saaf message ke saath. Agents ko bilkul aisa hi guard chahiye, ek pakki spending limit. Module saat mein isse theek se banayenge.
 
   - type: compare
     heading: Catch specific errors, never everything
@@ -251,11 +233,10 @@ scenes:
     steps:
       - show: left
         say: >
-          On the left is a pattern you must avoid. A bare except with pass hides every error, including bugs in your own code.
-          The program carries on with no result, and you have no idea why.
+          Left wala pattern kabhi mat likhna. Khaali except ke saath pass har error chhupa deta hai, aapke apne code ke bugs bhi. Program bina result ke chalta rehta hai, aur aapko pata hi nahi chalta kyun.
       - show: right
         say: >
-          On the right, you catch only the error you expect and know how to handle. Anything unexpected still surfaces, so you can see it and fix it.
+          Right side par sirf woh error pakdo jo aap expect karte ho, aur jise handle karna aata hai. Baaki unexpected errors saamne aate hain, taaki aap unhe dekh kar theek kar sako.
 
   - type: terminal
     chapter: Reading a traceback
@@ -267,11 +248,41 @@ scenes:
       - cmd: python traceback_demo.py
         exit: 1
         say: >
-          When an exception isn't handled, Python prints a traceback. It looks scary, but read it from the bottom up.
-          The last line is the error: a key error for the key model.
+          Jab exception handle nahi hoti, Python traceback print karta hai. Darawna lagta hai, lekin usse neeche se upar padho. Aakhri line error hai: model key ke liye KeyError.
     outro: >
-      The lines above it show the path the program took, with the most recent call last. Here, the failing line is config, model, inside get model, called from start agent.
-      So the fix is to make sure the configuration contains a model, or to read it with get and a default.
+      Upar ki lines program ka raasta dikhati hain, sabse nayi call sabse neeche. Galat line hai config model, get model ke andar, jise start agent ne call kiya. Toh fix: configuration mein model zaroor ho, ya get aur default se padho.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is `self` in a Python method?"
+        a: "The object the method was called on. `chat.add(...)` runs `Conversation.add(chat, ...)`, so `self` is `chat`. It lets each object keep its **own** data."
+        trap: "Thinking `self` is a keyword. It's just the conventional name of the first parameter."
+        say_q: "Interview corner. Pehla question: Python method mein self kya hai?"
+        say_a: "Answer: woh object jis par method call hua. chat dot add, asal mein Conversation dot add chalata hai, chat ke saath. Isliye self chat hai, aur har object apna data rakh pata hai. Trap: self ko keyword samajhna. Yeh bas pehle parameter ka rivaaji naam hai."
+      - q: "What's wrong with `def f(items=[])`?"
+        a: "The default list is created **once** and shared by every call that uses it, so data leaks between calls. Use `items=None` and create a new list inside (or `field(default_factory=list)` in a dataclass)."
+        trap: "Fixing it with `items=list()`. That's still evaluated once."
+        say_q: "Doosra question: def f, items equals khaali list, mein kya galat hai?"
+        say_a: "Answer: default list ek hi baar banti hai, aur har call use share karti hai. Data calls ke beech leak hota hai. items None rakho aur andar nayi list banao. Dataclass mein field default factory. Trap: items equals list bracket likhna. Woh bhi ek hi baar chalta hai."
+      - q: "When should you write a bare `except:`?"
+        a: "Almost never. Catch the **specific** exceptions you can handle. If you must catch broadly (for example at the top of a server), catch `Exception`, **log** it, and don't hide it."
+        trap: "`except: pass`: it also swallows `KeyboardInterrupt` and your own bugs."
+        say_q: "Teesra: khaali except kab likhna chahiye?"
+        say_a: "Answer: lagbhag kabhi nahi. Specific exceptions pakdo jinhe handle kar sakte ho. Agar broad pakadna hi pade, jaise server ke top par, toh Exception pakdo, use log karo, aur chhupao mat. Trap: except pass. Yeh control C ko bhi nigal jaata hai, aur aapke bugs ko bhi."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Video pause karo, aur khud try karo.
+    items:
+      - {text: "Write `word_count(text)` that returns the number of words", say: "Pehla: word count naam ka function likho, jo text ke words ki ginti return kare."}
+      - {text: "Add a `clear()` method to `Conversation` that keeps only the system message", say: "Doosra: Conversation class mein clear method jodo, jo sirf system message rakhe."}
+      - {text: "Make a `@dataclass` called `ToolCall` with `name: str` and `args: dict`", say: "Teesra: ToolCall naam ki dataclass banao, name aur args fields ke saath. Dhyaan rahe, args ka default kaise doge?"}
+      - {text: "Scenario: an agent crashes on one bad tool result and loses the whole run. Where would you add `try`/`except`, and what would you catch?", say: "Aur scenario: ek kharab tool result se agent crash ho gaya, aur poora run gaya. try except kahan lagaoge, aur kya pakdoge?", pause: 6}
 
   - type: quiz
     chapter: Quick check
@@ -285,17 +296,36 @@ scenes:
     answer: 1
     explain: "Default values are created **once**, when the function is defined. Use `history=None` and create a new list inside."
     say_question: >
-      Quick check. Why is a function with history equals an empty list as a default dangerous?
+      Quick check. history equals khaali list wala default kyun khatarnaak hai?
     say_answer: >
-      Because the default list is created once and shared by every call that uses it. Default to None and create a fresh list inside the function.
+      B. Default list ek baar banti hai, aur default use karne wali har call usse share karti hai. None default rakho, aur andar nayi list banao.
+
+  - type: quiz
+    number: 2
+    question: "In `try / except / else / finally`, which block runs **every** time?"
+    options: ["`try`", "`except`", "`else`", "`finally`"]
+    answer: 3
+    explain: "`finally` runs whether the `try` succeeded or failed. `else` runs only on success; `except` only on a matching error."
+    say_question: >
+      Doosra question. try, except, else, aur finally mein se kaunsa block har baar chalta hai?
+    say_answer: >
+      D, finally. else sirf success par chalta hai, aur except sirf matching error par.
 
   - type: recap
     chapter: Recap
     heading: Lesson 3 recap
     items:
-      - {text: "Functions: one job, clear name, return the result", say: "Functions do one job, have a clear name, and return their result."}
-      - {text: "Default mutable arguments to `None`", say: "Default mutable arguments to None."}
-      - {text: "Classes bundle data and behaviour; `@dataclass` for data-heavy classes", say: "Classes bundle data and behaviour, and dataclasses make data-heavy classes short."}
-      - {text: "Catch specific exceptions, raise meaningful ones, read tracebacks bottom-up", say: "Catch specific exceptions, raise meaningful ones, and read tracebacks from the bottom up."}
+      - {text: "Functions: one job, clear name, return the result", say: "Recap. Function ka ek kaam, saaf naam, aur result return."}
+      - {text: "Default mutable arguments to `None`", say: "Mutable arguments ka default None."}
+      - {text: "Classes bundle data and behaviour; `@dataclass` for data-heavy classes", say: "Classes data aur behaviour ko saath rakhti hain, aur dataclass data wali classes ko chhota bana deti hai."}
+      - {text: "Catch specific exceptions, raise meaningful ones, read tracebacks bottom-up", say: "Specific exceptions pakdo, meaningful exceptions raise karo, aur traceback neeche se upar padho."}
     outro: >
-      Next, you will split code across files and packages, and work with files, JSON, and environment variables.
+      Agle lesson mein code ko files aur packages mein baantenge, aur files, JSON, aur environment variables ke saath kaam karenge.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 1 · Lesson 4
+    title: Modules, packages, files and JSON
+    subtitle: Split your code across files, read and write data, keep settings out of code.
+    say: >
+      Lesson teen complete. Ab aapka code organised bhi hai, aur errors ke liye taiyaar bhi. Milte hain agle lesson mein.

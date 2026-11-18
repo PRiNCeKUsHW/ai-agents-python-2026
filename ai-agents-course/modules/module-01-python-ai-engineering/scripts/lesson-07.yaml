@@ -1,5 +1,6 @@
 module_title: Python for AI Engineering
 title: "Project, Part 2: Reports, CLI, Tests and Wrap-up"
+narration: hinglish
 scenes:
   - type: title
     chapter: Introduction
@@ -8,8 +9,7 @@ scenes:
     subtitle: Reports, downloads, the command line, a full demo, tests, and the module quiz.
     loop: [Plan, Model, Validate, Report]
     say: >
-      Welcome back. The data layer works. Now we add the report writer, the downloader, and the command line,
-      then run the finished tool, test it, fix the common errors, and finish the module with a quiz and a challenge.
+      Wapas swagat hai. Data layer kaam kar rahi hai. Ab report writer, downloader, aur command line jodenge. Phir tayyar tool chalayenge, test karenge, common errors theek karenge, aur module ko quiz aur challenge ke saath khatam karenge.
 
   - type: code
     chapter: Writing reports
@@ -21,18 +21,19 @@ scenes:
       - lines: "6-8"
         note: "Takes a finished `Summary`, returns a string. It never prints."
         say: >
-          Render markdown takes a summary and returns text. It doesn't print anything, so it's easy to test, and the caller decides where the text goes.
+          render markdown ek summary leta hai aur text lautaata hai. Kuch print nahi karta. Isliye test karna aasaan, aur call karne wala decide karta hai ki text kahan jaaye.
       - lines: "9-18"
         note: "f-string formats: `:.1%` percent, `:,` thousands, `:.4f` four decimals."
         say: >
-          The report is built as a list of lines, using f-string formats from lesson two. Colon point one percent shows a percentage, and colon point four f shows four decimal places.
+          Report lines ki list ki tarah banti hai, lesson do ke f string formats se. Colon point one percent percentage dikhata hai, aur colon point four f chaar decimal places.
       - lines: "19-26"
+        note: "A Markdown table: one row per model."
         say: >
-          A Markdown table has one row per model.
+          Markdown table mein har model ki ek row.
       - lines: "27-33"
         note: "`\"\\n\".join(lines)` glues the lines together."
         say: >
-          Then the top tags, numbered with enumerate, a warning if any model had no price, and finally join glues everything into one string.
+          Phir top tags, enumerate se number ke saath. Kisi model ki price na ho, toh warning. Aur aakhir mein join sab lines ko ek string mein jod deta hai.
 
   - type: code
     heading: "report.py: JSON for programs"
@@ -43,15 +44,15 @@ scenes:
       - lines: "38-48"
         note: "Nested dictionaries mirror the JSON we want."
         say: >
-          The JSON report builds nested dictionaries in exactly the shape we want, rounding the floats so the output stays tidy.
+          JSON report nested dictionaries banata hai, bilkul usi shape mein jo humein chahiye. Floats ko round karta hai taaki output saaf rahe.
       - lines: "49-55"
         note: "A dict comprehension and a list comprehension."
         say: >
-          A dictionary comprehension builds the per-model section, and a list comprehension builds the tags.
-          Sets aren't valid JSON, so the unpriced models become a sorted list.
+          Dictionary comprehension har model ka section banata hai, aur list comprehension tags. Sets valid JSON nahi hote, isliye bina price wale models ek sorted list ban jaate hain.
       - lines: "57"
+        note: "`json.dumps` turns it all into text."
         say: >
-          And json dot dumps turns it all into text.
+          Aur json dot dumps sab kuch text bana deta hai.
 
   - type: code
     chapter: Downloading logs
@@ -60,23 +61,31 @@ scenes:
     file: project/python-ai-toolkit/toolkit/fetch.py
     steps:
       - lines: "11-15"
+        note: "The async request from lesson 5."
         say: >
-          Fetch one is the async request from lesson five. Get the URL, raise for status, and parse the JSON.
+          fetch one lesson paanch wali async request hai. URL get karo, raise for status, aur JSON parse karo.
       - lines: "16-23"
         note: "Each kind of failure becomes one readable `ToolkitError`."
         say: >
-          Each kind of failure becomes one readable toolkit error. An error status, a network problem like a refused connection, or a body that isn't JSON.
+          Har tarah ki failure ek readable ToolkitError ban jaati hai. Error status, network problem jaise refused connection, ya aisi body jo JSON nahi hai.
       - lines: "24-26"
+        note: "The body has to be a list of records."
         say: >
-          And the body has to be a list of records.
+          Aur body records ki list honi chahiye.
       - lines: "29-35"
         note: "`transport=` lets tests swap the network for a fake one."
         say: >
-          Fetch all opens one client, gathers every download at the same time, and flattens the batches into one list, keeping the order of the URLs.
-          The optional transport parameter is for testing. It lets tests replace the real network with a fake one.
+          fetch all ek client kholta hai, saare downloads ek saath gather karta hai, aur batches ko ek list mein jodta hai, URLs ke order mein. Optional transport parameter testing ke liye hai. Isse tests asli network ki jagah ek fake network laga sakte hain.
+
+  - type: callout
+    chapter: The command line
+    kind: analogy
+    title: "A CLI is a TV remote"
+    body: "A remote has a few clear **buttons** (commands: `validate`, `report`, `fetch`), some take a **setting** (options: `--format json`), and every press either works or shows an error. `--help` is the label printed on the back."
+    say: >
+      Ab command line. TV remote socho. Kuch saaf buttons, yaani commands: validate, report, fetch. Kuch buttons ke saath setting, yaani options, jaise dash dash format json. Aur dash dash help remote ke peeche likha label hai.
 
   - type: code
-    chapter: The command line
     heading: "cli.py: argparse defines the commands"
     title: toolkit/cli.py
     file: project/python-ai-toolkit/toolkit/cli.py
@@ -85,18 +94,19 @@ scenes:
       - lines: "16-19"
         note: "`argparse` builds `--help` and error messages for you."
         say: >
-          The standard library's argparse turns command line text into Python values. It also generates help text and error messages for free.
+          Standard library ka argparse command line ke text ko Python values mein badalta hai. Help text aur error messages bhi free mein banata hai.
       - lines: "20-23"
         note: "Sub-commands: `validate`, `report`, `fetch`."
         say: >
-          Sub parsers give us separate commands, like git commit and git push. Validate takes one file, and type equals Path converts it to a Path object.
+          Sub parsers alag commands dete hain, jaise git commit aur git push. validate ek file leta hai, aur type equals Path usse Path object bana deta hai.
       - lines: "25-30"
+        note: "Options: `--format` (2 choices), `--out`, and a `--strict` flag."
         say: >
-          Report adds options: a format restricted to two choices, an optional output file, and a strict flag that is True when present.
+          report options jodta hai: format, sirf do choices ke saath. Optional output file. Aur strict flag, jo likhne par True hota hai.
       - lines: "32-34"
         note: "`nargs=\"+\"`: one or more URLs."
         say: >
-          Fetch accepts one or more URLs, and requires an output file.
+          fetch ek ya zyaada URLs leta hai, aur output file zaroori hai.
 
   - type: code
     heading: "cli.py: one function per command"
@@ -107,24 +117,23 @@ scenes:
       - lines: "38-43"
         note: "Exit code **0** = success, **1** = problems found."
         say: >
-          Each command is a function that returns an exit code. Validate prints every problem and returns one if anything was wrong, so scripts and CI pipelines can detect failure.
+          Har command ek function hai jo exit code lautaata hai. validate har problem print karta hai, aur kuch galat ho toh ek lautaata hai. Isse scripts aur CI pipelines failure pakad sakti hain.
       - lines: "46-56"
         note: "Warnings go to `sys.stderr`, so they never corrupt the report."
         say: >
-          Report loads settings and records. Warnings go to standard error, so they never mix into a report that's being saved or piped.
-          With strict, any invalid record is a failure. Then we summarise and choose a renderer, Markdown or JSON.
+          report settings aur records load karta hai. Warnings standard error par jaati hain, taaki save ya pipe ho rahi report mein kabhi na milein. strict ke saath koi bhi invalid record failure hai. Phir summary, aur renderer chunna: Markdown ya JSON.
       - lines: "57-63"
+        note: "Write to `--out`, or print."
         say: >
-          The text is written to a file if out was given, or printed.
+          out diya ho toh text file mein likha jaata hai, warna print.
       - lines: "66-71"
         note: "`asyncio.run()` bridges normal code and async code."
         say: >
-          Fetch uses asyncio dot run to call our async function from normal code.
+          fetch asyncio dot run se hamare async function ko normal code se chalata hai.
       - lines: "74-83"
         note: "A dict maps command names to functions. Errors are caught in **one** place."
         say: >
-          A dictionary maps each command name to its function, so there's no long chain of ifs. And main is the single place that catches toolkit errors,
-          printing one clean line and returning one, instead of a traceback.
+          Ek dictionary har command ke naam ko uske function se jodti hai, toh ifs ki lambi chain nahi. Aur main woh ek jagah hai jo ToolkitError pakadti hai. Traceback ki jagah ek saaf line print karti hai, aur ek lautaati hai.
 
   - type: code
     title: toolkit/__main__.py
@@ -133,7 +142,7 @@ scenes:
       - lines: "1-3"
         note: "`python -m toolkit` runs this file. `SystemExit` passes the exit code to the shell."
         say: >
-          And dunder main is what runs when you type python dash m toolkit. It calls main, and raises system exit with the return value, which becomes the program's exit code.
+          Aur dunder main woh file hai jo python dash m toolkit likhne par chalti hai. Yeh main call karti hai, aur uski return value ke saath SystemExit raise karti hai, jo program ka exit code ban jaata hai.
 
   - type: terminal
     chapter: Demo
@@ -144,18 +153,18 @@ scenes:
       - cmd: python -m toolkit --help
         keep: "1-6"
         say: >
-          Let's run the finished tool. Help is generated by argparse, listing the three commands.
+          Ab tayyar tool chalate hain. Help argparse ne banaya hai, teeno commands ke saath.
       - cmd: python -m toolkit validate data/usage_sample.json
         say: >
-          The sample file is fully valid.
+          Sample file poori tarah valid hai.
       - cmd: python -m toolkit validate data/usage_broken.json
         exit: 1
         say: >
-          The broken file reports four precise problems.
+          Broken file chaar exact problems batati hai.
       - cmd: echo $?
         run: python -m toolkit validate data/usage_broken.json > /dev/null; echo $?
         say: >
-          And the exit code is one, which is how other programs know validation failed.
+          Aur exit code ek hai. Isi se doosre programs ko pata chalta hai ki validation fail hui.
 
   - type: terminal
     title: terminal — python-ai-toolkit
@@ -163,8 +172,7 @@ scenes:
     steps:
       - cmd: python -m toolkit report data/usage_sample.json
         say: >
-          The Markdown report. Ten requests with an eighty percent success rate. And notice the average latency, over four seconds.
-          That's because one failed request took thirty seconds. An average hides outliers like that, which is why one of this module's challenges asks you to add a percentile.
+          Markdown report. Das requests, assi percent success rate. Aur average latency dekho, chaar second se zyaada. Kyunki ek failed request ne tees second liye. Average aise outliers ko chhupa deta hai, isliye module ke ek challenge mein aap percentile jodoge.
 
   - type: terminal
     title: terminal — python-ai-toolkit
@@ -173,19 +181,19 @@ scenes:
       - cmd: python -m toolkit report data/usage_sample.json --format json --out reports/usage.json
         run: python -m toolkit report data/usage_sample.json --format json --out reports/usage.json && rm -rf reports
         say: >
-          With format json and out, the report is saved to a file instead, and the folder is created automatically.
+          format json aur out ke saath report file mein save hoti hai, aur folder apne aap ban jaata hai.
       - cmd: head -12 reports/usage.json
         run: python -m toolkit report data/usage_sample.json --format json --out reports/usage.json > /dev/null && head -12 reports/usage.json && rm -rf reports
         say: >
-          Here's the start of that JSON file, ready for a dashboard or another program.
+          Yeh uss JSON file ki shuruaat hai, kisi dashboard ya doosre program ke liye tayyar.
       - cmd: python -m toolkit report data/usage_broken.json --strict
         exit: 1
         say: >
-          In strict mode, the broken file fails, with the warning on standard error.
+          Strict mode mein broken file fail hoti hai, warning standard error par.
       - cmd: TOOLKIT_PRICES_FILE=config/missing.json python -m toolkit report data/usage_sample.json
         exit: 1
         say: >
-          And settings come from the environment. Point the prices file at something that doesn't exist, and you get one clear error line, no traceback.
+          Aur settings environment se aati hain. Prices file ko aisi file par point karo jo hai hi nahi, toh ek saaf error line milti hai, koi traceback nahi.
 
   - type: terminal
     heading: "Demo: concurrent downloads"
@@ -193,12 +201,12 @@ scenes:
     cwd: project/python-ai-toolkit
     font: 25
     say: >
-      Finally, fetch. A local web server is serving the data folder on port eighty-seven sixty-five, just like in lesson five.
+      Aakhir mein fetch. Ek local web server data folder ko port eight seven six five par serve kar raha hai, bilkul lesson paanch jaisa.
     steps:
       - cmd: URL=http://127.0.0.1:8765
         run: "true"
         say: >
-          To keep the command short, we store the base address in a shell variable.
+          Command chhoti rakhne ke liye base address ek shell variable mein rakha.
       - cmd: python -m toolkit fetch $URL/usage_sample.json $URL/usage_broken.json --out data/merged.json
         run: >
           URL=http://127.0.0.1:8765;
@@ -206,7 +214,7 @@ scenes:
           sleep 1; python -m toolkit fetch $URL/usage_sample.json $URL/usage_broken.json --out data/merged.json;
           status=$?; kill %1; exit $status
         say: >
-          Both files download concurrently, and fifteen records are merged into one file.
+          Dono files ek saath download hui, aur pandrah records ek file mein jud gaye.
       - cmd: python -m toolkit validate data/merged.json
         run: >
           URL=http://127.0.0.1:8765;
@@ -216,11 +224,11 @@ scenes:
         exit: 1
         keep: "-1"
         say: >
-          Validating the merged file finds the eleven good records and the same four problems.
+          Merged file validate karne par gyaarah achhe records, aur wahi chaar problems.
       - cmd: python -m toolkit fetch http://127.0.0.1:9/logs.json --out data/x.json
         exit: 1
         say: >
-          And if a server can't be reached, again, one clear line explains what happened.
+          Aur agar server tak pahunch hi na sakein, toh phir se ek saaf line batati hai ki kya hua.
 
   - type: code
     chapter: Testing
@@ -229,21 +237,20 @@ scenes:
     file: project/python-ai-toolkit/tests/test_models.py
     lines: "1-40"
     say: >
-      A demo shows that the tool works today. Tests make sure it keeps working when you change it. We use pytest.
+      Demo dikhata hai ki tool aaj kaam karta hai. Tests pakka karte hain ki badlaav ke baad bhi kaam karta rahe. Hum pytest use karte hain.
     steps:
       - lines: "7-11"
         note: "A test is a function named `test_...` that uses `assert`."
         say: >
-          A pytest test is just a function whose name starts with test, using plain assert statements.
-          Good row is a fixture. Pytest sees the parameter name and passes in a fresh valid dictionary, defined once in conftest dot py.
+          pytest test bas ek function hai jiska naam test se shuru hota hai, aur jo assert use karta hai. good row ek fixture hai. pytest parameter ka naam dekh kar ek nayi valid dictionary de deta hai, jo conftest dot py mein ek baar define hai.
       - lines: "14-22"
         note: "`parametrize`: the same test, run once per value."
         say: >
-          Parametrize runs the same test once per value. Here, five tests, each deleting a different required field, and checking that the error names that field.
+          parametrize ek hi test ko har value ke liye chalata hai. Yahan paanch tests, har ek alag required field hatata hai, aur check karta hai ki error ussi field ka naam le.
       - lines: "25-40"
         note: "Nine kinds of bad data, including `True` posing as an int."
         say: >
-          This one feeds in nine kinds of bad data, including the sneaky True posing as a number, and checks each is rejected for the right field.
+          Yeh test nau tarah ka kharab data deta hai, chalaak True samet jo number ban kar aata hai, aur check karta hai ki har ek sahi field ke liye reject ho.
 
   - type: code
     heading: "Testing HTTP without the network"
@@ -254,13 +261,15 @@ scenes:
       - lines: "10-19"
         note: "`httpx.MockTransport`: a fake server, inside the test."
         say: >
-          Tests must not depend on a real network, which could be slow or down. httpx's mock transport replaces the network with a function that returns fake responses.
+          Tests asli network par depend nahi hone chahiye, jo slow ho sakta hai ya band. httpx ka MockTransport network ki jagah ek function laga deta hai jo fake responses deta hai.
       - lines: "22-25"
+        note: "Two downloads, merged in the right order."
         say: >
-          So we can check that two downloads are merged in the right order.
+          Toh hum check kar sakte hain ki do downloads sahi order mein jude.
       - lines: "28-37"
+        note: "404, or a body that isn't a list → `ToolkitError`."
         say: >
-          And that a four oh four, or a response that isn't a list, becomes a toolkit error. These run in milliseconds, with no server at all.
+          Aur four zero four, ya list ke alaawa response, ToolkitError banta hai. Yeh milliseconds mein chalte hain, bina kisi server ke.
 
   - type: terminal
     title: terminal — python-ai-toolkit
@@ -268,14 +277,14 @@ scenes:
     steps:
       - cmd: python -m pytest -q
         say: >
-          Run the whole suite. Forty-two tests, all passing, in a fraction of a second.
+          Poora suite chalao. Forty two tests, sab pass, ek second se bhi kam mein.
       - cmd: python -m pytest tests/test_fetch.py -v | grep PASSED
         run: python -m pytest tests/test_fetch.py -v -p no:cacheprovider | grep PASSED
         say: >
-          With dash v, pytest lists each test by name.
+          dash v ke saath pytest har test ka naam dikhata hai.
       - cmd: mypy toolkit
         say: >
-          And mypy confirms that all our type hints are consistent.
+          Aur mypy confirm karta hai ki hamare saare type hints consistent hain.
 
   - type: terminal
     chapter: Troubleshooting
@@ -288,36 +297,54 @@ scenes:
         exit: 1
         keep: "-1"
         say: >
-          First, running a file inside the package directly. Python can't find the toolkit package, because it searches from the toolkit folder itself.
-          The fix: stay in the project root and run python dash m toolkit.
+          Pehla: package ke andar ki file seedhe chalana. Python ko toolkit package nahi milta, kyunki woh toolkit folder ke andar se dhoondhna shuru karta hai. Fix: project root mein raho aur python dash m toolkit chalao.
       - cmd: deactivate
         run: "true"
         say: >
-          Second, forgetting the virtual environment.
+          Doosra: virtual environment bhool jaana.
       - cmd: python3 -m toolkit validate data/usage_sample.json
         run: /usr/bin/python3 -m toolkit validate data/usage_sample.json
         exit: 1
         keep: "-1"
         say: >
-          With the environment deactivated, the system Python doesn't have httpx installed. The fix is to activate dot venv again.
+          Environment deactivate hai, toh system Python mein httpx install nahi hai. Fix: dot venv dobara activate karo.
 
   - type: cards
     heading: More common problems, and fixes
     cards:
-      - {tag: "JSON", title: "is not valid JSON", body: "Trailing commas, single quotes or comments. Check the line and column in the message.", tone: coral, say: "Is not valid JSON usually means a trailing comma, single quotes, or a comment. The message gives you the line and column."}
-      - {tag: "paths", title: "file not found", body: "Relative paths start from where you **run** the command. Run from the project root.", tone: amber, say: "File not found usually means you ran the command from another folder. Relative paths start from where you run it."}
-      - {tag: "Windows", title: "Activate is blocked", body: "In PowerShell, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once.", tone: blue, say: "On Windows, if PowerShell refuses to run the activate script, run Set Execution Policy for the current user with Remote Signed, once."}
-      - {tag: "text", title: "Strange characters", body: "Always read and write with `encoding=\"utf-8\"`.", tone: violet, say: "And if text comes out garbled, make sure every read and write uses utf eight."}
+      - {tag: "JSON", title: "is not valid JSON", body: "Trailing commas, single quotes or comments. Check the line and column in the message.", tone: coral, say: "is not valid JSON ka matlab aksar aakhri comma, single quotes, ya comment. Message line aur column batata hai."}
+      - {tag: "paths", title: "file not found", body: "Relative paths start from where you **run** the command. Run from the project root.", tone: amber, say: "file not found ka matlab aksar command kisi aur folder se chali. Relative paths wahin se shuru hote hain jahan se aap chalate ho."}
+      - {tag: "Windows", title: "Activate is blocked", body: "In PowerShell, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once.", tone: blue, say: "Windows par PowerShell activate script chalane se mana kare, toh ek baar Set Execution Policy, current user ke liye, Remote Signed ke saath chalao."}
+      - {tag: "text", title: "Strange characters", body: "Always read and write with `encoding=\"utf-8\"`.", tone: violet, say: "Aur text ajeeb characters mein aaye, toh dhyaan do ki har read aur write utf eight ke saath ho."}
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "Why should a CLI return exit codes instead of only printing errors?"
+        a: "Scripts, CI and other programs can't read your sentences, but they can read the exit code: **0** success, non-zero failure. `&&` and CI steps stop on failure because of it."
+        trap: "Printing \"Error!\" and still exiting with 0, so the pipeline happily continues."
+        say_q: "Interview corner. Pehla question: CLI ko sirf error print karne ki jagah exit code kyun lautaana chahiye?"
+        say_a: "Answer: scripts, CI, aur doosre programs aapke sentences nahi padh sakte, lekin exit code padh sakte hain. Zero success, baaki failure. Do ampersand aur CI steps isi se rukte hain. Trap: Error print karna aur phir bhi zero ke saath exit karna. Pipeline khushi khushi aage chalti rehti hai."
+      - q: "How do you test code that makes HTTP requests?"
+        a: "Replace the network with a fake: `httpx.MockTransport` (or a fake client) returns prepared responses, including errors like 404. Tests become **fast and repeatable**, with no real server."
+        trap: "Tests that call a real API: slow, flaky, and they can spend money or leak keys."
+        say_q: "Doosra: HTTP requests wale code ko test kaise karte ho?"
+        say_a: "Answer: network ki jagah ek fake lagao. httpx MockTransport pehle se tayyar responses deta hai, four zero four jaise errors samet. Tests tez aur repeatable bante hain, bina asli server ke. Trap: tests mein asli API call karna. Slow, kabhi pass kabhi fail, aur paise ya keys ka nuksaan."
+      - q: "Why separate calculating (`stats`) from formatting (`report`)?"
+        a: "Each part can be tested alone, and you can add a new output (JSON, CSV, a web page) without touching the maths. It's the **single responsibility** idea."
+        trap: "One giant function that loads, calculates and prints: impossible to test or reuse."
+        say_q: "Teesra: calculation aur formatting ko alag kyun rakhte hain?"
+        say_a: "Answer: har hissa akele test ho sakta hai, aur naya output, jaise JSON, CSV, ya web page, ganit ko chhue bina jod sakte ho. Yahi single responsibility ka idea hai. Trap: ek bahut bada function jo load bhi kare, calculate bhi, aur print bhi. Na test ho sakta hai, na reuse."
 
   - type: recap
     chapter: Module recap
     heading: Module 1 recap
     items:
-      - {text: "Lists, dicts and sets, with conversations as lists of message dicts", say: "You used lists, dictionaries, and sets, and built conversations as lists of message dictionaries."}
-      - {text: "Functions, dataclasses and custom exceptions", say: "You wrote functions, dataclasses, and your own exceptions."}
-      - {text: "Packages, `pathlib`, JSON and environment variables", say: "You organised a package, and worked with files, JSON, and environment variables."}
-      - {text: "Type hints, `httpx` and `asyncio.gather`", say: "You added type hints, made HTTP requests, and ran downloads concurrently."}
-      - {text: "A tested CLI tool with clear errors and exit codes", say: "And you built a tested command line tool with clear errors and proper exit codes."}
+      - {text: "Lists, dicts and sets, with conversations as lists of message dicts", say: "Module recap. Aapne lists, dictionaries, aur sets use kiye, aur conversations ko message dictionaries ki list ki tarah banaya."}
+      - {text: "Functions, dataclasses and custom exceptions", say: "Functions, dataclasses, aur apni exceptions likhi."}
+      - {text: "Packages, `pathlib`, JSON and environment variables", say: "Package organise kiya, aur files, JSON, aur environment variables ke saath kaam kiya."}
+      - {text: "Type hints, `httpx` and `asyncio.gather`", say: "Type hints lagaye, HTTP requests ki, aur downloads ek saath chalaye."}
+      - {text: "A tested CLI tool with clear errors and exit codes", say: "Aur ek tested command line tool banaya, saaf errors aur sahi exit codes ke saath."}
 
   - type: quiz
     chapter: Module quiz
@@ -328,9 +355,9 @@ scenes:
     answer: 1
     explain: "Membership checks on a **set** are fast however many items it holds, and duplicates are impossible."
     say_question: >
-      Module quiz, question one. An agent may only use two tools. Which structure gives the fastest check for whether a tool is allowed?
+      Module quiz, pehla sawaal. Ek agent sirf do tools use kar sakta hai. Tool allowed hai ya nahi, iska sabse tez check kaunsa structure deta hai?
     say_answer: >
-      A set. Membership checks on a set stay fast however large it grows.
+      B, set. Set kitna bhi bada ho, membership check tez rehta hai.
 
   - type: quiz
     number: 2
@@ -340,21 +367,21 @@ scenes:
     answer: 2
     explain: "Frozen dataclasses raise an error if you assign to a field after creation. Note: a dataclass does **not** validate types; that's why `from_dict` checks them."
     say_question: >
-      Question two. What does frozen equals True add to our usage record?
+      Doosra sawaal. frozen equals True hamare usage record mein kya jodta hai?
     say_answer: >
-      Fields can't be changed after the record is created. And note, a dataclass does not validate types by itself. That's why from dict checks every field.
+      C. Record banne ke baad fields badli nahi ja sakti. Aur yaad rahe, dataclass khud types validate nahi karti. Isliye from dict har field check karta hai.
 
   - type: quiz
     number: 3
     of: 5
-    question: "In `try / except / else / finally`, which block runs every time?"
-    options: ["`try`", "`except`", "`else`", "`finally`"]
-    answer: 3
-    explain: "`finally` always runs, success or failure, which makes it the place for cleanup."
+    question: "A command prints an error. How does a CI pipeline know it failed?"
+    options: ["It reads the printed text", "From a non-zero exit code", "From the file size", "It can't know"]
+    answer: 1
+    explain: "Programs signal failure with a non-zero exit code. Our `validate` returns 1 when any record is invalid."
     say_question: >
-      Question three. Which block runs every time, whether or not an error happens?
+      Teesra sawaal. Ek command error print karti hai. CI pipeline ko kaise pata chalta hai ki woh fail hui?
     say_answer: >
-      Finally. That's why it's used for cleanup.
+      B, non zero exit code se. Hamara validate kisi bhi invalid record par ek lautaata hai.
 
   - type: quiz
     number: 4
@@ -368,9 +395,9 @@ scenes:
     answer: 1
     explain: "`gather` waits for all downloads at once. It saves waiting time; it doesn't add CPU power."
     say_question: >
-      Question four. Why does fetch all use asyncio dot gather?
+      Chautha sawaal. fetch all asyncio dot gather kyun use karta hai?
     say_answer: >
-      To download everything concurrently, so the total time is roughly the slowest download, not the sum of all of them.
+      B. Taaki sab ek saath download ho, aur total time lagbhag sabse slow download jitna ho, sabka jod nahi.
 
   - type: quiz
     number: 5
@@ -380,22 +407,22 @@ scenes:
     answer: 2
     explain: "Secrets live in environment variables (or a `.env` that is in `.gitignore`). `.env.example` holds only fake placeholder values."
     say_question: >
-      And question five. Where should the real API key for your project live?
+      Aur paanchva sawaal. Project ki asli API key kahan rehni chahiye?
     say_answer: >
-      In an environment variable, or a dot env file that git ignores. The example file only ever holds fake placeholders.
+      C. Environment variable mein, ya git ignored dot env file mein. Example file mein hamesha sirf fake values.
 
   - type: callout
     chapter: Extension challenge
     kind: challenge
     title: "Extend the toolkit"
-    body: "Pick one or more. Each needs code **and** a test."
+    body: "Pick one or more. Each needs code **and** a test. Ideas and hints are in the module's quiz.md."
     say: >
-      If you want to go further, here's your extension challenge. Pick one or more, and for each one, write the code and a test.
+      Aage jaana hai, toh yeh raha extension challenge. Ek ya zyaada chuno, aur har ek ke liye code aur test dono likho.
     items:
-      - {text: "Add a `--top N` option to `report` for the number of tags", say: "Add a top N option to the report command."}
-      - {text: "Add p95 latency: sort the latencies and pick the 95th-percentile value", say: "Add ninety-fifth percentile latency, which, unlike the average, isn't distorted by one slow request."}
-      - {text: "Add a per-day breakdown using `record.created_at.date()`", say: "Add a breakdown per day, using the created at timestamp."}
-      - {text: "Add `--format csv` with the standard `csv` module", say: "Or add a CSV output format, with the standard csv module."}
+      - {text: "Add a `--top N` option to `report` for the number of tags", say: "report command mein top N option jodo."}
+      - {text: "Add p95 latency: sort the latencies and pick the 95th-percentile value", say: "p ninety five latency jodo. Average ki tarah yeh ek slow request se bigadti nahi."}
+      - {text: "Add a per-day breakdown using `record.created_at.date()`", say: "created at timestamp se har din ka breakdown jodo."}
+      - {text: "Add `--format csv` with the standard `csv` module", say: "Ya standard csv module se CSV output format jodo."}
 
   - type: links
     chapter: Documentation
@@ -410,7 +437,7 @@ scenes:
       - {title: HTTPX, url: www.python-httpx.org}
       - {title: pytest, url: docs.pytest.org}
     say: >
-      These are the official documentation pages for everything we used. Links are in the description, and the full source code is in the course repository.
+      Yeh hamari use ki hui har cheez ke official documentation pages hain. Links description mein hain, aur poora source code course repository mein.
 
   - type: title
     chapter: Next up
@@ -418,6 +445,4 @@ scenes:
     title: LLM Fundamentals and API Integration
     subtitle: "Tokens, context windows, message history, structured output, retries and costs. Project: an AI Study Assistant."
     say: >
-      That's Module 1 complete. You now have the Python foundation that the rest of this course is built on.
-      In Module 2, you'll finally talk to a language model: tokens, context windows, message history, structured output, rate limits, and costs,
-      and you'll build an AI Study Assistant that explains concepts and generates quizzes. See you there.
+      Module ek complete. Ab aapke paas woh Python foundation hai jis par yeh poora course khada hai. Module do mein aap aakhirkaar language model se baat karoge: tokens, context windows, message history, structured output, rate limits, aur costs. Aur ek AI Study Assistant banaoge. Milte hain wahan.

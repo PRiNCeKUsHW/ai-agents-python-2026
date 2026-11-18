@@ -1,5 +1,6 @@
 module_title: Python for AI Engineering
 title: "Modules, Packages, Files, JSON and Environment Variables"
+narration: hinglish
 scenes:
   - type: title
     chapter: Introduction
@@ -7,18 +8,25 @@ scenes:
     title: Modules, files, JSON and secrets
     subtitle: Split code across files, read and write data, and keep API keys out of your code.
     say: >
-      Real AI projects are never a single file. They read prompts and documents from disk, exchange JSON with APIs, and need secret API keys that must never end up in your code.
-      This lesson covers all of that.
+      Asli AI projects kabhi ek file ke nahi hote. Woh disk se prompts aur documents padhte hain, APIs ke saath JSON ka len den karte hain, aur unhe secret API keys chahiye hoti hain, jo kabhi code mein nahi honi chahiye.
+      Iss lesson mein yeh sab.
 
   - type: objectives
     items:
-      - {text: "Split code into modules and packages, and import them", say: "You will split code into modules and packages, and import between them."}
-      - {text: "Read and write files safely with `pathlib`", say: "Read and write files safely with pathlib."}
-      - {text: "Convert between JSON and Python, and handle bad JSON", say: "Convert between JSON and Python objects, and handle invalid JSON."}
-      - {text: "Keep configuration and secrets in environment variables", say: "And keep configuration and secrets in environment variables."}
+      - {text: "Split code into modules and packages, and import them", say: "Iss lesson ke baad aap code ko modules aur packages mein baant paoge, aur import kar paoge."}
+      - {text: "Read and write files safely with `pathlib`", say: "pathlib se files safely padhoge aur likhoge."}
+      - {text: "Convert between JSON and Python, and handle bad JSON", say: "JSON aur Python ke beech convert karoge, aur kharab JSON handle karoge."}
+      - {text: "Keep configuration and secrets in environment variables", say: "Aur configuration aur secrets ko environment variables mein rakhoge."}
+
+  - type: callout
+    chapter: Modules and packages
+    kind: analogy
+    title: "Modules and packages are a well-organised almirah"
+    body: "You don't throw every piece of clothing into one heap. Shirts go on one **shelf** (a module), the shelves sit in one **almirah** (a package), and you take out exactly what you need: **`from almirah import shirt`**."
+    say: >
+      Pehle what: modules aur packages kya hain? Ek almirah socho. Aap saare kapde ek dher mein nahi phenkte. Shirts ek shelf par, jeans doosri par. Har shelf ek module hai, poori almirah ek package. Aur zaroorat ho toh sirf woh nikaalte ho jo chahiye.
 
   - type: diagram
-    chapter: Modules and packages
     heading: Modules and packages
     nodes:
       - {id: main, label: main.py, sub: your program, x: 260, y: 300, w: 300, tone: amber, mono: true}
@@ -32,36 +40,39 @@ scenes:
       - {from: pkg, to: std, dashed: true}
       - {from: pkg, to: third, dashed: true}
     say: >
-      First, how Python code is organised.
+      Ab dekhte hain Python code organise kaise hota hai.
     steps:
       - show: [clean]
         focus: [clean]
         say: >
-          A module is simply a Python file. Anything defined in cleaning dot py, functions, classes, variables, can be imported elsewhere.
+          Module bas ek Python file hai. cleaning dot py mein jo bhi define hai, functions, classes, variables, sab kahin aur import ho sakta hai.
       - show: [pkg, init]
         focus: [pkg, init]
         say: >
-          A package is a folder of modules with a file called dunder init dot py. That file runs when the package is imported, and it often re-exports the most useful names.
+          Package modules ka ek folder hai, jisme dunder init dot py naam ki file hoti hai. Package import hote hi yeh file chalti hai, aur aksar sabse kaam ke naam aage export karti hai.
       - show: [main, "main->pkg"]
         focus: [main, pkg]
         flow: ["main->pkg"]
         say: >
-          Your program imports the package by name, exactly like it imports anything else.
+          Aapka program package ko naam se import karta hai, bilkul baaki cheezon ki tarah.
       - show: [std, third, "pkg->std", "pkg->third"]
         focus: [std, third]
         say: >
-          And there are two other sources of modules: the standard library, which ships with Python, like json, pathlib, and os, and third-party packages you install with pip, like httpx.
+          Modules ke do aur source hain. Standard library, jo Python ke saath aati hai, jaise json, pathlib, aur os. Aur third party packages jo pip se install hote hain, jaise httpx.
 
   - type: code
+    heading: "The package: a module and its __init__.py"
     title: textkit/cleaning.py
     file: source/lesson-04/textkit/cleaning.py
     steps:
       - lines: "1-3"
+        note: "`split()` + `join()` collapses any run of spaces."
         say: >
-          Here is the module. Normalize collapses runs of whitespace by splitting the text into words and joining them back with single spaces.
+          Yeh module hai. normalize text ko words mein todta hai, aur ek ek space se wapas jodta hai. Isse faaltu spaces hat jaate hain.
       - lines: "6-7"
+        note: "Small functions that build on each other."
         say: >
-          And word count reuses normalize. Small functions that build on each other.
+          Aur word count normalize ko hi dobara use karta hai. Chhote functions, jo ek doosre par khade hain.
 
   - type: code
     title: textkit/__init__.py
@@ -70,87 +81,75 @@ scenes:
       - lines: "2"
         note: "Re-export, so users can write `textkit.normalize(...)`."
         say: >
-          The package's init file imports the two functions, so users can call them directly on textkit.
+          Package ki init file dono functions import karti hai, taaki users unhe seedha textkit par call kar sakein.
       - lines: "4"
         note: "`__all__` lists the package's public names."
         say: >
-          And dunder all documents which names are public.
+          Aur dunder all batata hai ki kaunse naam public hain.
 
-  - type: code
+  - type: run
+    heading: "main.py: two ways to import"
     title: main.py
     file: source/lesson-04/main.py
+    cwd: source/lesson-04
+    cmd: python main.py
     steps:
       - lines: "1-2"
         note: "`import x` keeps the prefix. `from x import y` brings in one name."
         say: >
-          Two import styles. Import textkit gives you the whole package, used with a prefix. From textkit dot cleaning import word count brings in a single name.
+          Import ke do tareeke. import textkit poora package laata hai, jise prefix ke saath use karte ho. Aur from textkit dot cleaning import word count, sirf ek naam laata hai.
       - lines: "5-8"
+        out: "1-2"
+        note: "The main function does the work."
         say: >
-          The main function does the work.
+          main function kaam karta hai. Output mein saaf kiya hua text, aur teen words.
       - lines: "11-12"
         note: "True only when this file is **run**, not when it is **imported**."
         say: >
-          This final check is a Python idiom. Dunder name equals dunder main is true only when the file is run directly. If another file imports it, main does not run automatically.
-
-  - type: terminal
-    title: terminal — lesson-04
-    cwd: source/lesson-04
-    steps:
-      - cmd: python main.py
-        say: >
-          Running main gives the cleaned text and the word count.
-      - cmd: "python -c 'import textkit; print(textkit.word_count(\"one two  three\"))'"
-        say: >
-          And because textkit is a proper package, any other code in this folder can import it too.
+          Aakhri check Python ka ek idiom hai. dunder name equals dunder main tabhi true hota hai jab file seedhe chalayi jaaye. Koi doosri file isse import kare, toh main apne aap nahi chalta.
 
   - type: callout
     kind: error
     title: "ModuleNotFoundError: No module named 'textkit'"
     body: "Python searches for imports starting from the folder of the script you run (and installed packages). Run your program from the project root, or use `python -m package` for packages."
     say: >
-      If you see module not found error for your own package, you are almost always running Python from the wrong folder.
-      Python looks for imports starting in the folder of the script you run. Run from the project root, and for packages, use python dash m.
+      Agar apne hi package ke liye ModuleNotFoundError aaye, toh lagbhag hamesha aap galat folder se Python chala rahe ho. Python imports ko uss script ke folder se dhoondhna shuru karta hai jo aapne chalayi. Project root se chalao, aur packages ke liye python dash m.
 
-  - type: code
+  - type: run
     chapter: Files with pathlib
     heading: Reading and writing files
     title: files.py
     file: source/lesson-04/files.py
+    cwd: source/lesson-04
+    cmd: python files.py
+    run: python files.py && rm notes.txt
     say: >
-      Next, files. Prompts, documents, logs, and reports all live in files. The modern way to work with them is pathlib.
+      Ab files. Prompts, documents, logs, aur reports, sab files mein rehte hain. Inke saath kaam karne ka modern tareeka hai pathlib.
     steps:
       - lines: "2-5"
         note: "Always pass `encoding=\"utf-8\"`. The default differs between operating systems."
         say: >
-          A Path object represents a file path. Write text creates or overwrites the file.
-          Always pass encoding equals utf eight. The default encoding is different on Windows, and AI text is full of characters outside basic English.
+          Path object ek file ka path hai. write text file banata hai, ya overwrite karta hai. Aur hamesha encoding equals utf eight do. Windows par default encoding alag hota hai, aur AI ka text, jaise Hindi ya emoji, basic English ke bahar ke characters se bhara hota hai.
       - lines: "7-8"
+        out: "1"
+        note: "`read_text` gives one string; `splitlines` gives a list of lines."
         say: >
-          Read text returns the whole file as one string, and splitlines turns it into a list of lines.
+          read text poori file ek string mein deta hai, aur splitlines usse lines ki list bana deta hai.
       - lines: "10-11"
         note: "`with` closes the file automatically, even if an error happens."
         say: >
-          For more control, open the file inside a with block. The mode a means append, so we add to the end.
-          The with statement guarantees the file is closed, even if something fails.
+          Zyaada control chahiye, toh file ko with block ke andar kholo. Mode a ka matlab append, yaani end mein jodo. Aur with guarantee deta hai ki file band hogi, chaahe beech mein error aa jaaye.
       - lines: "13-15"
+        out: "2-5"
+        note: "Ask the path questions: exists, suffix, size."
         say: >
-          Finally, number the lines, and ask the path a few questions: does it exist, what is its suffix, and how many bytes is it.
-
-  - type: terminal
-    title: terminal — lesson-04
-    cwd: source/lesson-04
-    steps:
-      - cmd: python files.py
-        run: python files.py && rm notes.txt
-        say: >
-          Two lines written, a third appended, and the file is thirty-four bytes.
+          Aakhir mein lines ko number do, aur path se kuch sawaal poocho: file hai ya nahi, uska suffix kya hai, aur kitne bytes. Teen lines, aur thirty four bytes.
 
   - type: compare
     chapter: JSON
     heading: JSON is how AI systems exchange data
     left:
       title: JSON text
-      tone: blue
       lang: json
       code: |
         {
@@ -162,7 +161,6 @@ scenes:
         }
     right:
       title: Python objects
-      tone: teal
       code: |
         {
             "id": "req-001",       # str
@@ -172,79 +170,87 @@ scenes:
             "tags": ["summarize"], # list
         }
     say: >
-      JSON is a text format for data, and it is everywhere in AI engineering. Model APIs send and receive JSON, tool calls are described in JSON, and logs are often JSON.
+      JSON data ke liye ek text format hai, aur AI engineering mein yeh har jagah hai. Model APIs JSON bhejti aur leti hain, tool calls JSON mein describe hote hain, aur logs aksar JSON hote hain. Isse ek common courier ka dabba samjho, jise har system khol sakta hai.
     steps:
       - show: left
         say: >
-          JSON looks very similar to Python. Objects in curly braces, arrays in square brackets, strings, numbers, true, false, and null.
+          JSON Python jaisa hi dikhta hai. Curly braces mein objects, square brackets mein arrays, strings, numbers, true, false, aur null.
       - show: right
         hl_left: [4, 5]
         hl_right: [4, 5]
         say: >
-          Python's json module maps them directly. Objects become dictionaries, arrays become lists, and true, false, and null become True, False, and None.
-          But JSON is stricter than Python. Strings need double quotes, and trailing commas are not allowed.
+          Python ka json module inhe seedha map karta hai. Objects dictionaries ban jaate hain, arrays lists, aur true, false, null ban jaate hain capital True, False, aur None. Lekin JSON Python se zyaada strict hai. Strings ko double quotes chahiye, aur aakhri comma allowed nahi hai.
 
-  - type: code
+  - type: run
+    heading: "json.dumps and json.loads"
     title: json_demo.py
     file: source/lesson-04/json_demo.py
+    cwd: source/lesson-04
+    cmd: python json_demo.py
+    run: python json_demo.py && rm record.json
     steps:
       - lines: "5"
+        note: "An ordinary Python dictionary."
         say: >
-          We start from an ordinary Python dictionary.
+          Hum ek normal Python dictionary se shuru karte hain.
       - lines: "7-9"
+        out: "1-6"
         note: "`json.dumps`: Python → JSON **string**. `indent=2` makes it readable."
         say: >
-          json dot dumps, with an s for string, converts Python into JSON text. Indent two makes it readable. Then we save it to a file.
+          json dot dumps, s matlab string, Python ko JSON text mein badalta hai. indent do se padhne mein aasaan. Output mein dekho: true aur null, chhote akshar mein. Phir ise file mein save kiya.
       - lines: "11-12"
+        out: "7"
         note: "`json.loads`: JSON **string** → Python."
         say: >
-          json dot loads does the reverse, turning JSON text back into Python objects, so the tokens are a real number again.
+          json dot loads ulta kaam karta hai, JSON text ko wapas Python objects banata hai. Isliye tokens phir se asli number hai: six hundred one. Aur ok ek bool.
       - lines: "14-17"
+        out: "8"
         note: "Bad JSON raises `json.JSONDecodeError`, with the line and column."
         say: >
-          And invalid JSON raises a JSON decode error. Here, a trailing comma. Language models sometimes produce slightly broken JSON, so you will handle this error a lot.
+          Aur galat JSON par JSONDecodeError aata hai. Yahan aakhri comma ki wajah se. Error column tak batata hai. Language models kabhi kabhi thoda toota JSON dete hain, isliye yeh error aap bahut handle karoge.
 
-  - type: terminal
-    title: terminal — lesson-04
-    cwd: source/lesson-04
-    steps:
-      - cmd: python json_demo.py
-        run: python json_demo.py && rm record.json
-        say: >
-          Notice true and null in the JSON text, the token count plus one, and the precise error message, which even tells you the column.
+  - type: callout
+    chapter: Environment variables
+    kind: analogy
+    title: "Secrets are like your ATM PIN"
+    body: "You never **write your PIN on the card**. The card (your code) can be shared, copied, photographed. The PIN stays **with you**, outside the card. API keys belong in **environment variables**, not in code."
+    say: >
+      Ab environment variables. Module zero mein humne yeh dekha tha, yahan Python ki taraf se. ATM card socho. PIN kabhi card par nahi likhte. Card ki photo kheench sakti hai, card kho sakta hai. PIN aapke paas rehta hai, card se alag. API key bhi code mein nahi, environment variable mein rehti hai.
 
   - type: bullets
-    chapter: Environment variables
     heading: Why environment variables?
     items:
-      - {text: "Secrets stay out of your code", sub: "API keys in code end up in git history, screenshots and logs", say: "Environment variables keep secrets out of your code. An API key written in a source file ends up in git history, in screenshots, and in logs."}
-      - {text: "Settings change without editing code", sub: "a different model or price file per machine", say: "They also let settings change without editing code, such as a different model on your laptop and in production."}
-      - {text: "Every platform supports them", sub: "your terminal, Docker, cloud hosts and CI", say: "And every platform supports them: your terminal, Docker, cloud hosts, and CI pipelines. You'll use them all the way to Module 17."}
+      - {text: "Secrets stay out of your code", sub: "API keys in code end up in git history, screenshots and logs", say: "Ab why. Pehla: secrets code se bahar rehte hain. Source file mein likhi API key git history, screenshots, aur logs tak pahunch jaati hai."}
+      - {text: "Settings change without editing code", sub: "a different model or price file per machine", say: "Doosra: code badle bina settings badal sakte ho. Jaise laptop par ek model, aur production mein doosra."}
+      - {text: "Every platform supports them", sub: "your terminal, Docker, cloud hosts and CI", say: "Teesra: har platform inhe support karta hai. Terminal, Docker, cloud, aur CI pipelines. Module satrah tak aap inhe use karoge."}
 
-  - type: code
+  - type: run
+    heading: "Reading settings with os.environ"
     title: env_demo.py
     file: source/lesson-04/env_demo.py
+    cwd: source/lesson-04
+    cmd: python env_demo.py
     steps:
-      - lines: "2-4"
+      - lines: "2-5"
         note: "`os.environ.get(name, default)`: `None` (or the default) if not set."
         say: >
-          The os module exposes environment variables as a dictionary-like object called environ. Get returns None if the variable isn't set, or a default you choose.
-      - lines: "6-9"
+          os module environment variables ko environ naam ke dictionary jaise object mein deta hai. get, variable set na ho toh None deta hai, ya aapka chuna hua default.
+      - lines: "7-11"
+        out: "1-2"
         note: "Fail clearly if a secret is missing. Never print the secret itself."
         say: >
-          If the key is missing, say so clearly instead of failing later in a confusing way. And never print the secret itself. Printing its length is enough to confirm it loaded.
+          Key missing ho toh saaf saaf bolo, baad mein ulajhne wale tareeke se fail mat ho. Aur secret khud kabhi print mat karo. Uski length print karna confirm karne ke liye kaafi hai. Abhi kuch set nahi hai, toh script mana kar deti hai, aur default model use hota hai.
 
   - type: terminal
+    heading: "Set variables for one command"
     title: terminal — lesson-04
     cwd: source/lesson-04
     steps:
-      - cmd: python env_demo.py
+      - cmd: DEMO_API_KEY=fake-key-123 DEMO_MODEL=model-large python env_demo.py
         say: >
-          With nothing set, the script refuses to continue and uses the default model.
-      - cmd: DEMO_API_KEY=sk-test-123 DEMO_MODEL=model-large python env_demo.py
-        say: >
-          On macOS or Linux, you can set variables for a single command like this. This is a fake key, just for the demo.
-          On Windows PowerShell, you'd first run dollar env, colon, DEMO API KEY, equals, and the value in quotes.
+          Mac ya Linux par ek command ke liye variables aise set kar sakte ho. Yeh fake key hai, sirf demo ke liye. Key load hui, uski sirf length dikhi, aur model badal gaya.
+    outro: >
+      Windows PowerShell mein pehle dollar env colon DEMO API KEY equals, aur value quotes mein. Aur roz ke kaam ke liye dot env file, jo Module zero mein dekhi thi.
 
   - type: code
     heading: ".env files: convenient, but never committed"
@@ -255,7 +261,6 @@ scenes:
       TOOLKIT_PRICES_FILE=config/prices.json
       TOOLKIT_CURRENCY=USD
       LLM_API_KEY=your-key-here
-
       # .gitignore  (keeps real secrets out of git)
       .env
       .venv/
@@ -264,12 +269,43 @@ scenes:
       - lines: "1-4"
         note: "`.env.example` is a template with **fake** values. Safe to commit."
         say: >
-          Typing variables every time gets tedious, so projects keep them in a file called dot env. You commit a template called dot env dot example, with fake values, so others know what to set.
-      - lines: "6-9"
+          Har baar variables type karna thakaau hai, isliye projects unhe dot env file mein rakhte hain. Commit hota hai template, dot env dot example, fake values ke saath, taaki doosron ko pata ho kya set karna hai.
+      - lines: "6-8"
         note: "The real `.env` is listed in `.gitignore`, so it never reaches git."
         say: >
-          The real dot env file holds your actual keys, and it is listed in dot gitignore, so git never records it.
-          In the project, we'll write a tiny loader that reads dot env into the environment. Real variables always win over the file.
+          Asli dot env file mein aapki real keys hoti hain, aur woh dot gitignore mein listed hai, toh git usse kabhi record nahi karta. Project mein hum ek chhota loader likhenge jo dot env ko environment mein padhta hai. Aur asli environment variables hamesha file se jeette hain.
+
+  - type: interview
+    chapter: Interview corner
+    items:
+      - q: "What is the difference between a module and a package?"
+        a: "A **module** is one `.py` file. A **package** is a folder of modules, usually with an `__init__.py`, imported by its folder name."
+        trap: "Running a package's file directly (`python textkit/cleaning.py`) and wondering why its imports break. Use `python -m`."
+        say_q: "Interview corner. Pehla question: module aur package mein kya farak hai?"
+        say_a: "Answer: module ek dot py file hai. Package modules ka folder hai, aam taur par dunder init ke saath, jo folder ke naam se import hota hai. Trap: package ke andar ki file ko seedha chalana, aur phir sochna ki imports kyun toot gaye. python dash m use karo."
+      - q: "`json.load` vs `json.loads`?"
+        a: "`loads` parses a **string**; `load` reads from an open **file** object. Same pair for writing: `dumps` returns a string, `dump` writes to a file."
+        trap: "Passing a file path string to `json.load`. It needs an open file, not a path."
+        say_q: "Doosra: json load aur json loads mein farak?"
+        say_a: "Answer: loads ek string ko parse karta hai, load ek khuli file se padhta hai. Likhne ke liye bhi yahi jodi: dumps string lautaata hai, dump file mein likhta hai. Trap: json load ko file ka path dena. Use khuli file chahiye, path nahi."
+      - q: "An API key was committed to git. Is deleting the line enough?"
+        a: "No. It stays in the git **history**, and may already be copied. **Revoke** the key, create a new one, and keep it in an environment variable or `.env` that is git-ignored."
+        trap: "Only rewriting history. The key must be treated as leaked."
+        say_q: "Teesra: ek API key git mein commit ho gayi. Kya line delete karna kaafi hai?"
+        say_a: "Answer: nahi. Woh git history mein rehti hai, aur shayad copy bhi ho chuki hai. Key revoke karo, nayi banao, aur environment variable ya git ignored dot env mein rakho. Trap: sirf history saaf karna. Key ko leaked hi maano."
+
+  - type: callout
+    chapter: Practice
+    kind: practice
+    title: "Try these before the next lesson"
+    body: "Easy to hard. Answers are in the module's quiz.md."
+    say: >
+      Practice time. Video pause karo, aur khud try karo.
+    items:
+      - {text: "Add `char_count(text)` to `textkit` and export it in `__init__.py`", say: "Pehla: textkit mein char count function jodo, aur init file se export karo."}
+      - {text: "Save a list of 3 messages to `chat.json` and load it back", say: "Doosra: teen messages ki list chat dot json mein save karo, aur wapas load karo."}
+      - {text: "Read `DEMO_MAX_TOKENS` as an **int**, default 500", say: "Teesra: DEMO MAX TOKENS ko int ki tarah padho, default five hundred. Dhyaan do: environment variables hamesha text hote hain."}
+      - {text: "Scenario: a model returns JSON with a trailing comma. What does your code do so the app doesn't crash?", say: "Aur scenario: model aakhri comma wala JSON deta hai. App crash na ho, iske liye aapka code kya karega?", pause: 6}
 
   - type: quiz
     chapter: Quick check
@@ -279,17 +315,40 @@ scenes:
     answer: 1
     explain: "`loads` = load from a **string**. `dumps` goes the other way. `json.load` (no s) reads from an open **file** object, not a string."
     say_question: >
-      Quick check. Which call turns this JSON text into a Python dictionary?
+      Quick check. Kaunsi call iss JSON text ko Python dictionary banati hai?
     say_answer: >
-      json dot loads. The s stands for string. Dumps goes the other way, and load without an s reads from an open file object.
+      B, json dot loads. s matlab string. dumps ulta jaata hai, aur bina s wala load khuli file se padhta hai.
+
+  - type: quiz
+    number: 2
+    question: "Where should a real API key live?"
+    options:
+      - "In `config.py`, committed to git"
+      - "In `.env.example`"
+      - "In an environment variable (or a git-ignored `.env`)"
+      - "In a code comment, so teammates can find it"
+    answer: 2
+    explain: "Real keys go in the environment or a git-ignored `.env`. `.env.example` is committed, so it holds only fake placeholders."
+    say_question: >
+      Doosra question. Asli API key kahan rehni chahiye?
+    say_answer: >
+      C. Environment variable mein, ya git ignored dot env mein. dot env dot example commit hoti hai, isliye usme sirf fake values.
 
   - type: recap
     chapter: Recap
     heading: Lesson 4 recap
     items:
-      - {text: "A module is a file; a package is a folder with `__init__.py`", say: "A module is a file, and a package is a folder with a dunder init file."}
-      - {text: "`pathlib` + `encoding=\"utf-8\"` for every file", say: "Use pathlib, and always set the encoding to utf eight."}
-      - {text: "`json.loads` / `json.dumps`; catch `JSONDecodeError`", say: "Convert with json loads and dumps, and catch JSON decode errors."}
-      - {text: "Secrets live in environment variables; commit only `.env.example`", say: "Secrets live in environment variables, and only the example file is committed."}
+      - {text: "A module is a file; a package is a folder with `__init__.py`", say: "Recap. Module ek file hai, aur package dunder init wala folder."}
+      - {text: "`pathlib` + `encoding=\"utf-8\"` for every file", say: "Har file ke liye pathlib, aur encoding utf eight."}
+      - {text: "`json.loads` / `json.dumps`; catch `JSONDecodeError`", say: "json loads aur dumps se convert karo, aur JSONDecodeError pakdo."}
+      - {text: "Secrets live in environment variables; commit only `.env.example`", say: "Secrets environment variables mein, aur commit sirf example file."}
     outro: >
-      In the next lesson, you'll add type hints, talk to web APIs over HTTP, and see why async makes AI apps faster.
+      Agle lesson mein type hints jodenge, HTTP par web APIs se baat karenge, aur dekhenge ki async AI apps ko tez kyun banata hai.
+
+  - type: title
+    chapter: Next up
+    kicker: Coming next · Module 1 · Lesson 5
+    title: Type hints, HTTP and async
+    subtitle: Clearer code, talking to web APIs, and doing many things at once.
+    say: >
+      Lesson chaar complete. Ab aapka code files mein baanta hua hai, aur secrets surakshit hain. Milte hain agle lesson mein.
